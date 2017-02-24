@@ -1,0 +1,16 @@
+Package: gstreamer1.0-plugins-good-dev
+Version: 1.6.3-r0.0
+Description: Plugins for the GStreamer multimedia framework 1.x - Development files
+ Plugins for the GStreamer multimedia framework 1.x.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2.1+
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-good
+Homepage: http://gstreamer.freedesktop.org/
+Depends: gstreamer1.0-plugins-good (= 1.6.3-r0.0)
+Recommends: libgudev-1.0-dev, libcairo-dev, libgdk-pixbuf-2.0-dev, orc-dev, libspeex-dev, libsoup-2.4-dev, libz-dev, jpeg-dev, libpng16-dev, gobject-introspection-dev, flac-dev, pulseaudio-dev, libcap-dev, libtag-dev, gstreamer1.0-dev, bzip2-dev, gstreamer1.0-plugins-base-dev
+Source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.6.3.tar.xz file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch

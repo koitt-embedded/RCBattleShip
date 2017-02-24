@@ -1,0 +1,17 @@
+Package: tbb
+Version: 4.1-r20130314.0
+Description: tbb version 4.1-r20130314
+ Parallelism library for C++ - runtime files     TBB is a library that
+ helps you leverage multi-core processor     performance without having to
+ be a threading expert. It represents a     higher-level, task-based
+ parallelism that abstracts platform details     and threading mechanism
+ for performance and scalability.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: armv7ahf-neon
+OE: tbb
+Homepage: http://threadingbuildingblocks.org/
+Depends: libstdc++6 (>= 5.3.1), libgcc-s1 (>= 5.3.1), libc6 (>= 2.21)
+Source: http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb41_20130314oss_src.tgz file://cross-compile.patch file://allow-to-build-for-older-arm-cores.patch file://tbb.pc

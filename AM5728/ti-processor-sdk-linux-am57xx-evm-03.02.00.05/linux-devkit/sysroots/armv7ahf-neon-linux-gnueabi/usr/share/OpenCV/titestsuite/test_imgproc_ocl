@@ -1,0 +1,16 @@
+$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=OCL_ImgprocWarp*/0:OCL_ImgprocWarp*/1:OCL_ImgprocWarp*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=OCL_FILTER*/0:OCL_FILTER*/1:OCL_FILTER*/2:OCL_FILTER*/3  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=OCL_ImageProc*/0:OCL_ImageProc*/1:OCL_ImageProc*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+#$OPENCV_BUILDDIR/bin/opencv_test_imgproc --gtest_filter=CvtColor8u*/0:CvtColor8u*/1:CvtColor8u*/2  >> $OUTLOG_FILENAME  2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt
+#$OPENCV_BUILDDIR/bin/opencv_test_imgproc --gtest_filter=CvtColor_YUV2RGB*/0:CvtColor_YUV2RGB*/1:CvtColor_YUV2RGB*/2  >> $OUTLOG_FILENAME  2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt
+#$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=Canny*/0:Canny*/1:Canny*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt
+#$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=*HoughLines*/0:*HoughLines*/1:*HoughLines*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt
+#$OPENCV_BUILDDIR/bin/opencv_test_imgproc  --gtest_filter=*ImgprocTestBase*/0:*ImgprocTestBase*/1:*ImgprocTestBase*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt

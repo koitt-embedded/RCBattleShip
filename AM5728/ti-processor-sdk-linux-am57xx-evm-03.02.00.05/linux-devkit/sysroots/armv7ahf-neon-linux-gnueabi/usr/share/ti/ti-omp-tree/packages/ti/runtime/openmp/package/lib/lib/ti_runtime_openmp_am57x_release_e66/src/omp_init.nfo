@@ -1,0 +1,560 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+Making tomp_invalidatePrefetchBuffer a function synonym of CSL_XMC_invalidatePrefetchBuffer
+
+		======File-level Analysis Summary======
+
+
+static void CACHE_AsmNop() is called from 1 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_setL1DSize() is called from 1 sites in this file.
+    It appears to be inlineable (size = 12 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_setL1PSize() is called from 1 sites in this file.
+    It appears to be inlineable (size = 12 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_setL2Size() is called from 1 sites in this file.
+    It appears to be inlineable (size = 12 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_wbInvAllL1d() is called from 1 sites in this file.
+    It appears to be inlineable (size = 36 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_wbInvAllL1dWait() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_wbInvAllL1dWait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CSL_XMC_invalidatePrefetchBuffer() is called from 2 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CSL_XMC_setXMPAXH() is called from 1 sites in this file.
+    It appears to be inlineable (size = 17 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CSL_XMC_setXMPAXL() is called from 1 sites in this file.
+    It appears to be inlineable (size = 48 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_config_clock_freq_in_mhz() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_config_cores() is called from 0 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_config_hw_queues() is called from 0 sites in this file.
+    It appears to be inlineable (size = 17 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_config_hw_semaphores() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_config_thread_stack() is called from 0 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_configure_caches() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CACHE_setL2Size() (1 times)
+	CACHE_setL1PSize() (1 times)
+	CACHE_setL1DSize() (1 times)
+
+extern void __TI_omp_disable_caching() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_setMAR() (1 times)
+
+extern void __TI_omp_enable_caching() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_setMAR() (1 times)
+
+extern int __TI_omp_initialize() is called from 0 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_ompInitCommon() (1 times)
+	tomp_waitAtCoreBarrier() (1 times)
+	tomp_switchL2SpToGlobal() (1 times)
+	__TI_omp_configure() (1 times)
+
+extern void __TI_omp_start() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_OmpStartCommon() (1 times)
+
+extern void __TI_setMPAX() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CSL_XMC_setXMPAXL() (1 times)
+	CSL_XMC_setXMPAXH() (1 times)
+
+static void switchL2SpToGlobal() is called from 1 sites in this file.
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	longjmp() (1 times)
+	tomp_makeAddressGlobal() (1 times)
+	setjmp() (1 times)
+
+extern void tomp_OmpStartCommon() is called from 1 sites in this file.
+    It appears to be inlineable (size = 44 units)
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	tomp_entry_func() (1 times)
+	free() (1 times)
+	 ? () (1 times)
+	__TI_switch_sp() (1 times)
+	tomp_logErrorStr() (1 times)
+	malloc() (1 times)
+
+static void tomp_cacheWbInvAllL1d() is called from 1 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+	tomp_mfence() (2 times)
+	CACHE_wbInvAllL1d() (1 times)
+	_disable_interrupts() (1 times)
+
+extern void tomp_entry_func() is called from 0 sites in this file.
+    It appears to be inlineable (size = 16 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_dispatch_once() (1 times)
+	exit() (1 times)
+	__TI_omp_terminate() (1 times)
+	_args_main() (1 times)
+
+static void tomp_invalidatePrefetchBuffer() is called from 1 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+
+static void tomp_logError() is called from 2 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	exit() (1 times)
+	tomp_sendExitEvents() (1 times)
+	printf() (1 times)
+
+static void tomp_logErrorStr() is called from 1 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	exit() (1 times)
+	tomp_sendExitEvents() (1 times)
+	printf() (1 times)
+
+static unsigned tomp_makeAddressGlobal() is called from 1 sites in this file.
+    It appears to be inlineable (size = 28 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void tomp_mfence() is called from 2 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern unsigned char tomp_ompInitCommon() is called from 1 sites in this file.
+    It appears to be inlineable (size = 54 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logError() (2 times)
+	tomp_initIcv() (1 times)
+	initialize_env() (1 times)
+	tomp_initParallel() (1 times)
+	tomp_initLocal() (1 times)
+	tomp_initLocalNRT() (1 times)
+	tomp_waitAtCoreBarrier() (1 times)
+	tomp_initGlobalNRT() (1 times)
+
+static void tomp_setMAR() is called from 2 sites in this file.
+    It appears to be inlineable (size = 41 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void tomp_switchL2SpToGlobal() is called from 1 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheWbInvAllL1d() (1 times)
+	switchL2SpToGlobal() (1 times)
+
+
+These functions may be recursive:
+	__TI_omp_initialize()
+	__TI_omp_start()
+	tomp_OmpStartCommon()
+	tomp_logErrorStr()
+	tomp_entry_func()
+	tomp_ompInitCommon()
+	tomp_logError()
+	tomp_switchL2SpToGlobal()
+	tomp_cacheWbInvAllL1d()
+	CACHE_wbInvAllL1d()
+	switchL2SpToGlobal()
+
+Function CACHE_setL2Size() will be specialized on these parameters:
+	[1] newSize == 3u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_setL2Size() has these parameter attributes:
+      unsigned newSize :  newSize == 3u;
+
+Function CACHE_setL1PSize() will be specialized on these parameters:
+	[1] newSize == 4u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_setL1PSize() has these parameter attributes:
+      unsigned newSize :  newSize == 4u;
+
+Function CACHE_setL1DSize() will be specialized on these parameters:
+	[1] newSize == 4u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_setL1DSize() has these parameter attributes:
+      unsigned newSize :  newSize == 4u;
+
+Results of interprocedural value propagation:
+
+   static void tomp_setMAR() has these parameter attributes:
+      unsigned val :      val%11u == 0u;  val <= 11u;  val >= 0u;
+
+Function tomp_logErrorStr() will be specialized on these parameters:
+	[1] e == 2u;
+	[4] line == 123;
+
+Results of interprocedural value propagation:
+
+   static void tomp_logErrorStr() has these parameter attributes:
+      unsigned e :        e == 2u;
+      int line :          line == 123;
+
+Results of interprocedural value propagation:
+
+   static void tomp_logError() has these parameter attributes:
+      unsigned e :        e <= 5u;  e >= 4u;
+      int line :          line%24 == 20;  line <= 212;  line >= 188;
+
+Function CACHE_wbInvAllL1d() will be specialized on these parameters:
+	[1] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_wbInvAllL1d() has these parameter attributes:
+      unsigned wait :     wait == 0u;
+Inlineable function will be suppressed: tomp_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: CACHE_wbInvAllL1d()
+Inlineable function will be suppressed: CSL_XMC_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: CACHE_AsmNop()
+Inlineable function will be suppressed: CACHE_setL2Size()
+Inlineable function will be suppressed: CACHE_setL1PSize()
+Inlineable function will be suppressed: CACHE_setL1DSize()
+Inlineable function will be suppressed: CSL_XMC_setXMPAXH()
+Inlineable function will be suppressed: tomp_mfence()
+Inlineable function will be suppressed: tomp_cacheWbInvAllL1d()
+Inlineable function will be suppressed: CACHE_wbInvAllL1dWait()
+Inlineable function will be suppressed: tomp_makeAddressGlobal()
+Inlineable function will be suppressed: CSL_XMC_setXMPAXL()
+
+Making this function inlineable: tomp_setMAR()
+Inlineable function will be suppressed: tomp_setMAR()
+
+Making this function inlineable: tomp_switchL2SpToGlobal()
+
+Making this function inlineable: tomp_OmpStartCommon()
+
+These external functions are called but not defined here:
+	printf()
+	exit()
+	malloc()
+	free()
+	setjmp()
+	longjmp()
+	tomp_initGlobalNRT()
+	tomp_initLocalNRT()
+	tomp_initLocal()
+	tomp_initParallel()
+	initialize_env()
+	tomp_initIcv()
+	tomp_sendExitEvents()
+	_args_main()
+	__TI_omp_terminate()
+	tomp_dispatch_once()
+	__TI_switch_sp()
+	 ? ()
+	__TI_omp_configure()
+	tomp_waitAtCoreBarrier()
+	_disable_interrupts()
+	_restore_interrupts()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+static void switchL2SpToGlobal() is called from 1 sites in this file.
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	tomp_makeAddressGlobal() (1 times)
+
+There are 2 memory accesses with 1 dependences.
+
+
+==============================================================================
+
+extern void tomp_switchL2SpToGlobal() is called from 1 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	switchL2SpToGlobal() (1 times)
+	tomp_cacheWbInvAllL1d() (1 times)
+
+There are 4 memory accesses with 3 dependences.
+
+
+==============================================================================
+
+static void tomp_logError() is called from 2 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern unsigned char tomp_ompInitCommon() is called from 1 sites in this file.
+    It appears to be inlineable (size = 54 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logError() (2 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void tomp_entry_func() is called from 0 sites in this file.
+    It appears to be inlineable (size = 16 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+static void tomp_logErrorStr() is called from 1 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void tomp_OmpStartCommon() is called from 1 sites in this file.
+    It appears to be inlineable (size = 44 units)
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	tomp_logErrorStr() (1 times)
+	tomp_entry_func() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_setMPAX() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CSL_XMC_setXMPAXH() (1 times)
+	CSL_XMC_setXMPAXL() (1 times)
+Replacing lvMpaxh.segSize; with the simple variable '$O$CSU$lvMpaxh$segSize' in extern void __TI_setMPAX().
+Replacing lvMpaxh.bAddr; with the simple variable '$O$CSU$lvMpaxh$bAddr' in extern void __TI_setMPAX().
+Replacing lvMpaxl.ux; with the simple variable '$O$CSU$lvMpaxl$ux' in extern void __TI_setMPAX().
+Replacing lvMpaxl.uw; with the simple variable '$O$CSU$lvMpaxl$uw' in extern void __TI_setMPAX().
+Replacing lvMpaxl.ur; with the simple variable '$O$CSU$lvMpaxl$ur' in extern void __TI_setMPAX().
+Replacing lvMpaxl.sx; with the simple variable '$O$CSU$lvMpaxl$sx' in extern void __TI_setMPAX().
+Replacing lvMpaxl.sw; with the simple variable '$O$CSU$lvMpaxl$sw' in extern void __TI_setMPAX().
+Replacing lvMpaxl.sr; with the simple variable '$O$CSU$lvMpaxl$sr' in extern void __TI_setMPAX().
+Replacing lvMpaxl.rAddr; with the simple variable '$O$CSU$lvMpaxl$rAddr' in extern void __TI_setMPAX().
+
+There are 2 memory accesses with 1 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_start() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_OmpStartCommon() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int __TI_omp_initialize() is called from 0 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_switchL2SpToGlobal() (1 times)
+	tomp_ompInitCommon() (1 times)
+
+There are 5 memory accesses with 3 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_enable_caching() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_setMAR() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_disable_caching() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_setMAR() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_configure_caches() is called from 0 sites in this file.
+    It appears to be inlineable (size = 7 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CACHE_setL1DSize() (1 times)
+	CACHE_setL1PSize() (1 times)
+	CACHE_setL2Size() (1 times)
+
+There are 6 memory accesses with 12 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_config_thread_stack() is called from 0 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_config_hw_semaphores() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_config_hw_queues() is called from 0 sites in this file.
+    It appears to be inlineable (size = 17 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_config_cores() is called from 0 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_config_clock_freq_in_mhz() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

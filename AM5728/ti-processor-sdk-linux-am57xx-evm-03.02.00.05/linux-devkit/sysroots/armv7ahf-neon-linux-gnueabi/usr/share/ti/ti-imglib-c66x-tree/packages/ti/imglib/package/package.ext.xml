@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!--  This file conforms to the DTD xdc/bld/release.dtd -->
+<release name="" label="" date="" buildCount="" producerId="">
+<package name="ti.imglib"
+    version="1, 1, 0, 0"/>
+<imports>
+</imports>
+<references>
+    <package name="xdc.services.intern.cmd"
+        version="1, 0, 0, 0, 1289935227629"
+        providerId="xdccore">
+        <file name="java\package.jar"/>
+    </package>
+    <package name="xdc.shelf"
+        version="1, 0, 0, 1289935247102"
+        providerId="xdccore">
+        <file name="java\antlr.jar"/>
+        <file name="java\ecj.jar"/>
+        <file name="java\js.jar"/>
+        <file name="java\jsr173_api.jar"/>
+        <file name="java\tar.jar"/>
+        <file name="java\xbean.jar"/>
+    </package>
+    <package name="xdc.services.intern.xsr"
+        version="1, 0, 0, 1289935229980"
+        providerId="xdccore">
+        <file name="java\package.jar"/>
+    </package>
+    <package name="ti.targets.elf"
+        version="1, 0, 0, 1289248634602"
+        providerId="xdccore">
+        <file name="ITarget.xs"/>
+        <file name="TMS470.xs"/>
+        <file name="package.xs"/>
+    </package>
+    <package name="xdc.services.global"
+        version="1, 0, 0, 1289935224494"
+        providerId="xdccore">
+        <file name="Clock.xs"/>
+        <file name="Trace.xs"/>
+        <file name="java\package.jar"/>
+    </package>
+    <package name="xdc.services.intern.gen"
+        version="1, 0, 0, 0, 1289935228260"
+        providerId="xdccore">
+        <file name="java\package.jar"/>
+    </package>
+    <package name="xdc.services.io"
+        version="1, 0, 0, 1289935233013"
+        providerId="xdccore">
+        <file name="File.xs"/>
+        <file name="package.xs"/>
+    </package>
+    <package name="xdc.services.spec"
+        version="1, 0, 0, 0, 1289935238708"
+        providerId="xdccore">
+        <file name="java\package.jar"/>
+    </package>
+    <package name="ti.targets"
+        version="1, 0, 3, 1289248629484"
+        providerId="xdccore">
+        <file name="ITarget.xs"/>
+        <file name="package.xs"/>
+    </package>
+    <package name="xdc.bld"
+        version="1, 0, 2, 1289935201604"
+        providerId="xdccore">
+        <file name="BuildEnvironment.xs"/>
+        <file name="Executable.xs"/>
+        <file name="ITarget.xs"/>
+        <file name="ITargetFilter.xs"/>
+        <file name="Library.xs"/>
+        <file name="Manifest.xs"/>
+        <file name="PackageContents.xs"/>
+        <file name="Repository.xs"/>
+        <file name="Script.xs"/>
+        <file name="Utils.xs"/>
+        <file name="_gen.xs"/>
+        <file name="bld.js"/>
+        <file name="package.xs"/>
+    </package>
+    <package name="ti.mas.swtools"
+        version="2, 0, 5, 0, 1338324387355"
+        providerId="C:/builds/IMGLIB/TI_PRODUCT_3_1_1_0/imglib">
+        <file name="CommonBld.xs"/>
+        <file name="Copy.xs"/>
+        <file name="IVersion2.xdc"/>
+        <file name="Version2.h.xdt"/>
+        <file name="Version2.xdt"/>
+        <file name="config.bld"/>
+    </package>
+    <package name="xdc"
+        version="1, 1, 1, 1289935193580"
+        providerId="xdccore">
+        <file name="IPackage.xdc"/>
+        <file name="IPackage.xs"/>
+        <file name="om2.xs"/>
+        <file name="package.xs"/>
+        <file name="template.xs"/>
+        <file name="xdc.tci"/>
+        <file name="xmlgen.xs"/>
+        <file name="xmlgen2.xs"/>
+    </package>
+    <xdcRoot base="C:/tools/gen/xdc/xdctools_3_20_05_76/">
+        <file name="/packages/xdc/package.xdc"/>
+        <file name="include\utils.tci"/>
+        <xdcCorePkg version="16, 0, 2, 0, 1289935203372" producerId="undefined" buildCount="283" releaseName="xdc_corevers" label="default" date="1289935203372"/>
+    </xdcRoot>
+</references>
+<orphans>
+</orphans>
+</release>

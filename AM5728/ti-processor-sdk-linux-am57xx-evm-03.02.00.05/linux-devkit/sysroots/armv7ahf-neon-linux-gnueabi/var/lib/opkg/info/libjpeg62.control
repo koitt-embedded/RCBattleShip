@@ -1,0 +1,18 @@
+Package: libjpeg62
+Version: 8d+1.4.2-r0.0
+Description: libjpeg-turbo version 8d+1.4.2-r0
+ libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions
+ (MMX, SSE2, NEON) to accelerate baseline JPEG compression and
+ decompression
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: libjpeg-turbo
+Homepage: http://libjpeg-turbo.org/
+Depends: libc6 (>= 2.21)
+Provides: libjpeg-turbo, jpeg
+Replaces: jpeg
+Conflicts: jpeg
+Source: http://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.4.2.tar.gz

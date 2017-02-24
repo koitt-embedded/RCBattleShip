@@ -1,0 +1,14 @@
+Package: libgdk-pixbuf-2.0-0
+Version: 2.32.3-r0.0
+Description: Image loading library for GTK+
+ Image loading library for GTK+.
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2
+Architecture: armv7ahf-neon
+OE: gdk-pixbuf
+Homepage: http://www.gtk.org/
+Depends: libz1 (>= 1.2.8), libpng16-16 (>= 1.6.21), libffi6 (>= 3.2.1), libpcre1 (>= 8.38), libc6 (>= 2.21), libglib-2.0-0 (>= 2.46.2)
+Provides: gdk-pixbuf
+Source: http://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.3.tar.xz file://hardcoded_libtool.patch file://extending-libinstall-dependencies.patch file://run-ptest file://fatal-loader.patch

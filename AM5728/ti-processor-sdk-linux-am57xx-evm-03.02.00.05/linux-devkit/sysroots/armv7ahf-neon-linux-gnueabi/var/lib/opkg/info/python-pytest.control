@@ -1,0 +1,12 @@
+Package: python-pytest
+Version: 2.9.1-r0.0
+Description: Simple powerful teting with Python
+ Simple powerful teting with Python.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-pytest
+Depends: python-setuptools, python-debugger, python-argparse, python-json, python-core, python-py
+Source: https://files.pythonhosted.org/packages/source/p/pytest/pytest-2.9.1.tar.gz

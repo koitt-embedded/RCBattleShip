@@ -1,0 +1,143 @@
+# Makefile to build OpenMP applications
+
+#
+# Check if required environment variables are defined
+#
+ifneq ($(MAKECMDGOALS),clean)
+
+# Path to C6000 compiler tools
+ifeq ($(CGTROOT),)
+$(call error,ERROR - CGTROOT NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(XDC_DIR),)
+$(call error,ERROR - XDC_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(XDAIS_DIR),)
+$(call error,ERROR - XDAIS_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(BIOS_DIR),)
+$(call error,ERROR - BIOS_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(IPC_DIR),)
+$(call error,ERROR - IPC_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(OMP_DIR),)
+$(call error,ERROR - OMP_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(PDK_DIR),)
+$(call error,ERROR - PDK_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(FC_DIR),)
+$(call error,ERROR - FC_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(EDMA3_DIR),)
+$(call error,ERROR - EDMA3_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(LIBARCH_DIR),)
+$(call error,ERROR - LIBARCH_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+ifeq ($(LINALG_DIR),)
+$(call error,ERROR - LINALG_DIR NOT DEFINED, PLEASE REFER TO README.txt)
+endif
+
+endif
+
+
+default: all
+
+# Configuration file used (without the .cfg extension)
+CFGDIR     = $(COMMON_FOLDER)/omp_config
+
+# Set BUILD_TYPE to debug/release to pick appropriate libraries
+BUILD_TYPE  = release
+
+# Platform file
+ifneq ($(MAKECMDGOALS),clean)
+
+ifeq ($(TARGET),SOC_AM572x)
+XDCPLATFORM = ti.runtime.openmp.platforms.am57x
+CL_OPTS += -DSOC_AM572x
+else ifeq ($(TARGET),SOC_C6678)
+#XDCPLATFORM = ti.runtime.openmp.platforms.evm6678
+XDCPLATFORM = ti.linalg.platforms.evm6678
+CL_OPTS += -DSOC_C6678
+else ifeq ($(TARGET),SOC_K2H)
+XDCPLATFORM = ti.runtime.openmp.platforms.evmTCI6636K2H
+CL_OPTS += -DSOC_K2H
+else
+$(call error, ERROR - TARGET NOT DEFINED. Must specify one of: TARGET=SOC_K2H,TARGET=SOC_C6678,TARGET=SOC_AM572X)
+endif
+
+ifeq ($(BUILD_TYPE),debug)
+    CL_OPTS += -g --optimize_with_debug=on
+else
+    CL_OPTS += -o3
+endif
+
+endif
+
+testfiles_obj += ticblas_config.obj fc_config_c6678.obj 
+
+CL_OPTS  += -@ $(OPT_CMD) -mv6600 --omp -I $(OMP_DIR)/packages/ti/runtime/openmp
+CL_OPTS  += -I$(FC_DIR)/packages -I$(XDAIS_DIR)/packages -I$(EDMA3_DIR)/packages -I$(LIBARCH_DIR)/packages -I$(LINALG_DIR)/packages
+CL_OPTS  += -D$(TARGET) -DLIB_RTOS
+
+# Include . to find config.bld
+XDCPATH = $(PDK_DIR)/packages;$(OMP_DIR)/packages;$(BIOS_DIR)/packages;$(IPC_DIR)/packages;$(FC_DIR)/packages;$(XDAIS_DIR)/packages;$(EDMA3_DIR)/packages;$(LINALG_DIR)/packages;.
+
+XS     		= $(XDC_DIR)/xs
+XDC    		= $(XDC_DIR)/xdc
+XDCTARGET 	= ti.targets.elf.C66
+
+#
+# Compiler option configuration
+#
+LNK_CMD   = $(CFGDIR)/linker.cmd
+LNK_CMD_FC= $(COMMON_FOLDER)/linker_fc.cmd
+OPT_CMD   = $(CFGDIR)/compiler.opt
+LNK_OPTS  = -x -c --priority -w
+CL        = $(CGTROOT)/bin/cl6x
+RTS_LIB   = $(CGTROOT)/lib/libc.a
+LIBARCH_LIB = $(LIBARCH_DIR)/packages/ti/libarch/lib/libarch.ae66
+ 
+all: $(outfile)
+
+# Generate and build libomp config packages
+libomp_config: $(CFGDIR).cfg
+	@echo making $(CFGDIR) files
+	$(XS) --xdcpath "$(XDCPATH)" xdc.tools.configuro -c $(CGTROOT) --cb -t $(XDCTARGET) -p $(XDCPLATFORM) -r $(BUILD_TYPE) $(CFGDIR).cfg
+
+libomp_clean:
+	@echo Removing $(CFGDIR)
+	@rm -rf $(CFGDIR)/
+
+$(outfile): libomp_config $(testfiles_obj)
+	echo generating $(outfile)
+	$(CL) $(CL_OPTS) -z $(LNK_OPTS) -m $*.map $(LNK_CMD) $(LNK_CMD_FC) $(testfiles_obj) $(RTS_LIB) $(LIBARCH_LIB) $(LINALG_LIB) --output_file=$(outfile)
+
+ticblas_config.obj: $(COMMON_FOLDER)/ticblas_config.c
+	$(CL) $(CL_OPTS) $<
+	echo Compiling $<
+
+fc_config_c6678.obj: $(COMMON_FOLDER)/fc_config_c6678.c
+	$(CL) $(CL_OPTS) $<
+	echo Compiling $<
+
+clean: libomp_clean
+	@rm -rf *.map *.out *.obj *.mak
+
+#
+# Cleans libomp artifacts
+#
+realclean: libomp_clean
+	@rm -rf *.map *.out *.obj *.mak 

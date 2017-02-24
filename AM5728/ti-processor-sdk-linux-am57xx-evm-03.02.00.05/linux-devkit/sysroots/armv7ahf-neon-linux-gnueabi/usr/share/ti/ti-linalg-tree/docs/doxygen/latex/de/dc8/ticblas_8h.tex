@@ -1,0 +1,29 @@
+\hypertarget{ticblas_8h}{}\section{ticblas/ticblas.h File Reference}
+\label{ticblas_8h}\index{ticblas/ticblas.\+h@{ticblas/ticblas.\+h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\\*
+\subsection*{Macros}
+\begin{Indent}{\bf Error Return Codes}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__ti__cblas__api_gabbd7dc8ae77dcac7a2268d82e3dc8217}{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}~(0)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga0b3f999394ff0a0849cabdca426f635f}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M}~(1)
+\item 
+\#define \hyperlink{group__ti__cblas__api_gac7a02b1d568f876ce4041eb2d413d9f4}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C}~(2)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga1b2a55923ea5a65f606ae34f566d6d2b}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W}~(3)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga31614d76b120aa2066518325cf372ede}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E}~(4)
+\end{DoxyCompactItemize}
+\end{Indent}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes} (size\+\_\+t $\ast$smem\+\_\+size\+\_\+vfast, size\+\_\+t $\ast$smem\+\_\+size\+\_\+fast, size\+\_\+t $\ast$smem\+\_\+size\+\_\+medium, size\+\_\+t $\ast$smem\+\_\+size\+\_\+slow)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes()} returns the required size of each of the memory types defined by the Library Architecture and Framework (Lib\+Arch). \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New} (void)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()} creates and initializes global structures for C\+B\+L\+A\+S. \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init} (void $\ast$smem\+\_\+vfast\+\_\+base, size\+\_\+t smem\+\_\+vfast\+\_\+size, void $\ast$smem\+\_\+fast\+\_\+base, size\+\_\+t smem\+\_\+fast\+\_\+size, void $\ast$smem\+\_\+medium\+\_\+base, size\+\_\+t smem\+\_\+medium\+\_\+size, void $\ast$smem\+\_\+slow\+\_\+base, size\+\_\+t smem\+\_\+slow\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init()} performs heap initialization for T\+I C\+B\+L\+A\+S to do dynamic memory allocations. \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{ti\+Cblas\+Delete} (void)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{ti\+Cblas\+Delete()} deletes global structures and frees memory of C\+B\+L\+A\+S created by \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()}. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,41 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern void _c_int00() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	exit() (1 times)
+	__TI_omp_start() (1 times)
+	__TI_omp_initialize() (1 times)
+	_auto_init_elf() (1 times)
+	__TI_omp_reset() (1 times)
+
+
+These functions may be recursive:
+	_c_int00()
+
+These external functions are called but not defined here:
+	exit()
+	__TI_omp_reset()
+	_auto_init_elf()
+	__TI_omp_initialize()
+	__TI_omp_start()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern void _c_int00() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

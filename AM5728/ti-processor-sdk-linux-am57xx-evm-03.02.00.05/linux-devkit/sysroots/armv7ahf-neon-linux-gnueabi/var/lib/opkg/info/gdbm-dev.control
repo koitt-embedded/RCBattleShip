@@ -1,0 +1,16 @@
+Package: gdbm-dev
+Version: 1.8.3-r4.0
+Description: Key/value database library with extensible hashing - Development files
+ Key/value database library with extensible hashing.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: armv7ahf-neon
+OE: gdbm
+Homepage: http://www.gnu.org/software/gdbm/
+Depends: gdbm (= 1.8.3-r4.0)
+Recommends: libc6-dev
+Source: http://ftp.gnu.org/gnu/gdbm/gdbm-1.8.3.tar.gz file://makefile.patch file://libtool-mode.patch file://ldflags.patch

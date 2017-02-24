@@ -1,0 +1,4 @@
+/lib/security/
+/lib/security/pam_cap.so
+/lib/libcap.so.2.24
+/lib/libcap.so.2

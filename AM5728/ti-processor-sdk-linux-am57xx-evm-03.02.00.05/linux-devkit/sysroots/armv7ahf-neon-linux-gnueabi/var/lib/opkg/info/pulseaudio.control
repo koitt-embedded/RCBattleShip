@@ -1,0 +1,12 @@
+Package: pulseaudio
+Version: 8.0-r0.0
+Description: Sound server for Linux and Unix-like operating systems
+ Sound server for Linux and Unix-like operating systems.
+Section: libs/multimedia
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2.1
+Architecture: armv7ahf-neon
+OE: pulseaudio
+Homepage: http://www.pulseaudio.org
+Source: http://freedesktop.org/software/pulseaudio/releases/pulseaudio-8.0.tar.xz file://0001-padsp-Make-it-compile-on-musl.patch file://0001-client-conf-Add-allow-autospawn-for-root.patch file://volatiles.04_pulse file://0001-card-add-pa_card_profile.ports.patch file://0002-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch file://0003-card-move-profile-selection-after-pa_card_new.patch file://0004-alsa-set-availability-for-some-unavailable-profiles.patch file://0001-Revert-module-switch-on-port-available-Route-to-pref.patch file://0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch

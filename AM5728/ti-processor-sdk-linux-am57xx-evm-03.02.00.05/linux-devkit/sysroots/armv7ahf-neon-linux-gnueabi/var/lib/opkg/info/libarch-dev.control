@@ -1,0 +1,15 @@
+Package: libarch-dev
+Version: 1_0_0_0-r2.0.0
+Description: libarch version 1_0_0_0-r2.0 - Development files
+ TI Library Architecture  This package contains symbolic links, header
+ files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: libarch
+Homepage: https://git.ti.com/library-architecture/libarch
+Depends: libarch (= 1_0_0_0-r2.0.0)
+Recommends: ti-xdctools-dev, ti-sysbios-dev, opencl-monitor-dev, ti-framework-components-dev, libopencl-dev, ti-xdais-dev, common-csl-ip-rtos-dev
+Source: git://git.ti.com/library-architecture/libarch.git;protocol=git;branch=master

@@ -1,0 +1,4 @@
+/etc/bash_completion.d/
+/etc/profile.d/bash_completion.sh
+/usr/share/bash-completion/bash_completion
+/etc/bash_completion

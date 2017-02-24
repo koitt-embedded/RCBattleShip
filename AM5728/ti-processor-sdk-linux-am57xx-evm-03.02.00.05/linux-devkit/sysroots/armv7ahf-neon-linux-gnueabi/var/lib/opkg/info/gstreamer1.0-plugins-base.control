@@ -1,0 +1,13 @@
+Package: gstreamer1.0-plugins-base
+Version: 1.6.3-r0.0
+Description: Plugins for the GStreamer multimedia framework 1.x
+ Plugins for the GStreamer multimedia framework 1.x.
+Section: multimedia
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2+
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-base
+Homepage: http://gstreamer.freedesktop.org/
+Recommends: gstreamer1.0-plugins-base-meta
+Source: http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.6.3.tar.xz file://get-caps-from-src-pad-when-query-caps.patch file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch file://0005-convertframe-Support-video-crop-when-convert-frame.patch file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch file://0003-riff-add-missing-include-directories-when-calling-in.patch file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch

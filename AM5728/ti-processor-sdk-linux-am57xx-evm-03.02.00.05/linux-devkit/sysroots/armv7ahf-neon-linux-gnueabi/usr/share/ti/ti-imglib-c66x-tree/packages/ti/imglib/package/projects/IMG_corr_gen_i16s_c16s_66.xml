@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Project>
+    <params>
+        <name>IMG_corr_gen_i16s_c16s</name>
+        <location>./src/IMG_corr_gen_i16s_c16s//c66/</location>
+        <target>66</target>
+        <buildArtifact>Executable</buildArtifact>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s.h"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s_cn.c"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s_cn.h"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s_d.c"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s_idat.c"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s/IMG_corr_gen_i16s_c16s_odat.c"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s//c66/IMG_corr_gen_i16s_c16s.c"/>
+        <files name="./src/IMG_corr_gen_i16s_c16s//c66/IMG_corr_gen_i16s_c16s.h"/>
+        <files name="./src/common/IMG_profile.c"/>
+        <files name="./src/common/IMG_profile.h"/>
+        <files name="./src/common/IMG_utility.c"/>
+        <files name="./src/common/IMG_utility.h"/>
+        <files name="./src/common/IMG_memory.c"/>
+        <files name="./src/common/IMG_memory.h"/>
+        <files name="./src/common//c66/lnk.cmd"/>
+        <cFlags> --mem_model:data=far</cFlags>
+    </params>
+ </Project>

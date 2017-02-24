@@ -1,0 +1,11 @@
+Package: iso-codes
+Version: 3.65-r0.0
+Description: ISO language, territory, currency, script codes and their translations
+ ISO language, territory, currency, script codes and their translations.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2.1
+Architecture: all
+OE: iso-codes
+Source: https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-3.65.tar.xz

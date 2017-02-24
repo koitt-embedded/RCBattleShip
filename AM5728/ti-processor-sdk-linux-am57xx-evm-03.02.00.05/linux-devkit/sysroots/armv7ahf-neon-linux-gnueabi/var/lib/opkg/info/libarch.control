@@ -1,0 +1,12 @@
+Package: libarch
+Version: 1_0_0_0-r2.0.0
+Description: libarch version 1_0_0_0-r2.0
+ TI Library Architecture
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: libarch
+Homepage: https://git.ti.com/library-architecture/libarch
+Source: git://git.ti.com/library-architecture/libarch.git;protocol=git;branch=master

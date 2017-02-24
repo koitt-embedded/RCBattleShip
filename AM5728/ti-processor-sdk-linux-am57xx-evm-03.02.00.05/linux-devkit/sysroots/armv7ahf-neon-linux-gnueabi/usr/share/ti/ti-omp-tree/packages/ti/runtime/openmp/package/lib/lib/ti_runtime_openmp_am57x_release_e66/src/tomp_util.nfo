@@ -1,0 +1,289 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+Making tomp_invalidatePrefetchBuffer a function synonym of CSL_XMC_invalidatePrefetchBuffer
+Making __gomp_flush0 a function synonym of tomp_cacheWbInvAll
+Making __TI_omp_wait_at_core_barrier a function synonym of tomp_waitAtCoreBarrier
+
+		======File-level Analysis Summary======
+
+
+static void CACHE_AsmNop() is called from 2 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static enum $$fake209 CACHE_getL2Size() is called from 1 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_invAllL2() is called from 1 sites in this file.
+    It appears to be inlineable (size = 36 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_invAllL2Wait() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_invAllL2Wait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_wbInvAllL1d() is called from 1 sites in this file.
+    It appears to be inlineable (size = 36 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_wbInvAllL1dWait() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_wbInvAllL1dWait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CSL_XMC_invalidatePrefetchBuffer() is called from 3 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void __TI_omp_wait_at_core_barrier() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_waitAtCoreBarrier() (1 times)
+
+extern void __gomp_flush0() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheWbInvAll() (1 times)
+
+extern void *tomp_allocInitTLSBlock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 18 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logError() (1 times)
+	__TI_tls_init() (1 times)
+	malloc() (1 times)
+	__TI_tls_block_size() (1 times)
+
+static void tomp_cacheWbInvAll() is called from 1 sites in this file.
+    It appears to be inlineable (size = 15 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+	CACHE_invAllL2() (1 times)
+	CACHE_getL2Size() (1 times)
+	tomp_mfence() (2 times)
+	CACHE_wbInvAllL1d() (1 times)
+	_disable_interrupts() (1 times)
+
+static void tomp_invalidatePrefetchBuffer() is called from 1 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+
+static void tomp_logError() is called from 1 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	exit() (1 times)
+	tomp_sendExitEvents() (1 times)
+	printf() (1 times)
+
+static void tomp_mfence() is called from 2 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void tomp_resetCoreBarrier() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void tomp_waitAtCoreBarrier() is called from 1 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+
+These functions may be recursive:
+	__gomp_flush0()
+	tomp_cacheWbInvAll()
+	CACHE_invAllL2()
+	CACHE_wbInvAllL1d()
+	tomp_allocInitTLSBlock()
+	tomp_logError()
+
+Function CACHE_invAllL2() will be specialized on these parameters:
+	[1] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_invAllL2() has these parameter attributes:
+      unsigned wait :     wait == 0u;
+
+Function CACHE_wbInvAllL1d() will be specialized on these parameters:
+	[1] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_wbInvAllL1d() has these parameter attributes:
+      unsigned wait :     wait == 0u;
+
+Function tomp_logError() will be specialized on these parameters:
+	[1] e == 2u;
+	[3] line == 118;
+
+Results of interprocedural value propagation:
+
+   static void tomp_logError() has these parameter attributes:
+      unsigned e :        e == 2u;
+      int line :          line == 118;
+Inlineable function will be suppressed: tomp_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: CACHE_wbInvAllL1d()
+Inlineable function will be suppressed: CACHE_invAllL2()
+Inlineable function will be suppressed: CSL_XMC_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: CACHE_getL2Size()
+Inlineable function will be suppressed: CACHE_AsmNop()
+Inlineable function will be suppressed: tomp_mfence()
+Inlineable function will be suppressed: CACHE_invAllL2Wait()
+Inlineable function will be suppressed: CACHE_wbInvAllL1dWait()
+Inlineable function will be suppressed: tomp_cacheWbInvAll()
+
+These external functions are called but not defined here:
+	printf()
+	exit()
+	malloc()
+	tomp_sendExitEvents()
+	__TI_tls_block_size()
+	__TI_tls_init()
+	_disable_interrupts()
+	_restore_interrupts()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern void tomp_waitAtCoreBarrier() is called from 1 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+		====== Unroll-and-jam Result Summary ======
+
+LOOP#2 in tomp_waitAtCoreBarrier() fails to unroll-and-jam: Outer Loop has multiple blocks
+
+		====== End Unroll-and-jam Result ======
+
+
+		====== Unroll-and-jam Result Summary ======
+
+LOOP#2 in tomp_waitAtCoreBarrier() fails to unroll-and-jam: Outer Loop has multiple blocks
+
+		====== End Unroll-and-jam Result ======
+
+
+There are 15 memory accesses with 64 dependences.
+
+
+==============================================================================
+
+extern void tomp_resetCoreBarrier() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+static void tomp_logError() is called from 1 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void *tomp_allocInitTLSBlock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 18 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logError() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __gomp_flush0() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheWbInvAll() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+Inlineable function tomp_cacheWbInvAll() was marked for suppression,
+but it cannot be because of a problematic use in __gomp_flush0().
+
+
+Inlineable function tomp_cacheWbInvAll() was marked for suppression,
+but it cannot be because of a problematic use in __gomp_flush0().
+
+
+Inlineable function tomp_cacheWbInvAll() was marked for suppression,
+but it cannot be because of a problematic use in __gomp_flush0().
+
+
+==============================================================================
+
+extern void __TI_omp_wait_at_core_barrier() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_waitAtCoreBarrier() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+static void tomp_cacheWbInvAll() is called from 1 sites in this file.
+    It appears to be inlineable (size = 15 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CACHE_wbInvAllL1d() (1 times)
+	tomp_mfence() (2 times)
+	CACHE_getL2Size() (1 times)
+	CACHE_invAllL2() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+
+There are 6 memory accesses with 12 dependences.
+
+
+== END OF INFO OUTPUT==

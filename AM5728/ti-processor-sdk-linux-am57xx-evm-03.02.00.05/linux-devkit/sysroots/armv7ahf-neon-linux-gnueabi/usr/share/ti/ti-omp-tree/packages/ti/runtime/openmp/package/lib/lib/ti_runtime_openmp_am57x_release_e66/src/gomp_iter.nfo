@@ -1,0 +1,71 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern unsigned char gomp_iter_dynamic_next_locked() is called from 0 sites in this file.
+    It appears to be inlineable (size = 62 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern unsigned char gomp_iter_guided_next_locked() is called from 0 sites in this file.
+    It appears to be inlineable (size = 98 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int gomp_iter_static_next() is called from 0 sites in this file.
+    It appears to be inlineable (size = 285 units)
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+static void tomp_logDebug3() is called from 0 sites in this file.
+    It appears to be inlineable (size = 1 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+>>>> WARNING - Function tomp_logDebug3() is not called and will not be compiled
+
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern int gomp_iter_static_next() is called from 0 sites in this file.
+    It appears to be inlineable (size = 285 units)
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+There are 33 memory accesses with 269 dependences.
+
+
+==============================================================================
+
+extern unsigned char gomp_iter_guided_next_locked() is called from 0 sites in this file.
+    It appears to be inlineable (size = 98 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are 11 memory accesses with 23 dependences.
+
+
+==============================================================================
+
+extern unsigned char gomp_iter_dynamic_next_locked() is called from 0 sites in this file.
+    It appears to be inlineable (size = 62 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are 9 memory accesses with 18 dependences.
+
+
+== END OF INFO OUTPUT==

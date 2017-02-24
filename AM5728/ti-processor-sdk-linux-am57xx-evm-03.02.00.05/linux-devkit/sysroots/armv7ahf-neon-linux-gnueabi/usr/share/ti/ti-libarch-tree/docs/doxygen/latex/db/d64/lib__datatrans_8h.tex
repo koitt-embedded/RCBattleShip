@@ -1,0 +1,83 @@
+\hypertarget{lib__datatrans_8h}{}\section{src/lib\+\_\+datatrans.h File Reference}
+\label{lib__datatrans_8h}\index{src/lib\+\_\+datatrans.\+h@{src/lib\+\_\+datatrans.\+h}}
+{\ttfamily \#include $<$ti/sdo/fc/edmamgr/edmamgr.\+h$>$}\\*
+{\ttfamily \#include $<$ti/csl/csl\+\_\+chip\+Aux.\+h$>$}\\*
+{\ttfamily \#include $<$ti/csl/csl\+\_\+idma\+Aux.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}lib\+\_\+utils.\+h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlib__emt__ConfigLarge__s}{lib\+\_\+emt\+\_\+\+Config\+Large\+\_\+s}
+\begin{DoxyCompactList}\small\item\em Configuration for large external memory transfers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__libarch__memtrans_ga6682ba347b624952140c5ead3301a8be}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+S\+U\+C\+C\+E\+S\+S}~(0)
+\item 
+\#define \hyperlink{group__libarch__memtrans_ga7c00744552e888fa1c1da7bafc3fb362}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+R\+G}~(-\/1)
+\item 
+\#define \hyperlink{group__libarch__memtrans_gaec3d5fb167114b1c4dbf5d3a6220b0d1}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+C\+F\+G}~(-\/2)
+\item 
+\#define \hyperlink{group__libarch__memtrans_ga9189f70619c7a767d69d7fe8b9500e7e}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+M\+A\+N\+I\+N\+I\+T}~(-\/3)
+\item 
+\#define \hyperlink{group__libarch__memtrans_ga7ca25bc939f597f627bc633b7256c05e}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+H\+A\+N\+D\+L\+E}~(-\/4)
+\item 
+\#define \hyperlink{group__libarch__memtrans_ga5262fd9542b2a9beb4f9b6a7c1215a95}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+R\+E\+E}~(-\/5)
+\item 
+\#define \hyperlink{lib__datatrans_8h_abb019e3da762027cfaf8d9eca00468f0}{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}~32
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void $\ast$ \hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle}
+\begin{DoxyCompactList}\small\item\em Handle to an external memory transfer instance. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structlib__emt__ConfigLarge__s}{lib\+\_\+emt\+\_\+\+Config\+Large\+\_\+s} \hyperlink{group__libarch__memtrans_ga437bfecb0c8f550b36bae0f0ee65702d}{lib\+\_\+emt\+\_\+\+Config\+Large\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Configuration for large external memory transfers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{group__libarch__memtrans_ga0e8d22819c818e39a2bae0ea24bb567b}{lib\+\_\+imt\+\_\+copy} (const void $\ast$src, void $\ast$dst, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+imt\+\_\+copy performs internal memory transfers between any two memory locations local to the C66x Core\+Pac\+: L1\+P, L1\+D, and L2. This function uses I\+D\+M\+A channel 1 to perform the transfer. \end{DoxyCompactList}\item 
+static void \hyperlink{group__libarch__memtrans_ga8189ff38ebc25a3700ab04ffb612b1f2}{lib\+\_\+imt\+\_\+set} (uint32\+\_\+t pattern, void $\ast$dst, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+imt\+\_\+set fills a block of internal memory, L1\+P, L1\+D, or L2 with a given pattern. \end{DoxyCompactList}\item 
+static void \hyperlink{group__libarch__memtrans_ga320847c84fb1dd50ce67a1f5c5315043}{lib\+\_\+imt\+\_\+wait} ()
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+imt\+\_\+wait waits for completion of transfers started by lib\+\_\+imt\+\_\+copy or lib\+\_\+imt\+\_\+set. \end{DoxyCompactList}\item 
+static int \hyperlink{group__libarch__memtrans_ga40fa4887611b6ceb4d57b9804d6b26fb}{lib\+\_\+emt\+\_\+init} ()
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+init performs all necessary initialization for external memory transfers. \end{DoxyCompactList}\item 
+static \hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} \hyperlink{group__libarch__memtrans_ga2d74d954ddeabe505cdc1caf5fc775bc}{lib\+\_\+emt\+\_\+alloc} (int32\+\_\+t max\+\_\+linked\+\_\+transfers)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+alloc allocates a channel to do external memory transfers. \end{DoxyCompactList}\item 
+static \hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} \hyperlink{group__libarch__memtrans_gad8adc89232fa208dc86267a4885170ed}{lib\+\_\+emt\+\_\+alloc\+Large} (\hyperlink{group__libarch__memtrans_ga437bfecb0c8f550b36bae0f0ee65702d}{lib\+\_\+emt\+\_\+\+Config\+Large\+\_\+t} $\ast$cfg, I\+A\+L\+G\+\_\+\+Mem\+Rec $\ast$mem\+Tab)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+alloc\+Large allocates a memory transfer channel for external \char`\"{}\+Large\char`\"{} 1\+D2\+D or 2\+D1\+D transfers which have a pitch outside the range \mbox{[}-\/32768,32768\mbox{]}. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga01f4f02c995d8842a1b172670a97dc80}{lib\+\_\+emt\+\_\+get\+Sizes\+Large} (\hyperlink{group__libarch__memtrans_ga437bfecb0c8f550b36bae0f0ee65702d}{lib\+\_\+emt\+\_\+\+Config\+Large\+\_\+t} $\ast$cfg, I\+A\+L\+G\+\_\+\+Mem\+Rec $\ast$mem\+Tab)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+get\+Sizes\+Large gets buffer requirements for a channel used to do large transfers. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga97f5256765c92ada94fed76df35da8f8}{lib\+\_\+emt\+\_\+free} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+free frees a channel previously allocated for external memory transfers. \end{DoxyCompactList}\item 
+static void \hyperlink{group__libarch__memtrans_ga423289d8ae15283e098e41c143b5f512}{lib\+\_\+emt\+\_\+wait} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+wait waits for completion of external transfers started by lib\+\_\+emt\+\_\+copyxxx. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gabe9856fed82fa0fc911a9fdb43e494e1}{lib\+\_\+emt\+\_\+copy1\+D1\+D} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy1\+D1\+D performs a single 1\+D-\/$>$1\+D transfer. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga7eac2e886fc99a5be1086cb0fa6d9d4e}{lib\+\_\+emt\+\_\+copy1\+D2\+D} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes, int32\+\_\+t num\+\_\+lines, int32\+\_\+t pitch)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy1\+D2\+D performs a 1\+D-\/$>$2\+D transfer. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gab6426d5afb67b7e9b4a8cff88135ab3f}{lib\+\_\+emt\+\_\+copy2\+D1\+D} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes, int32\+\_\+t num\+\_\+lines, int32\+\_\+t pitch)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy2\+D1\+D performs a 2\+D-\/$>$1\+D transfer. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga624053012144128867ef2a9ef808f264}{lib\+\_\+emt\+\_\+copy2\+D2\+D} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes, int32\+\_\+t num\+\_\+lines, int32\+\_\+t src\+\_\+pitch, int32\+\_\+t dst\+\_\+pitch)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy2\+D2\+D perform a 2\+D-\/$>$2\+D transfer. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga5f4e571bc160df4f1ccf934aaeaa325b}{lib\+\_\+emt\+\_\+copy1\+D1\+D\+Linked} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src\mbox{[}$\,$\mbox{]}, void $\ast$restrict dst\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+bytes\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+transfers)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy1\+D1\+D\+Linked performs a group of linked 1\+D-\/$>$1\+D transfers. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gaa0783528473328cd5a809bd528bea150}{lib\+\_\+emt\+\_\+copy1\+D2\+D\+Linked} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src\mbox{[}$\,$\mbox{]}, void $\ast$restrict dst\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+bytes\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+lines\mbox{[}$\,$\mbox{]}, int32\+\_\+t pitch\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+transfers)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy1\+D2\+D\+Linked performs a group of linked 1\+D-\/$>$2\+D transfers. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gaae7bb385b41241410af0b5e917158e7b}{lib\+\_\+emt\+\_\+copy2\+D1\+D\+Linked} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src\mbox{[}$\,$\mbox{]}, void $\ast$restrict dst\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+bytes\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+lines\mbox{[}$\,$\mbox{]}, int32\+\_\+t pitch\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+transfers)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy2\+D1\+D\+Linked performs a group of linked 2\+D-\/$>$1\+D transfers. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gaef9d8b5dd3d94847af102329ead8a081}{lib\+\_\+emt\+\_\+copy2\+D2\+D\+Linked} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src\mbox{[}$\,$\mbox{]}, void $\ast$restrict dst\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+bytes\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+lines\mbox{[}$\,$\mbox{]}, int32\+\_\+t src\+\_\+pitch\mbox{[}$\,$\mbox{]}, int32\+\_\+t dst\+\_\+pitch\mbox{[}$\,$\mbox{]}, int32\+\_\+t num\+\_\+transfers)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy2\+D2\+D\+Linked performs a group of linked 2\+D-\/$>$2\+D transfers. \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_ga1a987a6a5bddf31afc70ce6a0fbd17e1}{lib\+\_\+emt\+\_\+copy1\+D2\+D\+Large} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes, int32\+\_\+t num\+\_\+lines, int32\+\_\+t pitch)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy1\+D2\+D\+Large performs a 1\+D-\/$>$2\+D transfer when destination pitch is large (outside the range of \mbox{[}-\/32768,32767\mbox{]}). \end{DoxyCompactList}\item 
+static int32\+\_\+t \hyperlink{group__libarch__memtrans_gab1b291a6ce214301ed50b5731590e29a}{lib\+\_\+emt\+\_\+copy2\+D1\+D\+Large} (\hyperlink{group__libarch__memtrans_ga3ee110c7c5d95cfe386b113d2d078ec3}{lib\+\_\+emt\+\_\+\+Handle} h, void $\ast$restrict src, void $\ast$restrict dst, int32\+\_\+t num\+\_\+bytes, int32\+\_\+t num\+\_\+lines, int32\+\_\+t pitch)
+\begin{DoxyCompactList}\small\item\em Function lib\+\_\+emt\+\_\+copy2\+D1\+D\+Large performs a 2\+D-\/$>$1\+D transfer when source pitch is large (outside the range of \mbox{[}-\/32768,32767\mbox{]}). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{lib__datatrans_8h_abb019e3da762027cfaf8d9eca00468f0}{}\index{lib\+\_\+datatrans.\+h@{lib\+\_\+datatrans.\+h}!L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S@{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}}
+\index{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S@{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}!lib\+\_\+datatrans.\+h@{lib\+\_\+datatrans.\+h}}
+\subsubsection[{L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+I\+B\+\_\+\+E\+M\+T\+\_\+\+M\+A\+X\+\_\+\+N\+U\+M\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S~32}\label{lib__datatrans_8h_abb019e3da762027cfaf8d9eca00468f0}
+Maximum number of channels supported for external linked transfers. 

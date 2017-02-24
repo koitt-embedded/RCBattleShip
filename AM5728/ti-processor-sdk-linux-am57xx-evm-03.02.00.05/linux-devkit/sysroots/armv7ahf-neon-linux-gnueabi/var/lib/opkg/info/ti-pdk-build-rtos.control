@@ -1,0 +1,11 @@
+Package: ti-pdk-build-rtos
+Version: 01.00.00.03-r0.tisdk0.0
+Description: ti-pdk-build-rtos version 01.00.00.03-r0.tisdk0
+ Package containing PDK makefile infrastructure
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: ti-pdk-build-rtos
+Source: git://git.ti.com/keystone-rtos/processor-pdk-build.git;protocol=git;branch=master

@@ -1,0 +1,16 @@
+Package: nativesdk-pkgconfig
+Version: 0.29+git0+5914edfe96-r0.0
+Description: Helper tool used when compiling
+ pkg-config is a helper tool used when compiling applications and
+ libraries. It helps determined the correct compiler/link options.  It is
+ also language-agnostic.
+Section: console/utils
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: x86_64-nativesdk
+OE: nativesdk-pkgconfig
+Homepage: http://pkg-config.freedesktop.org/wiki/
+Depends: nativesdk-libc6 (>= 2.23)
+Provides: nativesdk-pkgconfig(pkg-config)
+Source: git://anongit.freedesktop.org/pkg-config file://pkg-config-native.in file://fix-glib-configure-libtool-usage.patch file://0001-gdate-suppress-string-format-literal-warning.patch

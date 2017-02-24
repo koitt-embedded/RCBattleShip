@@ -1,0 +1,18 @@
+Package: libgmp-dev
+Version: 6.1.0-r0.0
+Description: GNU multiprecision arithmetic library - Development files
+ GMP is a free library for arbitrary precision arithmetic, operating on
+ signed integers, rational numbers, and floating point numbers  This
+ package contains symbolic links, header files, and related items
+ necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ | LGPLv3+
+Architecture: armv7ahf-neon
+OE: gmp
+Homepage: http://gmplib.org/
+Depends: libgmpxx4, libgmp10 (= 6.1.0-r0.0)
+Recommends: libc6-dev, libgcc-s-dev, libstdc++-dev, libgmpxx-dev
+Provides: gmp-dev
+Source: https://gmplib.org/download/gmp/gmp-6.1.0.tar.bz2 file://amd64.patch file://use-includedir.patch file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch

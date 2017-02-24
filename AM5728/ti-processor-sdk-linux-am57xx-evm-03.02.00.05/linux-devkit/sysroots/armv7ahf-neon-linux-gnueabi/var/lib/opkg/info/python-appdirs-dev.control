@@ -1,0 +1,15 @@
+Package: python-appdirs-dev
+Version: 1.4.0-r0.0
+Description: A small Python module for determining appropriate + platform-specific dirs, e.g. a "user data dir". - Development files
+ A small Python module for determining appropriate + platform-specific
+ dirs, e.g. a "user data dir"..  This package contains symbolic links,
+ header files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-appdirs
+Depends: python-appdirs (= 1.4.0-r0.0)
+Recommends: python-dev, python-core-dev
+Source: https://files.pythonhosted.org/packages/source/a/appdirs/appdirs-1.4.0.tar.gz

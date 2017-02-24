@@ -1,0 +1,13 @@
+Package: libcidn1
+Version: 2.21-r0.arago32.0
+Description: external-linaro-toolchain version 2016.02-r0.arago32
+ external-linaro-toolchain version 2016.02-r0.arago32.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2.1+
+Architecture: armv7ahf-neon
+OE: external-linaro-toolchain
+Depends: libc6 (>= 2.21)
+Provides: libcidn
+Source: file://SUPPORTED

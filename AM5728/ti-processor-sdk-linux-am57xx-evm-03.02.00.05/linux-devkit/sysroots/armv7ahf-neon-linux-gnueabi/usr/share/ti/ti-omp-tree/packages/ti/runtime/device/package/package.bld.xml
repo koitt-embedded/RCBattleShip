@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="ti.runtime.device" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/package_ti.runtime.device.c"/>
+        <srcFile name="src/qmss_device.c"/>
+        <srcFile name="src/osal.c"/>
+    </sources>
+    <configscripts>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/package.cfg.dep" src="package.xdc"/>
+        <srcFile name="lib/ti_runtime_device_am57x_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_am57x_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_am57x_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6678_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6678_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6678_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6670_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6670_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6670_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6657_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6657_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6657_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6636_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_c6636_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_c6636_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_k2g_debug_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_debug_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_debug_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_debug_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="lib/ti_runtime_device_k2g_release_e66.ae66.mak" src="package.bld"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_release_e66/package/package_ti.runtime.device.oe66.dep" src="package/package_ti.runtime.device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_release_e66/src/qmss_device.oe66.dep" src="src/qmss_device.c"/>
+        <srcFile name="package/lib/lib/ti_runtime_device_k2g_release_e66/src/osal.oe66.dep" src="src/osal.c"/>
+        <srcFile name="package/rel/ti_runtime_device_src.tar.gz.dep" src="package/rel/ti_runtime_device_src.xdc.inc"/>
+        <srcFile name="package/rel/ti_runtime_device_all.tar.gz.dep" src="package/rel/ti_runtime_device_all.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.elf.C66"
+            version="ti.targets.elf.C66{1,0,8.1,0"
+            rawVersion="8.1.0"
+            platform="ti.platforms.simTCI6616"
+            isa="66"
+            suffix="e66"
+            rootDir="/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x"
+            os="undefined"
+            rts="ti.targets.rts6000">
+            <model endian="little"
+                codeModel="undefined"
+                dataModel="undefined"/>
+        </target>
+    </targets>
+    <libraries>
+    <library name="lib/ti_runtime_device_am57x_debug_e66"
+        pname="lib/ti_runtime_device_am57x_debug_e66.ae66"
+        profile="ti_runtime_device_am57x_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_am57x_release_e66"
+        pname="lib/ti_runtime_device_am57x_release_e66.ae66"
+        profile="ti_runtime_device_am57x_release"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6678_debug_e66"
+        pname="lib/ti_runtime_device_c6678_debug_e66.ae66"
+        profile="ti_runtime_device_c6678_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6678_release_e66"
+        pname="lib/ti_runtime_device_c6678_release_e66.ae66"
+        profile="ti_runtime_device_c6678_release"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6670_debug_e66"
+        pname="lib/ti_runtime_device_c6670_debug_e66.ae66"
+        profile="ti_runtime_device_c6670_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6670_release_e66"
+        pname="lib/ti_runtime_device_c6670_release_e66.ae66"
+        profile="ti_runtime_device_c6670_release"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6657_debug_e66"
+        pname="lib/ti_runtime_device_c6657_debug_e66.ae66"
+        profile="ti_runtime_device_c6657_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6657_release_e66"
+        pname="lib/ti_runtime_device_c6657_release_e66.ae66"
+        profile="ti_runtime_device_c6657_release"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6636_debug_e66"
+        pname="lib/ti_runtime_device_c6636_debug_e66.ae66"
+        profile="ti_runtime_device_c6636_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_c6636_release_e66"
+        pname="lib/ti_runtime_device_c6636_release_e66.ae66"
+        profile="ti_runtime_device_c6636_release"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_k2g_debug_e66"
+        pname="lib/ti_runtime_device_k2g_debug_e66.ae66"
+        profile="ti_runtime_device_k2g_debug"
+        target="ti.targets.elf.C66"/>
+    <library name="lib/ti_runtime_device_k2g_release_e66"
+        pname="lib/ti_runtime_device_k2g_release_e66.ae66"
+        profile="ti_runtime_device_k2g_release"
+        target="ti.targets.elf.C66"/>
+    </libraries>
+    <configurations>
+    </configurations>
+    <executables>
+    </executables>
+    <tests>
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="ti_runtime_device_src"
+        pname="ti_runtime_device_src.tar.gz"
+        label="src"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="config.bld"/>
+        <file name="package.bld"/>
+        <file name="goals.xs"/>
+        <file name="src/qmss_device.c"/>
+        <file name="src/osal.c"/>
+        <file name="./src/osal.h"/>
+        <file name="package/package.xdc.inc"/>
+        <file name="package/package.cfg.xdc.inc"/>
+    </release>
+    <release name="ti_runtime_device_all"
+        pname="ti_runtime_device_all.tar.gz"
+        label="all"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+        <file name="package/package.cfg.xdc.inc"/>
+        <file name="lib/ti_runtime_device_am57x_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_am57x_release_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6678_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6678_release_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6670_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6670_release_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6657_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6657_release_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6636_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_c6636_release_e66.ae66"/>
+        <file name="lib/ti_runtime_device_k2g_debug_e66.ae66"/>
+        <file name="lib/ti_runtime_device_k2g_release_e66.ae66"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

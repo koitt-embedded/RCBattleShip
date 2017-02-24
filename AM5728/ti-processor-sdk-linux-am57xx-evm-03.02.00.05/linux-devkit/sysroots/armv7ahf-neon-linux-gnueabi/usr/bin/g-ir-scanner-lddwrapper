@@ -1,0 +1,2 @@
+#!/bin/sh
+prelink-rtld --root=/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm "$@"

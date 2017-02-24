@@ -1,0 +1,15 @@
+Package: cryptodev-module
+Version: 1.8-r0.arago0.0
+Description: A /dev/crypto device driver kernel module
+ A /dev/crypto device driver kernel module.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: am57xx_evm
+OE: cryptodev-module
+Homepage: http://cryptodev-linux.org/
+Depends: kernel-module-cryptodev
+Replaces: ocf-linux
+Conflicts: ocf-linux
+Source: http://download.gna.org/cryptodev-linux/cryptodev-linux-1.8.tar.gz file://0001-Disable-installing-header-file-provided-by-another-p.patch

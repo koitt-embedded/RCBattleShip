@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=/usr
+libdir=/usr/lib
+includedir=/usr/include/gstreamer-@GST_MAJORMINOR@
+
+Name: GStreamer DRM Allocator
+Description: DRM Allocator for GStreamer elements
+Requires: gstreamer-@GST_MAJORMINOR@ gstreamer-base-@GST_MAJORMINOR@
+Version: 1.6.3
+Libs: -L${libdir} -lgstdrm-@GST_MAJORMINOR@
+Cflags: -I${includedir}
+

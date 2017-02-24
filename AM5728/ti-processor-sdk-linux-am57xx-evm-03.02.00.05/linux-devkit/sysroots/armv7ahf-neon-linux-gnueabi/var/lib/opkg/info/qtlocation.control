@@ -1,0 +1,13 @@
+Package: qtlocation
+Version: 5.6.2+git0+7d01112c36-r0.0
+Description: qtlocation version 5.6.2+gitAUTOINC+7d01112c36-r0
+ qtlocation version 5.6.2+gitAUTOINC+7d01112c36-r0.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GFDL-1.3 & BSD & (LGPL-2.1 & The-Qt-Company-Qt-LGPL-Exception-1.1 | LGPL-3.0) | GPL-2.0
+Architecture: armv7ahf-neon
+OE: qtlocation
+Depends: ti-sgx-ddk-um (>= 1.14.3699939), libstdc++6 (>= 5.3.1), qtdeclarative (>= 5.6.2+git0+c1d726fe19), libgcc-s1 (>= 5.3.1), libc6 (>= 2.21), qtbase (>= 5.6.2+git0+b4ada3f0d8)
+Recommends: qtlocation-qmlplugins, qtlocation-plugins
+Source: git://github.com/qt/qtlocation.git;name=qtlocation;branch=5.6;protocol=git

@@ -1,0 +1,375 @@
+* ========================================================================== *
+* IMGLIB -- TI Image and Video Processing Library                            *
+*                                                                            *
+*                                                                            *
+* Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/     *
+*                                                                            *
+*                                                                            *
+*  Redistribution and use in source and binary forms, with or without        *
+*  modification, are permitted provided that the following conditions        *
+*  are met:                                                                  *
+*                                                                            *
+*    Redistributions of source code must retain the above copyright          *
+*    notice, this list of conditions and the following disclaimer.           *
+*                                                                            *
+*    Redistributions in binary form must reproduce the above copyright       *
+*    notice, this list of conditions and the following disclaimer in the     *
+*    documentation and/or other materials provided with the                  *
+*    distribution.                                                           *
+*                                                                            *
+*    Neither the name of Texas Instruments Incorporated nor the names of     *
+*    its contributors may be used to endorse or promote products derived     *
+*    from this software without specific prior written permission.           *
+*                                                                            *
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS       *
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT         *
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR     *
+*  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT      *
+*  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,     *
+*  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT          *
+*  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     *
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     *
+*  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       *
+*  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE     *
+*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.      *
+* ========================================================================== *
+
+
+* ========================================================================= *
+*   TEXAS INSTRUMENTS, INC.                                                 *
+*                                                                           *
+*   NAME                                                                    *
+*       wave_horz : 1D Wavelet Transform                                    *
+*                                                                           *
+*   USAGE                                                                   *
+*       This routine is C-callable and can be called as:                    *
+*                                                                           *
+*           void wave_horz                                                  *
+*           (                                                               *
+*               const short *restrict in_data,  /* Row of input pixels  */  *
+*               const short *restrict qmf,      /* Low-pass QMF filter  */  *
+*               const short *restrict mqmf,     /* High-pass QMF filter */  *
+*               short       *restrict out_data, /* Row of output data   */  *
+*               int                   cols      /* Length of input.     */  *
+*           );                                                              *
+*                                                                           *
+*   DESCRIPTION                                                             *
+*       This kernel performs a 1D Periodic Orthogonal Wavelet               *
+*       decomposition.  This also performs athe row decomposition in a      *
+*       2D wavelet transform.  An input signal x[n] is low pass and         *
+*       high pass filtered and decimated by two.  This results in a         *
+*       reference signal r1[n] which is the decimated output obtained       *
+*       by dropping the odd samples of the low pass filtered output and     *
+*       a detail signal d[n] obtained by dropping the odd samples of        *
+*       the high-pass output.  A circular convolution algorithm is          *
+*       implemented and hence the wavelet transform is periodic.  The       *
+*       reference signal and the detail signal are half the size of the     *
+*       original signal.  The reference signal may then be iterated         *
+*       again to perform another scale of multi-resolution analysis.        *
+*                                                                           *
+*   TECHNIQUES                                                              *
+*       The main idea in optimizing the code is to issue one set of         *
+*       reads to the x array and to perform low-pass and high pass          *
+*       filtering together and to perfrom the filtering operations          *
+*       together to maximize the number of multiplies.  The last 6          *
+*       elements of the low-pass filter and the first 6 elements of the     *
+*       high pass filter use the same input This is used to                 *
+*       appropraitely change the output pointer to the low pass filter      *
+*       after 6 iterations.  However for the first six iterations           *
+*       pointer wrap-around can occurr and hence this creates a             *
+*       dependency.  Pre-reading those 6 values outside the array           *
+*       prevents the checks that introduce this dependency.  In addtion     *
+*       the input data is read as word wide quantities and the low-pass     *
+*       and high-pass filter coefficients are stored in registers           *
+*       allowing for the input loop to be completely unrolled.  Thus        *
+*       the assembly code has only one loop.  A predication register is     *
+*       used to reset the low-pass output pointer after three               *
+*       iterations.  The merging of the loops in this fashion allows f      *
+*                                                                           *
+*   ASSUMPTIONS                                                             *
+*       This kernel assumes that the # of filter taps for the qmf and       *
+*       mqmf is 8.                                                          *
+*                                                                           *
+*       Both the filters are assumed to be double-word aligned and have     * 
+*       8 taps.                                                             *
+*                                                                           *
+*       The input line is assumed to be word aligned so that LDWs           *
+*       may be performed.                                                   *
+*                                                                           *
+*       This code assumes that filter coefficients are maintained as        *
+*       shorts in Q15 format.                                               *
+*                                                                           *
+*       It also assumes that input data is an array of shorts (16 bit)      *
+*       (The input is assumed to be an array of shorts to allow for         *
+*       re-using this kernel to perform Multi Resolution Analysis as        *
+*       the output of this code will feedback again as input in the         *
+*       next stage.)                                                        *
+*                                                                           *
+*       Since the transform is a dyadic wavelet cols should be a power      *
+*       of 2. Cols must also be >=8.                                        *
+*                                                                           *
+*                                                                           *
+*   MEMORY NOTE                                                             *
+*       This code has no bank conflicts.                                    *
+*                                                                           *
+*       This code is ENDIAN Neutral.                                        *
+*                                                                           *
+*                                                                           *
+*   NOTES                                                                   *
+*       This code masks interrupts for nearly its entire duration.  As      *
+*       a result, the code is interrupt tolerant but not                    *
+*       interruptible.                                                      *
+*                                                                           *
+*       This code can implement the Daubechies D4 filterbank for            *
+*       analysis with 4 vansishing moments.  The length of the analyzing    *
+*       low-pass and high pass filters is 8 in that case.                   *
+*                                                                           *
+*   C CODE                                                                  *
+*                                                                           *
+*       This is the C equivalent of the assembly code without restrictions: *
+*       Note that the assembly code is hand optimized and restrictions      *
+*       apply as noted under "ASSUMPTIONS".                                 *
+*                                                                           *
+*           void wave_horz                                                  *
+*           (                                                               *
+*               const short *restrict in_data,  /* Row of input pixels  */  *
+*               const short *restrict qmf,      /* Low-pass QMF filter  */  *
+*               const short *restrict mqmf,     /* High-pass QMF filter */  *
+*               short       *restrict out_data, /* Row of output data   */  *
+*               int                   cols      /* Length of input.     */  *
+*           );                                                              *
+*                                                                           *
+*           {                                                               *
+*               int    i, res, iters;                                       *
+*               int    j, sum, prod;                                        *
+*               short *xptr  = in_data;                                     *
+*               short *yptr  = out_data;                                    *
+*               short *x_end = &in_data[cols - 1];                          *
+*               short  xdata, hdata;                                        *
+*               short *xstart;                                              *
+*               short *filt_ptr;                                            *
+*               int    M = 8;                                               *
+*                                                                           *
+*               /* ------------------------------------------------- */     *
+*               /*  Set our loop trip count and starting x posn.     */     *
+*               /*  'xstart' is used in the high-pass filter loop.   */     *
+*               /* ------------------------------------------------- */     *
+*               iters  = cols;                                              *
+*               xstart = in_data + (cols - M)  + 2;                         *
+*                                                                           *
+*               /* ------------------------------------------------- */     *
+*               /*  Low pass filter.  Iterate for cols/2 iterations  */     *
+*               /*  generating cols/2 low pass sample points with    */     *
+*               /*  the low-pass quadrature mirror filter.           */     *
+*               /* ------------------------------------------------- */     *
+*               for (i = 0; i < iters; i += 2)                              *
+*               {                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Initialize our sum to the rounding value     */     *
+*                   /*  and reset our pointer.                       */     *
+*                   /* --------------------------------------------- */     *
+*                   sum  = Qr;                                              *
+*                   xptr = in_data + i;                                     *
+*                                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Iterate over the taps in our QMF.            */     *
+*                   /* --------------------------------------------- */     *
+*                   for (j = 0; j < M; j++)                                 *
+*                   {                                                       *
+*                       xdata = *xptr++;                                    *
+*                       hdata =  qmf[j];                                    *
+*                       prod  =  xdata * hdata;                             *
+*                       sum  += prod;                                       *
+*                       if (xptr > x_end) xptr = in_data;                   *
+*                   }                                                       *
+*                                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Adjust the Qpt of our sum and store result.  */     *
+*                   /* --------------------------------------------- */     *
+*                   res    = (sum >> Qpt);                                  *
+*                   *out_data++ = res;                                      *
+*               }                                                           *
+*                                                                           *
+*                                                                           *
+*               /* ------------------------------------------------- */     *
+*               /*  High pass filter.  Iterate for cols/2 iters      */     *
+*               /*  generating cols/2 high pass sample points with   */     *
+*               /*  the high-pass quadrature mirror filter.          */     *
+*               /* ------------------------------------------------- */     *
+*               for (i = 0; i < iters ; i+=2)                               *
+*               {                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Initialize our sum and filter pointer.       */     *
+*                   /* --------------------------------------------- */     *
+*                   sum  = Qr;                                              *
+*                   filt_ptr  = mqmf + (M - 1);                             *
+*                                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Set up our data pointer.  This is slightly   */     *
+*                   /*  more complicated due to how the data wraps   */     *
+*                   /*  around the edge of the buffer.               */     *
+*                   /* --------------------------------------------- */     *
+*                   xptr = xstart;                                          *
+*                   xstart += 2;                                            *
+*                   if (xstart > x_end) xstart = in_data;                   *
+*                                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Iterate over the taps in our QMF.            */     *
+*                   /* --------------------------------------------- */     *
+*                   for ( j = 0; j < M; j++)                                *
+*                   {                                                       *
+*                       xdata = *xptr++;                                    *
+*                       hdata = *filt_ptr--;                                *
+*                       prod  = xdata * hdata;                              *
+*                       if (xptr > x_end) xptr = in_data;                   *
+*                       sum  += prod;                                       *
+*                   }                                                       *
+*                                                                           *
+*                   /* --------------------------------------------- */     *
+*                   /*  Adjust the Qpt of our sum and store result.  */     *
+*                   /* --------------------------------------------- */     *
+*                   res = (sum >> Qpt);                                     *
+*                   *out_data++ =  res;                                     *
+*               }                                                           *
+*           }                                                               *
+* ========================================================================= *
+
+Qr          .set    16384
+M           .set     8
+
+    .if __TI_EABI__
+        .asg  IMG_wave_horz, _IMG_wave_horz
+    .endif
+
+    .sect ".text:optimized"
+    .global _IMG_wave_horz
+        
+        
+_IMG_wave_horz:  .cproc   A_iptr, B_qmf, A_filter, B_optr, A_ish_x_dim
+
+           .no_mdep
+
+          ; Variables outside LOOP
+
+          .reg        B_filter,    A_qmf
+
+          .reg        A_h32:A_h10,   B_h76:B_h54
+          .reg        A_l76:A_l54,   B_l32:B_l10
+
+          .reg        B_h67,         B_h45,       A_h23
+          .reg        A_h01,         B_M,         A_i
+          .reg        B_offset,      A_offset,    B_p
+          .reg        A_xiptr,       B_xiptr,     B_x10
+          .reg        B_x32,         A_x54,       A_optr
+          .reg        A_yptr_h,      B_yptr_l0,   B_yptr_l1
+          .reg        B_iptr,        A_qr,        B_qr
+
+          ; Variables within the loop
+
+          .reg        B_sum_h,       A_sum_l,     A_x76
+          .reg        B_prod_h10,    B_prod_h32,  A_prod_h54
+          .reg        A_prod_h76,    B_prod_l10,  B_prod_l32
+          .reg        A_prod_l54,    A_prod_l76,  B_tmph0
+          .reg        A_tmph1,       B_tmpl0,     A_tmpl1
+          .reg        B_tmp_h,       A_tmp_l,     B_res_hi
+          .reg        A_res_low
+
+
+          ADD.2x      A_filter,    8,           B_filter    ; highpass even ptr
+          ADD.1x      B_qmf,       8,           A_qmf       ; lowpass even ptr
+
+          LDDW.D1T1   *A_filter[0], A_h32:A_h10             ; highpass coeff.
+          LDDW.D2T2   *B_filter[0], B_h76:B_h54             ; highpass coeff.
+
+          LDDW.D2T2   *B_qmf[0], B_l32:B_l10                ; lowpass coeff.
+          LDDW.D1T1   *A_qmf[0], A_l76:A_l54                ; lowpass coeff.
+
+          PACKLH2.2   B_h76,     B_h76,        B_h67        ; swap2
+          PACKLH2.2   B_h54,     B_h54,        B_h45        ; swap2
+          PACKLH2.1   A_h32,     A_h32,        A_h23        ; swap2
+          PACKLH2.1   A_h10,     A_h10,        A_h01        ; swap2
+
+          MVK.2       M,            B_M                     ; M = 8
+          SHRU.1      A_ish_x_dim,  1,         A_i          ; i = X >> 1
+          SUB.2x      A_ish_x_dim,  B_M,       B_offset     ; off = x - M + 2
+          ADD.2       B_offset,     2,         B_offset     ; off
+          MV.1x       B_offset,     A_offset                ; Make copy
+
+          MVK.2       3,            B_p                     ; p to switch ptrs
+          ADDAH.1     A_iptr,       A_offset,  A_xiptr      ; xiptr = iptr + off
+          ADD.2x      A_xiptr,      4,         B_xiptr      ; twin xiptr
+
+          LDW.D1T2   *A_xiptr++[2],  B_x10                  ; Load x10
+          LDW.D2T2   *B_xiptr++[2],  B_x32                  ; Load x32
+          LDW.D1T1   *A_xiptr++[2],  A_x54                  ; Load x54
+
+          SHRU.2      B_offset,     1,         B_offset     ; off = x - M + 2
+          MV.1x       B_offset,     A_offset                ; off >>= 1
+
+          MV.1x       B_optr,       A_optr                  ; Copy optr
+          ADDAH.1     A_optr,       A_i,       A_yptr_h     ; y_h  = optr[x >>1]
+          ADDAH.2     B_optr,       B_offset,  B_yptr_l0    ; y_lo = optr - off
+          MV.2        B_optr,       B_yptr_l1               ; y_l1 = optr
+
+
+          MV.2x       A_iptr,       B_iptr                  ; B_iptr = iptr
+          MVKL.1      Qr,           A_qr                    ; Qr --> A_qr
+          MVKH.1      Qr,           A_qr                    ; Qr --> A_qr
+          MV.2x       A_qr,         B_qr                    ; A_qr = B_qr
+
+                
+          .mptr       B_iptr,       A_iptr+0,  4            ; Assume worst
+          .mptr       A_yptr_h,     A_iptr+0,  2            ; case banking
+          .mptr       B_yptr_l0,    A_iptr+0,  2            ; scenario
+          .mptr       B_yptr_l1,    A_iptr+0,  2            ; Schedule sep.
+          
+LOOP:     .trip       16
+
+          MV.2        B_qr,         B_sum_h                 ; sum_l = qr
+          MV.1        A_qr,         A_sum_l                 ; sum_h = qr
+ 
+          LDW.D2T1    *B_iptr++,     A_x76                  ; Load x76
+
+          DOTP2.2     B_x10,        B_h67,       B_prod_h10 ; x0h7 + x1h6
+          DOTP2.2     B_x32,        B_h45,       B_prod_h32 ; x2h5 + x3h4
+          DOTP2.1     A_x54,        A_h23,       A_prod_h54 ; x4h3 + x5h2
+          DOTP2.1     A_x76,        A_h01,       A_prod_h76 ; x7h0 + x6h1
+
+          DOTP2.2     B_x10,        B_l10,       B_prod_l10 ; x0l0 + x1l1
+          DOTP2.2     B_x32,        B_l32,       B_prod_l32 ; x2l2 + x3l3
+          DOTP2.1     A_x54,        A_l54,       A_prod_l54 ; x4l4 + x5l5
+          DOTP2.1     A_x76,        A_l76,       A_prod_l76 ; x6l6 + x7l7
+
+          ADD.2       B_prod_h10,   B_prod_h32,  B_tmph0    ; tmph0
+          ADD.1       A_prod_h54,   A_prod_h76,  A_tmph1    ; tmph1
+          ADD.2       B_prod_l10,   B_prod_l32,  B_tmpl0    ; tmph2
+          ADD.1       A_prod_l54,   A_prod_l76,  A_tmpl1    ; tmph3
+
+          ADD.2x      B_tmph0,      A_tmph1,     B_tmp_h    ; tmph
+          ADD.1x      A_tmpl1,      B_tmpl0,     A_tmp_l    ; tmpl
+
+          ADD.2       B_sum_h,      B_tmp_h,     B_sum_h    ; sum_h
+          ADD.1       A_sum_l,      A_tmp_l,     A_sum_l    ; sum_l
+
+          SHR.2       B_sum_h,      15,          B_res_hi   ; res_h
+          SHR.1       A_sum_l,      15,          A_res_low  ; res_l
+
+          MV.2        B_x32,        B_x10                   ; x10 = x32
+          MV.2x       A_x54,        B_x32                   ; x32 = x54
+          MV.1        A_x76,        A_x54                   ; x54 = x76
+
+          STH.D1T2    B_res_hi,      *A_yptr_h++            ; Store *y_hp
+
+[B_p]     STH.D2T1    A_res_low,     *B_yptr_l0++           ; Store *y_lp0
+[!B_p]    STH.D2T1    A_res_low,     *B_yptr_l1++           ; Store *y_lp1
+[B_p]     SUB.2       B_p,            1,         B_p        ; pred.for LP
+
+[A_i]     SUB.1       A_i,            1,         A_i        ; if (i) i--
+[A_i]     B.1         LOOP                                  ; if (i) B LOOP
+
+          .return
+          .endproc         
+
+* ========================================================================= *
+*   End of file:  IMG_wave_horz.sa                                          *
+* ========================================================================= *

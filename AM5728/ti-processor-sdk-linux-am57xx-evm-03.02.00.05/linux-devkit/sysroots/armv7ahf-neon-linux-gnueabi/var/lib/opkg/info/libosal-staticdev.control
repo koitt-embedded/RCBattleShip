@@ -1,0 +1,14 @@
+Package: libosal-staticdev
+Version: 01.00.00.05E-r0.0.0
+Description: osal version 01.00.00.05E-r0.0 - Development files (Static Libraries)
+ TI OSAL library for Linux  This package contains static libraries for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: osal
+Depends: libosal-dev (= 01.00.00.05E-r0.0.0)
+Provides: osal-staticdev
+Source: git://git.ti.com/keystone-rtos/osal.git;destsuffix=git/ti/osal;protocol=git;branch=master

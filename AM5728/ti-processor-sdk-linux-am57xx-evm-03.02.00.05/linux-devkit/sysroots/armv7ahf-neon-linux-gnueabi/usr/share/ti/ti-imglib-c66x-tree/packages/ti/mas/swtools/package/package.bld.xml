@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="ti.mas.swtools" version="2, 0, 5, 0" producerId="undefined">
+    <units>
+        <interface name="IVersion"/>
+        <interface name="IVersion2"/>
+        <module name="Version"/>
+        <module name="Ccase"/>
+        <module name="CommonBld"/>
+    </units>
+    <sources>
+    </sources>
+    <configurations>
+    </configurations>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/package.cfg.dep" src="package.xdc"/>
+        <srcFile name="package/rel/ti_mas_swtools_src_4_6_0_14_beta.zip.dep" src="package/rel/ti_mas_swtools_src_4_6_0_14_beta.xdc.inc"/>
+    </makefiles>
+    <targets>
+    </targets>
+    <libraries>
+    </libraries>
+    <executables>
+    </executables>
+    <tests>
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="ti_mas_swtools_src_4_6_0_14_beta"
+        pname="ti_mas_swtools_src_4_6_0_14_beta.zip"
+        label="default"
+    >
+        <file name="package/package.rel.dot"/>
+        <file name="docs//doxygen//doxyfile.xdt"/>
+        <file name="config.bld"/>
+        <file name="xdcpaths.mk"/>
+        <file name="IpccGen.js"/>
+        <file name="package/package.xdc.inc"/>
+        <file name="./swtools_4_6_0_14_beta_release_notes.html"/>
+        <file name="dcspecGen.js"/>
+        <file name="Makedocs.mk"/>
+        <file name="xdcrules.mk"/>
+        <file name="Version2.xdt"/>
+        <file name="docs//doxygen//Doxyfile"/>
+        <file name="makefile"/>
+        <file name="CommonBld.xdc"/>
+        <file name="mcspecGen.js"/>
+        <file name="pccGen.js"/>
+        <file name="IVersion2.xs"/>
+        <file name="Version.xdt"/>
+        <file name=".//docs//doxygen//html//../SWTOOLS.chm"/>
+        <file name="package.bld"/>
+        <file name="icspecGen.js"/>
+        <file name="Ccase.xdc"/>
+        <file name="Version.h.xdt"/>
+        <file name="mklabelcomp.js"/>
+        <file name="CommonBld.xs"/>
+        <file name="src"/>
+        <file name="Version2.h.xdt"/>
+        <file name="Ccase.js"/>
+        <file name="package/package.cfg.xdc.inc"/>
+        <file name="redirect.js"/>
+        <file name="setconfig.js"/>
+        <file name="release.js"/>
+        <file name="cpytools.pl"/>
+        <file name="docs/relnotes_archive"/>
+        <file name="package/package.bld.xml"/>
+        <file name="IVersion2.xdc"/>
+        <file name="IVersion.xdc"/>
+        <file name="iCcase.js"/>
+        <file name="docs//doxygen//doxygen.h"/>
+        <file name="cygwinxdc.bat"/>
+        <file name="package/build.cfg"/>
+        <file name="./Version.h"/>
+        <file name="package/package.ext.xml"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

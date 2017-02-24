@@ -1,0 +1,13 @@
+Package: libtiff5
+Version: 4.0.6-r0.arago0.0
+Description: Provides support for the Tag Image File Format (TIFF)
+ Provides support for the Tag Image File Format (TIFF).
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-2-Clause
+Architecture: armv7ahf-neon
+OE: tiff
+Depends: libjpeg62 (>= 8d+1.4.2), libz1 (>= 1.2.8), liblzma5 (>= 5.2.2), libc6 (>= 2.21)
+Provides: tiff
+Source: http://download.osgeo.org/libtiff/tiff-4.0.6.tar.gz file://libtool2.patch file://CVE-2015-8665_8683.patch file://CVE-2015-8781.patch file://CVE-2015-8784.patch file://CVE-2016-3186.patch file://CVE-2016-5321.patch file://CVE-2016-5323.patch

@@ -1,0 +1,653 @@
+;******************************************************************************
+;* G3 TMS320C6x C/C++ Codegen                                     Unix v8.1.0 *
+;* Date/Time created: Wed Dec 14 21:09:31 2016                                *
+;******************************************************************************
+	.compiler_opts --abi=eabi --array_alignment=8 --endian=little --hll_source=on --long_precision_bits=32 --mem_model:code=near --mem_model:const=data --mem_model:data=far --object_format=elf --silicon_version=6600 --symdebug:dwarf --symdebug:dwarf_version=3 
+
+;******************************************************************************
+;* GLOBAL FILE PARAMETERS                                                     *
+;*                                                                            *
+;*   Architecture      : TMS320C66xx                                          *
+;*   Optimization      : Enabled at level 0                                   *
+;*   Optimizing for    : Compile time, Ease of Development                    *
+;*                       Based on options: -o0, no -ms                        *
+;*   Endian            : Little                                               *
+;*   Interrupt Thrshld : Disabled                                             *
+;*   Data Access Model : Far                                                  *
+;*   Pipelining        : Disabled                                             *
+;*   Memory Aliases    : Presume are aliases (pessimistic)                    *
+;*   Debug Info        : DWARF Debug                                          *
+;*                                                                            *
+;******************************************************************************
+
+	.asg	A15, FP
+	.asg	B14, DP
+	.asg	B15, SP
+	.global	$bss
+
+
+$C$DW$CU	.dwtag  DW_TAG_compile_unit
+	.dwattr $C$DW$CU, DW_AT_name("autoinit.c")
+	.dwattr $C$DW$CU, DW_AT_producer("TI G3 TMS320C6x C/C++ Codegen Unix v8.1.0 Copyright (c) 1996-2015 Texas Instruments Incorporated")
+	.dwattr $C$DW$CU, DW_AT_TI_version(0x01)
+	.dwattr $C$DW$CU, DW_AT_comp_dir("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/work/am57xx_evm-linux-gnueabi/openmp-rtos/2_05_00_00-r0.tisdk0/git/src/ti/runtime/rts6000")
+$C$DW$1	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$1, DW_AT_name("__TI_INITARRAY_Base")
+	.dwattr $C$DW$1, DW_AT_TI_symbol_name("__TI_INITARRAY_Base")
+	.dwattr $C$DW$1, DW_AT_type(*$C$DW$T$24)
+	.dwattr $C$DW$1, DW_AT_declaration
+	.dwattr $C$DW$1, DW_AT_external
+	.dwattr $C$DW$1, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$1, DW_AT_decl_line(0x1a)
+	.dwattr $C$DW$1, DW_AT_decl_column(0x1a)
+
+$C$DW$2	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$2, DW_AT_name("__TI_INITARRAY_Limit")
+	.dwattr $C$DW$2, DW_AT_TI_symbol_name("__TI_INITARRAY_Limit")
+	.dwattr $C$DW$2, DW_AT_type(*$C$DW$T$24)
+	.dwattr $C$DW$2, DW_AT_declaration
+	.dwattr $C$DW$2, DW_AT_external
+	.dwattr $C$DW$2, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$2, DW_AT_decl_line(0x1b)
+	.dwattr $C$DW$2, DW_AT_decl_column(0x1a)
+
+$C$DW$3	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$3, DW_AT_name("__TI_Handler_Table_Base")
+	.dwattr $C$DW$3, DW_AT_TI_symbol_name("__TI_Handler_Table_Base")
+	.dwattr $C$DW$3, DW_AT_type(*$C$DW$T$11)
+	.dwattr $C$DW$3, DW_AT_declaration
+	.dwattr $C$DW$3, DW_AT_external
+	.dwattr $C$DW$3, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$3, DW_AT_decl_line(0x22)
+	.dwattr $C$DW$3, DW_AT_decl_column(0x19)
+
+$C$DW$4	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$4, DW_AT_name("__TI_Handler_Table_Limit")
+	.dwattr $C$DW$4, DW_AT_TI_symbol_name("__TI_Handler_Table_Limit")
+	.dwattr $C$DW$4, DW_AT_type(*$C$DW$T$11)
+	.dwattr $C$DW$4, DW_AT_declaration
+	.dwattr $C$DW$4, DW_AT_external
+	.dwattr $C$DW$4, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$4, DW_AT_decl_line(0x25)
+	.dwattr $C$DW$4, DW_AT_decl_column(0x19)
+
+$C$DW$5	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$5, DW_AT_name("__TI_CINIT_Base")
+	.dwattr $C$DW$5, DW_AT_TI_symbol_name("__TI_CINIT_Base")
+	.dwattr $C$DW$5, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$5, DW_AT_declaration
+	.dwattr $C$DW$5, DW_AT_external
+	.dwattr $C$DW$5, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$5, DW_AT_decl_line(0x2a)
+	.dwattr $C$DW$5, DW_AT_decl_column(0x1b)
+
+$C$DW$6	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$6, DW_AT_name("__TI_CINIT_Limit")
+	.dwattr $C$DW$6, DW_AT_TI_symbol_name("__TI_CINIT_Limit")
+	.dwattr $C$DW$6, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$6, DW_AT_declaration
+	.dwattr $C$DW$6, DW_AT_external
+	.dwattr $C$DW$6, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$6, DW_AT_decl_line(0x2b)
+	.dwattr $C$DW$6, DW_AT_decl_column(0x1b)
+
+;	/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/bin/opt6x /tmp/02112mFRFS3 /tmp/02112t5NBK6 
+	.sect	".text"
+	.clink
+	.global	_auto_init_elf
+
+$C$DW$7	.dwtag  DW_TAG_subprogram
+	.dwattr $C$DW$7, DW_AT_name("_auto_init_elf")
+	.dwattr $C$DW$7, DW_AT_low_pc(_auto_init_elf)
+	.dwattr $C$DW$7, DW_AT_high_pc(0x00)
+	.dwattr $C$DW$7, DW_AT_TI_symbol_name("_auto_init_elf")
+	.dwattr $C$DW$7, DW_AT_external
+	.dwattr $C$DW$7, DW_AT_TI_begin_file("autoinit.c")
+	.dwattr $C$DW$7, DW_AT_TI_begin_line(0x52)
+	.dwattr $C$DW$7, DW_AT_TI_begin_column(0x06)
+	.dwattr $C$DW$7, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$7, DW_AT_decl_line(0x52)
+	.dwattr $C$DW$7, DW_AT_decl_column(0x06)
+	.dwattr $C$DW$7, DW_AT_TI_max_frame_size(0x20)
+	.dwpsn	file "autoinit.c",line 83,column 1,is_stmt,address _auto_init_elf,isa 0
+
+	.dwfde $C$DW$CIE, _auto_init_elf
+
+;******************************************************************************
+;* FUNCTION NAME: _auto_init_elf                                              *
+;*                                                                            *
+;*   Regs Modified     : A0,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A16,   *
+;*                           A17,A18,A19,A20,A21,A22,A23,A24,A25,A26,A27,A28, *
+;*                           A29,A30,A31,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,B13,SP,*
+;*                           B16,B17,B18,B19,B20,B21,B22,B23,B24,B25,B26,B27, *
+;*                           B28,B29,B30,B31                                  *
+;*   Regs Used         : A0,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A16,   *
+;*                           A17,A18,A19,A20,A21,A22,A23,A24,A25,A26,A27,A28, *
+;*                           A29,A30,A31,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,B13,DP,*
+;*                           SP,B16,B17,B18,B19,B20,B21,B22,B23,B24,B25,B26,  *
+;*                           B27,B28,B29,B30,B31                              *
+;*   Local Frame Size  : 0 Args + 0 Auto + 32 Save = 32 byte                  *
+;******************************************************************************
+_auto_init_elf:
+;** --------------------------------------------------------------------------*
+	.dwcfi	cfa_offset, 0
+           STW     .D2T2   B13,*SP++(-8)     ; [B_D64P] |83| 
+	.dwcfi	cfa_offset, 8
+	.dwcfi	save_reg_to_mem, 29, 0
+           STDW    .D2T1   A13:A12,*SP++(-8) ; [B_D64P] |83| 
+	.dwcfi	cfa_offset, 16
+	.dwcfi	save_reg_to_mem, 13, -4
+	.dwcfi	save_reg_to_mem, 12, -8
+
+           STDW    .D2T1   A11:A10,*SP++(-8) ; [B_D64P] |83| 
+||         MV      .L2     B3,B13            ; [B_L66] |83| 
+
+	.dwcfi	cfa_offset, 24
+	.dwcfi	save_reg_to_mem, 11, -12
+	.dwcfi	save_reg_to_mem, 10, -16
+	.dwcfi	save_reg_to_reg, 19, 29
+$C$DW$8	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$8, DW_AT_name("table_ptr")
+	.dwattr $C$DW$8, DW_AT_TI_symbol_name("table_ptr")
+	.dwattr $C$DW$8, DW_AT_type(*$C$DW$T$34)
+	.dwattr $C$DW$8, DW_AT_location[DW_OP_reg10]
+
+$C$DW$9	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$9, DW_AT_name("table_limit")
+	.dwattr $C$DW$9, DW_AT_TI_symbol_name("table_limit")
+	.dwattr $C$DW$9, DW_AT_type(*$C$DW$T$34)
+	.dwattr $C$DW$9, DW_AT_location[DW_OP_reg11]
+
+$C$DW$10	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$10, DW_AT_name("load_addr")
+	.dwattr $C$DW$10, DW_AT_TI_symbol_name("load_addr")
+	.dwattr $C$DW$10, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$10, DW_AT_location[DW_OP_reg4]
+
+$C$DW$11	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$11, DW_AT_name("run_addr")
+	.dwattr $C$DW$11, DW_AT_TI_symbol_name("run_addr")
+	.dwattr $C$DW$11, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$11, DW_AT_location[DW_OP_reg20]
+
+$C$DW$12	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$12, DW_AT_name("handler_idx")
+	.dwattr $C$DW$12, DW_AT_TI_symbol_name("handler_idx")
+	.dwattr $C$DW$12, DW_AT_type(*$C$DW$T$6)
+	.dwattr $C$DW$12, DW_AT_location[DW_OP_reg3]
+
+$C$DW$13	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$13, DW_AT_name("handler")
+	.dwattr $C$DW$13, DW_AT_TI_symbol_name("handler")
+	.dwattr $C$DW$13, DW_AT_type(*$C$DW$T$33)
+	.dwattr $C$DW$13, DW_AT_location[DW_OP_reg3]
+
+$C$DW$14	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$14, DW_AT_name("i")
+	.dwattr $C$DW$14, DW_AT_TI_symbol_name("i")
+	.dwattr $C$DW$14, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$14, DW_AT_location[DW_OP_reg10]
+
+	.dwpsn	file "autoinit.c",line 99,column 4,is_stmt,isa 0
+           MVKL    .S2     __TI_Handler_Table_Limit,B5 ; [B_Sb66] |99| 
+           MVKL    .S2     __TI_Handler_Table_Base,B4 ; [B_Sb66] |99| 
+           MVKH    .S2     __TI_Handler_Table_Limit,B5 ; [B_Sb66] |99| 
+           MVKH    .S2     __TI_Handler_Table_Base,B4 ; [B_Sb66] |99| 
+           CMPLTU  .L2     B4,B5,B0          ; [B_L66] |99| 
+   [!B0]   BNOP            $C$L2,5           ; [] |99| 
+           ; BRANCHCC OCCURS {$C$L2}         ; [] |99| 
+;** --------------------------------------------------------------------------*
+	.dwpsn	file "autoinit.c",line 101,column 7,is_stmt,isa 0
+           MVKL    .S1     __TI_CINIT_Base,A10 ; [A_S66] |101| 
+           MVKH    .S1     __TI_CINIT_Base,A10 ; [A_S66] |101| 
+	.dwpsn	file "autoinit.c",line 102,column 7,is_stmt,isa 0
+           MVKL    .S1     __TI_CINIT_Limit,A11 ; [A_S66] |102| 
+           MVKH    .S1     __TI_CINIT_Limit,A11 ; [A_S66] |102| 
+	.dwpsn	file "autoinit.c",line 103,column 14,is_stmt,isa 0
+           CMPLTU  .L1     A10,A11,A0        ; [A_L66] |103| 
+   [!A0]   BNOP            $C$L2,5           ; [] |103| 
+           ; BRANCHCC OCCURS {$C$L2}         ; [] |103| 
+;** --------------------------------------------------------------------------*
+           MV      .L1X    B4,A12            ; [A_L66] 
+;** --------------------------------------------------------------------------*
+;**   BEGIN LOOP $C$L1
+;** --------------------------------------------------------------------------*
+$C$L1:    
+	.dwpsn	file "autoinit.c",line 105,column 35,is_stmt,isa 0
+           LDW     .D1T1   *A10++(4),A4      ; [A_D64P] |105| 
+           NOP             4                 ; [A_L66] 
+	.dwpsn	file "autoinit.c",line 106,column 35,is_stmt,isa 0
+           LDW     .D1T2   *A10++(4),B4      ; [A_D64P] |106| 
+           NOP             4                 ; [A_L66] 
+	.dwpsn	file "autoinit.c",line 107,column 35,is_stmt,isa 0
+           LDBU    .D1T1   *A4++(1),A3       ; [A_D64P] |107| 
+           NOP             4                 ; [A_L66] 
+	.dwpsn	file "autoinit.c",line 109,column 35,is_stmt,isa 0
+           LDW     .D1T1   *+A12[A3],A3      ; [A_D64P] |109| 
+           NOP             4                 ; [A_L66] 
+	.dwpsn	file "autoinit.c",line 111,column 9,is_stmt,isa 0
+$C$DW$15	.dwtag  DW_TAG_TI_branch
+	.dwattr $C$DW$15, DW_AT_low_pc(0x00)
+	.dwattr $C$DW$15, DW_AT_TI_call
+	.dwattr $C$DW$15, DW_AT_TI_indirect
+
+           CALL    .S2     A3                ; [B_Sb66] |111| 
+           ADDKPC  .S2     $C$RL0,B3,4       ; [B_Sb66] |111| 
+$C$RL0:    ; CALL OCCURS  {0}                ; [] |111| 
+	.dwpsn	file "autoinit.c",line 103,column 14,is_stmt,isa 0
+           CMPLTU  .L1     A10,A11,A0        ; [A_L66] |103| 
+   [ A0]   BNOP            $C$L1,5           ; [] |103| 
+           ; BRANCHCC OCCURS {$C$L1}         ; [] |103| 
+;** --------------------------------------------------------------------------*
+$C$L2:    
+	.dwpsn	file "autoinit.c",line 120,column 4,is_stmt,isa 0
+           MVKL    .S2     __TI_INITARRAY_Limit,B4 ; [B_Sb66] |120| 
+           MVKL    .S2     __TI_INITARRAY_Base,B5 ; [B_Sb66] |120| 
+           MVKH    .S2     __TI_INITARRAY_Limit,B4 ; [B_Sb66] |120| 
+           MVKH    .S2     __TI_INITARRAY_Base,B5 ; [B_Sb66] |120| 
+           CMPEQ   .L2     B5,B4,B0          ; [B_L66] |120| 
+   [ B0]   BNOP            $C$L4,5           ; [] |120| 
+           ; BRANCHCC OCCURS {$C$L4}         ; [] |120| 
+;** --------------------------------------------------------------------------*
+	.dwpsn	file "autoinit.c",line 123,column 14,is_stmt,isa 0
+
+           ZERO    .L1     A10               ; [A_L66] |123| 
+||         MV      .S1X    B5,A13            ; [A_S66] |123| 
+
+           ADDAW   .D1     A13,A10,A3        ; [A_D64P] |123| 
+           NOP             1                 ; [A_L66] 
+           CMPEQ   .L2X    A3,B4,B0          ; [B_L66] |123| 
+   [ B0]   BNOP            $C$L4,5           ; [] |123| 
+           ; BRANCHCC OCCURS {$C$L4}         ; [] |123| 
+;** --------------------------------------------------------------------------*
+
+           MV      .L1X    B4,A11            ; [A_L66] 
+||         MV      .S1     A13,A12           ; [A_S66] 
+
+;** --------------------------------------------------------------------------*
+;**   BEGIN LOOP $C$L3
+;** --------------------------------------------------------------------------*
+$C$L3:    
+	.dwpsn	file "autoinit.c",line 124,column 10,is_stmt,isa 0
+           LDW     .D1T1   *+A13[A10],A3     ; [A_D64P] |124| 
+           NOP             4                 ; [A_L66] 
+$C$DW$16	.dwtag  DW_TAG_TI_branch
+	.dwattr $C$DW$16, DW_AT_low_pc(0x00)
+	.dwattr $C$DW$16, DW_AT_TI_call
+	.dwattr $C$DW$16, DW_AT_TI_indirect
+
+           CALL    .S2     A3                ; [B_Sb66] |124| 
+           ADDKPC  .S2     $C$RL2,B3,4       ; [B_Sb66] |124| 
+$C$RL2:    ; CALL OCCURS  {0}                ; [] |124| 
+           ADD     .L1     1,A10,A10         ; [A_L66] |124| 
+	.dwpsn	file "autoinit.c",line 123,column 14,is_stmt,isa 0
+           ADDAW   .D1     A12,A10,A3        ; [A_D64P] |123| 
+           CMPEQ   .L1     A3,A11,A0         ; [A_L66] |123| 
+   [!A0]   BNOP            $C$L3,5           ; [] |123| 
+           ; BRANCHCC OCCURS {$C$L3}         ; [] |123| 
+;** --------------------------------------------------------------------------*
+$C$L4:    
+	.dwpsn	file "autoinit.c",line 126,column 1,is_stmt,isa 0
+
+           MV      .L2     B13,B3            ; [B_L66] |126| 
+||         LDDW    .D2T1   *++SP(8),A11:A10  ; [B_D64P] |126| 
+
+	.dwcfi	restore_reg, 19
+	.dwcfi	cfa_offset, 16
+	.dwcfi	restore_reg, 11
+	.dwcfi	restore_reg, 10
+$C$DW$17	.dwtag  DW_TAG_TI_branch
+	.dwattr $C$DW$17, DW_AT_low_pc(0x04)
+	.dwattr $C$DW$17, DW_AT_TI_return
+
+
+           LDDW    .D2T1   *++SP(8),A13:A12  ; [B_D64P] |126| 
+||         RET     .S2     B3                ; [B_Sb66] |126| 
+
+	.dwcfi	cfa_offset, 8
+	.dwcfi	restore_reg, 13
+	.dwcfi	restore_reg, 12
+           LDW     .D2T2   *++SP(8),B13      ; [B_D64P] |126| 
+	.dwcfi	cfa_offset, 0
+	.dwcfi	restore_reg, 29
+           NOP             4                 ; [A_L66] 
+           ; BRANCH OCCURS {B3}              ; [] |126| 
+	.dwattr $C$DW$7, DW_AT_TI_end_file("autoinit.c")
+	.dwattr $C$DW$7, DW_AT_TI_end_line(0x7e)
+	.dwattr $C$DW$7, DW_AT_TI_end_column(0x01)
+	.dwendentry
+	.dwendtag $C$DW$7
+
+;*****************************************************************************
+;* UNDEFINED EXTERNAL REFERENCES                                             *
+;*****************************************************************************
+	.global	__TI_INITARRAY_Base
+	.weak	__TI_INITARRAY_Base
+	.global	__TI_INITARRAY_Limit
+	.weak	__TI_INITARRAY_Limit
+	.global	__TI_Handler_Table_Base
+	.weak	__TI_Handler_Table_Base
+	.global	__TI_Handler_Table_Limit
+	.weak	__TI_Handler_Table_Limit
+	.global	__TI_CINIT_Base
+	.weak	__TI_CINIT_Base
+	.global	__TI_CINIT_Limit
+	.weak	__TI_CINIT_Limit
+
+;******************************************************************************
+;* BUILD ATTRIBUTES                                                           *
+;******************************************************************************
+	.battr "TI", Tag_File, 1, Tag_Long_Precision_Bits(2)
+	.battr "TI", Tag_File, 1, Tag_Bitfield_layout(2)
+	.battr "TI", Tag_File, 1, Tag_ABI_enum_size(3)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_wchar_t(1)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_array_object_alignment(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_array_object_align_expected(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_PIC(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_PID(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_DSBT(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_stack_align_needed(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_stack_align_preserved(0)
+	.battr "TI", Tag_File, 1, Tag_Tramps_Use_SOC(1)
+
+;******************************************************************************
+;* TYPE INFORMATION                                                           *
+;******************************************************************************
+$C$DW$T$2	.dwtag  DW_TAG_unspecified_type
+	.dwattr $C$DW$T$2, DW_AT_name("void")
+
+
+$C$DW$T$20	.dwtag  DW_TAG_subroutine_type
+	.dwattr $C$DW$T$20, DW_AT_language(DW_LANG_C)
+	.dwendtag $C$DW$T$20
+
+$C$DW$T$21	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$21, DW_AT_type(*$C$DW$T$20)
+	.dwattr $C$DW$T$21, DW_AT_address_class(0x20)
+
+$C$DW$T$22	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$22, DW_AT_name("PTRFUNC")
+	.dwattr $C$DW$T$22, DW_AT_type(*$C$DW$T$21)
+	.dwattr $C$DW$T$22, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$22, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$T$22, DW_AT_decl_line(0x10)
+	.dwattr $C$DW$T$22, DW_AT_decl_column(0x10)
+
+$C$DW$T$23	.dwtag  DW_TAG_const_type
+	.dwattr $C$DW$T$23, DW_AT_type(*$C$DW$T$22)
+
+
+$C$DW$T$24	.dwtag  DW_TAG_array_type
+	.dwattr $C$DW$T$24, DW_AT_type(*$C$DW$T$23)
+	.dwattr $C$DW$T$24, DW_AT_language(DW_LANG_C)
+$C$DW$18	.dwtag  DW_TAG_subrange_type
+
+	.dwendtag $C$DW$T$24
+
+
+$C$DW$T$31	.dwtag  DW_TAG_subroutine_type
+	.dwattr $C$DW$T$31, DW_AT_language(DW_LANG_C)
+$C$DW$19	.dwtag  DW_TAG_formal_parameter
+	.dwattr $C$DW$19, DW_AT_type(*$C$DW$T$29)
+
+$C$DW$20	.dwtag  DW_TAG_formal_parameter
+	.dwattr $C$DW$20, DW_AT_type(*$C$DW$T$30)
+
+	.dwendtag $C$DW$T$31
+
+$C$DW$T$32	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$32, DW_AT_type(*$C$DW$T$31)
+	.dwattr $C$DW$T$32, DW_AT_address_class(0x20)
+
+$C$DW$T$33	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$33, DW_AT_name("handler_fptr")
+	.dwattr $C$DW$T$33, DW_AT_type(*$C$DW$T$32)
+	.dwattr $C$DW$T$33, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$33, DW_AT_decl_file("autoinit.c")
+	.dwattr $C$DW$T$33, DW_AT_decl_line(0x1d)
+	.dwattr $C$DW$T$33, DW_AT_decl_column(0x10)
+
+$C$DW$T$4	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$4, DW_AT_encoding(DW_ATE_boolean)
+	.dwattr $C$DW$T$4, DW_AT_name("bool")
+	.dwattr $C$DW$T$4, DW_AT_byte_size(0x01)
+
+$C$DW$T$5	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$5, DW_AT_encoding(DW_ATE_signed_char)
+	.dwattr $C$DW$T$5, DW_AT_name("signed char")
+	.dwattr $C$DW$T$5, DW_AT_byte_size(0x01)
+
+$C$DW$T$6	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$6, DW_AT_encoding(DW_ATE_unsigned_char)
+	.dwattr $C$DW$T$6, DW_AT_name("unsigned char")
+	.dwattr $C$DW$T$6, DW_AT_byte_size(0x01)
+
+$C$DW$T$28	.dwtag  DW_TAG_const_type
+	.dwattr $C$DW$T$28, DW_AT_type(*$C$DW$T$6)
+
+$C$DW$T$29	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$29, DW_AT_type(*$C$DW$T$28)
+	.dwattr $C$DW$T$29, DW_AT_address_class(0x20)
+
+$C$DW$T$30	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$30, DW_AT_type(*$C$DW$T$6)
+	.dwattr $C$DW$T$30, DW_AT_address_class(0x20)
+
+$C$DW$T$34	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$34, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$T$34, DW_AT_address_class(0x20)
+
+$C$DW$T$7	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$7, DW_AT_encoding(DW_ATE_signed_char)
+	.dwattr $C$DW$T$7, DW_AT_name("wchar_t")
+	.dwattr $C$DW$T$7, DW_AT_byte_size(0x02)
+
+$C$DW$T$8	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$8, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$8, DW_AT_name("short")
+	.dwattr $C$DW$T$8, DW_AT_byte_size(0x02)
+
+$C$DW$T$9	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$9, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$9, DW_AT_name("unsigned short")
+	.dwattr $C$DW$T$9, DW_AT_byte_size(0x02)
+
+$C$DW$T$10	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$10, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$10, DW_AT_name("int")
+	.dwattr $C$DW$T$10, DW_AT_byte_size(0x04)
+
+$C$DW$T$11	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$11, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$11, DW_AT_name("unsigned int")
+	.dwattr $C$DW$T$11, DW_AT_byte_size(0x04)
+
+$C$DW$T$36	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$36, DW_AT_name("size_t")
+	.dwattr $C$DW$T$36, DW_AT_type(*$C$DW$T$11)
+	.dwattr $C$DW$T$36, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$36, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/string.h")
+	.dwattr $C$DW$T$36, DW_AT_decl_line(0x3f)
+	.dwattr $C$DW$T$36, DW_AT_decl_column(0x19)
+
+$C$DW$T$12	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$12, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$12, DW_AT_name("__int40_t")
+	.dwattr $C$DW$T$12, DW_AT_byte_size(0x08)
+	.dwattr $C$DW$T$12, DW_AT_bit_size(0x28)
+	.dwattr $C$DW$T$12, DW_AT_bit_offset(0x18)
+
+$C$DW$T$13	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$13, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$13, DW_AT_name("unsigned __int40_t")
+	.dwattr $C$DW$T$13, DW_AT_byte_size(0x08)
+	.dwattr $C$DW$T$13, DW_AT_bit_size(0x28)
+	.dwattr $C$DW$T$13, DW_AT_bit_offset(0x18)
+
+$C$DW$T$14	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$14, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$14, DW_AT_name("long long")
+	.dwattr $C$DW$T$14, DW_AT_byte_size(0x08)
+
+$C$DW$T$15	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$15, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$15, DW_AT_name("unsigned long long")
+	.dwattr $C$DW$T$15, DW_AT_byte_size(0x08)
+
+$C$DW$T$16	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$16, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$16, DW_AT_name("float")
+	.dwattr $C$DW$T$16, DW_AT_byte_size(0x04)
+
+$C$DW$T$17	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$17, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$17, DW_AT_name("double")
+	.dwattr $C$DW$T$17, DW_AT_byte_size(0x08)
+
+$C$DW$T$18	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$18, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$18, DW_AT_name("long double")
+	.dwattr $C$DW$T$18, DW_AT_byte_size(0x08)
+
+	.dwattr $C$DW$CU, DW_AT_language(DW_LANG_C)
+
+;***************************************************************
+;* DWARF CIE ENTRIES                                           *
+;***************************************************************
+
+$C$DW$CIE	.dwcie 19
+	.dwcfi	cfa_register, 31
+	.dwcfi	cfa_offset, 0
+	.dwcfi	undefined, 0
+	.dwcfi	undefined, 1
+	.dwcfi	undefined, 2
+	.dwcfi	undefined, 3
+	.dwcfi	undefined, 4
+	.dwcfi	undefined, 5
+	.dwcfi	undefined, 6
+	.dwcfi	undefined, 7
+	.dwcfi	undefined, 8
+	.dwcfi	undefined, 9
+	.dwcfi	same_value, 10
+	.dwcfi	same_value, 11
+	.dwcfi	same_value, 12
+	.dwcfi	same_value, 13
+	.dwcfi	same_value, 14
+	.dwcfi	same_value, 15
+	.dwcfi	undefined, 32
+	.dwcfi	undefined, 37
+	.dwcfi	undefined, 38
+	.dwcfi	undefined, 39
+	.dwcfi	undefined, 40
+	.dwcfi	undefined, 41
+	.dwcfi	undefined, 42
+	.dwcfi	undefined, 43
+	.dwcfi	undefined, 44
+	.dwcfi	undefined, 45
+	.dwcfi	undefined, 46
+	.dwcfi	undefined, 47
+	.dwcfi	undefined, 48
+	.dwcfi	undefined, 49
+	.dwcfi	undefined, 50
+	.dwcfi	undefined, 51
+	.dwcfi	undefined, 52
+	.dwcfi	undefined, 16
+	.dwcfi	undefined, 17
+	.dwcfi	undefined, 18
+	.dwcfi	undefined, 19
+	.dwcfi	undefined, 20
+	.dwcfi	undefined, 21
+	.dwcfi	undefined, 22
+	.dwcfi	undefined, 23
+	.dwcfi	undefined, 24
+	.dwcfi	undefined, 25
+	.dwcfi	same_value, 26
+	.dwcfi	same_value, 27
+	.dwcfi	same_value, 28
+	.dwcfi	same_value, 29
+	.dwcfi	same_value, 30
+	.dwcfi	same_value, 31
+	.dwcfi	undefined, 53
+	.dwcfi	undefined, 54
+	.dwcfi	undefined, 55
+	.dwcfi	undefined, 56
+	.dwcfi	undefined, 57
+	.dwcfi	undefined, 58
+	.dwcfi	undefined, 59
+	.dwcfi	undefined, 60
+	.dwcfi	undefined, 61
+	.dwcfi	undefined, 62
+	.dwcfi	undefined, 63
+	.dwcfi	undefined, 64
+	.dwcfi	undefined, 65
+	.dwcfi	undefined, 66
+	.dwcfi	undefined, 67
+	.dwcfi	undefined, 68
+	.dwcfi	undefined, 33
+	.dwcfi	undefined, 34
+	.dwcfi	undefined, 35
+	.dwcfi	undefined, 36
+	.dwcfi	undefined, 70
+	.dwcfi	undefined, 70
+	.dwcfi	undefined, 91
+	.dwcfi	undefined, 70
+	.dwcfi	undefined, 69
+	.dwcfi	undefined, 71
+	.dwcfi	undefined, 72
+	.dwcfi	undefined, 73
+	.dwcfi	undefined, 74
+	.dwcfi	undefined, 75
+	.dwcfi	undefined, 76
+	.dwcfi	undefined, 77
+	.dwcfi	undefined, 78
+	.dwcfi	undefined, 79
+	.dwcfi	undefined, 80
+	.dwcfi	undefined, 81
+	.dwcfi	undefined, 82
+	.dwcfi	undefined, 83
+	.dwcfi	undefined, 84
+	.dwcfi	undefined, 85
+	.dwcfi	undefined, 86
+	.dwcfi	undefined, 87
+	.dwcfi	undefined, 88
+	.dwcfi	undefined, 89
+	.dwcfi	undefined, 90
+	.dwcfi	undefined, 92
+	.dwcfi	undefined, 93
+	.dwcfi	undefined, 94
+	.dwcfi	undefined, 95
+	.dwcfi	undefined, 96
+	.dwcfi	undefined, 97
+	.dwcfi	undefined, 98
+	.dwcfi	undefined, 99
+	.dwcfi	undefined, 100
+	.dwcfi	undefined, 101
+	.dwcfi	undefined, 102
+	.dwcfi	undefined, 103
+	.dwcfi	undefined, 104
+	.dwcfi	undefined, 105
+	.dwcfi	undefined, 106
+	.dwcfi	undefined, 107
+	.dwcfi	undefined, 108
+	.dwcfi	undefined, 109
+	.dwcfi	undefined, 110
+	.dwcfi	undefined, 111
+	.dwcfi	undefined, 112
+	.dwcfi	undefined, 113
+	.dwcfi	undefined, 114
+	.dwcfi	undefined, 115
+	.dwcfi	undefined, 116
+	.dwcfi	undefined, 117
+	.dwcfi	undefined, 118
+	.dwcfi	undefined, 119
+	.dwcfi	undefined, 120
+	.dwcfi	undefined, 121
+	.dwcfi	undefined, 122
+	.dwcfi	undefined, 123
+	.dwcfi	undefined, 124
+	.dwcfi	undefined, 125
+	.dwcfi	undefined, 126
+	.dwcfi	undefined, 127
+	.dwendentry
+	.dwendtag $C$DW$CU
+

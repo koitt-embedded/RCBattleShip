@@ -1,0 +1,13 @@
+Package: cmem-mod
+Version: 4.12.00.00+git0+d6d3e84c84-r7b.0
+Description: cmem-mod version 4.12.00.00+gitAUTOINC+d6d3e84c84-r7b
+ Kernel module for contiguous memory allocation from userspace
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: am57xx_evm
+OE: cmem-mod
+Homepage: http://processors.wiki.ti.com/index.php/Category:CMEM
+Depends: kernel-module-cmemk
+Source: git://git.ti.com/ipc/ludev.git;protocol=git;branch=master

@@ -1,0 +1,344 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+static struct gomp_task_icv *gomp_icv() is called from 4 sites in this file.
+    It appears to be inlineable (size = 6 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void initialize_env() is called from 0 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	parse_unsigned_long() (3 times)
+	parse_schedule() (1 times)
+
+static int isspace() is called from 12 sites in this file.
+    It appears to be inlineable (size = 12 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int omp_get_dynamic() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int omp_get_max_active_levels() is called from 0 sites in this file.
+    It appears to be inlineable (size = 3 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int omp_get_max_threads() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+extern int omp_get_nested() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_get_schedule() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+extern int omp_get_thread_limit() is called from 0 sites in this file.
+    It appears to be inlineable (size = 14 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int omp_is_initial_device() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_set_dynamic() is called from 0 sites in this file.
+    It appears to be inlineable (size = 1 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_set_max_active_levels() is called from 0 sites in this file.
+    It appears to be inlineable (size = 10 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_set_nested() is called from 0 sites in this file.
+    It appears to be inlineable (size = 1 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_set_num_threads() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+extern void omp_set_schedule() is called from 0 sites in this file.
+    It appears to be inlineable (size = 40 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+static void parse_schedule() is called from 1 sites in this file.
+    It appears to be inlineable (size = 164 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logErrorStr() (2 times)
+	strtoul() (1 times)
+	__c6xabi_errno_addr() (2 times)
+	strncasecmp() (4 times)
+	isspace() (8 times)
+	getenv() (1 times)
+
+static unsigned char parse_unsigned_long() is called from 3 sites in this file.
+    It appears to be inlineable (size = 80 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_logErrorStr() (1 times)
+	strtoul() (1 times)
+	__c6xabi_errno_addr() (2 times)
+	isspace() (4 times)
+	getenv() (1 times)
+
+static void tomp_logErrorStr() is called from 3 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	exit() (1 times)
+	tomp_sendExitEvents() (1 times)
+	printf() (1 times)
+
+
+These functions may be recursive:
+	initialize_env()
+	parse_unsigned_long()
+	parse_schedule()
+	tomp_logErrorStr()
+
+Results of interprocedural value propagation:
+
+   static unsigned char parse_unsigned_long() has these parameter attributes:
+      unsigned char allow_zero :  allow_zero <= 1u;  allow_zero >= 0u;
+
+Function tomp_logErrorStr() will be specialized on these parameters:
+	[1] e == 4u;
+
+Results of interprocedural value propagation:
+
+   static void tomp_logErrorStr() has these parameter attributes:
+      unsigned e :        e == 4u;
+      int line :          line%2 == 0;  line <= 184;  line >= 140;
+Inlineable function will be suppressed: gomp_icv()
+Inlineable function will be suppressed: isspace()
+
+These external functions are called but not defined here:
+	printf()
+	exit()
+	getenv()
+	strtoul()
+	tomp_sendExitEvents()
+	strncasecmp()
+	__c6xabi_errno_addr()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern void omp_set_schedule() is called from 0 sites in this file.
+    It appears to be inlineable (size = 40 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+There are 4 memory accesses with 2 dependences.
+
+
+==============================================================================
+
+extern void omp_set_num_threads() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_set_nested() is called from 0 sites in this file.
+    It appears to be inlineable (size = 1 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_set_max_active_levels() is called from 0 sites in this file.
+    It appears to be inlineable (size = 10 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_set_dynamic() is called from 0 sites in this file.
+    It appears to be inlineable (size = 1 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int omp_is_initial_device() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int omp_get_thread_limit() is called from 0 sites in this file.
+    It appears to be inlineable (size = 14 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_get_schedule() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+There are 5 memory accesses with 7 dependences.
+
+
+==============================================================================
+
+extern int omp_get_nested() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int omp_get_max_threads() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	gomp_icv() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int omp_get_max_active_levels() is called from 0 sites in this file.
+    It appears to be inlineable (size = 3 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern int omp_get_dynamic() is called from 0 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+static void tomp_logErrorStr() is called from 3 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+static void parse_schedule() is called from 1 sites in this file.
+    It appears to be inlineable (size = 164 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	isspace() (8 times)
+	tomp_logErrorStr() (2 times)
+
+There are 27 memory accesses with 90 dependences.
+
+
+==============================================================================
+
+static unsigned char parse_unsigned_long() is called from 3 sites in this file.
+    It appears to be inlineable (size = 80 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	isspace() (4 times)
+	tomp_logErrorStr() (1 times)
+	*** parse_unsigned_long()'s return value is not needed:return 0u;
+	*** parse_unsigned_long()'s return value is not needed:return 1u;
+
+There are 14 memory accesses with 21 dependences.
+
+
+==============================================================================
+
+extern void initialize_env() is called from 0 sites in this file.
+    It appears to be inlineable (size = 22 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	parse_schedule() (1 times)
+	parse_unsigned_long() (3 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

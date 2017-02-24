@@ -1,0 +1,14 @@
+Package: qtquickcontrols-dev
+Version: 5.6.2+git0+59c6c0e0b1-r0.0
+Description: qtquickcontrols version 5.6.2+gitAUTOINC+59c6c0e0b1-r0 - Development files
+ qtquickcontrols version 5.6.2+gitAUTOINC+59c6c0e0b1-r0.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GFDL-1.3 & BSD & LGPL-3.0 | GPL-2.0
+Architecture: armv7ahf-neon
+OE: qtquickcontrols
+Recommends: qtquickcontrols-mkspecs, qtquickcontrols-qmldesigner, qtquickcontrols, qtdeclarative-dev
+Source: git://github.com/qt/qtquickcontrols.git;name=qtquickcontrols;branch=5.6;protocol=git file://0001-texteditor-fix-invalid-use-of-incomplete-type-class-.patch

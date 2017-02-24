@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Project>
+    <params>
+        <name>IMG_pix_sat</name>
+        <location>./src/IMG_pix_sat//c66/</location>
+        <target>66</target>
+        <buildArtifact>Executable</buildArtifact>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat.h"/>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat_cn.c"/>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat_cn.h"/>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat_d.c"/>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat_idat.c"/>
+        <files name="./src/IMG_pix_sat/IMG_pix_sat_odat.c"/>
+        <files name="./src/IMG_pix_sat//c66/IMG_pix_sat.c"/>
+        <files name="./src/IMG_pix_sat//c66/IMG_pix_sat.h"/>
+        <files name="./src/common/IMG_profile.c"/>
+        <files name="./src/common/IMG_profile.h"/>
+        <files name="./src/common/IMG_utility.c"/>
+        <files name="./src/common/IMG_utility.h"/>
+        <files name="./src/common/IMG_memory.c"/>
+        <files name="./src/common/IMG_memory.h"/>
+        <files name="./src/common//c66/lnk.cmd"/>
+        <cFlags> --mem_model:data=far</cFlags>
+    </params>
+ </Project>

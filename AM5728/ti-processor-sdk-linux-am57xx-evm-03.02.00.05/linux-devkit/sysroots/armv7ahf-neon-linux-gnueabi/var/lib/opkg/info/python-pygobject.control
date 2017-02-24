@@ -1,0 +1,12 @@
+Package: python-pygobject
+Version: 3.18.2-r0.0
+Description: Python GObject bindings
+ Python GObject bindings.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2.1
+Architecture: armv7ahf-neon
+OE: python-pygobject
+Depends: gobject-introspection (>= 1.46.0), python-setuptools, libffi6 (>= 3.2.1), python-importlib, libz1 (>= 1.2.8), libpcre1 (>= 8.38), python-core, libc6 (>= 2.21), libglib-2.0-0 (>= 2.46.2)
+Source: http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.18/pygobject-3.18.2.tar.xz file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch

@@ -1,0 +1,16 @@
+Package: imglib-c66x-dev
+Version: 3_1_1_0-r1.0
+Description: imglib-c66x version 3_1_1_0-r1 - Development files
+ IMGLIB contains optimized general-purpose image/video processing routines
+ for TI DSPs  This package contains symbolic links, header files, and
+ related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: imglib-c66x
+Homepage: http://www.ti.com/tool/sprc264
+Depends: imglib-c66x (= 3_1_1_0-r1.0), perl
+Recommends: perl-dev
+Source: http://software-dl.ti.com/sdoemb/sdoemb_public_sw/imglib/3_1_1_0/exports/imglib_c66x_3_1_1_0_Linux.bin;name=imglib

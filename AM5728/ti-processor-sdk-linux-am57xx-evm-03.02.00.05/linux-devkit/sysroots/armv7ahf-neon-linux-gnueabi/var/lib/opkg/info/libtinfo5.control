@@ -1,0 +1,16 @@
+Package: libtinfo5
+Version: 6.0+20160213-r0.0
+Description: ncurses tinfo library
+ ncurses tinfo library
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: ncurses
+Homepage: http://www.gnu.org/software/ncurses/ncurses.html
+Depends: libc6 (>= 2.21)
+Suggests: ncurses-terminfo
+Recommends: ncurses-terminfo-base
+Provides: ncurses-libtinfo
+Source: git://anonscm.debian.org/collab-maint/ncurses.git file://tic-hang.patch file://config.cache

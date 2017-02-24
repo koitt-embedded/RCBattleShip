@@ -1,0 +1,11 @@
+Package: llvm-common
+Version: 1.0-r0.arago0.0
+Description: Helper script for OE's llvm support
+ Helper script for OE's llvm support.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: llvm-common
+Source: file://llvm-config

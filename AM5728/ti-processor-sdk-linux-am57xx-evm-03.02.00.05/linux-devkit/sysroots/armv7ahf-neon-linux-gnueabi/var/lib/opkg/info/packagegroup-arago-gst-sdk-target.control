@@ -1,0 +1,12 @@
+Package: packagegroup-arago-gst-sdk-target
+Version: 1.0-r13.tisdk3.0
+Description: packagegroup-arago-gst-sdk-target version 1.0-r13.tisdk3
+ Task to build and install header and libs in sdk
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: am57xx_evm
+OE: packagegroup-arago-gst-sdk-target
+Depends: gstreamer1.0-plugins-dsp66-dev, gstreamer1.0-libav-dev, gstreamer1.0-plugins-hevc-dev, gstreamer1.0-plugins-good-dev, gstreamer1.0-dev, gstreamer1.0-plugins-bad-dev, gstreamer1.0-plugins-base-dev
+Source: None

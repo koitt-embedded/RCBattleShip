@@ -1,0 +1,16 @@
+Package: libpam-dev
+Version: 1.2.1-r5.0
+Description: Linux-PAM (Pluggable Authentication Modules) - Development files
+ Linux-PAM (Pluggable Authentication Modules for Linux), a flexible
+ mechanism for authenticating users  This package contains symbolic links,
+ header files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ | BSD
+Architecture: armv7ahf-neon
+OE: libpam
+Homepage: https://fedorahosted.org/linux-pam/
+Depends: libpam (= 1.2.1-r5.0)
+Recommends: pam-plugin-succeed-if-suffix-dev, bison-dev, libz-dev, cracklib-dev, pam-plugin-time-suffix-dev, flex-dev, pam-plugin-permit-suffix-dev, pam-plugin-warn-suffix-dev, libc6-dev, pam-plugin-pwhistory-suffix-dev, pam-plugin-unix-suffix-dev, libpam-suffix-dev, coreutils-dev, pam-plugin-access-suffix-dev, pam-plugin-deny-suffix-dev, pam-plugin-cracklib-suffix-dev, pam-plugin-debug-suffix-dev
+Source: http://linux-pam.org/library/Linux-PAM-1.2.1.tar.bz2 file://99_pam file://pam.d/common-account file://pam.d/common-auth file://pam.d/common-password file://pam.d/common-session file://pam.d/common-session-noninteractive file://pam.d/other file://libpam-xtests.patch file://fixsepbuild.patch file://pam-security-abstract-securetty-handling.patch file://pam-unix-nullok-secure.patch file://libpam-xtests-remove-bash-dependency.patch file://crypt_configure.patch

@@ -1,0 +1,13 @@
+Package: gdbm
+Version: 1.8.3-r4.0
+Description: Key/value database library with extensible hashing
+ Key/value database library with extensible hashing.
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: armv7ahf-neon
+OE: gdbm
+Homepage: http://www.gnu.org/software/gdbm/
+Depends: libc6 (>= 2.21)
+Source: http://ftp.gnu.org/gnu/gdbm/gdbm-1.8.3.tar.gz file://makefile.patch file://libtool-mode.patch file://ldflags.patch

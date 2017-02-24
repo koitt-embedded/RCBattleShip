@@ -1,0 +1,17 @@
+Package: bluez4-dev
+Version: 4.101-r11.arago1.0
+Description: Linux Bluetooth Stack Userland V4 - Development files
+ Linux Bluetooth stack V4 userland components.  These include a system
+ configurations, daemons, tools and system libraries.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2.1+
+Architecture: armv7ahf-neon
+OE: bluez4
+Homepage: http://www.bluez.org
+Depends: bluez4, bluez-hcidump
+Recommends: python-pygobject-dev, libsndfile-dev, libusb-dev, libsystemd-dev, libc6-dev, udev-dev, liblzma-dev, dbus-lib-dev, libglib-2.0-dev, libpcre-dev, libdbus-glib-1-dev, libreadline-dev, alsa-lib-dev, libusb-0.1-dev, libasound-dev, libusb-1.0-dev, libcap-dev, bluez-hcidump-dev, python-dbus-dev, python-dev, libcheck-dev
+Source: http://kernel.org/pub/linux/bluetooth/bluez-4.101.tar.gz file://bluetooth.conf file://sbc_mmx.patch file://fix-udev-paths.patch file://obsolete_automake_macros.patch file://network-fix-network-Connect-method-parameters.patch file://install-test-script.patch file://fix_encrypt_collision.patch file://bluez4-fix-synchronization-between-bluetoothd-and-dr.patch file://0001-socket-enable-for-bluez-4_98.patch file://0001-bluez-enable-source-interface.patch

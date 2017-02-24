@@ -1,0 +1,16 @@
+Package: gstreamer1.0-plugins-dsp66-dev
+Version: git-r0.0
+Description: gstreamer1.0-plugins-dsp66 version git-r0 - Development files
+ GStreamer elements to use the TI DSP C66 in multimedia applications  This
+ package contains symbolic links, header files, and related items
+ necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-dsp66
+Homepage: https://git.ti.com/processor-sdk/gst-plugin-dsp66
+Depends: gstreamer1.0-plugins-dsp66 (= git-r0.0)
+Recommends: libopencl-dev, libgcc-s-dev, libglib-2.0-dev, libpcre-dev, libffi-dev, imglib-c66x-dev, libc6-dev, vlib-c66x-dev, libgstvideo-1.0-dev, opencl-runtime-dev, gstreamer1.0-dev, liborc-0.4-dev, gstreamer1.0-plugins-base-dev
+Source: git://git.ti.com/processor-sdk/gst-plugin-dsp66.git;protocol=git;branch=master

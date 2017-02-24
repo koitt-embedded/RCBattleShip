@@ -1,0 +1,15 @@
+%%{
+/*
+ *  Copyright 2016 by Texas Instruments Incorporated.
+ *
+ */
+
+%%}
+-eexit=xdc_runtime_System_exit__E
+%%{
+/*
+ * @(#) iar.targets.msp430.rts; 1, 0, 0,0; 8-18-2016 16:19:27; /db/ztree/library/trees/xdctargets/xdctargets-l06/src/ xlibrary
+
+ */
+
+%%}

@@ -1,0 +1,15 @@
+Package: python-cffi-dev
+Version: 1.5.2-r0.0
+Description: Foreign Function Interface for Python calling C code - Development files
+ Foreign Function Interface for Python calling C code.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-cffi
+Depends: python-cffi (= 1.5.2-r0.0)
+Recommends: libpython2-dev, libffi-dev, libc6-dev, python-pycparser-dev, python-dev, python-core-dev
+Source: https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.5.2.tar.gz

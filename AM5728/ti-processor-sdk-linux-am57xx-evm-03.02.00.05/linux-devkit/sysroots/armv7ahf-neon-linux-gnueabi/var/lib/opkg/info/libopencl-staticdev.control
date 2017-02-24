@@ -1,0 +1,15 @@
+Package: libopencl-staticdev
+Version: 1.1.11.0-r0.0.0
+Description: opencl version 1.1.11.0-r0.0 - Development files (Static Libraries)
+ TI OpenCL host runtime and development packages  This package contains
+ static libraries for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: am57xx_evm
+OE: opencl
+Homepage: http://software-dl.ti.com/mctools/docs/opencl/intro.html
+Depends: libopencl-dev (= 1.1.11.0-r0.0.0)
+Provides: opencl-staticdev
+Source: git://git.ti.com/opencl/ti-opencl.git;protocol=git;branch=master

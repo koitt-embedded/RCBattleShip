@@ -1,0 +1,372 @@
+/* ======================================================================== *
+ * IMGLIB -- TI Image and Video Processing Library                          *
+ *                                                                          *
+ *                                                                          *
+ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/   *
+ *                                                                          *
+ *                                                                          *
+ *  Redistribution and use in source and binary forms, with or without      *
+ *  modification, are permitted provided that the following conditions      *
+ *  are met:                                                                *
+ *                                                                          *
+ *    Redistributions of source code must retain the above copyright        *
+ *    notice, this list of conditions and the following disclaimer.         *
+ *                                                                          *
+ *    Redistributions in binary form must reproduce the above copyright     *
+ *    notice, this list of conditions and the following disclaimer in the   *
+ *    documentation and/or other materials provided with the                *
+ *    distribution.                                                         *
+ *                                                                          *
+ *    Neither the name of Texas Instruments Incorporated nor the names of   *
+ *    its contributors may be used to endorse or promote products derived   *
+ *    from this software without specific prior written permission.         *
+ *                                                                          *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS     *
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT       *
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR   *
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT    *
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,   *
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT        *
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,   *
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY   *
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT     *
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE   *
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    *
+ * ======================================================================== */
+                                                                                          
+/****************************************************************************
+ * FILE PURPOSE: Build description for package ti.imglib
+ ****************************************************************************
+ * FILE NAME: package.bld  
+ *
+ * DESCRIPTION: This file contains attributes to build and create releases 
+ *              for package ti.imglib
+ ****************************************************************************/
+
+  var Package = xdc.loadCapsule('ti/mas/swtools/CommonBld.xs');
+
+  /* Global Variables */
+  Package.bundlename = "imglib";
+
+  Package.bundletype = "kernel";
+
+  Package.archiveTypeDefault = false;
+
+  var doxygenstring = " docs/doxygen ";
+
+  /* List names of directories */
+  var IncludeList = ["IMG_boundary_16s", 
+                     "IMG_boundary_8",            
+                     "IMG_clipping_16s",          
+                     "IMG_conv_11x11_i16s_c16s",  
+                     "IMG_conv_11x11_i8_c8s",     
+                     "IMG_conv_7x7_i16s_c16s",    
+                     "IMG_conv_7x7_i8_c8s",       
+                     "IMG_conv_7x7_i8_c16s",      
+                     "IMG_conv_5x5_i16s_c16s",    
+                     "IMG_conv_5x5_i8_c16s",      
+                     "IMG_conv_5x5_i8_c8s",       
+                     "IMG_conv_3x3_i16_c16s",     
+                     "IMG_conv_3x3_i16s_c16s",    
+                     "IMG_conv_3x3_i8_c8s",       
+                     "IMG_corr_11x11_i16s_c16s",  
+                     "IMG_corr_11x11_i8_c16s",    
+                     "IMG_corr_5x5_i16s_c16s",    
+                     "IMG_corr_3x3_i16_c16",      
+                     "IMG_corr_3x3_i16s_c16s",    
+                     "IMG_corr_3x3_i8_c16s",      
+                     "IMG_corr_3x3_i8_c8",        
+                     "IMG_corr_gen_i16s_c16s",    
+                     "IMG_corr_gen_iq",           
+                     "IMG_dilate_bin",            
+                     "IMG_erode_bin",             
+                     "IMG_errdif_bin_16",
+                     "IMG_errdif_bin_8",
+                     "IMG_fdct_8x8",             
+                     "IMG_histogram_16",          
+                     "IMG_histogram_8",           
+                     "IMG_idct_8x8_12q4",             
+                     "IMG_mad_16x16",        
+                     "IMG_mad_8x8",        
+                     "IMG_median_3x3_16s",        
+                     "IMG_median_3x3_16",         
+                     "IMG_median_3x3_8",          
+                     "IMG_perimeter_16",          
+                     "IMG_perimeter_8",           
+                     "IMG_pix_expand",
+                     "IMG_pix_sat",
+                     "IMG_quantize",
+                     "IMG_sad_16x16",        
+                     "IMG_sad_8x8",        
+                     "IMG_sobel_3x3_16",          
+                     "IMG_sobel_3x3_16s",         
+                     "IMG_sobel_3x3_8",           
+                     "IMG_sobel_5x5_16s",         
+                     "IMG_sobel_7x7_16s",         
+                     "IMG_thr_gt2max_16",         
+                     "IMG_thr_gt2max_8",          
+                     "IMG_thr_gt2thr_16",         
+                     "IMG_thr_gt2thr_8",          
+                     "IMG_thr_le2min_16",         
+                     "IMG_thr_le2min_8",          
+                     "IMG_thr_le2thr_16",         
+                     "IMG_thr_le2thr_8",          
+                     "IMG_wave_horz",
+                     "IMG_wave_vert",
+                     "IMG_yc_demux_be16_16",
+                     "IMG_yc_demux_be16_8",
+                     "IMG_yc_demux_le16_16",
+                     "IMG_yc_demux_le16_8",
+                     "IMG_ycbcr422pl_to_rgb565",
+                    ];                 
+
+  var ExcludeList = [];
+
+  var SpecialList = [];
+
+                     
+  /* Command line handling */
+  Package.args["knl"] = {
+    value:"knl",
+	  action: function(value) {
+	    IncludeList = new Array(value);
+	  },
+    usageComment: "       Select a kernel to compile"
+  }
+
+  Package.archiveFiles["CommonArchiveFiles"] = {
+    files: ["imglib_3_1_1_0_release_notes.html",
+            "docs/bundle/manifest/doxyfile.xdt",
+            "docs/bundle/doxygen/doxyfile.xdt",
+            "docs/doxygen/IMGLIB_Function_Reference.chm",
+            "docs/doxygen/doxyfile.xdt",
+            "docs/manifest/manifest.xml.xdt",
+            "docs/manifest/Software_Manifest.html",
+            "Makedocs.mk",
+           ]
+  };
+ 
+  Package.archiveFiles["bundle"] = {
+    base_directory: ".",
+    delivery_type: "bundle",
+    files: ["docs/IMGLIB_Software_Manifest.html", 
+            "docs/IMGLIB_Users_Manual.chm",
+            "docs/IMGLIB_Users_Manual.html",
+            "docs/doxygen/html",
+            "docs/manifest/html",
+            "README.txt",
+           ]
+  };
+
+  Package.archiveFiles["bundle-c64x"] = {
+    base_directory: "./docs",
+    delivery_type: "bundle",
+    files:  ["IMGLib_c64Px_TestReport.html"],
+    target: ["c64Ple",
+             "ce64Ple"
+            ]
+  };
+
+  Package.archiveFiles["bundle-c66x"] = {
+    base_directory: "./docs",
+    delivery_type: "bundle",
+    files:  ["IMGLib_c66x_TestReport.html"],
+    target: ["c66le",
+             "ce66le"
+            ]
+  };    
+
+  /*****************************************************************************
+    The main package.bld routine starts here 
+   *****************************************************************************/
+
+  /* Set up the targets array. Current implementation supports c64P and C66 */
+  Package.targets = [C64P, 
+                     C64P_elf,
+                     C66, 
+                     C66_elf,
+                    ];
+
+  /* Set up version number for the package */
+  Package.pkgStdVer = "2.0";
+  Package.version = [3, 1, 1, 0, 3, 0];
+
+  Package.createVersion();
+
+  /* Parse XDC Arguments */
+  Package.parseArgs(arguments);
+  
+  /* Default delivery type is "source" for this release */ 
+  Package.delivery_type = "src";  
+
+  /* Call Local function to set up parameters for ccs projects */
+  addProjects();
+
+  /* Generate Doxyfile based on the version array above */
+  var tplt = xdc.loadTemplate("./docs/doxygen/doxyfile.xdt");
+  tplt.genFile("./docs/doxygen/Doxyfile",null,[Package.version,doxygenstring]);  
+
+  /* Generate Software Manifest XML file */
+  var tplt = xdc.loadTemplate("./docs/manifest/manifest.xml.xdt");
+  tplt.genFile("./docs/manifest/manifest.xml",Package);      
+
+  /* Generate IMGLIB bundle users manual Doxyfile */
+  tplt = xdc.loadTemplate("./docs/bundle/doxygen/doxyfile.xdt");
+  tplt.genFile("./docs/bundle/doxygen/Doxyfile",Package);      
+
+  /* Generate IMGLIB bundle manifest Doxyfile */
+  tplt = xdc.loadTemplate("./docs/bundle/manifest/doxyfile.xdt");
+  tplt.genFile("./docs/bundle/manifest/Doxyfile",Package);      
+
+  /* Include custom makefile to generate doxygen documents */
+  Package.includeMake("Makedocs.mk");
+  Package.bundleMakeDoc = "MakedocsBundle.mk";
+
+  Package.createProjects();
+   
+  /* Create Archive */ 
+  Package.createArchive();
+  
+  /* Clean Package */
+  Package.packageClean();
+
+  /*****************************************************************************
+    The main package.bld routine ends here 
+   *****************************************************************************/
+
+  /** Local function to add projects **/
+  function addProjects() {
+    if (IncludeList == undefined) {
+      var file = new java.io.File("src");
+      IncludeList = file.list();
+    }
+    
+    for each (var dir in IncludeList) {
+      var special       = false; 
+      var exclude64p    = false;
+      var exclude66     = false;
+      var kernelhdr     = dir + ".h";
+
+      /* Check if dir is in exclude list */
+      for each (var excludedir in ExcludeList) {
+        if (excludedir.name == dir) {
+          if (excludedir.srcDir.toString().match("c64P")) {
+	          exclude64p = true;
+	        }
+          if (excludedir.srcDir.toString().match("c66")) {
+	          exclude66 = true;
+	        }
+        }
+      }
+    
+      /* Check if dir is in special list */
+      for each (var specialdir in SpecialList) {
+        if (specialdir.name == dir && specialdir.srcDir == srcDir) {
+          special = true;
+          break;
+        }
+      }
+    
+      if (special == true) { 
+        cflags = specialdir.cflags; 
+      }
+
+     
+      /*****************************************************************************
+        Local Variables 
+       *****************************************************************************/
+      var projectname = dir;
+      var projectroot = "./src/" + projectname + "/";
+      var commonroot  = "./src/common/";
+      var prjtargroot;
+      var cmntargroot;
+      var prjtarget; 
+      var linkfile;
+      
+
+      /*****************************************************************************
+        Kernel C66x project
+       *****************************************************************************/
+      if (exclude66 == false) {
+        prjtarget   = "66"
+        prjtargroot = projectroot + "/c66/";
+        cmntargroot = commonroot  + "/c66/";
+
+        linkfile = new Array();
+        findProjectFiles (projectroot,linkfile,kernelhdr,"66");
+        findProjectFiles (prjtargroot,linkfile,kernelhdr,"66");
+
+        linkfile.push(commonroot  + "IMG_profile.c");
+        linkfile.push(commonroot  + "IMG_profile.h");
+        linkfile.push(commonroot  + "IMG_utility.c");
+        linkfile.push(commonroot  + "IMG_utility.h");
+        linkfile.push(commonroot  + "IMG_memory.c");
+        linkfile.push(commonroot  + "IMG_memory.h");
+        linkfile.push(cmntargroot + "lnk.cmd");
+
+        Package.ccsProjects.push({ pjtName:        projectname,
+	                                 location:       prjtargroot,
+	                                 buildArtifact:  "Executable",
+	                                 srcFiles:       linkfile,
+	                                 cFlags:         " --mem_model:data=far",
+	                                 targets:        [prjtarget]	 
+                                 });
+      }
+
+
+      /*****************************************************************************
+        Kernel C64x+ project
+       *****************************************************************************/
+      if (exclude64p == false) {
+ 		    prjtarget   = "64P"
+        prjtargroot = projectroot + "/c64P/";
+        cmntargroot = commonroot  + "/c64P/";
+
+        linkfile = new Array();
+        findProjectFiles (projectroot,linkfile,kernelhdr,"64P");
+        findProjectFiles (prjtargroot,linkfile,kernelhdr,"64P");
+
+        linkfile.push(commonroot  + "IMG_profile.c");
+        linkfile.push(commonroot  + "IMG_profile.h");
+        linkfile.push(commonroot  + "IMG_utility.c");
+        linkfile.push(commonroot  + "IMG_utility.h");
+        linkfile.push(commonroot  + "IMG_memory.c");
+        linkfile.push(commonroot  + "IMG_memory.h");
+        linkfile.push(cmntargroot + "lnk.cmd");
+
+        Package.ccsProjects.push({ pjtName:        projectname,
+	                                 location:       prjtargroot,
+	                                 buildArtifact:  "Executable",
+	                                 srcFiles:       linkfile,
+	                                 cFlags:         " --mem_model:data=far",
+	                                 targets:        [prjtarget]	 
+                                 });
+      }
+    }
+  }
+
+  /** Local function to add files for projects **/
+  function findProjectFiles(path,lnkfile,hdrfile,target) {
+    var Files = new java.io.File(path);
+    for each (var srcFile in Files.list()) {
+      srcFile = String(srcFile);
+      var srcPath = path + srcFile;
+      var dot = srcFile.lastIndexOf(".");
+      var extension = srcFile.substr(dot,srcFile.length);    
+      if (extension == ".c"   || 
+          extension == ".sa"  || 
+          extension == ".s"   || 
+          extension == ".cmd" || 
+          extension == ".h") {
+        if (extension == ".h" && srcFile.toString().match(hdrfile) && String(Package.targs[0]).match(target)) {
+          doxygenstring += " " + srcPath;
+        }  
+        if (xdc.findFile(srcPath)) {
+          lnkfile.push(srcPath);
+        }
+      }
+    }
+  }  
+
+/* Nothing past this point */
+

@@ -1,0 +1,13 @@
+Package: gstreamer1.0-plugins-dsp66
+Version: git-r0.0
+Description: gstreamer1.0-plugins-dsp66 version git-r0
+ GStreamer elements to use the TI DSP C66 in multimedia applications
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-dsp66
+Homepage: https://git.ti.com/processor-sdk/gst-plugin-dsp66
+Depends: libgstvideo-1.0-0 (>= 1.6.3), libffi6 (>= 3.2.1), libpcre1 (>= 8.38), libopencl1 (>= 1.1.11.0), libopencl-runtime, libc6 (>= 2.21), libglib-2.0-0 (>= 2.46.2), liborc-0.4-0 (>= 0.4.24), gstreamer1.0 (>= 1.6.3), libgcc-s1 (>= 5.3.1)
+Source: git://git.ti.com/processor-sdk/gst-plugin-dsp66.git;protocol=git;branch=master

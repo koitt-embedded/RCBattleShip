@@ -1,0 +1,12 @@
+Package: python-mako
+Version: 1.0.3-r0.0
+Description: Templating library for Python
+ Templating library for Python.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-mako
+Depends: python-html, python-threading, python-netclient
+Source: https://pypi.python.org/packages/source/M/Mako/Mako-1.0.3.tar.gz

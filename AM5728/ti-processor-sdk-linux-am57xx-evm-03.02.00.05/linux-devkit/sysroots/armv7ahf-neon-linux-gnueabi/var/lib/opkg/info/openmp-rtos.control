@@ -1,0 +1,12 @@
+Package: openmp-rtos
+Version: 2_05_00_00-r0.tisdk0.0
+Description: openmp-rtos version 2_05_00_00-r0.tisdk0
+ TI OpenMP RTOS
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: am57xx_evm
+OE: openmp-rtos
+Homepage: git://git.ti.com/openmp/ti-openmp-dsp-runtime.git
+Source: git://git.ti.com/openmp/ti-openmp-dsp-runtime.git;protocol=git;branch=master

@@ -1,0 +1,13 @@
+Package: ti-xdctools
+Version: 3_32_01_22-r0.0
+Description: ti-xdctools version 3_32_01_22-r0
+ TI XDCtools (RTSC - Real Time Software Components -
+ http://rtsc.eclipse.org)
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD & GPLv2
+Architecture: armv7ahf-neon
+OE: ti-xdctools
+Homepage: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/rtsc
+Source: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/rtsc/3_32_01_22/exports/xdccore/xdctools_3_32_01_22_core_linux.zip;name=xdczip

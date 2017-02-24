@@ -1,0 +1,4 @@
+/usr/lib/qt5/mkspecs/modules/qt_lib_webkitwidgets_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_webkit_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_webkitwidgets.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_webkit.pri

@@ -1,0 +1,12 @@
+Package: python-cffi
+Version: 1.5.2-r0.0
+Description: Foreign Function Interface for Python calling C code
+ Foreign Function Interface for Python calling C code.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-cffi
+Depends: python-core, libpython2.7-1.0 (>= 2.7.11), libffi6 (>= 3.2.1), libc6 (>= 2.21)
+Source: https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.5.2.tar.gz

@@ -1,0 +1,12 @@
+Package: v4l-utils
+Version: 1.10.1-r0.0
+Description: v4l2 and IR applications
+ v4l2 and IR applications.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2 & LGPLv2.1
+Architecture: armv7ahf-neon
+OE: v4l-utils
+Depends: libjpeg62 (>= 8d+1.4.2), libc6 (>= 2.21), libstdc++6 (>= 5.3.1), libgcc-s1 (>= 5.3.1), libv4l (>= 1.10.1)
+Source: http://linuxtv.org/downloads/v4l-utils/v4l-utils-1.10.1.tar.bz2 file://0001-Revert-media-ctl-Don-t-install-libmediactl-and-libv4.patch file://mediactl-pkgconfig.patch file://export-mediactl-headers.patch

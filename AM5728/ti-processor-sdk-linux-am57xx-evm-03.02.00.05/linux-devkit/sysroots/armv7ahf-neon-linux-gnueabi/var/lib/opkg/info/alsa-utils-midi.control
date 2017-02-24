@@ -1,0 +1,13 @@
+Package: alsa-utils-midi
+Version: 1.1.0-r0.0
+Description: Miscellaneous MIDI utilities for ALSA
+ ALSA sound utilities.
+Section: console/utils
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: armv7ahf-neon
+OE: alsa-utils
+Homepage: http://www.alsa-project.org
+Depends: libasound2 (>= 1.1.0), libc6 (>= 2.21)
+Source: ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.1.0.tar.bz2 file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch file://0001-alsabat-rename-to-avoid-naming-conflict.patch

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Project>
+    <params>
+        <name>IMG_thr_gt2thr_16</name>
+        <location>./src/IMG_thr_gt2thr_16//c66/</location>
+        <target>66</target>
+        <buildArtifact>Executable</buildArtifact>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16.h"/>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16_cn.c"/>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16_cn.h"/>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16_d.c"/>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16_idat.c"/>
+        <files name="./src/IMG_thr_gt2thr_16/IMG_thr_gt2thr_16_odat.c"/>
+        <files name="./src/IMG_thr_gt2thr_16//c66/IMG_thr_gt2thr_16.h"/>
+        <files name="./src/IMG_thr_gt2thr_16//c66/IMG_thr_gt2thr_16.sa"/>
+        <files name="./src/common/IMG_profile.c"/>
+        <files name="./src/common/IMG_profile.h"/>
+        <files name="./src/common/IMG_utility.c"/>
+        <files name="./src/common/IMG_utility.h"/>
+        <files name="./src/common/IMG_memory.c"/>
+        <files name="./src/common/IMG_memory.h"/>
+        <files name="./src/common//c66/lnk.cmd"/>
+        <cFlags> --mem_model:data=far</cFlags>
+    </params>
+ </Project>

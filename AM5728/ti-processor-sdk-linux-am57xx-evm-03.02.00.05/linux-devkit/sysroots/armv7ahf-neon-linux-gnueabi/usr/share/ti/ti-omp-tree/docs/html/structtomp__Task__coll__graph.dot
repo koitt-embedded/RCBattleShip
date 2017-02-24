@@ -1,0 +1,16 @@
+digraph "tomp_Task"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="tomp_Task",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" icv" ,fontname="Helvetica"];
+  Node2 [label="gomp_task_icv",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgomp__task__icv.html"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" team" ,fontname="Helvetica"];
+  Node3 [label="tomp_Team",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtomp__Team.html",tooltip="Describes a team of \"threads\". "];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" barrier" ,fontname="Helvetica"];
+  Node4 [label="tomp_Barrier",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtomp__Barrier.html",tooltip="Represents a barrier. "];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" dummy_ws" ,fontname="Helvetica"];
+  Node5 [label="gomp_work_share",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgomp__work__share.html"];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next_ws" ,fontname="Helvetica"];
+  Node6 [label="gomp_ptrlock_t",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgomp__ptrlock__t.html"];
+}

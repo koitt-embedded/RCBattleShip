@@ -1,0 +1,463 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+Making tomp_invalidatePrefetchBuffer a function synonym of CSL_XMC_invalidatePrefetchBuffer
+Making tomp_semAcquire a function synonym of AcquireSpinLock
+Making tomp_semRelease a function synonym of ReleaseSpinLock
+Making omp_init_nest_lock a function synonym of omp_init_lock
+Making omp_destroy_nest_lock a function synonym of omp_destroy_lock
+
+		======File-level Analysis Summary======
+
+
+static unsigned char AcquireSpinLock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_AsmNop() is called from 4 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static enum $$fake216 CACHE_getL2Size() is called from 1 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_invAllL2() is called from 1 sites in this file.
+    It appears to be inlineable (size = 36 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_invAllL2Wait() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_invAllL2Wait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_invL1d() is called from 1 sites in this file.
+    It appears to be inlineable (size = 60 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_invL1dWait() (1 times)
+	_mfence() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_invL1dWait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_invL2() is called from 1 sites in this file.
+    It appears to be inlineable (size = 60 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_invL2Wait() (1 times)
+	_mfence() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_invL2Wait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CACHE_wbInvAllL1d() is called from 1 sites in this file.
+    It appears to be inlineable (size = 36 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	CACHE_AsmNop() (1 times)
+	CACHE_wbInvAllL1dWait() (1 times)
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+	_disable_interrupts() (1 times)
+
+static void CACHE_wbInvAllL1dWait() is called from 1 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void CSL_XMC_invalidatePrefetchBuffer() is called from 5 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void ReleaseSpinLock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void omp_destroy_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	free() (1 times)
+
+extern void omp_destroy_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_destroy_lock() (1 times)
+
+extern void omp_init_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 24 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_mfence() (1 times)
+	memalign() (1 times)
+
+extern void omp_init_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_init_lock() (1 times)
+
+extern void omp_set_lock() is called from 2 sites in this file.
+    It appears to be inlineable (size = 57 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheWbInvAll() (1 times)
+	tomp_mutex_unlock() (2 times)
+	tomp_mutex_lock() (1 times)
+	tomp_cacheInv() (4 times)
+
+extern void omp_set_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_set_lock() (1 times)
+	tomp_cacheInv() (1 times)
+
+extern int omp_test_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 14 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_set_lock() (1 times)
+	tomp_cacheInv() (1 times)
+
+extern int omp_test_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 26 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_mfence() (1 times)
+	omp_test_lock() (1 times)
+	tomp_cacheInv() (1 times)
+
+extern void omp_unset_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 18 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheWbInvAll() (1 times)
+	tomp_mutex_unlock() (1 times)
+	tomp_mutex_lock() (1 times)
+
+extern void omp_unset_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_unset_lock() (1 times)
+
+static void tomp_cacheInv() is called from 7 sites in this file.
+    It appears to be inlineable (size = 21 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	tomp_mfence() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+	CACHE_invL2() (1 times)
+	CACHE_invL1d() (1 times)
+	_disable_interrupts() (1 times)
+
+static void tomp_cacheWbInvAll() is called from 2 sites in this file.
+    It appears to be inlineable (size = 15 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	_restore_interrupts() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+	CACHE_invAllL2() (1 times)
+	CACHE_getL2Size() (1 times)
+	tomp_mfence() (2 times)
+	CACHE_wbInvAllL1d() (1 times)
+	_disable_interrupts() (1 times)
+
+static void tomp_invalidatePrefetchBuffer() is called from 2 sites in this file.
+    It appears to be inlineable (size = 2 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CSL_XMC_invalidatePrefetchBuffer() (1 times)
+
+static void tomp_mfence() is called from 6 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void tomp_mutex_lock() is called from 2 sites in this file.
+    It appears to be inlineable (size = 9 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_semAcquire() (2 times)
+
+static void tomp_mutex_unlock() is called from 3 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_semRelease() (1 times)
+	tomp_mfence() (1 times)
+
+static unsigned char tomp_semAcquire() is called from 2 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	AcquireSpinLock() (1 times)
+
+static void tomp_semRelease() is called from 1 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	ReleaseSpinLock() (1 times)
+
+
+These functions may be recursive:
+	omp_init_nest_lock()
+	omp_init_lock()
+	omp_set_nest_lock()
+	omp_test_nest_lock()
+	omp_test_lock()
+	omp_set_lock()
+	tomp_cacheInv()
+	CACHE_invL2()
+	CACHE_invL1d()
+	omp_unset_nest_lock()
+	omp_unset_lock()
+	tomp_cacheWbInvAll()
+	CACHE_invAllL2()
+	CACHE_wbInvAllL1d()
+
+Function tomp_cacheInv() will be specialized on these parameters:
+	[2] byteCnt == 4u;
+
+Results of interprocedural value propagation:
+
+   static void tomp_cacheInv() has these parameter attributes:
+      unsigned byteCnt :  byteCnt == 4u;
+
+Function CACHE_invL2() will be specialized on these parameters:
+	[2] byteCnt == 4u;
+	[3] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_invL2() has these parameter attributes:
+      unsigned byteCnt :  byteCnt == 4u;
+      unsigned wait :     wait == 0u;
+
+Function CACHE_invL1d() will be specialized on these parameters:
+	[2] byteCnt == 4u;
+	[3] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_invL1d() has these parameter attributes:
+      unsigned byteCnt :  byteCnt == 4u;
+      unsigned wait :     wait == 0u;
+
+Function CACHE_invAllL2() will be specialized on these parameters:
+	[1] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_invAllL2() has these parameter attributes:
+      unsigned wait :     wait == 0u;
+
+Function CACHE_wbInvAllL1d() will be specialized on these parameters:
+	[1] wait == 0u;
+
+Results of interprocedural value propagation:
+
+   static void CACHE_wbInvAllL1d() has these parameter attributes:
+      unsigned wait :     wait == 0u;
+Inlineable function will be suppressed: tomp_semRelease()
+Inlineable function will be suppressed: tomp_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: tomp_semAcquire()
+Inlineable function will be suppressed: CACHE_wbInvAllL1d()
+Inlineable function will be suppressed: CACHE_invAllL2()
+Inlineable function will be suppressed: tomp_mutex_unlock()
+Inlineable function will be suppressed: CACHE_invL2()
+Inlineable function will be suppressed: CACHE_invL1d()
+Inlineable function will be suppressed: CSL_XMC_invalidatePrefetchBuffer()
+Inlineable function will be suppressed: CACHE_getL2Size()
+Inlineable function will be suppressed: CACHE_AsmNop()
+Inlineable function will be suppressed: ReleaseSpinLock()
+Inlineable function will be suppressed: tomp_mutex_lock()
+Inlineable function will be suppressed: AcquireSpinLock()
+Inlineable function will be suppressed: tomp_mfence()
+Inlineable function will be suppressed: CACHE_invL2Wait()
+Inlineable function will be suppressed: CACHE_invL1dWait()
+Inlineable function will be suppressed: CACHE_invAllL2Wait()
+Inlineable function will be suppressed: CACHE_wbInvAllL1dWait()
+Inlineable function will be suppressed: tomp_cacheWbInvAll()
+
+These external functions are called but not defined here:
+	free()
+	memalign()
+	_mfence()
+	_disable_interrupts()
+	_restore_interrupts()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern void omp_unset_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 18 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_mutex_lock() (1 times)
+	tomp_mutex_unlock() (1 times)
+	tomp_cacheWbInvAll() (1 times)
+
+There are 15 memory accesses with 66 dependences.
+
+
+==============================================================================
+
+extern void omp_unset_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 13 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_unset_lock() (1 times)
+
+There are 5 memory accesses with 4 dependences.
+
+
+==============================================================================
+
+static void tomp_cacheInv() is called from 7 sites in this file.
+    It appears to be inlineable (size = 21 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	CACHE_invL1d() (1 times)
+	CACHE_invL2() (1 times)
+	tomp_invalidatePrefetchBuffer() (1 times)
+	tomp_mfence() (1 times)
+
+There are 5 memory accesses with 7 dependences.
+
+
+==============================================================================
+
+extern void omp_set_lock() is called from 2 sites in this file.
+    It appears to be inlineable (size = 57 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheInv() (4 times)
+	tomp_mutex_lock() (1 times)
+	tomp_mutex_unlock() (2 times)
+	tomp_cacheWbInvAll() (1 times)
+
+There are 32 memory accesses with 562 dependences.
+
+
+==============================================================================
+
+extern int omp_test_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 14 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheInv() (1 times)
+	omp_set_lock() (1 times)
+
+There are 8 memory accesses with 22 dependences.
+
+
+==============================================================================
+
+extern int omp_test_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 26 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheInv() (1 times)
+	omp_test_lock() (1 times)
+	tomp_mfence() (1 times)
+
+There are 14 memory accesses with 53 dependences.
+
+
+==============================================================================
+
+extern void omp_set_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 20 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_cacheInv() (1 times)
+	omp_set_lock() (1 times)
+
+There are 12 memory accesses with 41 dependences.
+
+
+==============================================================================
+
+extern void omp_init_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 24 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_mfence() (1 times)
+
+There are 9 memory accesses with 23 dependences.
+
+
+==============================================================================
+
+extern void omp_init_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_init_lock() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_destroy_lock() is called from 1 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void omp_destroy_nest_lock() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	omp_destroy_lock() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

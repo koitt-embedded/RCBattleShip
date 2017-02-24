@@ -1,0 +1,14 @@
+Package: libopencv-video-dev
+Version: 3.1+git0+b4f54ac48c-r0.tisdk7.0
+Description: OpenCV opencv-video development package
+ OpenCV opencv-video development package
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: opencv
+Homepage: http://opencv.org/
+Depends: libopencv-video3.1, opencv-dev
+Recommends: libgcc-s-dev, libz-dev, qtbase-dev, libwebp-dev, libgphoto2-dev, protobuf-dev, swig-dev, python-dev, bzip2-dev, libopencv-imgproc-dev, qtwayland-dev, libtiff-dev, tbb-dev, gstreamer1.0-plugins-base-dev, python-numpy-dev, libopencl-dev, jpeg-dev, libstdc++-dev, libc6-dev, libticmem-dev, gstreamer1.0-dev, libtool-dev, libpng16-dev, libglib-2.0-dev, v4l-utils-dev, libeigen-dev, libopencv-core-dev
+Source: git://git.ti.com/opencv/tiopencv.git;protocol=git;branch=tiopencvrelease_3.1;name=opencv git://github.com/Itseez/opencv_contrib.git;destsuffix=contrib;name=contrib git://github.com/Itseez/opencv_3rdparty.git;branch=ippicv/master_20151201;destsuffix=party3;name=party3 file://0001-3rdparty-ippicv-Use-pre-downloaded-ipp.patch file://fixpkgconfig.patch file://setupEnv.sh

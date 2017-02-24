@@ -1,0 +1,11 @@
+Package: qtwebkit-mkspecs
+Version: 5.6.2+git0+bb43bca166-r0.arago4.0
+Description: qtwebkit version 5.6.2+gitAUTOINC+bb43bca166-r0.arago4
+ qtwebkit version 5.6.2+gitAUTOINC+bb43bca166-r0.arago4.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD & LGPLv2+ | GPL-2.0
+Architecture: armv7ahf-neon
+OE: qtwebkit
+Source: git://github.com/qt/qtwebkit.git;name=qtwebkit;branch=5.6;protocol=git file://0001-qtwebkit-fix-QA-issue-bad-RPATH.patch file://0002-Remove-TEXTREL-tag-in-x86.patch file://0003-Exclude-backtrace-API-for-non-glibc-libraries.patch file://GraphicsSurfaceGL_NoX.cpp.patch file://GraphicsSurfaceToken.h.patch file://0001-Target.pri-update-to-use-GL_NoX-version-of-GraphicsS.patch file://WebCore.pri.patch

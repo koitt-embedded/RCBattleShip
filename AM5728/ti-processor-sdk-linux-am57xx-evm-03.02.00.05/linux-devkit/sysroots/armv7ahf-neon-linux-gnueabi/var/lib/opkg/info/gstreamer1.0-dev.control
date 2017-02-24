@@ -1,0 +1,17 @@
+Package: gstreamer1.0-dev
+Version: 1.6.3-r0.0
+Description: GStreamer 1.0 multimedia framework - Development files
+ GStreamer is a multimedia framework for encoding and decoding video and
+ sound. It supports a wide range of formats including mp3, ogg, avi, mpeg
+ and quicktime.  This package contains symbolic links, header files, and
+ related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2+
+Architecture: armv7ahf-neon
+OE: gstreamer1.0
+Homepage: http://gstreamer.freedesktop.org/
+Depends: gstreamer1.0 (= 1.6.3-r0.0)
+Recommends: libz-dev, libglib-2.0-dev, libpcre-dev, libffi-dev, gobject-introspection-dev, libc6-dev, libcap-dev, libxml2-dev
+Source: http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.6.3.tar.xz file://0001-Fix-crash-with-gst-inspect.patch file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch

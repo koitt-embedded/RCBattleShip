@@ -1,0 +1,12 @@
+Package: ti-xdais
+Version: 7_24_00_04-r1.0
+Description: ti-xdais version 7_24_00_04-r1
+ TI eXpress DSP Algorithm Interface Standard (XDAIS) specification
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: armv7ahf-neon
+OE: ti-xdais
+Homepage: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/xdais
+Source: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/xdais/7_24_00_04/exports/xdais_7_24_00_04.tar.gz;name=xdaistarball

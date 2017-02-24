@@ -1,0 +1,15 @@
+Package: gstreamer1.0-libav-dev
+Version: 1.6.3-r0.0
+Description: Libav-based GStreamer 1.x plugin - Development files
+ Libav-based GStreamer 1.x plugin.  This package contains symbolic links,
+ header files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-libav
+Homepage: http://gstreamer.freedesktop.org/
+Depends: gstreamer1.0-libav (= 1.6.3-r0.0)
+Recommends: orc-dev, bzip2-dev, libz-dev, libpcre-dev, libglib-2.0-dev, liblzma-dev, libgstaudio-1.0-dev, libffi-dev, libc6-dev, gstreamer1.0-plugins-base-dev, libgstpbutils-1.0-dev, libgstvideo-1.0-dev, libgsttag-1.0-dev, gstreamer1.0-dev, liborc-0.4-dev, xz-dev, libbz2-dev
+Source: http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.6.3.tar.xz file://0001-Disable-yasm-for-libav-when-disable-yasm.patch file://workaround-to-build-gst-libav-for-i586-with-gcc.patch

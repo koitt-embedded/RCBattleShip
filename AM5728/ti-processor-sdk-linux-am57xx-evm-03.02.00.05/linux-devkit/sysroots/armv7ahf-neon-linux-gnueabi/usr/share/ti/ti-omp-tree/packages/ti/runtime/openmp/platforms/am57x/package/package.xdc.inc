@@ -1,0 +1,13 @@
+package.xdc
+Platform.xdc
+Platform.xs
+package/ti.runtime.openmp.platforms.am57x.sch
+package/.vers_g180
+package/.vers_r170
+package/.vers_b160
+package/.xdc-B21
+package/ti_runtime_openmp_platforms_am57x.java
+package/ti_runtime_openmp_platforms_am57x.class
+package/package_ti.runtime.openmp.platforms.am57x.c
+package/package.defs.h
+package/ti.runtime.openmp.platforms.am57x.ccs

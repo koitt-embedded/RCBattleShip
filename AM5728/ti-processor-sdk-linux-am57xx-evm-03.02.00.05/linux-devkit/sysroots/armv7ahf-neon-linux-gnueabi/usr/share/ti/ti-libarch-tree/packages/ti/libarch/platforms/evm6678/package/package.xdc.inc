@@ -1,0 +1,13 @@
+package.xdc
+Platform.xdc
+Platform.xs
+package/ti.libarch.platforms.evm6678.sch
+package/.vers_g180
+package/.vers_r170
+package/.vers_b160
+package/.xdc-B21
+package/ti_libarch_platforms_evm6678.java
+package/ti_libarch_platforms_evm6678.class
+package/package_ti.libarch.platforms.evm6678.c
+package/package.defs.h
+package/ti.libarch.platforms.evm6678.ccs

@@ -1,0 +1,6 @@
+package/lib/lib/ti_runtime_openmp_am57x_debug_e66/src/tomp_shared_heaps.oe66: src/tomp_shared_heaps.c /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h src/tomp_dsp_heap_api.h ./omp.h /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/linkage.h 
+src/tomp_shared_heaps.c:
+/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h:
+src/tomp_dsp_heap_api.h:
+./omp.h:
+/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/linkage.h:

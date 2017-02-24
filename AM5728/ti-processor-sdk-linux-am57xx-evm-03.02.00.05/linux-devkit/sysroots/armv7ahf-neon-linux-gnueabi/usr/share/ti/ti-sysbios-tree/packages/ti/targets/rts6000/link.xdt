@@ -1,0 +1,17 @@
+%%{
+/*
+ *  Copyright 2016 by Texas Instruments Incorporated.
+ *
+ */
+
+%%}
+%var xdcExit = Program.build.target.asmName("xdc_runtime_System_exit__E");
+%var cExit = Program.build.target.asmName("exit");
+--symbol_map `xdcExit`=`cExit`
+%%{
+/*
+ * @(#) ti.targets.rts6000; 1, 0, 0,0; 8-18-2016 16:20:14; /db/ztree/library/trees/xdctargets/xdctargets-l06/src/ xlibrary
+
+ */
+
+%%}

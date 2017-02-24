@@ -1,0 +1,12 @@
+Package: python-py
+Version: 1.4.31-r0.0
+Description: Library with cross-python path, ini-parsing, io, code, log facilities
+ Library with cross-python path, ini-parsing, io, code, log facilities.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-py
+Depends: python-core
+Source: https://files.pythonhosted.org/packages/source/p/py/py-1.4.31.tar.gz

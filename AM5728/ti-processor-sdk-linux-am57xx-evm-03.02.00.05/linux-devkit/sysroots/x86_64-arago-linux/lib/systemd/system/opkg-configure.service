@@ -1,0 +1,17 @@
+[Unit]
+Description=Opkg first boot configure
+DefaultDependencies=no
+After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+Before=sysinit.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/home/kwrg/gproj/RCBattleShip/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/etc/default/postinst
+ExecStart=-/home/kwrg/gproj/RCBattleShip/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/bin/sh -c " if [ $POSTINST_LOGGING = '1' ]; then /home/kwrg/gproj/RCBattleShip/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/bin/opkg configure > $LOGFILE 2>&1; else /home/kwrg/gproj/RCBattleShip/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/bin/opkg configure; fi"
+ExecStartPost=/home/kwrg/gproj/RCBattleShip/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/bin/systemctl disable opkg-configure.service
+StandardOutput=syslog
+RemainAfterExit=No
+
+[Install]
+WantedBy=basic.target
+WantedBy=sysinit.target

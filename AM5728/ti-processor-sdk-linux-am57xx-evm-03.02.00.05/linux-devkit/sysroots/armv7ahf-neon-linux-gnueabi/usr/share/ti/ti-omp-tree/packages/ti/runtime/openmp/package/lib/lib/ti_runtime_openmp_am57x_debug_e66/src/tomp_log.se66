@@ -1,0 +1,528 @@
+;******************************************************************************
+;* G3 TMS320C6x C/C++ Codegen                                     Unix v8.1.0 *
+;* Date/Time created: Wed Dec 14 21:07:14 2016                                *
+;******************************************************************************
+	.compiler_opts --abi=eabi --array_alignment=8 --endian=little --hll_source=on --long_precision_bits=32 --mem_model:code=near --mem_model:const=data --mem_model:data=far --object_format=elf --silicon_version=6600 --symdebug:dwarf --symdebug:dwarf_version=3 
+
+;******************************************************************************
+;* GLOBAL FILE PARAMETERS                                                     *
+;*                                                                            *
+;*   Architecture      : TMS320C66xx                                          *
+;*   Optimization      : Enabled at level 0                                   *
+;*   Optimizing for    : Compile time, Ease of Development                    *
+;*                       Based on options: -o0, no -ms                        *
+;*   Endian            : Little                                               *
+;*   Interrupt Thrshld : Disabled                                             *
+;*   Data Access Model : Far                                                  *
+;*   Pipelining        : Disabled                                             *
+;*   Memory Aliases    : Presume are aliases (pessimistic)                    *
+;*   Debug Info        : DWARF Debug                                          *
+;*                                                                            *
+;******************************************************************************
+
+	.asg	A15, FP
+	.asg	B14, DP
+	.asg	B15, SP
+	.global	$bss
+
+
+$C$DW$CU	.dwtag  DW_TAG_compile_unit
+	.dwattr $C$DW$CU, DW_AT_name("src/tomp_log.c")
+	.dwattr $C$DW$CU, DW_AT_producer("TI G3 TMS320C6x C/C++ Codegen Unix v8.1.0 Copyright (c) 1996-2015 Texas Instruments Incorporated")
+	.dwattr $C$DW$CU, DW_AT_TI_version(0x01)
+	.dwattr $C$DW$CU, DW_AT_comp_dir("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/work/am57xx_evm-linux-gnueabi/openmp-rtos/2_05_00_00-r0.tisdk0/git/src/ti/runtime/openmp")
+	.global	tomp_ErrorString
+	.sect	".fardata:tomp_ErrorString", RW
+	.clink
+	.align	8
+	.elfsym	tomp_ErrorString,SYM_SIZE(28)
+tomp_ErrorString:
+	.bits	$C$SL1,32		; tomp_ErrorString[0] @ 0
+	.bits	$C$SL2,32		; tomp_ErrorString[1] @ 32
+	.bits	$C$SL3,32		; tomp_ErrorString[2] @ 64
+	.bits	$C$SL4,32		; tomp_ErrorString[3] @ 96
+	.bits	$C$SL5,32		; tomp_ErrorString[4] @ 128
+	.bits	$C$SL6,32		; tomp_ErrorString[5] @ 160
+	.bits	$C$SL7,32		; tomp_ErrorString[6] @ 192
+
+$C$DW$1	.dwtag  DW_TAG_variable
+	.dwattr $C$DW$1, DW_AT_name("tomp_ErrorString")
+	.dwattr $C$DW$1, DW_AT_TI_symbol_name("tomp_ErrorString")
+	.dwattr $C$DW$1, DW_AT_location[DW_OP_addr tomp_ErrorString]
+	.dwattr $C$DW$1, DW_AT_type(*$C$DW$T$44)
+	.dwattr $C$DW$1, DW_AT_external
+	.dwattr $C$DW$1, DW_AT_decl_file("src/tomp_log.c")
+	.dwattr $C$DW$1, DW_AT_decl_line(0x26)
+	.dwattr $C$DW$1, DW_AT_decl_column(0x0d)
+
+;	/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/bin/opt6x /tmp/207545XGzEF /tmp/20754s6Ky7e 
+;******************************************************************************
+;* STRINGS                                                                    *
+;******************************************************************************
+	.sect	".const:.string"
+$C$SL1:	.string	"Alloc Failed",0
+$C$SL2:	.string	"Alloc size exceeds block",0
+$C$SL3:	.string	"Unexpected NULL pointer",0
+$C$SL4:	.string	"OpenEM initialization failed",0
+$C$SL5:	.string	"OpenMP initialization failed",0
+$C$SL6:	.string	"QMSS queue operation failed",0
+$C$SL7:	.string	"Software queue operation failed",0
+
+;******************************************************************************
+;* BUILD ATTRIBUTES                                                           *
+;******************************************************************************
+	.battr "TI", Tag_File, 1, Tag_Long_Precision_Bits(2)
+	.battr "TI", Tag_File, 1, Tag_Bitfield_layout(2)
+	.battr "TI", Tag_File, 1, Tag_ABI_enum_size(2)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_wchar_t(1)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_array_object_alignment(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_array_object_align_expected(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_PIC(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_PID(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_DSBT(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_stack_align_needed(0)
+	.battr "c6xabi", Tag_File, 1, Tag_ABI_stack_align_preserved(0)
+	.battr "TI", Tag_File, 1, Tag_Tramps_Use_SOC(1)
+
+;******************************************************************************
+;* TYPE INFORMATION                                                           *
+;******************************************************************************
+
+$C$DW$T$24	.dwtag  DW_TAG_enumeration_type
+	.dwattr $C$DW$T$24, DW_AT_byte_size(0x04)
+$C$DW$2	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$2, DW_AT_name("tomp_ErrorKind_EM_ALLOC")
+	.dwattr $C$DW$2, DW_AT_const_value(0x00)
+	.dwattr $C$DW$2, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$2, DW_AT_decl_line(0x31)
+	.dwattr $C$DW$2, DW_AT_decl_column(0x10)
+
+$C$DW$3	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$3, DW_AT_name("tomp_ErrorKind_EM_ALLOC_SIZE")
+	.dwattr $C$DW$3, DW_AT_const_value(0x01)
+	.dwattr $C$DW$3, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$3, DW_AT_decl_line(0x32)
+	.dwattr $C$DW$3, DW_AT_decl_column(0x10)
+
+$C$DW$4	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$4, DW_AT_name("tomp_ErrorKind_NULL_PTR")
+	.dwattr $C$DW$4, DW_AT_const_value(0x02)
+	.dwattr $C$DW$4, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$4, DW_AT_decl_line(0x33)
+	.dwattr $C$DW$4, DW_AT_decl_column(0x10)
+
+$C$DW$5	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$5, DW_AT_name("tomp_ErrorKind_OEM_INIT")
+	.dwattr $C$DW$5, DW_AT_const_value(0x03)
+	.dwattr $C$DW$5, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$5, DW_AT_decl_line(0x34)
+	.dwattr $C$DW$5, DW_AT_decl_column(0x10)
+
+$C$DW$6	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$6, DW_AT_name("tomp_ErrorKind_OMP_INIT")
+	.dwattr $C$DW$6, DW_AT_const_value(0x04)
+	.dwattr $C$DW$6, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$6, DW_AT_decl_line(0x35)
+	.dwattr $C$DW$6, DW_AT_decl_column(0x10)
+
+$C$DW$7	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$7, DW_AT_name("tomp_ErrorKind_QMSS")
+	.dwattr $C$DW$7, DW_AT_const_value(0x05)
+	.dwattr $C$DW$7, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$7, DW_AT_decl_line(0x36)
+	.dwattr $C$DW$7, DW_AT_decl_column(0x10)
+
+$C$DW$8	.dwtag  DW_TAG_enumerator
+	.dwattr $C$DW$8, DW_AT_name("tomp_ErrorKind_QUEUE")
+	.dwattr $C$DW$8, DW_AT_const_value(0x06)
+	.dwattr $C$DW$8, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$8, DW_AT_decl_line(0x37)
+	.dwattr $C$DW$8, DW_AT_decl_column(0x10)
+
+	.dwattr $C$DW$T$24, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$T$24, DW_AT_decl_line(0x31)
+	.dwattr $C$DW$T$24, DW_AT_decl_column(0x0e)
+	.dwendtag $C$DW$T$24
+
+$C$DW$T$25	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$25, DW_AT_name("tomp_ErrorKind_e")
+	.dwattr $C$DW$T$25, DW_AT_type(*$C$DW$T$24)
+	.dwattr $C$DW$T$25, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$25, DW_AT_decl_file("src/tomp_log.h")
+	.dwattr $C$DW$T$25, DW_AT_decl_line(0x38)
+	.dwattr $C$DW$T$25, DW_AT_decl_column(0x03)
+
+
+$C$DW$T$20	.dwtag  DW_TAG_structure_type
+	.dwattr $C$DW$T$20, DW_AT_byte_size(0x18)
+$C$DW$9	.dwtag  DW_TAG_member
+	.dwattr $C$DW$9, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$9, DW_AT_name("fd")
+	.dwattr $C$DW$9, DW_AT_TI_symbol_name("fd")
+	.dwattr $C$DW$9, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+	.dwattr $C$DW$9, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$9, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$9, DW_AT_decl_line(0x49)
+	.dwattr $C$DW$9, DW_AT_decl_column(0x0b)
+
+$C$DW$10	.dwtag  DW_TAG_member
+	.dwattr $C$DW$10, DW_AT_type(*$C$DW$T$19)
+	.dwattr $C$DW$10, DW_AT_name("buf")
+	.dwattr $C$DW$10, DW_AT_TI_symbol_name("buf")
+	.dwattr $C$DW$10, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+	.dwattr $C$DW$10, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$10, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$10, DW_AT_decl_line(0x4a)
+	.dwattr $C$DW$10, DW_AT_decl_column(0x16)
+
+$C$DW$11	.dwtag  DW_TAG_member
+	.dwattr $C$DW$11, DW_AT_type(*$C$DW$T$19)
+	.dwattr $C$DW$11, DW_AT_name("pos")
+	.dwattr $C$DW$11, DW_AT_TI_symbol_name("pos")
+	.dwattr $C$DW$11, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
+	.dwattr $C$DW$11, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$11, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$11, DW_AT_decl_line(0x4b)
+	.dwattr $C$DW$11, DW_AT_decl_column(0x16)
+
+$C$DW$12	.dwtag  DW_TAG_member
+	.dwattr $C$DW$12, DW_AT_type(*$C$DW$T$19)
+	.dwattr $C$DW$12, DW_AT_name("bufend")
+	.dwattr $C$DW$12, DW_AT_TI_symbol_name("bufend")
+	.dwattr $C$DW$12, DW_AT_data_member_location[DW_OP_plus_uconst 0xc]
+	.dwattr $C$DW$12, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$12, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$12, DW_AT_decl_line(0x4c)
+	.dwattr $C$DW$12, DW_AT_decl_column(0x16)
+
+$C$DW$13	.dwtag  DW_TAG_member
+	.dwattr $C$DW$13, DW_AT_type(*$C$DW$T$19)
+	.dwattr $C$DW$13, DW_AT_name("buff_stop")
+	.dwattr $C$DW$13, DW_AT_TI_symbol_name("buff_stop")
+	.dwattr $C$DW$13, DW_AT_data_member_location[DW_OP_plus_uconst 0x10]
+	.dwattr $C$DW$13, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$13, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$13, DW_AT_decl_line(0x4d)
+	.dwattr $C$DW$13, DW_AT_decl_column(0x16)
+
+$C$DW$14	.dwtag  DW_TAG_member
+	.dwattr $C$DW$14, DW_AT_type(*$C$DW$T$11)
+	.dwattr $C$DW$14, DW_AT_name("flags")
+	.dwattr $C$DW$14, DW_AT_TI_symbol_name("flags")
+	.dwattr $C$DW$14, DW_AT_data_member_location[DW_OP_plus_uconst 0x14]
+	.dwattr $C$DW$14, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$14, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$14, DW_AT_decl_line(0x4e)
+	.dwattr $C$DW$14, DW_AT_decl_column(0x16)
+
+	.dwattr $C$DW$T$20, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$T$20, DW_AT_decl_line(0x48)
+	.dwattr $C$DW$T$20, DW_AT_decl_column(0x10)
+	.dwendtag $C$DW$T$20
+
+$C$DW$T$26	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$26, DW_AT_name("FILE")
+	.dwattr $C$DW$T$26, DW_AT_type(*$C$DW$T$20)
+	.dwattr $C$DW$T$26, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$26, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$T$26, DW_AT_decl_line(0x4f)
+	.dwattr $C$DW$T$26, DW_AT_decl_column(0x03)
+
+
+$C$DW$T$21	.dwtag  DW_TAG_structure_type
+	.dwattr $C$DW$T$21, DW_AT_byte_size(0x08)
+$C$DW$15	.dwtag  DW_TAG_member
+	.dwattr $C$DW$15, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$15, DW_AT_name("quot")
+	.dwattr $C$DW$15, DW_AT_TI_symbol_name("quot")
+	.dwattr $C$DW$15, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+	.dwattr $C$DW$15, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$15, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$15, DW_AT_decl_line(0x49)
+	.dwattr $C$DW$15, DW_AT_decl_column(0x16)
+
+$C$DW$16	.dwtag  DW_TAG_member
+	.dwattr $C$DW$16, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$16, DW_AT_name("rem")
+	.dwattr $C$DW$16, DW_AT_TI_symbol_name("rem")
+	.dwattr $C$DW$16, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+	.dwattr $C$DW$16, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$16, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$16, DW_AT_decl_line(0x49)
+	.dwattr $C$DW$16, DW_AT_decl_column(0x1c)
+
+	.dwattr $C$DW$T$21, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$21, DW_AT_decl_line(0x49)
+	.dwattr $C$DW$T$21, DW_AT_decl_column(0x10)
+	.dwendtag $C$DW$T$21
+
+$C$DW$T$27	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$27, DW_AT_name("div_t")
+	.dwattr $C$DW$T$27, DW_AT_type(*$C$DW$T$21)
+	.dwattr $C$DW$T$27, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$27, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$27, DW_AT_decl_line(0x49)
+	.dwattr $C$DW$T$27, DW_AT_decl_column(0x23)
+
+
+$C$DW$T$22	.dwtag  DW_TAG_structure_type
+	.dwattr $C$DW$T$22, DW_AT_byte_size(0x08)
+$C$DW$17	.dwtag  DW_TAG_member
+	.dwattr $C$DW$17, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$17, DW_AT_name("quot")
+	.dwattr $C$DW$17, DW_AT_TI_symbol_name("quot")
+	.dwattr $C$DW$17, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+	.dwattr $C$DW$17, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$17, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$17, DW_AT_decl_line(0x4b)
+	.dwattr $C$DW$17, DW_AT_decl_column(0x17)
+
+$C$DW$18	.dwtag  DW_TAG_member
+	.dwattr $C$DW$18, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$18, DW_AT_name("rem")
+	.dwattr $C$DW$18, DW_AT_TI_symbol_name("rem")
+	.dwattr $C$DW$18, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
+	.dwattr $C$DW$18, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$18, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$18, DW_AT_decl_line(0x4b)
+	.dwattr $C$DW$18, DW_AT_decl_column(0x1d)
+
+	.dwattr $C$DW$T$22, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$22, DW_AT_decl_line(0x4b)
+	.dwattr $C$DW$T$22, DW_AT_decl_column(0x10)
+	.dwendtag $C$DW$T$22
+
+$C$DW$T$28	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$28, DW_AT_name("ldiv_t")
+	.dwattr $C$DW$T$28, DW_AT_type(*$C$DW$T$22)
+	.dwattr $C$DW$T$28, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$28, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$28, DW_AT_decl_line(0x4b)
+	.dwattr $C$DW$T$28, DW_AT_decl_column(0x24)
+
+
+$C$DW$T$23	.dwtag  DW_TAG_structure_type
+	.dwattr $C$DW$T$23, DW_AT_byte_size(0x10)
+$C$DW$19	.dwtag  DW_TAG_member
+	.dwattr $C$DW$19, DW_AT_type(*$C$DW$T$14)
+	.dwattr $C$DW$19, DW_AT_name("quot")
+	.dwattr $C$DW$19, DW_AT_TI_symbol_name("quot")
+	.dwattr $C$DW$19, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
+	.dwattr $C$DW$19, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$19, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$19, DW_AT_decl_line(0x4e)
+	.dwattr $C$DW$19, DW_AT_decl_column(0x1c)
+
+$C$DW$20	.dwtag  DW_TAG_member
+	.dwattr $C$DW$20, DW_AT_type(*$C$DW$T$14)
+	.dwattr $C$DW$20, DW_AT_name("rem")
+	.dwattr $C$DW$20, DW_AT_TI_symbol_name("rem")
+	.dwattr $C$DW$20, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
+	.dwattr $C$DW$20, DW_AT_accessibility(DW_ACCESS_public)
+	.dwattr $C$DW$20, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$20, DW_AT_decl_line(0x4e)
+	.dwattr $C$DW$20, DW_AT_decl_column(0x22)
+
+	.dwattr $C$DW$T$23, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$23, DW_AT_decl_line(0x4e)
+	.dwattr $C$DW$T$23, DW_AT_decl_column(0x10)
+	.dwendtag $C$DW$T$23
+
+$C$DW$T$29	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$29, DW_AT_name("lldiv_t")
+	.dwattr $C$DW$T$29, DW_AT_type(*$C$DW$T$23)
+	.dwattr $C$DW$T$29, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$29, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$29, DW_AT_decl_line(0x4e)
+	.dwattr $C$DW$T$29, DW_AT_decl_column(0x29)
+
+$C$DW$T$2	.dwtag  DW_TAG_unspecified_type
+	.dwattr $C$DW$T$2, DW_AT_name("void")
+
+
+$C$DW$T$30	.dwtag  DW_TAG_subroutine_type
+	.dwattr $C$DW$T$30, DW_AT_language(DW_LANG_C)
+	.dwendtag $C$DW$T$30
+
+$C$DW$T$31	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$31, DW_AT_type(*$C$DW$T$30)
+	.dwattr $C$DW$T$31, DW_AT_address_class(0x20)
+
+$C$DW$T$32	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$32, DW_AT_name("__TI_atexit_fn")
+	.dwattr $C$DW$T$32, DW_AT_type(*$C$DW$T$31)
+	.dwattr $C$DW$T$32, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$32, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$32, DW_AT_decl_line(0xa1)
+	.dwattr $C$DW$T$32, DW_AT_decl_column(0x14)
+
+$C$DW$T$33	.dwtag  DW_TAG_const_type
+	.dwattr $C$DW$T$33, DW_AT_type(*$C$DW$T$2)
+
+$C$DW$T$34	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$34, DW_AT_type(*$C$DW$T$33)
+	.dwattr $C$DW$T$34, DW_AT_address_class(0x20)
+
+$C$DW$T$4	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$4, DW_AT_encoding(DW_ATE_boolean)
+	.dwattr $C$DW$T$4, DW_AT_name("bool")
+	.dwattr $C$DW$T$4, DW_AT_byte_size(0x01)
+
+$C$DW$T$5	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$5, DW_AT_encoding(DW_ATE_signed_char)
+	.dwattr $C$DW$T$5, DW_AT_name("signed char")
+	.dwattr $C$DW$T$5, DW_AT_byte_size(0x01)
+
+$C$DW$T$6	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$6, DW_AT_encoding(DW_ATE_unsigned_char)
+	.dwattr $C$DW$T$6, DW_AT_name("unsigned char")
+	.dwattr $C$DW$T$6, DW_AT_byte_size(0x01)
+
+$C$DW$T$19	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$19, DW_AT_type(*$C$DW$T$6)
+	.dwattr $C$DW$T$19, DW_AT_address_class(0x20)
+
+$C$DW$T$7	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$7, DW_AT_encoding(DW_ATE_signed_char)
+	.dwattr $C$DW$T$7, DW_AT_name("wchar_t")
+	.dwattr $C$DW$T$7, DW_AT_byte_size(0x02)
+
+$C$DW$T$8	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$8, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$8, DW_AT_name("short")
+	.dwattr $C$DW$T$8, DW_AT_byte_size(0x02)
+
+$C$DW$T$9	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$9, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$9, DW_AT_name("unsigned short")
+	.dwattr $C$DW$T$9, DW_AT_byte_size(0x02)
+
+$C$DW$T$35	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$35, DW_AT_name("wchar_t")
+	.dwattr $C$DW$T$35, DW_AT_type(*$C$DW$T$9)
+	.dwattr $C$DW$T$35, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$35, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$35, DW_AT_decl_line(0x60)
+	.dwattr $C$DW$T$35, DW_AT_decl_column(0x1a)
+
+$C$DW$T$10	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$10, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$10, DW_AT_name("int")
+	.dwattr $C$DW$T$10, DW_AT_byte_size(0x04)
+
+
+$C$DW$T$36	.dwtag  DW_TAG_subroutine_type
+	.dwattr $C$DW$T$36, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$T$36, DW_AT_language(DW_LANG_C)
+$C$DW$21	.dwtag  DW_TAG_formal_parameter
+	.dwattr $C$DW$21, DW_AT_type(*$C$DW$T$34)
+
+$C$DW$22	.dwtag  DW_TAG_formal_parameter
+	.dwattr $C$DW$22, DW_AT_type(*$C$DW$T$34)
+
+	.dwendtag $C$DW$T$36
+
+$C$DW$T$37	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$37, DW_AT_type(*$C$DW$T$36)
+	.dwattr $C$DW$T$37, DW_AT_address_class(0x20)
+
+$C$DW$T$38	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$38, DW_AT_name("__TI_compar_fn")
+	.dwattr $C$DW$T$38, DW_AT_type(*$C$DW$T$37)
+	.dwattr $C$DW$T$38, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$38, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdlib.h")
+	.dwattr $C$DW$T$38, DW_AT_decl_line(0xa4)
+	.dwattr $C$DW$T$38, DW_AT_decl_column(0x13)
+
+$C$DW$T$39	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$39, DW_AT_name("fpos_t")
+	.dwattr $C$DW$T$39, DW_AT_type(*$C$DW$T$10)
+	.dwattr $C$DW$T$39, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$39, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$T$39, DW_AT_decl_line(0x53)
+	.dwattr $C$DW$T$39, DW_AT_decl_column(0x0d)
+
+$C$DW$T$11	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$11, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$11, DW_AT_name("unsigned int")
+	.dwattr $C$DW$T$11, DW_AT_byte_size(0x04)
+
+$C$DW$T$40	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$40, DW_AT_name("size_t")
+	.dwattr $C$DW$T$40, DW_AT_type(*$C$DW$T$11)
+	.dwattr $C$DW$T$40, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$40, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdio.h")
+	.dwattr $C$DW$T$40, DW_AT_decl_line(0x45)
+	.dwattr $C$DW$T$40, DW_AT_decl_column(0x19)
+
+$C$DW$T$12	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$12, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$12, DW_AT_name("__int40_t")
+	.dwattr $C$DW$T$12, DW_AT_byte_size(0x08)
+	.dwattr $C$DW$T$12, DW_AT_bit_size(0x28)
+	.dwattr $C$DW$T$12, DW_AT_bit_offset(0x18)
+
+$C$DW$T$13	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$13, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$13, DW_AT_name("unsigned __int40_t")
+	.dwattr $C$DW$T$13, DW_AT_byte_size(0x08)
+	.dwattr $C$DW$T$13, DW_AT_bit_size(0x28)
+	.dwattr $C$DW$T$13, DW_AT_bit_offset(0x18)
+
+$C$DW$T$14	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$14, DW_AT_encoding(DW_ATE_signed)
+	.dwattr $C$DW$T$14, DW_AT_name("long long")
+	.dwattr $C$DW$T$14, DW_AT_byte_size(0x08)
+
+$C$DW$T$15	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$15, DW_AT_encoding(DW_ATE_unsigned)
+	.dwattr $C$DW$T$15, DW_AT_name("unsigned long long")
+	.dwattr $C$DW$T$15, DW_AT_byte_size(0x08)
+
+$C$DW$T$16	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$16, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$16, DW_AT_name("float")
+	.dwattr $C$DW$T$16, DW_AT_byte_size(0x04)
+
+$C$DW$T$17	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$17, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$17, DW_AT_name("double")
+	.dwattr $C$DW$T$17, DW_AT_byte_size(0x08)
+
+$C$DW$T$18	.dwtag  DW_TAG_base_type
+	.dwattr $C$DW$T$18, DW_AT_encoding(DW_ATE_float)
+	.dwattr $C$DW$T$18, DW_AT_name("long double")
+	.dwattr $C$DW$T$18, DW_AT_byte_size(0x08)
+
+$C$DW$T$42	.dwtag  DW_TAG_const_type
+	.dwattr $C$DW$T$42, DW_AT_type(*$C$DW$T$5)
+
+$C$DW$T$43	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$43, DW_AT_type(*$C$DW$T$42)
+	.dwattr $C$DW$T$43, DW_AT_address_class(0x20)
+
+
+$C$DW$T$44	.dwtag  DW_TAG_array_type
+	.dwattr $C$DW$T$44, DW_AT_type(*$C$DW$T$43)
+	.dwattr $C$DW$T$44, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$44, DW_AT_byte_size(0x1c)
+$C$DW$23	.dwtag  DW_TAG_subrange_type
+	.dwattr $C$DW$23, DW_AT_upper_bound(0x06)
+
+	.dwendtag $C$DW$T$44
+
+$C$DW$T$57	.dwtag  DW_TAG_pointer_type
+	.dwattr $C$DW$T$57, DW_AT_type(*$C$DW$T$5)
+	.dwattr $C$DW$T$57, DW_AT_address_class(0x20)
+
+$C$DW$T$58	.dwtag  DW_TAG_typedef
+	.dwattr $C$DW$T$58, DW_AT_name("va_list")
+	.dwattr $C$DW$T$58, DW_AT_type(*$C$DW$T$57)
+	.dwattr $C$DW$T$58, DW_AT_language(DW_LANG_C)
+	.dwattr $C$DW$T$58, DW_AT_decl_file("/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/cgt-c6x/include/stdarg.h")
+	.dwattr $C$DW$T$58, DW_AT_decl_line(0x37)
+	.dwattr $C$DW$T$58, DW_AT_decl_column(0x13)
+
+	.dwattr $C$DW$CU, DW_AT_language(DW_LANG_C)
+	.dwendtag $C$DW$CU
+

@@ -1,0 +1,13 @@
+Package: libulm-staticdev
+Version: 1.4.0-r0.0.0
+Description: libulm version 1.4.0-r0.0 - Development files (Static Libraries)
+ TI dsptop utility.  This package contains static libraries for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: am57xx_evm
+OE: libulm
+Depends: libulm-dev (= 1.4.0-r0.0.0)
+Source: git://git.ti.com/sdo-emu/dsptop.git;protocol=git;branch=master

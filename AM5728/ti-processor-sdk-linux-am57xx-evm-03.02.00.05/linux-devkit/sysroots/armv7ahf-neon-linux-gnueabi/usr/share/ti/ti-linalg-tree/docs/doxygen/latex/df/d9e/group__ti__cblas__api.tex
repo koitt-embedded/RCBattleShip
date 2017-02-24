@@ -1,0 +1,193 @@
+\hypertarget{group__ti__cblas__api}{}\section{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}
+\label{group__ti__cblas__api}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+
+
+This extension contains the initialization and finalization A\+P\+Is for proper usage of C\+B\+L\+A\+S optimized for T\+I\textquotesingle{}s C66x D\+S\+P.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes} (size\+\_\+t $\ast$smem\+\_\+size\+\_\+vfast, size\+\_\+t $\ast$smem\+\_\+size\+\_\+fast, size\+\_\+t $\ast$smem\+\_\+size\+\_\+medium, size\+\_\+t $\ast$smem\+\_\+size\+\_\+slow)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes()} returns the required size of each of the memory types defined by the Library Architecture and Framework (Lib\+Arch). \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New} (void)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()} creates and initializes global structures for C\+B\+L\+A\+S. \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init} (void $\ast$smem\+\_\+vfast\+\_\+base, size\+\_\+t smem\+\_\+vfast\+\_\+size, void $\ast$smem\+\_\+fast\+\_\+base, size\+\_\+t smem\+\_\+fast\+\_\+size, void $\ast$smem\+\_\+medium\+\_\+base, size\+\_\+t smem\+\_\+medium\+\_\+size, void $\ast$smem\+\_\+slow\+\_\+base, size\+\_\+t smem\+\_\+slow\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init()} performs heap initialization for T\+I C\+B\+L\+A\+S to do dynamic memory allocations. \end{DoxyCompactList}\item 
+int \hyperlink{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{ti\+Cblas\+Delete} (void)
+\begin{DoxyCompactList}\small\item\em Function \hyperlink{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{ti\+Cblas\+Delete()} deletes global structures and frees memory of C\+B\+L\+A\+S created by \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Error Return Codes}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__ti__cblas__api_gabbd7dc8ae77dcac7a2268d82e3dc8217}{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}~(0)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga0b3f999394ff0a0849cabdca426f635f}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M}~(1)
+\item 
+\#define \hyperlink{group__ti__cblas__api_gac7a02b1d568f876ce4041eb2d413d9f4}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C}~(2)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga1b2a55923ea5a65f606ae34f566d6d2b}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W}~(3)
+\item 
+\#define \hyperlink{group__ti__cblas__api_ga31614d76b120aa2066518325cf372ede}{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E}~(4)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This extension contains the initialization and finalization A\+P\+Is for proper usage of C\+B\+L\+A\+S optimized for T\+I\textquotesingle{}s C66x D\+S\+P. 
+
+
+\begin{DoxyItemize}
+\item for A\+R\+M+\+D\+S\+P applications with C\+B\+L\+A\+S A\+P\+I on A\+R\+M (host), users do not need to use this extension.
+\item for D\+S\+P-\/only applications, uers will need to use this extension to set up before making standard C\+B\+L\+A\+S calls in their programs running on the D\+S\+P, and to tear down before the program exits. 
+\end{DoxyItemize}
+
+\subsection{Macro Definition Documentation}
+\hypertarget{group__ti__cblas__api_ga31614d76b120aa2066518325cf372ede}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E}}
+\index{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E~(4)}\label{group__ti__cblas__api_ga31614d76b120aa2066518325cf372ede}
+Failure. C\+B\+L\+A\+S deletion error. \hypertarget{group__ti__cblas__api_gac7a02b1d568f876ce4041eb2d413d9f4}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C}}
+\index{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C~(2)}\label{group__ti__cblas__api_gac7a02b1d568f876ce4041eb2d413d9f4}
+Failure. Memory allocation error. \hypertarget{group__ti__cblas__api_ga1b2a55923ea5a65f606ae34f566d6d2b}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W}}
+\index{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W~(3)}\label{group__ti__cblas__api_ga1b2a55923ea5a65f606ae34f566d6d2b}
+Failure. C\+B\+L\+A\+S creation error. \hypertarget{group__ti__cblas__api_ga0b3f999394ff0a0849cabdca426f635f}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M}}
+\index{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M@{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M~(1)}\label{group__ti__cblas__api_ga0b3f999394ff0a0849cabdca426f635f}
+Failure. Provided memory is not enough. \hypertarget{group__ti__cblas__api_gabbd7dc8ae77dcac7a2268d82e3dc8217}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S@{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}}
+\index{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S@{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S~(0)}\label{group__ti__cblas__api_gabbd7dc8ae77dcac7a2268d82e3dc8217}
+Success. No error. 
+
+\subsection{Function Documentation}
+\hypertarget{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!ti\+Cblas\+Delete@{ti\+Cblas\+Delete}}
+\index{ti\+Cblas\+Delete@{ti\+Cblas\+Delete}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{ti\+Cblas\+Delete}]{\setlength{\rightskip}{0pt plus 5cm}int ti\+Cblas\+Delete (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}
+
+
+Function \hyperlink{group__ti__cblas__api_gad8c58ccc364daa54766963b708e2faaa}{ti\+Cblas\+Delete()} deletes global structures and frees memory of C\+B\+L\+A\+S created by \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()}. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S} & Success. No error. \\
+\hline
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+E\+L\+E\+T\+E} & Failure. C\+B\+L\+A\+S deletion error. \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!ti\+Cblas\+Get\+Sizes@{ti\+Cblas\+Get\+Sizes}}
+\index{ti\+Cblas\+Get\+Sizes@{ti\+Cblas\+Get\+Sizes}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{ti\+Cblas\+Get\+Sizes}]{\setlength{\rightskip}{0pt plus 5cm}void ti\+Cblas\+Get\+Sizes (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t $\ast$}]{smem\+\_\+size\+\_\+vfast, }
+\item[{size\+\_\+t $\ast$}]{smem\+\_\+size\+\_\+fast, }
+\item[{size\+\_\+t $\ast$}]{smem\+\_\+size\+\_\+medium, }
+\item[{size\+\_\+t $\ast$}]{smem\+\_\+size\+\_\+slow}
+\end{DoxyParamCaption}
+)}\label{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}
+
+
+Function \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes()} returns the required size of each of the memory types defined by the Library Architecture and Framework (Lib\+Arch). 
+
+\begin{DoxyRemark}{Remarks}
+Memory types are categorized into scratch and permanent memory\+:
+\begin{DoxyItemize}
+\item Scratch memory content doesn\textquotesingle{}t need to be stored from call to call;
+\item Permanent memory content must be stored across multiple calls. For example, if an application uses library A and library B, the scratch memory of library A and library B can be shared/overlapped, but permanent memory may not be shared/overlapped.
+\end{DoxyItemize}
+\end{DoxyRemark}
+Scratch and permanent memory are each categorized into four types based on speed\+:
+\begin{DoxyItemize}
+\item very fast memory, e.\+g. L1\+D;
+\item fast memory, e.\+g. L2;
+\item medium speed memory, e.\+g. L3/\+M\+S\+M\+C;
+\item slow memory, e.\+g. D\+D\+R.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em smem\+\_\+size\+\_\+vfast} & size of very fast scratch memory \\
+\hline
+\mbox{\tt out}  & {\em smem\+\_\+size\+\_\+fast} & size of fast scratch memory \\
+\hline
+\mbox{\tt out}  & {\em smem\+\_\+size\+\_\+medium} & size of medium speed scratch memory \\
+\hline
+\mbox{\tt out}  & {\em smem\+\_\+size\+\_\+slow} & size of slow scratch memory \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!ti\+Cblas\+Init@{ti\+Cblas\+Init}}
+\index{ti\+Cblas\+Init@{ti\+Cblas\+Init}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{ti\+Cblas\+Init}]{\setlength{\rightskip}{0pt plus 5cm}int ti\+Cblas\+Init (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{smem\+\_\+vfast\+\_\+base, }
+\item[{size\+\_\+t}]{smem\+\_\+vfast\+\_\+size, }
+\item[{void $\ast$}]{smem\+\_\+fast\+\_\+base, }
+\item[{size\+\_\+t}]{smem\+\_\+fast\+\_\+size, }
+\item[{void $\ast$}]{smem\+\_\+medium\+\_\+base, }
+\item[{size\+\_\+t}]{smem\+\_\+medium\+\_\+size, }
+\item[{void $\ast$}]{smem\+\_\+slow\+\_\+base, }
+\item[{size\+\_\+t}]{smem\+\_\+slow\+\_\+size}
+\end{DoxyParamCaption}
+)}\label{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}
+
+
+Function \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init()} performs heap initialization for T\+I C\+B\+L\+A\+S to do dynamic memory allocations. 
+
+\begin{DoxyRemark}{Remarks}
+Users must allocate memory according to the requirements given by \hyperlink{group__ti__cblas__api_gae0fdf3561c8f8990b12eefaff5963e7e}{ti\+Cblas\+Get\+Sizes()} and pass the bases and sizes to this function.
+
+\hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()} M\+U\+S\+T be called before \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init()} can be called.
+
+The provided memory can be shared with other modules and thus its content do not need to be preserved from call to call. If the memory bases do not change from call to call, this function only needs to be called just once at boot time. However, if it cannot be guaranteed that memory bases stay the same, this function needs to be called every time a level 3 C\+B\+L\+A\+S function is called on D\+S\+P.
+\end{DoxyRemark}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em smem\+\_\+vfast\+\_\+base} & base of very fast scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+vfast\+\_\+size} & size of very fast scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+fast\+\_\+base} & base of fast scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+fast\+\_\+size} & size of fast scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+medium\+\_\+base} & base of medium speed scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+medium\+\_\+size} & size of medium speed scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+slow\+\_\+base} & base of slow scratch memory \\
+\hline
+\mbox{\tt in}  & {\em smem\+\_\+slow\+\_\+size} & size of slow scratch memory\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S} & Success. No error. \\
+\hline
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+O\+M\+E\+M} & Failure. Provided memory is not enough. \\
+\hline
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+M\+E\+M\+A\+L\+L\+O\+C} & Failure. Memory allocation error. \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{}\index{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}!ti\+Cblas\+New@{ti\+Cblas\+New}}
+\index{ti\+Cblas\+New@{ti\+Cblas\+New}!C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P@{C\+B\+L\+A\+S A\+P\+I Extension for T\+I-\/\+D\+S\+P}}
+\subsubsection[{ti\+Cblas\+New}]{\setlength{\rightskip}{0pt plus 5cm}int ti\+Cblas\+New (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}
+
+
+Function \hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()} creates and initializes global structures for C\+B\+L\+A\+S. 
+
+\begin{DoxyRemark}{Remarks}
+\hyperlink{group__ti__cblas__api_gad9c3d0709709d5c3303988e3616fb205}{ti\+Cblas\+New()} M\+U\+S\+T be called before \hyperlink{group__ti__cblas__api_ga4757d903bc3509fd5c328317c9a72dd7}{ti\+Cblas\+Init()}.
+\end{DoxyRemark}
+
+\begin{DoxyRetVals}{Return values}
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S} & Success. No error. \\
+\hline
+{\em T\+I\+C\+B\+L\+A\+S\+\_\+\+E\+R\+R\+O\+R\+\_\+\+N\+E\+W} & Failure. C\+B\+L\+A\+S creation error. \\
+\hline
+\end{DoxyRetVals}

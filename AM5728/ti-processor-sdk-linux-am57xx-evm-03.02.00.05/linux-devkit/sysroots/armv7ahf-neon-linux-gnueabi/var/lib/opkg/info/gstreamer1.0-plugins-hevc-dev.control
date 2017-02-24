@@ -1,0 +1,16 @@
+Package: gstreamer1.0-plugins-hevc-dev
+Version: git-r5.0
+Description: gstreamer1.0-plugins-hevc version git-r5 - Development files
+ GStreamer plugin for ARM HEVC decoder  This package contains symbolic
+ links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-hevc
+Homepage: https://git.ti.com/processor-sdk/gst-plugin-hevc
+Depends: gstreamer1.0-plugins-hevc (= git-r5.0)
+Recommends: hevc-arm-decoder-dev, libglib-2.0-dev, libpcre-dev, libffi-dev, libc6-dev, libgstvideo-1.0-dev, gstreamer1.0-dev, liborc-0.4-dev, gstreamer1.0-plugins-base-dev
+Source: git://git.ti.com/processor-sdk/gst-plugin-hevc.git;protocol=git

@@ -1,0 +1,14 @@
+/usr/lib/qt5/mkspecs/modules/qt_lib_3drender.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3drender_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquick_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquickrender_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dcore_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dlogic_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquickinput.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dinput.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dinput_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dlogic.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquick.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquickinput_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dquickrender.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_3dcore.pri

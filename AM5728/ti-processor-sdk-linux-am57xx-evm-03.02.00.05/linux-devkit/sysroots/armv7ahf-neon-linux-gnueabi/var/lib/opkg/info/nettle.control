@@ -1,0 +1,13 @@
+Package: nettle
+Version: 3.2-r0.0
+Description: A low level cryptographic library
+ A low level cryptographic library.
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv3+ | GPLv2+
+Architecture: armv7ahf-neon
+OE: nettle
+Homepage: http://www.lysator.liu.se/~nisse/nettle/
+Depends: libgmp10 (>= 6.1.0), libc6 (>= 2.21)
+Source: http://www.lysator.liu.se/~nisse/archive/nettle-3.2.tar.gz file://Add-target-to-only-build-tests-not-run-them.patch file://run-ptest

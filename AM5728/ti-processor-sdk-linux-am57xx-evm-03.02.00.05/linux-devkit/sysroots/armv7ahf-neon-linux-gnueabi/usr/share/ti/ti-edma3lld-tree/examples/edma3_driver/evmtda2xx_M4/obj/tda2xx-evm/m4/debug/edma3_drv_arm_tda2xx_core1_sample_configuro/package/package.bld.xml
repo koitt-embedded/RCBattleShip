@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="edma3_drv_arm_tda2xx_core1_sample_configuro" version="" producerId="undefined">
+    <units>
+    </units>
+    <sources>
+        <srcFile name="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.c"/>
+    </sources>
+    <configscripts>
+        <srcFile name="/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/work/am57xx_evm-linux-gnueabi/edma3-lld-rtos/2.12.02.26-r0.0/git/examples/edma3_driver/evmtda2xx_M4/rtsc_config/edma3_drv_bios6_tda2xx_m4_c1_st_sample.cfg"/>
+    </configscripts>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.mak" src="package.bld"/>
+        <srcFile name="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.oem4.dep" src="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.c"/>
+        <srcFile name="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.dep" src="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.cfg"/>
+        <srcFile name="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample.xem4.mak" src="package.bld"/>
+        <srcFile name="package/rel/edma3_drv_arm_tda2xx_core1_sample_configuro.tar.dep" src="package/rel/edma3_drv_arm_tda2xx_core1_sample_configuro.xdc.inc"/>
+    </makefiles>
+    <targets>
+        <target name="ti.targets.arm.elf.M4"
+            version="ti.targets.arm.elf.M4{1,0,15.12,1"
+            rawVersion="15.12.1"
+            platform="ti.platforms.tiva:TM4C1294NCPDT:1"
+            isa="v7M4"
+            suffix="em4"
+            rootDir="/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm"
+            os="undefined"
+            rts="ti.targets.arm.rtsarm">
+            <model endian="little"
+                codeModel="thumb2"
+                dataModel="undefined"/>
+        </target>
+    </targets>
+    <libraries>
+    </libraries>
+    <configurations>
+    <configuration name="edma3_drv_bios6_tda2xx_m4_c1_st_sample"
+        pname="edma3_drv_bios6_tda2xx_m4_c1_st_sample.pem4"
+        target="ti.targets.arm.elf.M4"
+        platform="ti.platforms.evmDRA7XX:IPU_1_1"
+        profile="debug"
+        isPartial="false"
+        xCfgScript="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.cfg"
+        xCfgPrefix="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4"
+        cfgScript="/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/work/am57xx_evm-linux-gnueabi/edma3-lld-rtos/2.12.02.26-r0.0/git/examples/edma3_driver/evmtda2xx_M4/rtsc_config/edma3_drv_bios6_tda2xx_m4_c1_st_sample.cfg"
+        cfgArgs="null"
+        />
+    </configurations>
+    <executables>
+    <executable name="edma3_drv_bios6_tda2xx_m4_c1_st_sample"
+        pname="edma3_drv_bios6_tda2xx_m4_c1_st_sample.xem4"
+        target="ti.targets.arm.elf.M4"
+        platform="ti.platforms.evmDRA7XX:IPU_1_1"
+        profile="debug"
+        xCfgScript="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4.cfg"
+        xCfgPrefix="package/cfg/edma3_drv_bios6_tda2xx_m4_c1_st_sample_pem4"
+        cfgScript="/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/work/am57xx_evm-linux-gnueabi/edma3-lld-rtos/2.12.02.26-r0.0/git/examples/edma3_driver/evmtda2xx_M4/rtsc_config/edma3_drv_bios6_tda2xx_m4_c1_st_sample.cfg"
+        cfgArgs="null"
+        />
+    </executables>
+    <tests>
+    <test exeName="edma3_drv_bios6_tda2xx_m4_c1_st_sample.xem4"
+        args=""
+        groupName="edma3_drv_bios6_tda2xx_m4_c1_st_sample.xem4"
+        refOutput="undefined"
+        refExitCode="0"
+        execArgs=""
+        />
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="edma3_drv_arm_tda2xx_core1_sample_configuro"
+        pname="edma3_drv_arm_tda2xx_core1_sample_configuro.tar"
+        label="default"
+    >
+        <file name="package/package.bld.xml"/>
+        <file name="package/build.cfg"/>
+        <file name="package/package.xdc.inc"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

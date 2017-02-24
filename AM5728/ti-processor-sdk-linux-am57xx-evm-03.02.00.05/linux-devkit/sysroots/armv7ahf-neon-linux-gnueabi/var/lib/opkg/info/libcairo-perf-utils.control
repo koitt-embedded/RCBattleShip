@@ -1,0 +1,14 @@
+Package: libcairo-perf-utils
+Version: 1.14.6-r0.0
+Description: The Cairo 2D vector graphics library
+ The Cairo library performance utilities
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv3+
+Architecture: armv7ahf-neon
+OE: cairo
+Homepage: http://cairographics.org
+Depends: libz1 (>= 1.2.8), libc6 (>= 2.21)
+Provides: cairo-perf-utils
+Source: http://cairographics.org/releases/cairo-1.14.6.tar.xz

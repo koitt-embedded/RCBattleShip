@@ -1,0 +1,16 @@
+Package: python-decorator
+Version: 4.0.9-r0.0
+Description: Python decorator utilities
+ The aim of the decorator module it to simplify the usage of decorators
+ for the average programmer, and to popularize decorators by showing
+ various non-trivial examples. Of course, as all techniques, decorators
+ can be abused and you should not try to solve every problem with a
+ decorator, just because you can.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: armv7ahf-neon
+OE: python-decorator
+Depends: python-core
+Source: https://files.pythonhosted.org/packages/source/d/decorator/decorator-4.0.9.tar.gz

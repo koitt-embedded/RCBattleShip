@@ -1,0 +1,137 @@
+/*
+ * Copyright (c) 2013-2014 Texas Instruments Incorporated - http://www.ti.com
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ *  ======== ex01_hello_ipu1-0.gel ========
+ */
+
+#define	UInt32	                unsigned int
+#define	WR_MEM_32(addr, data)   *(UInt32*)(addr) = (UInt32)(data)
+#define	RD_MEM_32(addr)         *(UInt32*)(addr)
+
+/*  AMMU Configuration Registers
+ *
+ *  0x000 Large_0 Page Address
+ *  0x020 Large_0 Page Translated Address
+ *  0x040 Large_0 Page Policy
+ *  0x004 Large_1 Page Address
+ *  0x024 Large_1 Page Translated Address
+ *  0x044 Large_1 Page Policy
+ *  0x008 Large_2 Page Address
+ *  0x028 Large_2 Page Translated Address
+ *  0x048 Large_2 Page Policy
+ *  0x00C Large_3 Page Address
+ *  0x02C Large_3 Page Translated Address
+ *  0x04C Large_3 Page Policy
+
+ *  0x060 Medium_0 Page Address
+ *  0x0A0 Medium_0 Page Translated Address
+ *  0x0E0 Medium_0 Page Policy
+ *  0x064 Medium_1 Page Address
+ *  0x0A4 Medium_1 Page Translated Address
+ *  0x0E4 Medium_1 Page Policy
+
+ *  0x120 - 0x19F   Small Page Address
+ *  0x1A0 - 0x21F   Small Page Translated Address
+ *  0x220 - 0x29F   Small Page Policy
+ *  0x2A0 - 0x31F   Small Page Maintenance
+ *
+ *  Policy Description
+ *  [16]        CACHE           Cache enable
+ *                              0: non-cacheable
+ *                              1: cacheable
+ *  [1:0]       SIZE            Page size
+ *                              0: mmu entry is disabled
+ *                              1:   4 KB - small page
+ *                              1: 128 KB - medium page
+ *                              1:  32 MB - large page
+ *                              3:  16 KB - small page
+ *                              3: 256 KB - medium page
+ *                              3: 512 MB - large page
+ */
+
+/* TRM 7.4.1 Unicache MMU (AMMU), local address */
+#define IPU1_AMMU_CFG   0x55080800
+
+menuitem "ex01_hello"
+
+hotmenu ex01_hello_ipu1_0_ammu_config()
+{
+    GEL_TextOut("IPU1-0 AMMU config\n");
+
+    /* disable all entries */
+    WR_MEM_32(IPU1_AMMU_CFG+0x220, 0x00000000); // Small_0
+    WR_MEM_32(IPU1_AMMU_CFG+0x224, 0x00000000); // Small_1
+    WR_MEM_32(IPU1_AMMU_CFG+0x228, 0x00000000); // Small_2
+    WR_MEM_32(IPU1_AMMU_CFG+0x22C, 0x00000000); // Small_3
+    WR_MEM_32(IPU1_AMMU_CFG+0x230, 0x00000000); // Small_4
+    WR_MEM_32(IPU1_AMMU_CFG+0x234, 0x00000000); // Small_5
+    WR_MEM_32(IPU1_AMMU_CFG+0x238, 0x00000000); // Small_6
+    WR_MEM_32(IPU1_AMMU_CFG+0x23C, 0x00000000); // Small_7
+    WR_MEM_32(IPU1_AMMU_CFG+0x240, 0x00000000); // Small_8
+    WR_MEM_32(IPU1_AMMU_CFG+0x244, 0x00000000); // Small_9
+
+    WR_MEM_32(IPU1_AMMU_CFG+0x0E0, 0x00000000); // Medium_0
+    WR_MEM_32(IPU1_AMMU_CFG+0x0E4, 0x00000000); // Medium_1
+
+    WR_MEM_32(IPU1_AMMU_CFG+0x040, 0x00000000); // Large_0
+    WR_MEM_32(IPU1_AMMU_CFG+0x044, 0x00000000); // Large_1
+    WR_MEM_32(IPU1_AMMU_CFG+0x048, 0x00000000); // Large_2
+    WR_MEM_32(IPU1_AMMU_CFG+0x04C, 0x00000000); // Large_3
+
+    /* Large_0 */
+    WR_MEM_32(IPU1_AMMU_CFG+0x000, 0x86000000); // physical address
+    WR_MEM_32(IPU1_AMMU_CFG+0x020, 0xFE000001); // no translate
+    WR_MEM_32(IPU1_AMMU_CFG+0x040, 0x00010001); // 32 MB, cacheable
+
+    /* Medium_0 */
+//  WR_MEM_32(IPU1_AMMU_CFG+0x060, 0x8A100000); // virtual address
+//  WR_MEM_32(IPU1_AMMU_CFG+0x0A0, 0x40440000); // physical address
+//  WR_MEM_32(IPU1_AMMU_CFG+0x0E0, 0x00010001); // 128 KB, cacheable
+
+    /* Medium_1 */
+//  WR_MEM_32(IPU1_AMMU_CFG+0x064, 0x8A140000); // virtual address
+//  WR_MEM_32(IPU1_AMMU_CFG+0x0A4, 0x40300000); // physical address
+//  WR_MEM_32(IPU1_AMMU_CFG+0x0E4, 0x00000003); // 256 KB, non-cacheable
+
+    /* Small_0 (L2 RAM)*/
+    WR_MEM_32(IPU1_AMMU_CFG+0x120, 0x00000000); // virtual address
+    WR_MEM_32(IPU1_AMMU_CFG+0x1A0, 0x55020000); // physical address
+    WR_MEM_32(IPU1_AMMU_CFG+0x220, 0x00000003); // 16 KB, non-cacheable
+
+    /* Small_1 (local config) */
+    WR_MEM_32(IPU1_AMMU_CFG+0x124, 0x40000000); // virtual address
+    WR_MEM_32(IPU1_AMMU_CFG+0x1A4, 0x55080000); // physical address
+    WR_MEM_32(IPU1_AMMU_CFG+0x224, 0x00000003); // 16 KB, non-cacheable
+
+    GEL_TextOut("AMMU config done.\n");
+}

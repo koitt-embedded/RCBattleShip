@@ -1,0 +1,57 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern unsigned char gomp_iter_ull_dynamic_next_locked() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern unsigned char gomp_iter_ull_guided_next_locked() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern int gomp_iter_ull_static_next() is called from 0 sites in this file.
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern int gomp_iter_ull_static_next() is called from 0 sites in this file.
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+There are 38 memory accesses with 246 dependences.
+
+
+==============================================================================
+
+extern unsigned char gomp_iter_ull_guided_next_locked() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are 13 memory accesses with 22 dependences.
+
+
+==============================================================================
+
+extern unsigned char gomp_iter_ull_dynamic_next_locked() is called from 0 sites in this file.
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are 9 memory accesses with 15 dependences.
+
+
+== END OF INFO OUTPUT==

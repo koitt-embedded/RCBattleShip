@@ -1,0 +1,19 @@
+Package: ti-sgx-ddk-um-dev
+Version: 1.14.3699939-r16.tisdk1.0
+Description: ti-sgx-ddk-um version 1.14.3699939-r16.tisdk1 - Development files
+ Userspace libraries for PowerVR SGX chipset on TI SoCs  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: TI-TSPA
+Architecture: am57xx_evm
+OE: ti-sgx-ddk-um
+Homepage: https://git.ti.com/graphics/omap5-sgx-ddk-um-linux
+Depends: ti-sgx-ddk-um (= 1.14.3699939-r16.tisdk1.0)
+Recommends: update-rc.d-dev, libgcc-s-dev, wayland-dev, udev-dev, libgbm-dev, libffi-dev, libc6-dev, ti-sgx-ddk-um-plugins-dev, libstdc++-dev, libdrm-omap-dev, libdrm-dev, libudev-dev, initscripts-dev
+Provides: omap5-sgx-ddk-um-linux-dev, libegl-dev, libgles2-dev, libgles1-dev
+Replaces: omap5-sgx-ddk-um-linux-dev, libgles1-dev, libgles2-dev, libegl-dev
+Conflicts: omap5-sgx-ddk-um-linux-dev, libgles1-dev, libgles2-dev, libegl-dev
+Source: git://git.ti.com/graphics/omap5-sgx-ddk-um-linux.git;protocol=git;branch=ti-img-sgx/1.14.3699939

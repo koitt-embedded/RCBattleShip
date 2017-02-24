@@ -1,0 +1,233 @@
+* ========================================================================== *
+* IMGLIB -- TI Image and Video Processing Library                            *
+*                                                                            *
+*                                                                            *
+* Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/     *
+*                                                                            *
+*                                                                            *
+*  Redistribution and use in source and binary forms, with or without        *
+*  modification, are permitted provided that the following conditions        *
+*  are met:                                                                  *
+*                                                                            *
+*    Redistributions of source code must retain the above copyright          *
+*    notice, this list of conditions and the following disclaimer.           *
+*                                                                            *
+*    Redistributions in binary form must reproduce the above copyright       *
+*    notice, this list of conditions and the following disclaimer in the     *
+*    documentation and/or other materials provided with the                  *
+*    distribution.                                                           *
+*                                                                            *
+*    Neither the name of Texas Instruments Incorporated nor the names of     *
+*    its contributors may be used to endorse or promote products derived     *
+*    from this software without specific prior written permission.           *
+*                                                                            *
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS       *
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT         *
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR     *
+*  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT      *
+*  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,     *
+*  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT          *
+*  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     *
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     *
+*  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       *
+*  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE     *
+*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.      *
+* ========================================================================== *
+
+* ========================================================================== *
+*   NAME                                                                     *
+*       IMG_thr_le2min_16                                                    *
+*                                                                            *
+*   USAGE                                                                    *
+*       This routine has the following C prototype:                          *
+*                                                                            *
+*       void IMG_thr_le2min_16                                               *
+*       (                                                                    *
+*           const unsigned short *in_data,     //  Input image data          *
+*           unsigned short *restrict out_data, //  Output image data         *
+*           short cols, short rows,            //  Image dimensions          *
+*           unsigned short       threshold     //  Threshold value           *
+*       )                                                                    *
+*                                                                            *
+*       This routine performs a thresholding operation on an input           *
+*       image in in_data[] whose dimensions are given in the arguments       *
+*       'cols' and 'rows'.  The thresholded pixels are written to the        *
+*       output image pointed to by out_data[].  The input and output         *
+*       are exactly the same dimensions.                                     *
+*                                                                            *
+*   DESCRIPTION                                                              *
+*       Pixels that are above the threshold value are written to the         *
+*       output unmodified.  Pixels that are less than or equal to the        *
+*       threshold are set to 0 in the output image.                          *
+*                                                                            *
+*       The exact thresholding function performed is described by            *
+*       the following transfer function diagram:                             *
+*                                                                            *
+*                                                                            *
+*                65535_|                                                     *
+*                      |                  /                                  *
+*                      |                /                                    *
+*             O        |              /                                      *
+*             U        |            /                                        *
+*             T    th _|. . . . . /                                          *
+*             P        |         |                                           *
+*             U        |         |                                           *
+*             T        |         |                                           *
+*                      |         |                                           *
+*                    0_|_________|__________                                 *
+*                      |         |        |                                  *
+*                      0        th     65535                                 *
+*                                                                            *
+*                              INPUT                                         *
+*                                                                            *
+*       See the IMGLIB functions IMG_thr_gt2thr_16, IMG_thr_le2thr_16        *
+*       and IMG_thr_gt2max_16 for other thresholding operations.             *
+*                                                                            *
+*   ASSUMPTIONS                                                              *
+*       - The input and output buffers do not alias.                         * 
+*       - The input and output buffers must be double-word aligned.          * 
+*       - The total number of pixels rows*cols must be at least              * 
+*         16 and a multiple of 16.                                           * 
+*                                                                            *
+*   TECHNIQUES                                                               *
+*       - The loop is unrolled 16x. Packed-data processing techniques        *
+*         allow us to process all 16 pixels in parallel.                     * 
+*                                                                            *
+*       - Four LDDW instructions load in 16 pixels.                          * 
+*       - The 16 results are then written with four STDWs.                   * 
+*                                                                            *
+*   MEMORY NOTE                                                              *
+*       - This code is ENDIAN NEUTRAL.                                       * 
+*       - No bank conflicts occur, regardless of the relative alignment of   * 
+*         in_data[] and out_data[].                                          * 
+*                                                                            *
+* ========================================================================== *
+
+    .if __TI_EABI__
+        .asg  IMG_thr_le2min_16, _IMG_thr_le2min_16
+    .endif
+
+    .sect ".text:optimized"
+    .global _IMG_thr_le2min_16
+
+_IMG_thr_le2min_16: .cproc	A_i_ptr,	B_o_ptr,	A_cols,	 B_rows,	A_th
+		.no_mdep
+
+; ============================================================================ ;
+		.reg	B_x76,B_c76,B_p76:B_p54,B_t76
+		.reg    B_x54,B_c54,B_y76:B_y54,B_t54
+		.reg    A_x32,A_c32,A_p32:A_p10,A_t32
+		.reg    A_x10,A_c10,A_y32:A_y10,A_t10
+		.reg	A_count, B_i_ptr,	A_o_ptr,	B_thth, A_thth
+		.reg	A_i, offset
+
+
+
+		.reg	D_x76,D_c76,D_p76:D_p54,D_t76
+		.reg    D_x54,D_c54,D_y76:D_y54,D_t54
+		.reg    C_x32,C_c32,C_p32:C_p10,C_t32
+		.reg    C_x10,C_c10,C_y32:C_y10,C_t10
+		.reg	D_i_ptr,	C_o_ptr,	C_i_ptr,	D_o_ptr
+; ============================================================================ ;
+		; calculate loop trip counter 
+
+		MPY		A_cols,		B_rows,	A_count
+		SHRU	A_count,	4,		A_count		; 8 data each loop
+		SUB		A_count,	2,		A_count		; using BDEC
+
+		; calculate twin pointers
+		ADD	.2X		A_i_ptr,	8,		B_i_ptr
+		ADD	.1		A_i_ptr,	16,		C_i_ptr
+		ADD	.2X		A_i_ptr,	24,		D_i_ptr
+		ADD	.1X		B_o_ptr,	8,		A_o_ptr
+		ADD	.1X		B_o_ptr,	16,		C_o_ptr
+		ADD	.2		B_o_ptr,	24,		D_o_ptr
+
+		; packing threshold to word length
+		PACK2		A_th,		A_th,		A_thth
+
+		; creating offsets
+		MVKL			0x8000,		offset
+		MVKLH			0x8000,		offset
+
+		; setting threshold to follow offset
+		XOR	 	A_thth,		offset,		A_thth
+		MV			A_thth,		B_thth
+
+		.mptr	B_i_ptr,	i_ptr + 8,			
+		.mptr	A_i_ptr,	i_ptr + 0,			
+		.mptr	A_o_ptr,	i_ptr + 8,			
+		.mptr	B_o_ptr,	i_ptr + 0,			
+		.mptr	D_i_ptr,	i_ptr + 24,			
+		.mptr	C_i_ptr,	i_ptr + 16,			
+		.mptr	C_o_ptr,	i_ptr + 24,		
+
+loop:	
+		LDDW		*A_i_ptr++[4],	A_p32:A_p10
+		LDDW		*B_i_ptr++[4],	B_p76:B_p54
+		LDDW		*C_i_ptr++[4],	C_p32:C_p10
+		LDDW		*D_i_ptr++[4],	D_p76:D_p54
+
+		; setting data to follow offset
+		XOR			B_p76,		offset,		B_p76
+		XOR			B_p54,		offset,		B_p54
+		XOR			A_p32,		offset,		A_p32
+		XOR			A_p10,		offset,		A_p10
+		XOR			D_p76,		offset,		D_p76
+		XOR			D_p54,		offset,		D_p54
+		XOR			C_p32,		offset,		C_p32
+		XOR			C_p10,		offset,		C_p10
+
+		; comparing process
+		CMPGT2			A_p32,		A_thth,		A_c32	
+		CMPGT2			A_p10,		A_thth,		A_c10	
+		CMPGT2			B_p76,		B_thth,		B_c76	
+		CMPGT2			B_p54,		B_thth,		B_c54	
+		CMPGT2			C_p32,		A_thth,		C_c32	
+		CMPGT2			C_p10,		A_thth,		C_c10	
+		CMPGT2			D_p76,		B_thth,		D_c76	
+		CMPGT2			D_p54,		B_thth,		D_c54	
+		
+		; return the original values
+		XOR			A_p32,		offset,		A_p32
+		XOR			A_p10,		offset,		A_p10
+		XOR			B_p76,		offset,		B_p76
+		XOR			B_p54,		offset,		B_p54
+		XOR			D_p76,		offset,		D_p76
+		XOR			D_p54,		offset,		D_p54
+		XOR			C_p32,		offset,		C_p32
+		XOR			C_p10,		offset,		C_p10
+
+		; generating mask  
+		XPND2		A_c32,      	A_x32
+		XPND2		A_c10,      	A_x10
+		XPND2		B_c76,			B_x76
+		XPND2		B_c54,      	B_x54
+		XPND2		C_c32,      	C_x32
+		XPND2		C_c10,      	C_x10
+		XPND2		D_c76,			D_x76
+		XPND2		D_c54,      	D_x54
+
+		AND			A_x32,      A_p32,    	A_t32
+		AND			A_x10,      A_p10,    	A_t10
+		AND			B_x76,		B_p76,	  	B_t76
+		AND			B_x54,      B_p54,    	B_t54
+		AND			C_x32,      C_p32,    	C_t32
+		AND			C_x10,      C_p10,    	C_t10
+		AND			D_x76,		D_p76,	  	D_t76
+		AND			D_x54,      D_p54,    	D_t54
+
+		STDW	B_t76:B_t54,		*A_o_ptr++[4]
+		STDW	A_t32:A_t10,		*B_o_ptr++[4]
+		STDW	C_t32:C_t10,		*C_o_ptr++[4]
+		STDW	D_t76:D_t54,		*D_o_ptr++[4]
+
+		BDEC	loop,		A_count
+
+		.return
+		.endproc
+
+* ======================================================================== *
+*   End of file, "IMG_thr_le2min_16.sa"                                    *
+* ======================================================================== *
+

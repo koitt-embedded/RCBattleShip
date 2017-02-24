@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  This file conforms to the DTD xdc/bld/build.dtd -->
+<package name="imglib" version="" producerId="undefined">
+    <units>
+        <module name="Version"/>
+    </units>
+    <sources>
+    </sources>
+    <configurations>
+    </configurations>
+    <makefiles>
+        <srcFile name="package.mak" src="package.bld"/>
+        <srcFile name="package/package.xdc.dep" src="package.xdc"/>
+        <srcFile name="package/package.cfg.dep" src="package.xdc"/>
+        <srcFile name="package/rel/imglib_c66x_3_1_1_0.zip.dep" src="package/rel/imglib_c66x_3_1_1_0.xdc.inc"/>
+    </makefiles>
+    <targets>
+    </targets>
+    <libraries>
+    </libraries>
+    <executables>
+    </executables>
+    <tests>
+    </tests>
+    <releases relDir="package/rel/">
+    <release name="imglib_c66x_3_1_1_0"
+        pname="imglib_c66x_3_1_1_0.zip"
+        label="default"
+    >
+        <file name="./docs/IMGLIB_Users_Manual.html"/>
+        <file name="./docs/manifest/html"/>
+        <file name="./README.txt"/>
+        <file name="package/package.ext.xml"/>
+        <file name="package/package.xdc.inc"/>
+        <file name="eclipse"/>
+        <file name="./imglib_3_1_1_0_release_notes.html"/>
+        <file name="packages"/>
+        <file name="package/package.rel.dot"/>
+        <file name="./docs/doxygen/html"/>
+        <file name="docs//doxygen//doxygen.h"/>
+        <file name="components"/>
+        <file name=".//docs//doxygen//html//../../IMGLIB_Users_Manual.chm"/>
+        <file name="./docs/IMGLIB_Users_Manual.chm"/>
+        <file name="inc"/>
+        <file name="lib"/>
+        <file name="./docs/IMGLIB_Software_Manifest.html"/>
+        <file name="./Version.h"/>
+        <file name="docs//doxygen//Doxyfile"/>
+        <file name="docs/relnotes_archive"/>
+        <file name="package/build.cfg"/>
+        <file name="./docs/IMGLib_c66x_TestReport.html"/>
+        <file name="package/package.bld.xml"/>
+        <file name="package/package.cfg.xdc.inc"/>
+        <file name="docs//doxygen//doxyfile.xdt"/>
+        <file name="package.bld"/>
+    </release>
+    </releases>
+    <repositories>
+    </repositories>
+</package>

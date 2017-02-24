@@ -1,0 +1,17 @@
+/usr/lib/libBrokenLocale.a
+/lib/libstdc++fs.a
+/usr/lib/libieee.a
+/usr/lib/librpcsvc.a
+/usr/lib/libmcheck.a
+/usr/lib/libm.a
+/usr/lib/libresolv.a
+/usr/lib/librt.a
+/usr/lib/libcrypt.a
+/usr/lib/libgcov.a
+/usr/lib/libanl.a
+/usr/lib/libdl.a
+/usr/lib/libnsl.a
+/usr/lib/libutil.a
+/usr/lib/libpthread.a
+/usr/lib/libc.a
+/usr/lib/libg.a

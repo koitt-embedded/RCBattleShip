@@ -1,0 +1,15 @@
+Package: python-pycparser-dev
+Version: 2.14-r0.0
+Description: Parser of the C language, written in pure Python - Development files
+ Parser of the C language, written in pure Python.  This package contains
+ symbolic links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: python-pycparser
+Depends: python-pycparser (= 2.14-r0.0)
+Recommends: python-dev, python-core-dev
+Source: https://files.pythonhosted.org/packages/source/p/pycparser/pycparser-2.14.tar.gz

@@ -1,0 +1,11 @@
+Package: gdbserver-c6x
+Version: 1.1.0-r3.0.0
+Description: gdbserver-c6x version 1.1.0-r3.0
+ TI gdb-server to be used with c6xgdb.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: am57xx_evm
+OE: gdbserver-c6x
+Source: git://git.ti.com/sdo-emu/gdbc6x.git;protocol=git;branch=master

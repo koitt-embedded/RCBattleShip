@@ -1,0 +1,58 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern void _args_main() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_OmpStartCommon() (1 times)
+
+static void entryFuncBios() is called from 0 sites in this file.
+    It appears to be inlineable (size = 34 units)
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	tomp_dispatch_once() (1 times)
+	__TI_omp_terminate() (1 times)
+	main() (1 times)
+
+
+These functions may be recursive:
+	_args_main()
+	entryFuncBios()
+
+These external functions are called but not defined here:
+	main()
+	__TI_omp_terminate()
+	tomp_dispatch_once()
+	tomp_OmpStartCommon()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+static void entryFuncBios() is called from 0 sites in this file.
+    It appears to be inlineable (size = 34 units)
+    It has 4 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void _args_main() is called from 0 sites in this file.
+    It appears to be inlineable (size = 4 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

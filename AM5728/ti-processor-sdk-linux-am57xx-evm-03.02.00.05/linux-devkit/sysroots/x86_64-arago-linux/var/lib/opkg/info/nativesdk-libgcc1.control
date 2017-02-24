@@ -1,0 +1,14 @@
+Package: nativesdk-libgcc1
+Version: linaro-5.3-r2016.02.0
+Description: GNU cc and gcc C compilers
+ GNU cc and gcc C compilers.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPL-3.0-with-GCC-exception
+Architecture: x86_64-nativesdk
+OE: nativesdk-libgcc
+Homepage: http://www.gnu.org/software/gcc/
+Depends: nativesdk-libc6 (>= 2.23)
+Provides: nativesdk-libgcc
+Source: None

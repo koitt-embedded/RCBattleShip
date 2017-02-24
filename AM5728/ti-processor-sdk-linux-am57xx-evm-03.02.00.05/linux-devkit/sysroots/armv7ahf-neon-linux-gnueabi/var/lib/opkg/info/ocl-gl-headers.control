@@ -1,0 +1,11 @@
+Package: ocl-gl-headers
+Version: git-r0.0
+Description: ocl-gl-headers version git-r0
+ OpenGL headers required for OpenCL development
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: ocl-gl-headers
+Source: file://GL/gl.h file://GL/gl_mangle.h file://GL/glext.h file://GL/glx.h file://GL/glx_mangle.h file://GL/glxext.h file://GL/osmesa.h file://GL/wglext.h file://GL/wmesa.h file://GL/internal/dri_interface.h

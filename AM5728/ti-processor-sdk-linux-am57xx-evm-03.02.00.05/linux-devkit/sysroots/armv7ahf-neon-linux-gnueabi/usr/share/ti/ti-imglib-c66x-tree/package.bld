@@ -1,0 +1,66 @@
+
+/******************************************************************************
+ * FILE PURPOSE: Build description for package ti.imglib.bundle
+ ******************************************************************************
+ * FILE NAME: package.bld  
+ *
+ * DESCRIPTION: This file contains attributes to build and create releases for 
+ *              package ti.imglib.bundle
+ *
+ * TABS: NONE
+ *
+ * Copyright (C) 2010, Texas Instruments, Inc.
+ ******************************************************************************/
+
+  var Package=xdc.loadCapsule('ti/mas/swtools/CommonBld.xs');
+  
+  Package.archiveFiles["bundle-c66x"]={
+	base_directory: "./docs",
+	target: ["c66le","ce66le"],
+	files: ["IMGLib_c66x_TestReport.html"],
+ };
+
+Package.archiveFiles["bundle-c64x"]={
+	base_directory: "./docs",
+	target: ["c64Ple","ce64Ple"],
+	files: ["IMGLib_c64Px_TestReport.html"],
+ };
+
+Package.archiveFiles["bundle"]={
+	base_directory: ".",
+	files: ["docs/IMGLIB_Software_Manifest.html","docs/IMGLIB_Users_Manual.chm","docs/IMGLIB_Users_Manual.html","docs/doxygen/html","docs/manifest/html","README.txt"],
+ };
+
+
+  
+/*******************************************************************************
+  The main package.bld routine starts here 
+*******************************************************************************/
+
+  /* Set up the target architecture */
+  Package.targets = [C66,C66_elf];
+
+  /* Set up version numbers for this package */
+  Package.pkgStdVer = "2.0";  
+  Package.version = [3,1,1,0,3,0]
+  
+
+  Package.createVersion();
+
+  /* Include custom makefile to generate doxygen documents */
+  Package.includeMake("MakedocsBundle.mk");
+    
+  /* Parse XDC Arguments */
+  Package.parseArgs(arguments);
+
+  /* Create Bundle */
+  Package.bundle();
+
+  /* Create Archive */ 
+  Package.createArchive("imglib_c66x");
+  
+  /* Clean Package */
+  Package.packageClean();
+
+/* nothing past this point */
+

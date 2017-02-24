@@ -1,0 +1,12 @@
+Package: qtbase-conf
+Version: 1.0-r0.tisdk1.0
+Description: qtbase configuration files
+ qtbase configuration files.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: am57xx_evm
+OE: qtbase-conf
+Homepage: http://www.qt.io/
+Source: file://qt_env.sh file://eglfs_kms_cfg.json

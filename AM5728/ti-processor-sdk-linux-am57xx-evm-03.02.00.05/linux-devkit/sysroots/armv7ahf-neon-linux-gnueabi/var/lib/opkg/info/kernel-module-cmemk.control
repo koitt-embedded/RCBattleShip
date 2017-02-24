@@ -1,0 +1,13 @@
+Package: kernel-module-cmemk
+Version: 4.12.00.00+git0+d6d3e84c84-r7b.0
+Description: cmemk kernel module
+ cmemk kernel module
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: am57xx_evm
+OE: cmem-mod
+Homepage: http://processors.wiki.ti.com/index.php/Category:CMEM
+Depends: kernel-4.4.32-gadde2ca9f8
+Source: git://git.ti.com/ipc/ludev.git;protocol=git;branch=master

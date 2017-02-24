@@ -1,0 +1,16 @@
+Package: python-dbus-dev
+Version: 1.2.0-r0.0
+Description: Python bindings for the DBus inter-process communication system - Development files
+ Python bindings for the DBus inter-process communication system.  This
+ package contains symbolic links, header files, and related items
+ necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-dbus
+Homepage: http://www.freedesktop.org/Software/dbus
+Depends: python-dbus (= 1.2.0-r0.0)
+Recommends: python-logging-dev, libcap-dev, python-io-dev, libz-dev, liblzma-dev, dbus-lib-dev, libglib-2.0-dev, libpcre-dev, libdbus-glib-1-dev, libsystemd-dev, libc6-dev, libffi-dev, python-xml-dev, libexpat-dev, python-stringold-dev, python-threading-dev, dbus-dev, python-dev
+Source: http://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.0.tar.gz

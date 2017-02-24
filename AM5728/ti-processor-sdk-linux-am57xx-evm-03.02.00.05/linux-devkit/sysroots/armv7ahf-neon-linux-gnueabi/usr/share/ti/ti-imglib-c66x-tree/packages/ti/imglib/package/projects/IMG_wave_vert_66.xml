@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Project>
+    <params>
+        <name>IMG_wave_vert</name>
+        <location>./src/IMG_wave_vert//c66/</location>
+        <target>66</target>
+        <buildArtifact>Executable</buildArtifact>
+        <files name="./src/IMG_wave_vert/IMG_wave_vert.h"/>
+        <files name="./src/IMG_wave_vert/IMG_wave_vert_cn.c"/>
+        <files name="./src/IMG_wave_vert/IMG_wave_vert_cn.h"/>
+        <files name="./src/IMG_wave_vert/IMG_wave_vert_d.c"/>
+        <files name="./src/IMG_wave_vert//c66/IMG_wave_vert.h"/>
+        <files name="./src/IMG_wave_vert//c66/IMG_wave_vert.sa"/>
+        <files name="./src/common/IMG_profile.c"/>
+        <files name="./src/common/IMG_profile.h"/>
+        <files name="./src/common/IMG_utility.c"/>
+        <files name="./src/common/IMG_utility.h"/>
+        <files name="./src/common/IMG_memory.c"/>
+        <files name="./src/common/IMG_memory.h"/>
+        <files name="./src/common//c66/lnk.cmd"/>
+        <cFlags> --mem_model:data=far</cFlags>
+    </params>
+ </Project>

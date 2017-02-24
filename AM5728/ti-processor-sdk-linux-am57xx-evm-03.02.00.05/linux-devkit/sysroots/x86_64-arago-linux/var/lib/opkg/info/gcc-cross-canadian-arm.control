@@ -1,0 +1,11 @@
+Package: gcc-cross-canadian-arm
+Version: 5.3.1-r5.0
+Description: external-linaro-sdk-toolchain version 1.0-r5
+ The GNU cc and gcc C compilers
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: x86_64-nativesdk
+OE: external-linaro-sdk-toolchain
+Source: None

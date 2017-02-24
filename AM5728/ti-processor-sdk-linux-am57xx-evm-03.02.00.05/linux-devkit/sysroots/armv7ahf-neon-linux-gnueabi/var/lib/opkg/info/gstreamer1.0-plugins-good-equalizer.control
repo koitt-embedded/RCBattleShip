@@ -1,0 +1,13 @@
+Package: gstreamer1.0-plugins-good-equalizer
+Version: 1.6.3-r0.0
+Description: GStreamer plugin for equalizer
+ GStreamer plugin for equalizer
+Section: multimedia
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2.1+
+Architecture: armv7ahf-neon
+OE: gstreamer1.0-plugins-good
+Homepage: http://gstreamer.freedesktop.org/
+Depends: libffi6 (>= 3.2.1), libgstaudio-1.0-0 (>= 1.6.3), libz1 (>= 1.2.8), libpcre1 (>= 8.38), libgsttag-1.0-0 (>= 1.6.3), libc6 (>= 2.21), libglib-2.0-0 (>= 2.46.2), liborc-0.4-0 (>= 0.4.24), gstreamer1.0 (>= 1.6.3)
+Source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.6.3.tar.xz file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch

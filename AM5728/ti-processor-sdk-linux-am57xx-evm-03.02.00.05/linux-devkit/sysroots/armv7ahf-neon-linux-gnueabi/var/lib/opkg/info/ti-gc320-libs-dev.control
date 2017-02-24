@@ -1,0 +1,16 @@
+Package: ti-gc320-libs-dev
+Version: 5.0.11.p7-r1.tisdk0.0
+Description: ti-gc320-libs version 5.0.11.p7-r1.tisdk0 - Development files
+ Userspace libraries for GC320 chipset on TI SoCs  This package contains
+ symbolic links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: TI-TSPA
+Architecture: am57xx_evm
+OE: ti-gc320-libs
+Homepage: https://git.ti.com/graphics/ti-gc320-libs
+Depends: ti-gc320-libs (= 5.0.11.p7-r1.tisdk0.0)
+Recommends: libc6-dev
+Source: git://git.ti.com/graphics/ti-gc320-libs.git;protocol=git;branch=ti-5.0.11.p7

@@ -1,0 +1,16 @@
+Package: clocl-dev
+Version: 1.1.11.0-r0.0.0
+Description: clocl version 1.1.11.0-r0.0 - Development files
+ TI OpenCL offline C compiler for compute devices  This package contains
+ symbolic links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: armv7ahf-neon
+OE: clocl
+Homepage: http://software-dl.ti.com/mctools/docs/opencl/intro.html
+Depends: clocl (= 1.1.11.0-r0.0.0)
+Recommends: boost-dev, ti-llvm3.6-dev
+Source: git://git.ti.com/opencl/ti-opencl.git;protocol=git;branch=master

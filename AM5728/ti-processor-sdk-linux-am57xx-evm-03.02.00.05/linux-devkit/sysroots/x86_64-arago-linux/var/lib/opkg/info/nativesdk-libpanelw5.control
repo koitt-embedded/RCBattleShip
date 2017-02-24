@@ -1,0 +1,14 @@
+Package: nativesdk-libpanelw5
+Version: 6.0+20160213-r0.0
+Description: ncurses panelw library
+ ncurses panelw library
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: x86_64-nativesdk
+OE: nativesdk-ncurses
+Homepage: http://www.gnu.org/software/ncurses/ncurses.html
+Depends: nativesdk-libc6 (>= 2.23), nativesdk-libncursesw5 (>= 6.0+20160213), nativesdk-libtinfo5 (>= 6.0+20160213)
+Provides: nativesdk-ncurses-libpanelw
+Source: git://anonscm.debian.org/collab-maint/ncurses.git file://tic-hang.patch file://config.cache

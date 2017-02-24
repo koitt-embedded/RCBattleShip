@@ -1,0 +1,89 @@
+#
+# Makefile.libomp
+#
+
+
+#
+# Check if required environment variables are defined
+#
+
+ifneq ($(MAKECMDGOALS),clean)
+ifeq ($(OMP_DIR),)
+$(call error,ERROR - OMP_DIR NOT DEFINED)
+endif
+
+ifeq ($(XDC_DIR),)
+$(call error,ERROR - XDC_DIR NOT DEFINED)
+endif
+
+# Path to C6000 compiler tools
+ifeq ($(XDCCGROOT),)
+$(call error,ERROR - XDCCGROOT NOT DEFINED)
+endif
+
+# Paths to BIOS, IPC modules
+ifeq ($(USE_BIOS),1)
+ifeq ($(BIOS_DIR),)
+$(call error,ERROR - BIOS_DIR NOT DEFINED)
+endif
+ifeq ($(IPC_DIR),)
+$(call error,ERROR - IPC_DIR NOT DEFINED)
+endif
+endif
+endif
+
+
+# Configuration file used (without the .cfg extension)
+ifeq ($(USE_BIOS),1)
+CFGDIR     = omp_config
+else
+CFGDIR     = omp_config_bm
+endif
+
+# Set BUILD_TYPE to debug/release to pick appropriate libraries
+BUILD_TYPE  = release
+
+# Platform file
+ifeq ($(BUILD_AM572),1)
+export PDK_DIR=$(AM572_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.am57x
+else ifeq ($(BUILD_C6678),1)
+export PDK_DIR=$(C6678_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.evm6678
+else ifeq ($(BUILD_K2H),1)
+export PDK_DIR=$(C6636_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.evmTCI6636K2H
+else ifeq ($(BUILD_K2L),1)
+export PDK_DIR=$(C6636_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.evmk2l
+else ifeq ($(BUILD_C6670), 1)
+export PDK_DIR=$(C6670_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.evm6670
+else ifeq ($(BUILD_C6657), 1)
+export PDK_DIR=$(C6657_PDK_DIR)
+XDCPLATFORM = ti.runtime.openmp.platforms.evm6657
+endif
+
+
+# Include . to find config.bld
+ifeq ($(USE_BIOS),1)
+XDCPATH = $(PDK_DIR)/packages;$(OMP_DIR)/packages;$(BIOS_DIR)/packages;$(IPC_DIR)/packages;.
+else
+XDCPATH = $(PDK_DIR)/packages;$(OMP_DIR)/packages;$(BIOS_DIR)/packages;.
+endif
+
+
+XS     		= $(XDC_DIR)/xs
+XDC    		= $(XDC_DIR)/xdc
+XDCTARGET     	= ti.targets.elf.C66
+
+# Generate and build libomp config packages
+libomp_config:
+	@echo making $(CFGDIR) files
+	$(XS) --xdcpath "$(XDCPATH)" xdc.tools.configuro -c $(XDCCGROOT) --cb -t $(XDCTARGET) -p $(XDCPLATFORM) -r $(BUILD_TYPE) $(CFGDIR).cfg
+
+libomp_clean:
+	@echo Removing $(CFGDIR)
+	@rm -rf $(CFGDIR)/
+
+

@@ -1,0 +1,11 @@
+Package: edma3-lld-rtos
+Version: 2.12.02.26-r0.0.0
+Description: edma3-lld-rtos version 2.12.02.26-r0.0
+ TI EDMA3 low level driver and test code
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: edma3-lld-rtos
+Source: git://git.ti.com/keystone-rtos/edma3_lld.git;protocol=git;branch=master

@@ -1,0 +1,22 @@
+#!/bin/sh
+OPTS=""
+
+if [ -n "$D" ]; then
+    OPTS="--root=$D"
+fi
+
+if type systemctl >/dev/null 2>/dev/null; then
+	systemctl $OPTS enable ofono.service
+
+	if [ -z "$D" -a "enable" = "enable" ]; then
+		systemctl restart ofono.service
+	fi
+fi
+if type update-rc.d >/dev/null 2>/dev/null; then
+	if [ -n "$D" ]; then
+		OPT="-r $D"
+	else
+		OPT="-s"
+	fi
+	update-rc.d $OPT ofono defaults 22
+fi

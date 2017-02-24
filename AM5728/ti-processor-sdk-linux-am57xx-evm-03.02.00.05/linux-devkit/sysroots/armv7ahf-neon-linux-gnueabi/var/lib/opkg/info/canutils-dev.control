@@ -1,0 +1,15 @@
+Package: canutils-dev
+Version: 4.0.6+gitr0+299dff7f53-r0.arago0.0
+Description: canutils (PTX flavour) - Development files
+ canutils (PTX flavour).  This package contains symbolic links, header
+ files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: armv7ahf-neon
+OE: canutils
+Homepage: http://www.pengutronix.de
+Depends: canutils (= 4.0.6+gitr0+299dff7f53-r0.arago0.0)
+Recommends: libc6-dev, libsocketcan-dev, iproute2-dev
+Source: git://git.pengutronix.de/git/tools/canutils.git;protocol=git file://0001-canutils-candump-Add-error-frame-s-handling.patch

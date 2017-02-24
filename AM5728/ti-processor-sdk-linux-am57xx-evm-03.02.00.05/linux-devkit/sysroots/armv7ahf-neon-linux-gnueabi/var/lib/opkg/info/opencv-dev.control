@@ -1,0 +1,16 @@
+Package: opencv-dev
+Version: 3.1+git0+b4f54ac48c-r0.tisdk7.0
+Description: Opencv : The Open Computer Vision Library - Development files
+ Opencv : The Open Computer Vision Library.  This package contains
+ symbolic links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: opencv
+Homepage: http://opencv.org/
+Depends: opencv (= 3.1+git0+b4f54ac48c-r0.tisdk7.0)
+Recommends: libtool-dev, libopencv-saliency-dev, libz-dev, libopencv-cvv-dev, libopencv-dnn-dev, libopencv-xobjdetect-dev, libopencv-reg-dev, opencv-apps-dev, libopencv-features2d-dev, libopencv-videoio-dev, libopencv-bgsegm-dev, libopencv-tracking-dev, libopencv-flann-dev, libopencv-structured-light-dev, libwebp-dev, libopencv-fuzzy-dev, libgphoto2-dev, protobuf-dev, swig-dev, libopencv-ts-dev, libopencv-ml-dev, libopencv-dpm-dev, libopencv-rgbd-dev, libopencv-aruco-dev, libopencv-videostab-dev, bzip2-dev, libopencv-ximgproc-dev, libopencv-datasets-dev, libopencv-superres-dev, libopencv-line-descriptor-dev, libopencv-imgcodecs-dev, libopencv-stitching-dev, libopencv-imgproc-dev, qtwayland-dev, libtiff-dev, libopencv-bioinspired-dev, libopencv-calib3d-dev, tbb-dev, gstreamer1.0-plugins-base-dev, python-numpy-dev, python-opencv-dev, libopencv-plot-dev, python-dev, libopencv-xfeatures2d-dev, jpeg-dev, libopencv-text-dev, opencv-staticdev-dev, libopencv-shape-dev, libopencv-photo-dev, libopencv-optflow-dev, libticmem-dev, libopencl-dev, gstreamer1.0-dev, libopencv-video-dev, opencv-samples-dev, libopencv-highgui-dev, libopencv-surface-matching-dev, libpng16-dev, qtbase-dev, libglib-2.0-dev, v4l-utils-dev, libopencv-stereo-dev, libopencv-objdetect-dev, libopencv-ccalib-dev, libeigen-dev, libopencv-core-dev, libopencv-face-dev, libopencv-xphoto-dev
+Source: git://git.ti.com/opencv/tiopencv.git;protocol=git;branch=tiopencvrelease_3.1;name=opencv git://github.com/Itseez/opencv_contrib.git;destsuffix=contrib;name=contrib git://github.com/Itseez/opencv_3rdparty.git;branch=ippicv/master_20151201;destsuffix=party3;name=party3 file://0001-3rdparty-ippicv-Use-pre-downloaded-ipp.patch file://fixpkgconfig.patch file://setupEnv.sh

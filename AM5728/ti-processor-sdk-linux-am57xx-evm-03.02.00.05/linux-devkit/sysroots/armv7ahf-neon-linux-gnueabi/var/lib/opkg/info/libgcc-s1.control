@@ -1,0 +1,13 @@
+Package: libgcc-s1
+Version: 5.3.1-r0.arago32.0
+Description: external-linaro-toolchain version 2016.02-r0.arago32
+ external-linaro-toolchain version 2016.02-r0.arago32.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv3+ with GCC RLE
+Architecture: armv7ahf-neon
+OE: external-linaro-toolchain
+Depends: libc6 (>= 2.21)
+Provides: libgcc
+Source: file://SUPPORTED

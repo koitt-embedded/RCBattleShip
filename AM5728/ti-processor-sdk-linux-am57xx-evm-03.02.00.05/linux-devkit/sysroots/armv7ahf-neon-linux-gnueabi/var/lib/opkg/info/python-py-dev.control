@@ -1,0 +1,15 @@
+Package: python-py-dev
+Version: 1.4.31-r0.0
+Description: Library with cross-python path, ini-parsing, io, code, log facilities - Development files
+ Library with cross-python path, ini-parsing, io, code, log facilities.
+ This package contains symbolic links, header files, and related items
+ necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: python-py
+Depends: python-py (= 1.4.31-r0.0)
+Recommends: python-dev, python-core-dev
+Source: https://files.pythonhosted.org/packages/source/p/py/py-1.4.31.tar.gz

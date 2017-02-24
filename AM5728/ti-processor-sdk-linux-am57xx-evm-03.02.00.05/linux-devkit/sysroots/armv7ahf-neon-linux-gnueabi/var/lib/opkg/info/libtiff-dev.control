@@ -1,0 +1,16 @@
+Package: libtiff-dev
+Version: 4.0.6-r0.arago0.0
+Description: Provides support for the Tag Image File Format (TIFF) - Development files
+ Provides support for the Tag Image File Format (TIFF).  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-2-Clause
+Architecture: armv7ahf-neon
+OE: tiff
+Depends: libtiff5 (= 4.0.6-r0.arago0.0), libtiffxx5
+Recommends: libgcc-s-dev, libjpeg-dev, libz-dev, jpeg-dev, liblzma-dev, libstdc++-dev, libc6-dev, tiffxx-dev
+Provides: tiff-dev
+Source: http://download.osgeo.org/libtiff/tiff-4.0.6.tar.gz file://libtool2.patch file://CVE-2015-8665_8683.patch file://CVE-2015-8781.patch file://CVE-2015-8784.patch file://CVE-2016-3186.patch file://CVE-2016-5321.patch file://CVE-2016-5323.patch

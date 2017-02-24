@@ -1,0 +1,15 @@
+Package: e2fsprogs-e2fsck
+Version: 1.42.99+1.43+git0+0f26747167-r0.0
+Description: Ext2 Filesystem Utilities
+ The Ext2 Filesystem Utilities (e2fsprogs) contain all of the standard
+ utilities for creating, fixing, configuring , and debugging ext2
+ filesystems.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2
+Architecture: armv7ahf-neon
+OE: e2fsprogs
+Homepage: http://e2fsprogs.sourceforge.net/
+Depends: libblkid1 (>= 2.27.1), libcom-err2 (>= 1.42.99+1.43+git0+0f26747167), libe2p2 (>= 1.42.99+1.43+git0+0f26747167), libc6 (>= 2.21), libext2fs2 (>= 1.42.99+1.43+git0+0f26747167), libuuid1 (>= 2.27.1)
+Source: git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git file://acinclude.m4 file://remove.ldconfig.call.patch file://quiet-debugfs.patch file://run-ptest file://ptest.patch file://mkdir.patch file://xattr_ordering.patch file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch

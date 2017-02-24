@@ -1,0 +1,12 @@
+Package: packagegroup-arago-tisdk-graphics-sdk-target
+Version: 1.0-r7.tisdk2.0
+Description: packagegroup-arago-tisdk-graphics-sdk-target version 1.0-r7.tisdk2
+ Task to install graphics binaries on sdk target
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: all
+OE: packagegroup-arago-tisdk-graphics-sdk-target
+Depends: ti-gc320-libs-dev, libgbm-dev, ti-sgx-ddk-um-dev
+Source: None

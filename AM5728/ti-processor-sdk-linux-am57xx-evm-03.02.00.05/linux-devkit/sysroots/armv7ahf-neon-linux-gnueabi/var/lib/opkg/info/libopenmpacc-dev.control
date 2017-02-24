@@ -1,0 +1,17 @@
+Package: libopenmpacc-dev
+Version: 1.5.0.0-r0.1.0
+Description: TI OpenMP Accelerator Model - Development files
+ TI OpenMP-Acc host runtime and development packages  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: armv7ahf-neon
+OE: openmpacc
+Homepage: http://downloads.ti.com/mctools/esd/docs/openmpacc/
+Depends: clacc, libopenmpacc1 (= 1.5.0.0-r0.1.0)
+Recommends: libopencl-dev, libgcc-s-dev, boost-dev, libstdc++-dev, libc6-dev, clacc-dev, opencl-runtime-dev
+Provides: openmpacc-dev
+Source: git://git.ti.com/openmp/ti-openmpacc.git;protocol=git;branch=master

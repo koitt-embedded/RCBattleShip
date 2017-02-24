@@ -1,0 +1,35 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern void _auto_init_elf() is called from 0 sites in this file.
+    It appears to be inlineable (size = 81 units)
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	 ? () (2 times)
+
+
+These functions may be recursive:
+	_auto_init_elf()
+
+These external functions are called but not defined here:
+	 ? ()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern void _auto_init_elf() is called from 0 sites in this file.
+    It appears to be inlineable (size = 81 units)
+    It has 5 non-trivial scope blocks nested 4 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

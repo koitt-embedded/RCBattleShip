@@ -1,0 +1,3 @@
+/usr/bin/groups
+/usr/bin/groups.shadow 200
+/usr/bin/groups.coreutils 100

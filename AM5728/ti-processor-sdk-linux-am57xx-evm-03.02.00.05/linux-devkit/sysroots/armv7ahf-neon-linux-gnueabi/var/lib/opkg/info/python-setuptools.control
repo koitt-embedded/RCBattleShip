@@ -1,0 +1,16 @@
+Package: python-setuptools
+Version: 19.4-r0.0
+Description: Download, build, install, upgrade, and uninstall Python packages
+ Download, build, install, upgrade, and uninstall Python packages.
+Section: devel/python
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: PSF | ZPL-2.0
+Architecture: armv7ahf-neon
+OE: python-setuptools
+Homepage: https://pypi.python.org/pypi/setuptools
+Depends: python-email, python-compile, python-distutils, python-shell, python-html, python-ctypes, python-netserver, python-subprocess, python-pkgutil, python-compression, python-stringold, python-numbers, python-unittest, python-plistlib
+Provides: python-distribute
+Replaces: python-distribute
+Conflicts: python-distribute
+Source: http://pypi.python.org/packages/source/s/setuptools/setuptools-19.4.tar.gz

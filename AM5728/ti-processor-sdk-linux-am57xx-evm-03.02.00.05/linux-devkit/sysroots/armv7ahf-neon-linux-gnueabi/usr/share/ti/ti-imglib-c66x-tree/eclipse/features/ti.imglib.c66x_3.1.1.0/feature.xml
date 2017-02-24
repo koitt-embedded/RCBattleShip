@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="ti.imglib.c66x_3.1.1.0"
+      label="IMGLIB C66x"
+      version="3.1.1.0"
+      provider-name="Texas Instruments Inc.">
+
+   <description url="http://ti.com">
+      IMGLIB C66x
+   </description>
+
+   <copyright>
+      NONE
+   </copyright>
+
+   <license>
+      NONE
+   </license>
+
+   <plugin
+        id="ti.imglib.c66x.rtscRegistry_3.1.1.0"
+        version="3.1.1.0"
+        unpack="false" />
+
+</feature>

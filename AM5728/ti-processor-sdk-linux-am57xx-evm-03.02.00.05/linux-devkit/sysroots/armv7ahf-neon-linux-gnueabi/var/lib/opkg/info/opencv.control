@@ -1,0 +1,13 @@
+Package: opencv
+Version: 3.1+git0+b4f54ac48c-r0.tisdk7.0
+Description: Opencv : The Open Computer Vision Library
+ Opencv : The Open Computer Vision Library.
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: opencv
+Homepage: http://opencv.org/
+Depends: libopencv-imgcodecs3.1, libopencv-text3.1, libopencv-structured-light3.1, libopencv-fuzzy3.1, libopencv-saliency3.1, libopencv-videoio3.1, libopencv-video3.1, libopencv-objdetect3.1, libopencv-flann3.1, opencv-apps, libopencv-imgproc3.1, libopencv-stitching3.1, libopencv-xphoto3.1, libopencv-xobjdetect3.1, libopencv-surface-matching3.1, opencv-samples, libopencv-face3.1, python-opencv, libopencv-superres3.1, libopencv-aruco3.1, libopencv-cvv3.1, libopencv-ximgproc3.1, libopencv-stereo3.1, libopencv-reg3.1, libopencv-line-descriptor3.1, libopencv-dpm3.1, libopencv-tracking3.1, libopencv-bioinspired3.1, libopencv-shape3.1, libopencv-calib3d3.1, libopencv-bgsegm3.1, libopencv-optflow3.1, libopencv-highgui3.1, libopencv-ml3.1, libopencv-xfeatures2d3.1, opencv-staticdev, libopencv-ccalib3.1, libopencv-features2d3.1, libopencv-photo3.1, libopencv-core3.1, libopencv-rgbd3.1, libopencv-datasets3.1, libopencv-dnn3.1, libopencv-videostab3.1, libopencv-plot3.1
+Source: git://git.ti.com/opencv/tiopencv.git;protocol=git;branch=tiopencvrelease_3.1;name=opencv git://github.com/Itseez/opencv_contrib.git;destsuffix=contrib;name=contrib git://github.com/Itseez/opencv_3rdparty.git;branch=ippicv/master_20151201;destsuffix=party3;name=party3 file://0001-3rdparty-ippicv-Use-pre-downloaded-ipp.patch file://fixpkgconfig.patch file://setupEnv.sh

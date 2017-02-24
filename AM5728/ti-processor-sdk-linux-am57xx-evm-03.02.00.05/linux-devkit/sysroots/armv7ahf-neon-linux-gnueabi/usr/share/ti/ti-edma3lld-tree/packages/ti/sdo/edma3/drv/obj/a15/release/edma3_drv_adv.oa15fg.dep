@@ -1,0 +1,16 @@
+obj/a15/release/edma3_drv_adv.oa15fg: src/edma3_drv_adv.c \
+ ../../../../ti/sdo/edma3/drv/src/edma3.h \
+ ../../../../ti/sdo/edma3/drv/edma3_drv.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/4.9.3/include/stdint.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/arm-none-eabi/include/stdint.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/arm-none-eabi/include/sys/features.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/arm-none-eabi/include/sys/_intsup.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h \
+ ../../../../ti/sdo/edma3/rm/edma3_rm.h \
+ ../../../../ti/sdo/edma3/rm/edma3_common.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/4.9.3/include/stddef.h \
+ /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/4.9.3/include/stdbool.h \
+ ../../../../ti/sdo/edma3/rm/src/edma3_rl_cc.h \
+ ../../../../ti/sdo/edma3/rm/src/edma3resmgr.h \
+ ../../../../ti/sdo/edma3/rm/src/edma3_rl_tc.h

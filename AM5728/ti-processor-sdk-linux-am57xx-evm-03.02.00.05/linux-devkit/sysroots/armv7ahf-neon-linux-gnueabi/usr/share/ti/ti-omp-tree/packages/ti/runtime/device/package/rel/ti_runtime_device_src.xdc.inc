@@ -1,0 +1,10 @@
+package/package.bld.xml
+package/build.cfg
+config.bld
+package.bld
+goals.xs
+src/qmss_device.c
+src/osal.c
+./src/osal.h
+package/package.xdc.inc
+package/package.cfg.xdc.inc

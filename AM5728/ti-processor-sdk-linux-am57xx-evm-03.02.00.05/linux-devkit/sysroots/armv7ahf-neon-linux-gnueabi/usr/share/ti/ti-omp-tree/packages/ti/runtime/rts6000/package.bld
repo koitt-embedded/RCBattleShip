@@ -1,0 +1,153 @@
+/*
+ * Copyright (c) 2012-2015, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+function listFiles(ext, dir)
+{   
+    var srcFile = [];
+    var d;
+
+    if (dir == undefined) 
+        d = ".";
+    else 
+        d = dir;
+
+    /* Get access to the current directory. */
+    var file = new java.io.File(d);
+
+    /* Check if the file exists and it is a directory. */
+    if (file.exists() && file.isDirectory()) 
+    {
+        /* Get a list of all files in the specific directory. */
+        var fileList = file.listFiles();
+        for (var i = 0; i < fileList.length; i++) 
+        {
+            /* Dont add the generated directory 'package' and any of its files 
+             * to the list here. */
+            if (fileList[i].getName().matches("package") == false)
+            {
+                /* Check if the detected file is a directory and if so we need to 
+                 * recursivly detect all the files within that directory too. */
+                if (fileList[i].isDirectory())
+                {
+                    /* Generate the directory Name in which we will recurse. */ 
+                    var directoryName = d + "/" + fileList[i].getName();
+
+                    /* Get a list of all files in this directory */
+                    var fileListing = listFiles (ext, directoryName);
+                    if (fileListing != null)
+                    {
+                        /* Return a list of all file names in the directory. */
+                        for (var j = 0 ; j < fileListing.length; j++) 
+                            srcFile[srcFile.length++] = fileListing[j];
+                    }
+                }
+                else
+                {
+                    /* This was a file. Check if the file name matches the extension */
+                    if (fileList[i].getName().endsWith(ext) == true)
+                        srcFile[srcFile.length++] = d + "/" + fileList[i].getName();
+                }
+            }
+        }
+        return srcFile;
+    }
+    return null;
+}
+
+function libBuild()
+{
+    var pkg = Pkg;
+    var srcDir = "."
+    var cFiles   = listFiles(".c",srcDir);
+    var asmFiles = listFiles(".asm",srcDir);
+    var srcFiles = cFiles.concat(asmFiles);
+    var pkgName = pkg.name.replace(/\./g, "_");
+    var library = xdc.useModule('xdc.bld.Library');
+    var libAttrs = new library.Attrs; 
+    var hFiles = listFiles(".h");
+
+    pkg.attrs.compress = true;
+
+   
+    /* release containing only source files and build system */
+    var relName = pkgName + "_src";
+    var src = pkg.addRelease(relName);
+    src.attrs.label = "src";
+    src.attrs.exportSrc = true;
+    src.otherFiles.$add("config.bld");
+    src.otherFiles.$add("package.bld");
+    src.otherFiles.$add("goals.xs");
+    for (var i=0; i < srcFiles.length; i++)
+    {
+        src.otherFiles.$add(srcFiles[i]);
+    }
+    for (var i=0; i < hFiles.length; i++)
+    {
+        src.otherFiles.$add(hFiles[i]);
+    }
+
+    /* release containing all header files and libs */ 
+    var relName = pkgName + "_all";
+    var all = pkg.addRelease(relName);
+    all.attrs.label = "all";
+    for (var i=0; i < hFiles.length; i++)
+    {
+        src.otherFiles.$add(hFiles[i]);
+    }
+    pkg.defaultRelease = all;
+
+   
+   
+    /* Build the libraries for all the targets specified. */
+    for (var target=0; target < build.targets.length; target++)
+    {
+        var suffix = build.targets[target].suffix;
+
+        for (var profile in build.targets[target].profiles)
+        {   
+            if (profile.search(pkgName)!=-1)
+            {
+                libAttrs.profile=profile;
+                var name = "lib/" + libAttrs.profile + "_" + suffix;
+                libAttrs.copts="";
+                libAttrs.releases=[];
+
+                var lib = pkg.addLibrary(name, build.targets[target], libAttrs);
+                lib.addObjects (srcFiles);
+            }
+        }
+    }
+}
+
+libBuild();
+
+

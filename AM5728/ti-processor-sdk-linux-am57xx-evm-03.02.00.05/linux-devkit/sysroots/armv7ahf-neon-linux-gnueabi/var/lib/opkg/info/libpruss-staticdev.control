@@ -1,0 +1,14 @@
+Package: libpruss-staticdev
+Version: 01.00.00.05A-r0.1.0
+Description: pruss-lld version 01.00.00.05A-r0.1 - Development files (Static Libraries)
+ TI PRUSS low level driver library  This package contains static libraries
+ for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: pruss-lld
+Depends: libpruss-dev (= 01.00.00.05A-r0.1.0)
+Provides: pruss-lld-staticdev
+Source: git://git.ti.com/keystone-rtos/pruss-lld.git;destsuffix=git/ti/drv/pruss;protocol=git;branch=master

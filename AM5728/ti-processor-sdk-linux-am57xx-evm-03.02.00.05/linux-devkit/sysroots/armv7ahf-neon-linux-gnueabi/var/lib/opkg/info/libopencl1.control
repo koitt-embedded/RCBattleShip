@@ -1,0 +1,14 @@
+Package: libopencl1
+Version: 1.1.11.0-r0.0.0
+Description: opencl version 1.1.11.0-r0.0
+ TI OpenCL host runtime and development packages
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: am57xx_evm
+OE: opencl
+Homepage: http://software-dl.ti.com/mctools/docs/opencl/intro.html
+Depends: ti-ipc (>= 3.44.00.00), libstdc++6 (>= 5.3.1), libelf1 (>= 0.148), libffi6 (>= 3.2.1), libticmem1 (>= 4.12.00.00+git0+d6d3e84c84), libsqlite3-0 (>= 3.11.0), libc6 (>= 2.21), libgcc-s1 (>= 5.3.1)
+Provides: opencl
+Source: git://git.ti.com/opencl/ti-opencl.git;protocol=git;branch=master

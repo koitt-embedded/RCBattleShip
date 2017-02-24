@@ -1,0 +1,29 @@
+/*
+ * This is a little header file which doxygen parses to generate the main
+ * documentation page
+ */
+
+/*! \mainpage LINALG User's Guide
+ *
+ * @section introduction Introduction
+ * LINALG is TI's Dense Linear Algebra Library, supporting two types of TI platforms:
+ *    - ARM+DSP platforms such as AM57xx and Keystone II devices
+ *    - DSP-only platforms such as Keystone I devices
+ * 
+ * LINALG includes BLAS and LAPACK:
+ *    - BLAS is based on BLIS (https://github.com/flame/blis) and available on both ARM+DSP and DSP-only plaforms. 
+ *    - LAPACK is based on CLAPACK 3.2.1 (http://www.netlib.org/clapack/) and available only on ARM+DSP platforms. 
+ *
+ * @section linalg_api LINALG API
+ * For ARM+DSP library, LINALG API is the standard CBLAS and CLAPACK API, accessible through ARM (host). 
+ * For DSP-only library, LINALG API includes the standard CBLAS API as well as TI CBLAS API extension. 
+ *
+ *   - CBLAS API: http://www.netlib.org/blas/#_cblas
+ *   - CLAPACK API: http://www.netlib.org/clapack/
+ *   - @ref ti_cblas_api
+ *
+ * @section linalg_ug User's Guide
+ * For detailed information about how to use LINALG, including integration, tuning, rebuilding, and porting to 
+ * more devices, please refer to http://processors.wiki.ti.com/index.php/Processor_SDK_Linear_Algebra_Library. 
+ *
+ */  

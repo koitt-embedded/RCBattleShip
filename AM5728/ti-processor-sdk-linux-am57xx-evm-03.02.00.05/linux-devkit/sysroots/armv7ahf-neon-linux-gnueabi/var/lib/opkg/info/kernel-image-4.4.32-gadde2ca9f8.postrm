@@ -1,0 +1,1 @@
+	update-alternatives --remove zImage zImage-4.4.32-gadde2ca9f8 || true

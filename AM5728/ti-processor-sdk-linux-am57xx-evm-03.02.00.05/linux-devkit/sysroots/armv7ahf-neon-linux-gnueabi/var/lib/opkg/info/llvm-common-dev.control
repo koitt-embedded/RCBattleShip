@@ -1,0 +1,14 @@
+Package: llvm-common-dev
+Version: 1.0-r0.arago0.0
+Description: Helper script for OE's llvm support - Development files
+ Helper script for OE's llvm support.  This package contains symbolic
+ links, header files, and related items necessary for software
+ development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: llvm-common
+Depends: llvm-common (= 1.0-r0.arago0.0)
+Source: file://llvm-config

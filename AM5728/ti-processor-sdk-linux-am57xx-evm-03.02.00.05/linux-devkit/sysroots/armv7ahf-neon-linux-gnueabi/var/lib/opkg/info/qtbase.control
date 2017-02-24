@@ -1,0 +1,13 @@
+Package: qtbase
+Version: 5.6.2+git0+b4ada3f0d8-r0.arago12.tisdk1.0
+Description: qtbase version 5.6.2+gitAUTOINC+b4ada3f0d8-r0.arago12.tisdk1
+ qtbase version 5.6.2+gitAUTOINC+b4ada3f0d8-r0.arago12.tisdk1.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GFDL-1.3 & BSD & (LGPL-2.1 & The-Qt-Company-Qt-LGPL-Exception-1.1 | LGPL-3.0)
+Architecture: armv7ahf-neon
+OE: qtbase
+Depends: qtbase-conf, libssl1.0.0, libstdc++6 (>= 5.3.1), libpng16-16 (>= 1.6.21), libdrm2 (>= 2.4.67), ti-sgx-ddk-um (>= 1.14.3699939), libz1 (>= 1.2.8), libudev1 (>= 229+git0+714c62b463), libicui18n56 (>= 56.1), libicuuc56 (>= 56.1), libc6 (>= 2.21), libdrm-omap1 (>= 2.4.67), libgbm2 (>= 10.0.0), libdbus-1-3 (>= 1.10.6), libgcc-s1 (>= 5.3.1), libicudata56 (>= 56.1)
+Recommends: qtbase-plugins, qtbase-qmlplugins
+Source: git://github.com/qt/qtbase.git;name=qtbase;branch=5.6;protocol=git file://0001-Add-linux-oe-g-platform.patch file://0002-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch file://0003-Add-external-hostbindir-option.patch file://0004-qt_module-Fix-pkgconfig-and-libtool-replacements.patch file://0005-configure-bump-path-length-from-256-to-512-character.patch file://0006-QOpenGLPaintDevice-sub-area-support.patch file://0007-linux-oe-g-Invert-conditional-for-defining-QT_SOCKLE.patch file://0008-configure-paths-for-target-qmake-properly.patch file://0009-Pretend-Qt5-wasn-t-found-if-OE_QMAKE_PATH_EXTERNAL_H.patch file://0001-deform-Fix-how-controls-are-shown.patch file://0002-deform-disable-opengl-button.patch file://0001-qtbase-enhance-eglfs_kms-to-handle-DRM-plane-set-req.patch

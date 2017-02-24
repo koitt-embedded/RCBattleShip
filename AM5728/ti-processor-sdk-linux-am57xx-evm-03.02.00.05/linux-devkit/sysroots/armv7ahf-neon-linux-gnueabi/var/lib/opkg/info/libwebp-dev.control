@@ -1,0 +1,21 @@
+Package: libwebp-dev
+Version: 0.5.0-r0.0
+Description: WebP is an image format designed for the Web - Development files
+ WebP is a method of lossy and lossless compression that can be
+ used on a large variety of photographic, translucent and
+ graphical images found on the web. The degree of lossy
+ compression is adjustable so a user can choose the trade-off
+ between file size and image quality. WebP typically achieves
+ an average of 30% more compression than JPEG and JPEG 2000,
+ without loss of image quality.  This package contains symbolic links,
+ header files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: armv7ahf-neon
+OE: libwebp
+Homepage: https://developers.google.com/speed/webp/
+Depends: libwebp (= 0.5.0-r0.0)
+Recommends: libc6-dev
+Source: http://downloads.webmproject.org/releases/webp/libwebp-0.5.0.tar.gz

@@ -1,0 +1,292 @@
+* ========================================================================== *
+* IMGLIB -- TI Image and Video Processing Library                            *
+*                                                                            *
+*                                                                            *
+* Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/     *
+*                                                                            *
+*                                                                            *
+*  Redistribution and use in source and binary forms, with or without        *
+*  modification, are permitted provided that the following conditions        *
+*  are met:                                                                  *
+*                                                                            *
+*    Redistributions of source code must retain the above copyright          *
+*    notice, this list of conditions and the following disclaimer.           *
+*                                                                            *
+*    Redistributions in binary form must reproduce the above copyright       *
+*    notice, this list of conditions and the following disclaimer in the     *
+*    documentation and/or other materials provided with the                  *
+*    distribution.                                                           *
+*                                                                            *
+*    Neither the name of Texas Instruments Incorporated nor the names of     *
+*    its contributors may be used to endorse or promote products derived     *
+*    from this software without specific prior written permission.           *
+*                                                                            *
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS       *
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT         *
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR     *
+*  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT      *
+*  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,     *
+*  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT          *
+*  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     *
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     *
+*  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       *
+*  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE     *
+*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.      *
+* ========================================================================== *
+
+* ========================================================================== *
+*   NAME                                                                     *
+*      IMG_corr_3x3_i16_c16                                                  *
+*                                                                            *
+*   USAGE                                                                    *
+*       This routine is C-callable and can be called as:                     *
+*                                                                            *
+*          void IMG_corr_3x3_i16_c16                                         *
+*          (                                                                 *
+*            const unsigned short         *imgin_ptr,  // input image        *
+*                  unsigned int *restrict  imgout_ptr, // output image       *
+*            const unsigned short         *mask_ptr,   // convolution mask   *
+*                  short                   pitch,      // columns in image   *
+*                  short                   width,      // number of outputs  *
+*          );                                                                *
+*                                                                            *
+*   DESCRIPTION                                                              *
+*       The correlation performs a point by point multiplication of the      *
+*       3 by 3 mask with the input image.  The result of the nine            *
+*       multiplications are then summed up together to produce a             *
+*       convolution sum.  This sum is then stored to the output array.       *
+*                                                                            *
+*       The image mask to be correlated is typically part of the input       *
+*       image and indicates the area of the best match between the           *
+*       input image and mask.  The mask is moved one column at a time,       *
+*       advancing the mask over the portion of the row specified by          *
+*       'width'.  When 'width' is larger than 'pitch', multiple rows         *
+*       will be processed.                                                   *
+*                                                                            *
+*       An application may call this kernel once per row to calculate        *
+*       the correlation for an entire image:                                 *
+*                                                                            *
+*           for (i = 0; i < rows; i++)                                       *
+*           {                                                                *
+*               IMG_corr_3x3_i16_c16 (&imgin_ptr[i * pitch],                 *
+*                                     &imgout_ptr[i * width],                *
+*                                     mask_ptr, pitch, width);               *
+*           }                                                                *
+*                                                                            *
+*   ASSUMPTIONS                                                              *
+*      - Input and Output buffers do not alias.                              *
+*      - 'width' should be a multiple of 4                                   *
+*                                                                            *
+*   MEMORY NOTE                                                              *
+*      - This kernel places no restrictions on the alignment of its input.   *
+*      - No bank conflicts occur.                                            *
+*      - This code assumes a LITTLE ENDIAN configuration.                    *
+*                                                                            *
+*   TECHNIQUES                                                               *
+*      - The inner loops are unrolled completely, and the outer loop is      *
+*      - unrolled 4 times.                                                   *
+*      - Half-word unsigned multiplication is used here.                     *
+*      - Non-aligned loads and stores are used to avoid alignment issues.    *
+*                                                                            *
+* ========================================================================== *
+
+    .if __TI_EABI__
+        .asg  IMG_corr_3x3_i16_c16, _IMG_corr_3x3_i16_c16
+    .endif
+
+    .sect ".text:optimized"
+    .global _IMG_corr_3x3_i16_c16
+
+_IMG_corr_3x3_i16_c16:	.cproc	A_inptr, outptr, mask, pitch, width
+		.no_mdep
+		.reg	mask32:mask10, mask76:mask54
+		.reg	mask8, tempZ, A_in2, A_in3,	B_in1, B_in2, B_in3
+		.reg	count	
+    .reg  out0, out1, out2, out3
+		.reg	line01:line00,line11:line10,line21:line20
+		.reg	line03:line02,line13:line12,line23:line22
+		.reg	kek0_0,kek0_1,kek0_2,kek0_3,kek0_4,kek0_5,kek0_6,kek0_7
+		.reg	kek1_0,kek1_1,kek1_2,kek1_3,kek1_4,kek1_5,kek1_6,kek1_7
+		.reg	kek2_0,kek2_1,kek2_2,kek2_3,kek2_4,kek2_5,kek2_6,kek2_7
+		.reg	kek3_0,kek3_1,kek3_2,kek3_3,kek3_4,kek3_5,kek3_6,kek3_7
+		.reg	kek0_8,kek1_8,kek2_8,kek3_8
+		.reg 	a0pix1:a0pix0
+		.reg 	b0pix1:b0pix0
+		.reg 	c0pix1:c0pix0
+		.reg 	d0pix1:d0pix0
+		.reg 	e0pix1:e0pix0
+		.reg 	f0pix1:f0pix0
+		.reg 	g0pix1:g0pix0
+		.reg 	h0pix1:h0pix0
+		.reg 	a1pix1:a1pix0
+		.reg 	b1pix1:b1pix0
+		.reg 	c1pix1:c1pix0
+		.reg 	d1pix1:d1pix0
+		.reg 	e1pix1:e1pix0
+		.reg 	f1pix1:f1pix0
+		.reg 	g1pix1:g1pix0
+		.reg 	h1pix1:h1pix0
+		.reg 	a2pix1:a2pix0
+		.reg 	b2pix1:b2pix0
+		.reg 	c2pix1:c2pix0
+		.reg 	d2pix1:d2pix0
+		.reg 	e2pix1:e2pix0
+		.reg 	f2pix1:f2pix0
+		.reg 	g2pix1:g2pix0
+		.reg 	h2pix1:h2pix0
+		.reg 	a3pix1:a3pix0
+		.reg 	b3pix1:b3pix0
+		.reg 	c3pix1:c3pix0
+		.reg 	d3pix1:d3pix0
+		.reg 	e3pix1:e3pix0
+		.reg 	f3pix1:f3pix0
+		.reg 	g3pix1:g3pix0
+		.reg 	h3pix1:h3pix0
+		
+
+		;-------------------;
+		; *	load masks *	;
+		;-------------------;
+
+		;-------------------;
+		; if, the mask :	;
+		;	0, 1, 2			;
+		;	3, 4, 5			;
+		;	6, 7, 8			;
+		;-------------------;
+
+		LDNW		*mask++(4),		mask10				
+		LDNW		*mask++(4),		mask32				
+		LDNW		*mask++(4),		mask54
+		LDNW		*mask++(4),		mask76
+		LDH			*+mask[0],		mask8
+
+		;-------------------;
+		; * counters		:
+		;-------------------;
+
+		SHL		pitch,		1,		tempZ			; 16 bit > addressing * 2
+		ADD		A_inptr,	tempZ,	A_in2	
+		ADD		A_in2,		tempZ,	A_in3	
+
+		ADD		A_inptr,	8,	B_in1				; for last 2 of 4 ...
+		ADD		A_in2,		8,	B_in2
+		ADD		A_in3,		8,	B_in3
+
+		SHRU	width,	  2,	count
+		SUB		count,		2,	count
+	
+		;-------------------;
+		;   * LOOP *		;
+		;-------------------;
+loop:
+		LDNDW		*A_inptr++,	line01:line00
+		LDNDW		*A_in2++,	line11:line10
+		LDNDW		*A_in3++,	line21:line20
+
+		LDNW		*B_in1++(8),	line03
+		LDNW		*B_in2++(8),	line13
+		LDNW		*B_in3++(8),	line23
+
+
+		;-------------------;
+		;	* first pix *	;
+		;-------------------;
+		MPYU		mask10,		line00,		kek0_0
+		MPYHU		line00,		mask10,		kek0_1
+		MPYU		mask32,		line01,		kek0_2
+		ADDU			kek0_0,		kek0_1,			a0pix1:a0pix0
+		ADDU			kek0_2,		a0pix1:a0pix0,	b0pix1:b0pix0
+		MPYHLU		mask32,		line10,		kek0_3
+		MPYHLU		line10,		mask54,		kek0_4
+		ADDU			kek0_3,		b0pix1:b0pix0,	c0pix1:c0pix0
+		ADDU			kek0_4,		c0pix1:c0pix0,	d0pix1:d0pix0
+		MPYHLU		mask54,		line11,		kek0_5
+		MPYU		mask76,		line20,		kek0_6
+		ADDU			kek0_5,		d0pix1:d0pix0,	e0pix1:e0pix0
+		ADDU			kek0_6,		e0pix1:e0pix0,	f0pix1:f0pix0
+		MPYHU		line20,		mask76,		kek0_7
+		MPYU		mask8,		line21,		kek0_8
+		ADDU			kek0_7,		f0pix1:f0pix0,	g0pix1:g0pix0
+		ADDU			kek0_8,		g0pix1:g0pix0,	h0pix1:h0pix0
+		SAT     h0pix1:h0pix0, out0 
+		STNW		out0,	*outptr++
+		
+		;-------------------;
+		;	* 2nd	pix *	;
+		;-------------------;
+		MPYHLU		line00,		mask10,		kek1_0
+		MPYHLU		mask10,		line01,		kek1_1
+		MPYHLU		line01,		mask32,		kek1_2
+		ADDU			kek1_0,		kek1_1,			a1pix1:a1pix0
+		ADDU			kek1_2,		a1pix1:a1pix0,	b1pix1:b1pix0
+		MPYHU		line10,		mask32,		kek1_3
+		MPYU		mask54,		line11,		kek1_4
+		ADDU			kek1_3,		b1pix1:b1pix0,	c1pix1:c1pix0
+		ADDU			kek1_4,		c1pix1:c1pix0,	d1pix1:d1pix0
+		MPYHU		line11,		mask54,		kek1_5
+		MPYHLU		line20,		mask76,		kek1_6
+		ADDU			kek1_5,		d1pix1:d1pix0,	e1pix1:e1pix0
+		ADDU			kek1_6,		e1pix1:e1pix0,	f1pix1:f1pix0
+		MPYHLU		mask76,		line21,		kek1_7
+		MPYHLU		line21,		mask8,		kek1_8
+		ADDU			kek1_7,		f1pix1:f1pix0,	g1pix1:g1pix0
+		ADDU			kek1_8,		g1pix1:g1pix0,	h1pix1:h1pix0
+		SAT     h1pix1:h1pix0, out1
+		STNW		out1,	*outptr++
+
+		;-------------------;
+		;	* 3rd	pix *	;
+		;-------------------;
+		MPYU		mask10,		line01,		kek2_0
+		MPYHU		line01,		mask10,		kek2_1
+		MPYU		mask32,		line03,		kek2_2
+		ADDU			kek2_0,		kek2_1,			a2pix1:a2pix0
+		ADDU			kek2_2,		a2pix1:a2pix0,	b2pix1:b2pix0
+		MPYHLU		mask32,		line11,		kek2_3
+		MPYHLU		line11,		mask54,		kek2_4
+		ADDU			kek2_3,		b2pix1:b2pix0,	c2pix1:c2pix0
+		ADDU			kek2_4,		c2pix1:c2pix0,	d2pix1:d2pix0
+		MPYHLU		mask54,		line13,		kek2_5
+		MPYU		mask76,		line21,		kek2_6
+		ADDU			kek2_5,		d2pix1:d2pix0,	e2pix1:e2pix0
+		ADDU			kek2_6,		e2pix1:e2pix0,	f2pix1:f2pix0
+		MPYHU		line21,		mask76,		kek2_7
+		MPYU		mask8,		line23,		kek2_8
+		ADDU			kek2_7,		f2pix1:f2pix0,	g2pix1:g2pix0
+		ADDU			kek2_8,		g2pix1:g2pix0,	h2pix1:h2pix0
+		SAT     h2pix1:h2pix0, out2 
+		STNW		out2,	*outptr++
+
+		;-------------------;
+		;	* 4th pix	*	;
+		;-------------------;
+		MPYHLU		line01,		mask10,		kek3_0
+		MPYHLU		mask10,		line03,		kek3_1
+		MPYHLU		line03,		mask32,		kek3_2
+		ADDU			kek3_0,		kek3_1,			a3pix1:a3pix0
+		ADDU			kek3_2,		a3pix1:a3pix0,	b3pix1:b3pix0
+		MPYHU		line11,		mask32,		kek3_3
+		MPYU		mask54,		line13,		kek3_4
+		ADDU			kek3_3,		b3pix1:b3pix0,	c3pix1:c3pix0
+		ADDU			kek3_4,		c3pix1:c3pix0,	d3pix1:d3pix0
+		MPYHU		line13,		mask54,		kek3_5
+		MPYHLU		line21,		mask76,		kek3_6
+		ADDU			kek3_5,		d3pix1:d3pix0,	e3pix1:e3pix0
+		ADDU			kek3_6,		e3pix1:e3pix0,	f3pix1:f3pix0
+		MPYHLU		mask76,		line23,		kek3_7
+		MPYHLU		line23,		mask8,		kek3_8
+		ADDU			kek3_7,		f3pix1:f3pix0,	g3pix1:g3pix0
+		ADDU			kek3_8,		g3pix1:g3pix0,	h3pix1:h3pix0
+		SAT     h3pix1:h3pix0, out3
+		STNW		out3,	*outptr++
+
+		BDEC		loop,	count
+
+		.return;
+		.endproc
+
+* ======================================================================== *
+*  End of file:  IMG_corr_3x3_i16_c16.sa                                   *
+* ======================================================================== *
+

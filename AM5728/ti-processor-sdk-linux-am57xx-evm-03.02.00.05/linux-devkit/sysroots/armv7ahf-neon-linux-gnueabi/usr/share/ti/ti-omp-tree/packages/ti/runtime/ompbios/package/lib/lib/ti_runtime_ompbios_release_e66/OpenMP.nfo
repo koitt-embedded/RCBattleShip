@@ -1,0 +1,203 @@
+TMS320C6x C/C++ Optimizer               v8.1.0
+Build Number 1PLQV-2LI-UARAR-TAR-C08D
+
+		======File-level Analysis Summary======
+
+
+extern void __TI_omp_initialize_rtsc_mode() is called from 0 sites in this file.
+    It appears to be inlineable (size = 16 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	xdc_runtime_System_abort__E() (1 times)
+	tomp_ompInitCommon() (1 times)
+	__TI_omp_wait_at_core_barrier() (1 times)
+	tomp_switchL2SpToGlobal() (1 times)
+	initRuntimeConfigFromModule() (1 times)
+	startIpc() (1 times)
+	__TI_omp_reset_rtsc_mode() (1 times)
+
+extern void __TI_omp_reset_rtsc_mode() is called from 1 sites in this file.
+    It appears to be inlineable (size = 24 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	__TI_omp_enable_caching() (2 times)
+	__TI_setMPAX() (1 times)
+	__TI_omp_disable_caching() (2 times)
+
+static unsigned get_dsp_id() is called from 1 sites in this file.
+    It appears to be inlineable (size = 6 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+static void initRuntimeConfigFromModule() is called from 1 sites in this file.
+    It appears to be inlineable (size = 24 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	__TI_omp_config_thread_stack() (1 times)
+	__TI_omp_config_hw_queues() (1 times)
+	__TI_omp_config_clock_freq_in_mhz() (1 times)
+	__TI_omp_config_hw_semaphores() (1 times)
+	__TI_omp_config_cores() (1 times)
+
+static void startIpc() is called from 2 sites in this file.
+    It appears to be inlineable (size = 16 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	xdc_runtime_System_abort__E() (1 times)
+	Ipc_start() (1 times)
+	MultiProc_setLocalId() (1 times)
+
+extern void ti_runtime_ompbios_OpenMP_setProcId__I() is called from 0 sites in this file.
+    It appears to be inlineable (size = 26 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	MultiProc_getId() (2 times)
+	MultiProc_setLocalId() (2 times)
+	xdc_runtime_System_abort__E() (2 times)
+	get_dsp_id() (1 times)
+
+extern unsigned short ti_runtime_ompbios_OpenMP_useSharedHeap__F() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+extern void tomp_exitOpenMPforOpenCL() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_closeQueues() (1 times)
+	__TI_omp_wait_at_core_barrier() (1 times)
+
+extern int tomp_initOpenMPforOpenCLPerApp() is called from 0 sites in this file.
+    It appears to be inlineable (size = 58 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	tomp_initIcvNoParse() (1 times)
+	tomp_initParallel() (1 times)
+	tomp_initLocal() (1 times)
+	tomp_initGlobalNRT() (1 times)
+	startIpc() (1 times)
+	__TI_omp_wait_at_core_barrier() (2 times)
+	__TI_omp_config_clock_freq_in_mhz() (1 times)
+	__TI_omp_config_thread_stack() (1 times)
+	__TI_omp_config_hw_semaphores() (1 times)
+	__TI_omp_config_cores() (1 times)
+	tomp_resetCoreBarrier() (1 times)
+
+
+These functions may be recursive:
+	__TI_omp_initialize_rtsc_mode()
+	initRuntimeConfigFromModule()
+	__TI_omp_reset_rtsc_mode()
+	ti_runtime_ompbios_OpenMP_setProcId__I()
+	tomp_exitOpenMPforOpenCL()
+	tomp_initOpenMPforOpenCLPerApp()
+	startIpc()
+
+Making this function inlineable: get_dsp_id()
+Inlineable function will be suppressed: get_dsp_id()
+
+Making this function inlineable: startIpc()
+Inlineable function will be suppressed: startIpc()
+
+Making this function inlineable: initRuntimeConfigFromModule()
+Inlineable function will be suppressed: initRuntimeConfigFromModule()
+
+These external functions are called but not defined here:
+	tomp_resetCoreBarrier()
+	tomp_initGlobalNRT()
+	tomp_initLocal()
+	tomp_initParallel()
+	tomp_initIcvNoParse()
+	tomp_closeQueues()
+	MultiProc_getId()
+	MultiProc_setLocalId()
+	Ipc_start()
+	__TI_omp_config_cores()
+	__TI_omp_config_hw_semaphores()
+	__TI_omp_config_clock_freq_in_mhz()
+	__TI_omp_config_hw_queues()
+	__TI_omp_config_thread_stack()
+	__TI_omp_disable_caching()
+	__TI_setMPAX()
+	__TI_omp_enable_caching()
+	tomp_switchL2SpToGlobal()
+	__TI_omp_wait_at_core_barrier()
+	tomp_ompInitCommon()
+	xdc_runtime_System_abort__E()
+
+
+		======= End file-level Analysis =======
+
+
+==============================================================================
+
+extern int tomp_initOpenMPforOpenCLPerApp() is called from 0 sites in this file.
+    It appears to be inlineable (size = 58 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	startIpc() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void tomp_exitOpenMPforOpenCL() is called from 0 sites in this file.
+    It appears to be inlineable (size = 11 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern unsigned short ti_runtime_ompbios_OpenMP_useSharedHeap__F() is called from 0 sites in this file.
+    It appears to be inlineable (size = 5 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void ti_runtime_ompbios_OpenMP_setProcId__I() is called from 0 sites in this file.
+    It appears to be inlineable (size = 26 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	get_dsp_id() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_reset_rtsc_mode() is called from 1 sites in this file.
+    It appears to be inlineable (size = 24 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	<NONE>
+
+There are -1 memory accesses with 0 dependences.
+
+
+==============================================================================
+
+extern void __TI_omp_initialize_rtsc_mode() is called from 0 sites in this file.
+    It appears to be inlineable (size = 16 units)
+    It has 3 non-trivial scope blocks nested 3 deep.
+    It calls these functions:
+	__TI_omp_reset_rtsc_mode() (1 times)
+	startIpc() (1 times)
+	initRuntimeConfigFromModule() (1 times)
+
+There are -1 memory accesses with 0 dependences.
+
+
+== END OF INFO OUTPUT==

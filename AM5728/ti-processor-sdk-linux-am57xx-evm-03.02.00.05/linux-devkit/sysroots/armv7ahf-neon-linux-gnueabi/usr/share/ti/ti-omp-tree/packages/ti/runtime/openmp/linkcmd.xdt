@@ -1,0 +1,121 @@
+%%{ --COPYRIGHT--,BSD
+/*
+ * Copyright (c)  2013, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * --/COPYRIGHT--
+ */
+%%}
+
+% var appname = Program.cfgBase + ".o" + Program.build.target.suffix;
+% /* appname is now similar to package/cfg/debug/myapp_pe66.oe66 */
+
+% var appname = appname.split('\/').pop();
+% /* appname is now similar to myapp_pe66.oe66 */
+
+% var ompSettings = xdc.module("ti.runtime.openmp.Settings");
+
+SECTIONS
+{
+    /* 
+     *  The .far & .fardata sections of the RTSC genenerated 'C' file (appname)
+     *  and the RTS libraries (*rts*.lib) consist of global variables that must
+     *  be local to each core.  These sections are therefore placed in
+     *  memory local to each core.
+     */
+% if (String(Program.cpu.deviceName).search("DRA7XX") == -1 && String(Program.cpu.deviceName).search("K2G") == -1) {
+    .localfar :
+    {
+        "*rts*.lib" (.far)
+        "*rts*.lib" (.fardata)
+        "ti.drv.qmss*.ae66" (.far:local) 
+% if (ompSettings.usingRtsc == true) {
+        "`appname`" (.far)
+        "`appname`" (.fardata)
+%}
+    } > L2SRAM
+%} else {
+    .localfar :
+    {
+        "*rts*.lib" (.far)
+        "*rts*.lib" (.fardata)
+% if (ompSettings.usingRtsc == true && ompSettings.usingOpenCL == false ) {
+        "`appname`"
+%}
+    } > L2SRAM
+
+% if (ompSettings.usingOpenCL == true) {
+    "`appname`"  > DDR3_FCSECTION
+%}
+%}
+
+    /*
+     * Place the .TI.tls section to avoid a linker defect related to
+     * default placement. This section is not used because the runtime
+     * dynamically allocates TLS.
+     */
+    .TI.tls         >   DDR3
+
+    /* tls_init must be placed in a region that has not been mapped via MPAX
+     * since it is initialized by the loader
+     */
+    .TI.tls_init    >   DDR3
+}
+
+% if (ompSettings.usingOpenCL == true) {
+SECTIONS
+{
+    .tomp_gvMem:       load=L2SRAM, fill = 0x0
+
+% if (String(Program.cpu.deviceName).search("DRA7XX") != -1) {
+    .tomp_svNcMem:     load= DDR3_NC, type = NOLOAD, fill = 0x0
+%} else if (String(Program.cpu.deviceName).search("K2G") != -1) {
+    .tomp_svNcMem:     load= DDR3_NC, fill = 0x0
+%} else {
+    .tomp_svNcMem:     load=MSMC_NC_PHYS, run=MSMC_NC_VIRT, fill=0x0
+%}
+
+}
+% } else {
+SECTIONS
+{
+    .tomp_gvMem:       load= L2SRAM, fill = 0x0
+
+% if (String(Program.cpu.deviceName).search("DRA7XX") != -1) {
+    .tomp_svNcMem:     load= DDR3_NC, type = NOLOAD, fill = 0x0
+%} else if (String(Program.cpu.deviceName).search("K2G") != -1) {
+    .tomp_svNcMem:     load= DDR3_NC, fill = 0x0
+%} else {
+    .qmss:             load= OMP_MSMC_NC_PHY, run= OMP_MSMC_NC_VIRT, fill = 0x0
+    .tomp_svNcMem:     load= OMP_MSMC_NC_PHY, run= OMP_MSMC_NC_VIRT, fill = 0x0
+%}
+
+    .tomp_svMemSlow:   load= DDR3
+}
+% }

@@ -1,0 +1,19 @@
+Package: pango-dev
+Version: 1.38.1-r0.0
+Description: Framework for layout and rendering of internationalized text - Development files
+ Pango is a library for laying out and rendering of text, with an emphasis
+ on internationalization. Pango can be used anywhere that text layout is
+ needed, though most of the work on Pango so far has been done in the
+ context of the GTK+ widget toolkit. Pango forms the core of text and font
+ handling for GTK+-2.x.  This package contains symbolic links, header
+ files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2.0+
+Architecture: armv7ahf-neon
+OE: pango
+Homepage: http://www.pango.org/
+Depends: pango (= 1.38.1-r0.0)
+Recommends: libcairo-dev, libfontconfig-dev, libz-dev, libpng16-dev, libharfbuzz-dev, libglib-2.0-dev, libpcre-dev, libffi-dev, gobject-introspection-dev, libc6-dev, libexpat-dev, libfreetype-dev, libpixman-1-dev
+Source: http://ftp.gnome.org/pub/GNOME/sources/pango/1.38/pango-1.38.1.tar.xz;name=archive file://run-ptest file://0001-Drop-introspection-macros-from-acinclude.m4.patch

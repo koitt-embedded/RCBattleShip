@@ -1,0 +1,9 @@
+digraph "__TI_omp_configure"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="__TI_omp_configure",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="__TI_omp_initialize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$boot_8c.html#a26e8cff2afffc6ca9503aed9262842c2",tooltip="Initializes the OMP runtime. "];
+}

@@ -1,0 +1,12 @@
+Package: libqt5declarative-mkspecs
+Version: 5.6.2+git0+5eab543c5c-r0.0
+Description: qtquick1 version 5.6.2+gitAUTOINC+5eab543c5c-r0
+ qtquick1 version 5.6.2+gitAUTOINC+5eab543c5c-r0.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GFDL-1.3 & BSD & (LGPL-2.1 & The-Qt-Company-Qt-LGPL-Exception-1.1 | LGPL-3.0)
+Architecture: armv7ahf-neon
+OE: qtquick1
+Provides: qtquick1-mkspecs
+Source: git://github.com/qt/qtquick1.git;name=qtquick1;branch=5.6;protocol=git

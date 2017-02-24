@@ -1,0 +1,16 @@
+Package: util-linux
+Version: 2.27.1-r0.0
+Description: A suite of basic system administration utilities
+ Util-linux includes a suite of basic system administration utilities
+ commonly found on most Linux systems.  Some of the more important
+ utilities include disk partitioning, kernel message management,
+ filesystem creation, and system login.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+ & LGPLv2.1+ & BSD
+Architecture: armv7ahf-neon
+OE: util-linux
+Depends: libncursesw5 (>= 6.0+20160213), libtinfo5 (>= 6.0+20160213), update-alternatives-opkg, util-linux-runuser, util-linux-swaponoff, libuuid1 (>= 2.27.1), libmount1 (>= 2.27.1), util-linux-sulogin, libc6 (>= 2.21), util-linux-losetup, libblkid1 (>= 2.27.1), util-linux-umount, libsmartcols1 (>= 2.27.1), libpam (>= 1.2.1)
+Recommends: util-linux-sfdisk, util-linux-cfdisk, util-linux-mountpoint, util-linux-mount, util-linux-fdisk, util-linux-mkfs, util-linux-readprofile
+Source: http://kernel.org/pub/linux/utils/util-linux/v2.27/util-linux-2.27.1.tar.xz file://util-linux-ng-2.16-mount_lock_path.patch file://configure-sbindir.patch file://runuser.pamd file://runuser-l.pamd file://ptest.patch file://run-ptest file://avoid_unsupported_sleep_param.patch file://avoid_unsupported_grep_opts.patch file://display_testname_for_subtest.patch file://avoid_parallel_tests.patch file://uuid-test-error-api.patch file://CVE-2016-5011.patch file://CVE-2016-5011_p2.patch

@@ -1,0 +1,105 @@
+\hypertarget{lib__memmgt_8c}{}\section{src/lib\+\_\+memmgt.c File Reference}
+\label{lib__memmgt_8c}\index{src/lib\+\_\+memmgt.\+c@{src/lib\+\_\+memmgt.\+c}}
+{\ttfamily \#include $<$xdc/std.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}lib\+\_\+memmgt.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{lib__memmgt_8c_aef56ec9026728bbc68740371f2773785}{lib\+\_\+align}(addr,  algn)
+\begin{DoxyCompactList}\small\item\em Macro to align an address to power of 2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{lib__memmgt_8c_aa98179e19b671c12ff1954aeb499f601}{lib\+\_\+smem\+\_\+init} (void $\ast$handle, int mem\+\_\+type, void $\ast$base, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Initialization for a given memory handle and memory type. \end{DoxyCompactList}\item 
+static void $\ast$ \hyperlink{lib__memmgt_8c_ae59db9172756dc9b96a1c655285894f6}{lib\+\_\+smem\+\_\+alloc} (void $\ast$handle, int mem\+\_\+type, size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Memory block allocation for a given memory handle and memory type. \end{DoxyCompactList}\item 
+static int \hyperlink{lib__memmgt_8c_a4cf2e5afc3f0ac3c15959ef947e21f2c}{lib\+\_\+smem\+\_\+reset} (void $\ast$handle, int mem\+\_\+type)
+\begin{DoxyCompactList}\small\item\em Reset for a given memory handle and memory type. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_gaeeb7c8294fcd4640e4eaf7a741397032}{lib\+\_\+smem\+\_\+vinit} (void $\ast$handle, void $\ast$base, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_gadd591cf0185afae77c89e62a35af6395}{lib\+\_\+smem\+\_\+finit} (void $\ast$handle, void $\ast$base, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_ga991a1c6d4b40f4b4750c7fd1f8aa73f6}{lib\+\_\+smem\+\_\+minit} (void $\ast$handle, void $\ast$base, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_ga1dd9ae589bdfe68ced145885ea4c4789}{lib\+\_\+smem\+\_\+sinit} (void $\ast$handle, void $\ast$base, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{group__libarch__memmgt_ga24093174e441c683650863236dcb9806}{lib\+\_\+smem\+\_\+valloc} (void $\ast$handle, size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{group__libarch__memmgt_ga51d763b1f89ef58e83cb9e4bc7546ba8}{lib\+\_\+smem\+\_\+falloc} (void $\ast$handle, size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{group__libarch__memmgt_gaac0047f2fe5ce1dfad45fc0333d906dc}{lib\+\_\+smem\+\_\+malloc} (void $\ast$handle, size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{group__libarch__memmgt_ga08b73e8bf61fb50e20e08f7df4de636b}{lib\+\_\+smem\+\_\+salloc} (void $\ast$handle, size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_ga65c30f7a20c6e359df9d73db0c9078c1}{lib\+\_\+smem\+\_\+vreset} (void $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_ga18470bba549f0d9c4a6d98a1f615b8c2}{lib\+\_\+smem\+\_\+freset} (void $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_ga38dbf46a5af66e691ba20ffb61f9932e}{lib\+\_\+smem\+\_\+mreset} (void $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\item 
+int \hyperlink{group__libarch__memmgt_gaa3fb30e824c80ec62d4e7847f292108f}{lib\+\_\+smem\+\_\+sreset} (void $\ast$handle)
+\begin{DoxyCompactList}\small\item\em Refer to \hyperlink{lib__memmgt_8h}{lib\+\_\+memmgt.\+h} for detailed documentation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{lib__memmgt_8c_aef56ec9026728bbc68740371f2773785}{}\index{lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}!lib\+\_\+align@{lib\+\_\+align}}
+\index{lib\+\_\+align@{lib\+\_\+align}!lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}}
+\subsubsection[{lib\+\_\+align}]{\setlength{\rightskip}{0pt plus 5cm}\#define lib\+\_\+align(
+\begin{DoxyParamCaption}
+\item[{}]{addr, }
+\item[{}]{algn}
+\end{DoxyParamCaption}
+)}\label{lib__memmgt_8c_aef56ec9026728bbc68740371f2773785}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+( ((\textcolor{keywordtype}{unsigned} int)(addr)+(\textcolor{keywordtype}{unsigned} int)(algn)-1) \(\backslash\)
+                                &(~((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int})(algn)-1)) )
+\end{DoxyCode}
+
+
+Macro to align an address to power of 2. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{lib__memmgt_8c_ae59db9172756dc9b96a1c655285894f6}{}\index{lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}!lib\+\_\+smem\+\_\+alloc@{lib\+\_\+smem\+\_\+alloc}}
+\index{lib\+\_\+smem\+\_\+alloc@{lib\+\_\+smem\+\_\+alloc}!lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}}
+\subsubsection[{lib\+\_\+smem\+\_\+alloc}]{\setlength{\rightskip}{0pt plus 5cm}static void$\ast$ lib\+\_\+smem\+\_\+alloc (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{handle, }
+\item[{int}]{mem\+\_\+type, }
+\item[{size\+\_\+t}]{size, }
+\item[{size\+\_\+t}]{align}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{lib__memmgt_8c_ae59db9172756dc9b96a1c655285894f6}
+
+
+Memory block allocation for a given memory handle and memory type. 
+
+\hypertarget{lib__memmgt_8c_aa98179e19b671c12ff1954aeb499f601}{}\index{lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}!lib\+\_\+smem\+\_\+init@{lib\+\_\+smem\+\_\+init}}
+\index{lib\+\_\+smem\+\_\+init@{lib\+\_\+smem\+\_\+init}!lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}}
+\subsubsection[{lib\+\_\+smem\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}static int lib\+\_\+smem\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{handle, }
+\item[{int}]{mem\+\_\+type, }
+\item[{void $\ast$}]{base, }
+\item[{size\+\_\+t}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{lib__memmgt_8c_aa98179e19b671c12ff1954aeb499f601}
+
+
+Initialization for a given memory handle and memory type. 
+
+\hypertarget{lib__memmgt_8c_a4cf2e5afc3f0ac3c15959ef947e21f2c}{}\index{lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}!lib\+\_\+smem\+\_\+reset@{lib\+\_\+smem\+\_\+reset}}
+\index{lib\+\_\+smem\+\_\+reset@{lib\+\_\+smem\+\_\+reset}!lib\+\_\+memmgt.\+c@{lib\+\_\+memmgt.\+c}}
+\subsubsection[{lib\+\_\+smem\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}static int lib\+\_\+smem\+\_\+reset (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{handle, }
+\item[{int}]{mem\+\_\+type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{lib__memmgt_8c_a4cf2e5afc3f0ac3c15959ef947e21f2c}
+
+
+Reset for a given memory handle and memory type. 
+

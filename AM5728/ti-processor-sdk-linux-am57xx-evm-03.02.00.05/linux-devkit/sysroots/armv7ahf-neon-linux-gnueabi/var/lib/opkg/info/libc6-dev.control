@@ -1,0 +1,16 @@
+Package: libc6-dev
+Version: 2.21-r0.arago32.0
+Description: external-linaro-toolchain version 2016.02-r0.arago32 - Development files
+ external-linaro-toolchain version 2016.02-r0.arago32.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: LGPLv2.1+
+Architecture: armv7ahf-neon
+OE: external-linaro-toolchain
+Depends: libatomic1, libstdc++6, libasan2, libitm1, libcidn1, libgomp, libthread-db1, libgfortran3, libnss-db2, libc6 (= 2.21-r0.arago32.0), libssp0, libubsan0
+Recommends: linux-libc-headers-dev
+Provides: external-linaro-toolchain-dev, glibc-dev
+Source: file://SUPPORTED

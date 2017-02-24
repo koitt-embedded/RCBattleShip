@@ -1,0 +1,12 @@
+Package: nativesdk-ti-cgt-pru
+Version: 2.1.1-r0.0
+Description: nativesdk-ti-cgt-pru version 2.1.1-r0
+ TI PRU Code Generation Tools
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: (TI-TSPA & Thai-Open-Source-Software-Center) & BSD-3-Clause & BSL-1.0 & Hewlett-Packard & AFL-3.0 & MIT & BSD-2-Clause & PD
+Architecture: x86_64-nativesdk
+OE: nativesdk-ti-cgt-pru
+Homepage: https://www-a.ti.com/downloads/sds_support/TICodegenerationTools/download.htm
+Source: http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.1/ti_cgt_pru_2.1.1_linux_installer_x86.bin;name=cgt-pru-x86

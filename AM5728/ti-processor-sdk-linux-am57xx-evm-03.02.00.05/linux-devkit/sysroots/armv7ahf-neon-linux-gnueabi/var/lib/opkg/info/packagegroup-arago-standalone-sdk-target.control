@@ -1,0 +1,12 @@
+Package: packagegroup-arago-standalone-sdk-target
+Version: 1.0-r12.0
+Description: packagegroup-arago-standalone-sdk-target version 1.0-r12
+ Target packages for the standalone SDK
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: am57xx_evm
+OE: packagegroup-arago-standalone-sdk-target
+Depends: glibc-thread-db, zlib-dev, lzo-dev, alsa-lib-dev, freetype-dev, libjpeg-turbo-dev, libgcc-dev, libgcc, alsa-utils-dev, opkg-dev, libusb-compat-dev, alsa-dev, util-linux-dev, glibc, i2c-tools-dev, glibc-dev, libgomp-dev, curl-dev, libstdc++-dev, libsegfault, readline-dev, glibc-utils, linux-libc-headers-dev, libusb1-dev, glibc-staticdev, glibc-dbg, ncurses-dev, gdbserver, libpng-dev
+Source: None

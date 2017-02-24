@@ -1,0 +1,4 @@
+/usr/lib/qt5/mkspecs/modules/qt_lib_script_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_scripttools_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_script.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_scripttools.pri

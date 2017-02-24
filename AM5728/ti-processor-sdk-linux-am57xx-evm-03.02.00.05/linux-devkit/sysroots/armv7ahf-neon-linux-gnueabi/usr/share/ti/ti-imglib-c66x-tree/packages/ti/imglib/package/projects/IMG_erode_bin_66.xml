@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Project>
+    <params>
+        <name>IMG_erode_bin</name>
+        <location>./src/IMG_erode_bin//c66/</location>
+        <target>66</target>
+        <buildArtifact>Executable</buildArtifact>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin.h"/>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin_cn.c"/>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin_cn.h"/>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin_d.c"/>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin_idat.c"/>
+        <files name="./src/IMG_erode_bin/IMG_erode_bin_odat.c"/>
+        <files name="./src/IMG_erode_bin//c66/IMG_erode_bin.c"/>
+        <files name="./src/IMG_erode_bin//c66/IMG_erode_bin.h"/>
+        <files name="./src/common/IMG_profile.c"/>
+        <files name="./src/common/IMG_profile.h"/>
+        <files name="./src/common/IMG_utility.c"/>
+        <files name="./src/common/IMG_utility.h"/>
+        <files name="./src/common/IMG_memory.c"/>
+        <files name="./src/common/IMG_memory.h"/>
+        <files name="./src/common//c66/lnk.cmd"/>
+        <cFlags> --mem_model:data=far</cFlags>
+    </params>
+ </Project>

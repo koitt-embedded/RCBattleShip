@@ -1,0 +1,209 @@
+* ========================================================================== *
+* IMGLIB -- TI Image and Video Processing Library                            *
+*                                                                            *
+*                                                                            *
+* Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/     *
+*                                                                            *
+*                                                                            *
+*  Redistribution and use in source and binary forms, with or without        *
+*  modification, are permitted provided that the following conditions        *
+*  are met:                                                                  *
+*                                                                            *
+*    Redistributions of source code must retain the above copyright          *
+*    notice, this list of conditions and the following disclaimer.           *
+*                                                                            *
+*    Redistributions in binary form must reproduce the above copyright       *
+*    notice, this list of conditions and the following disclaimer in the     *
+*    documentation and/or other materials provided with the                  *
+*    distribution.                                                           *
+*                                                                            *
+*    Neither the name of Texas Instruments Incorporated nor the names of     *
+*    its contributors may be used to endorse or promote products derived     *
+*    from this software without specific prior written permission.           *
+*                                                                            *
+*  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS       *
+*  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT         *
+*  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR     *
+*  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT      *
+*  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,     *
+*  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT          *
+*  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,     *
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     *
+*  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       *
+*  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE     *
+*  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.      *
+* ========================================================================== *
+
+* ========================================================================== *
+*  NAME                                                                      *
+*      IMG_yc_demux_le16_16 -- De-interleave a 4:2:2 LITTLE ENDIAN video     *
+*                  stream into three separate LITTLE ENDIAN 16-bit planes    *
+*                                                                            *
+*  USAGE                                                                     *
+*      This function is C callable, and is called as follows:                *
+*                                                                            *
+*      void IMG_yc_demux_le16_16                                             *
+*      (                                                                     *
+*          int n,                       // Number of luma pixels    //       *
+*          const unsigned short * yc,   // Interleaved luma/chroma  //       *
+*          short *restrict y,           // Luma plane (16-bit)      //       *
+*          short *restrict cr,          // Cr chroma plane (16-bit) //       *
+*          short *restrict cb           // Cb chroma plane (16-bit) //       *
+*      );                                                                    *
+*                                                                            *
+*      The input array 'yc' is expected to be an interleaved 4:2:2           *
+*      video stream.  The input is expected in LITTLE ENDIAN byte            *
+*      order within each 4-byte word.  This is consistent with reading       *
+*      the video stream from a word-oriented LITTLE ENDIAN device            *
+*      while the C6000 device is in a LITTLE ENDIAN configuration.           *
+*                                                                            *
+*      In other words, the expected pixel order is:                          *
+*                                                                            *
+*                    Word 0           Word 1          Word 2                 *
+*             +-----------------+-----------------+-----------------+--      *
+*       Byte# | 0   1  |  2   3 | 4   5  |  6   7 | 8   9  | 10  11 |...     *
+*             |   y0   |   cr0  |   y1   |   cb0  |   y2   |   cr2  |...     *
+*             +-----------------+-----------------+-----------------+--      *
+*                                                                            *
+*      The output arrays 'y', 'cr', and 'cb' are expected to not             *
+*      overlap.  The de-interleaved pixels are written as half-words         *
+*      in LITTLE ENDIAN order.                                               *
+*                                                                            *
+*      Please see the IMGLIB function IMB_yc_demux_be16_16 for code which    *
+*      handles input coming from a BIG ENDIAN device.                        *
+*                                                                            *
+*  DESCRIPTION                                                               *
+*      This function reads the halfword-oriented pixel data, zero-extends    *
+*      it, and then writes it to the appropriate result array.  Both         *
+*      the luma and chroma values are expected to be unsigned.               *
+*                                                                            *
+*      The data is expected to be in an order consistent with reading        *
+*      byte oriented data from a word-oriented peripheral that is            *
+*      operating in LITTLE ENDIAN mode, while the CPU is in LITTLE           *
+*      ENDIAN mode.  This function unpacks the byte-oriented data            *
+*      so that further processing may proceed in LITTLE ENDIAN mode.         *
+*                                                                            *
+*  ASSUMPTIONS                                                               *
+*      Input and output arrays are double-word aligned.                      *
+*      The input must be a multiple of 16 luma pixels long.                  *
+*                                                                            *
+*  TECHNIQUES                                                                *
+*      The loop has been unrolled a total of 16 times to allow for           *
+*      processing 8 pixels in each datapath.                                 *
+*                                                                            *
+*      Double-word loads and stores maximize memory bandwidth                *
+*      utilization.                                                          *
+*                                                                            *
+* ========================================================================== *
+
+    .if __TI_EABI__
+        .asg  IMG_yc_demux_le16_16, _IMG_yc_demux_le16_16
+    .endif
+
+    .sect ".text:optimized"
+    .global _IMG_yc_demux_le16_16
+
+
+_IMG_yc_demux_le16_16: .cproc  A_n, B_yc, A_y, B_cr, A_cb
+        .no_mdep
+
+;; Register mapping
+        .reg  B_bEyF:B_rEyE, B_bCyD:B_rCyC
+        .reg  B_bAyB:B_rAyA, B_b8y9:B_r8y8
+        .reg  B_rErC:B_rAr8
+        .reg  B_bEbC:B_bAb8
+        .reg  B_yFyE:B_yDyC
+        .reg  B_yByA:B_y9y8
+
+        .reg  A_b6y7:A_r6y6, A_b4y5:A_r4y4
+        .reg  A_b2y3:A_r2y2, A_b0y1:A_r0y0
+        .reg  A_r6r4:A_r2r0
+        .reg  A_b6b4:A_b2b0
+        .reg  A_y7y6:A_y5y4
+        .reg  A_y3y2:A_y1y0
+;
+        .reg  B_y
+        .reg  B_cb
+        .reg  B_rEbE, B_rCbC, B_rAbA, B_r8b8
+        .reg  B_yEyF, B_yCyD, B_yAyB, B_y8y9
+        .reg  A_i
+        .reg  A_yc
+        .reg  A_cr
+        .reg  A_r6b6, A_r4b4, A_r2b2, A_r0b0
+        .reg  A_y6y7, A_y4y5, A_y2y3, A_y0y1
+;
+        SHRU    .1      A_n,        4,          A_i
+        SUB     .1      A_i,        2,          A_i
+
+        ADD     .1X     B_yc,       16,         A_yc
+        ADD     .1      A_yc,       16,         A_yc
+        ADD     .2X     A_y,        8,         B_y
+        ADD     .2      B_y,        8,         B_y
+        ADD     .1X     B_cr,       8,         A_cr
+        ADD     .2X     A_cb,       8,         B_cb
+
+        .mptr           A_yc,       yc + 16,    32
+        .mptr           B_yc,       yc + 0,     32
+        .mptr           B_y,        y  + 16,    32
+        .mptr           A_y,        y  + 0,     32
+        .mptr           A_cr,       cr + 8,     16
+        .mptr           B_cr,       cr + 0,     16
+        .mptr           B_cb,       cb + 8,     16
+        .mptr           A_cb,       cb + 0,     16
+
+loop:   .trip           2
+        ;       ;       ;           ;           ;loop:   .trip           2
+        ;       ;       ;           ;           ;
+        ; Load the packed pixels
+ 
+        LDDW    .D1T2   *A_yc++,   B_b8y9:B_r8y8
+        LDDW    .D1T2   *A_yc++,   B_bAyB:B_rAyA
+        LDDW    .D1T2   *A_yc++,   B_bCyD:B_rCyC
+        LDDW    .D1T2   *A_yc++[5],B_bEyF:B_rEyE
+
+        LDDW    .D2T1   *B_yc++,    A_b0y1:A_r0y0
+        LDDW    .D2T1   *B_yc++,    A_b2y3:A_r2y2
+        LDDW    .D2T1   *B_yc++,    A_b4y5:A_r4y4
+        LDDW    .D2T1   *B_yc++[5], A_b6y7:A_r6y6
+
+        ; Do the chromas...
+        PACKH2          B_rEyE,     B_rCyC,     B_rErC
+        PACKH2          B_rAyA,     B_r8y8,     B_rAr8
+        PACKH2          A_r6y6,     A_r4y4,     A_r6r4
+        PACKH2          A_r2y2,     A_r0y0,     A_r2r0
+
+        PACKH2          B_bEyF,     B_bCyD,     B_bEbC
+        PACKH2          B_bAyB,     B_b8y9,     B_bAb8
+        PACKH2          A_b6y7,     A_b4y5,     A_b6b4
+        PACKH2          A_b2y3,     A_b0y1,     A_b2b0
+
+        ; Do the lumas...
+        PACK2          B_bEyF,     B_rEyE,     B_yFyE
+        PACK2          B_bCyD,     B_rCyC,     B_yDyC
+        PACK2          B_bAyB,     B_rAyA,     B_yByA
+        PACK2          B_b8y9,     B_r8y8,     B_y9y8
+
+        PACK2          A_b6y7,     A_r6y6,     A_y7y6
+        PACK2          A_b4y5,     A_r4y4,     A_y5y4
+        PACK2          A_b2y3,     A_r2y2,     A_y3y2
+        PACK2          A_b0y1,     A_r0y0,     A_y1y0
+
+        ; Store it out...
+        STDW    .D2T2   B_yFyE:B_yDyC,          *B_y[1]
+        STDW    .D2T2   B_yByA:B_y9y8,          *B_y++[4]
+        STDW    .D1T1   A_y7y6:A_y5y4,          *A_y[1]
+        STDW    .D1T1   A_y3y2:A_y1y0,          *A_y++[4]
+
+        STDW    .D1T2   B_rErC:B_rAr8,          *A_cr++[2]
+        STDW    .D2T1   A_r6r4:A_r2r0,          *B_cr++[2]
+        STDW    .D2T2   B_bEbC:B_bAb8,          *B_cb++[2]
+        STDW    .D1T1   A_b6b4:A_b2b0,          *A_cb++[2]
+
+        BDEC            loop,       A_i
+
+        .endproc
+
+* ======================================================================== *
+*   End of file, "IMG_yc_demux_le16_16.sa"                                 *
+* ======================================================================== *
+

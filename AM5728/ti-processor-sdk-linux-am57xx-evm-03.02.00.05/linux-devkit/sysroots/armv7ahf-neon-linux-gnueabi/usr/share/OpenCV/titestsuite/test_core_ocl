@@ -1,0 +1,10 @@
+$OPENCV_BUILDDIR/bin/opencv_test_core  --gtest_filter=UMat*/0:UMat*/1:UMat*/2  > $OUTLOG_FILENAME 2> tmp.txt
+#rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_core  --gtest_filter=OCL_Arithm*/0:OCL_Arithm*/1:OCL_Arithm*/2  > $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_core  --gtest_filter=OCL_Channels*/0:OCL_Channels*/1:OCL_Channels*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_core  --gtest_filter=OCL_MatrixOperation*/0:OCL_MatrixOperation*/1:OCL_MatrixOperation*/2  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt
+$OPENCV_BUILDDIR/bin/opencv_test_core  --gtest_filter=OCL_CORE*/0:OCL_CORE*/1:OCL_CORE*/2:OCL_CORE*/3:OCL_CORE*/4:OCL_CORE*/5  >> $OUTLOG_FILENAME 2> tmp.txt
+rm -r /tmp/*open* 2> tmp.txt

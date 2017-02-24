@@ -1,0 +1,14 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=/usr/include/qt5
+
+
+Name: Qt5 Svg
+Description: Qt Svg module
+Version: 5.6.2
+Libs: -L${libdir} -lQt5Svg 
+Libs.private: -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lz -lGLESv2 -lsrv_um  
+Cflags: -I${includedir}/QtSvg -I${includedir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+

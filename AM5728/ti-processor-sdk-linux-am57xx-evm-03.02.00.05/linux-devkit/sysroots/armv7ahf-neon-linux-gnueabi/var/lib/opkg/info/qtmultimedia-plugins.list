@@ -1,0 +1,12 @@
+/usr/lib/qt5/plugins/audio/libqtmedia_pulse.so
+/usr/lib/qt5/plugins/audio/
+/usr/lib/qt5/plugins/mediaservice/libgstmediaplayer.so
+/usr/lib/qt5/plugins/mediaservice/libgstcamerabin.so
+/usr/lib/qt5/plugins/playlistformats/
+/usr/lib/qt5/plugins/mediaservice/
+/usr/lib/qt5/plugins/mediaservice/libgstmediacapture.so
+/usr/lib/qt5/plugins/video/
+/usr/lib/qt5/plugins/mediaservice/libgstaudiodecoder.so
+/usr/lib/qt5/plugins/playlistformats/libqtmultimedia_m3u.so
+/usr/lib/qt5/plugins/video/videonode/
+/usr/lib/qt5/plugins/video/videonode/libeglvideonode.so

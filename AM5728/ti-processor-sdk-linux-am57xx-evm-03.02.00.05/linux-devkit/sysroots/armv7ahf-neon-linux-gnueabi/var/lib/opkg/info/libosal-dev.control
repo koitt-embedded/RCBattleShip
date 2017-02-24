@@ -1,0 +1,15 @@
+Package: libosal-dev
+Version: 01.00.00.05E-r0.0.0
+Description: osal version 01.00.00.05E-r0.0 - Development files
+ TI OSAL library for Linux  This package contains symbolic links, header
+ files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: am57xx_evm
+OE: osal
+Depends: libosal1 (= 01.00.00.05E-r0.0.0)
+Recommends: libc6-dev, common-csl-ip-dev
+Provides: osal-dev
+Source: git://git.ti.com/keystone-rtos/osal.git;destsuffix=git/ti/osal;protocol=git;branch=master

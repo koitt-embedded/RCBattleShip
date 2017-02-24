@@ -1,0 +1,14 @@
+Package: libsqlite3-0
+Version: 3:3.11.0-r0.0
+Description: Embeddable SQL database engine
+ Embeddable SQL database engine.
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: PD
+Architecture: armv7ahf-neon
+OE: sqlite3
+Homepage: http://www.sqlite.org
+Depends: libc6 (>= 2.21)
+Provides: libsqlite3
+Source: http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz file://fix-disable-static-shell.patch

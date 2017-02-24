@@ -1,0 +1,13 @@
+Package: xz
+Version: 5.2.2-r0.0
+Description: Utilities for managing LZMA compressed files
+ Utilities for managing LZMA compressed files.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: armv7ahf-neon
+OE: xz
+Homepage: http://tukaani.org/xz/
+Depends: liblzma5 (>= 5.2.2), libc6 (>= 2.21)
+Source: http://tukaani.org/xz/xz-5.2.2.tar.gz

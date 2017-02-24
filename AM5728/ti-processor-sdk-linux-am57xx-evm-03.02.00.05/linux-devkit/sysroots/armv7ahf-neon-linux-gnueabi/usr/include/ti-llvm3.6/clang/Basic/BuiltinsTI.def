@@ -1,0 +1,21 @@
+//===-- BuiltinsTI.def - TI Generic Builtin function database           -*-===//
+//
+//                     The LLVM Compiler Infrastructure
+//
+// This file is distributed under the University of Illinois Open Source
+// License. See LICENSE.TXT for details.
+//
+//===----------------------------------------------------------------------===//
+//
+// This file defines the TI generic builtin function database.  Users of
+// this file must define the BUILTIN macro to make use of this information.
+//
+//===----------------------------------------------------------------------===//
+
+// The format of this database matches clang/Basic/Builtins.def.
+
+// TI generic 
+BUILTIN(_assert, "vicC*", "n")
+BUILTIN(_nassert, "vi", "n")
+
+#undef BUILTIN

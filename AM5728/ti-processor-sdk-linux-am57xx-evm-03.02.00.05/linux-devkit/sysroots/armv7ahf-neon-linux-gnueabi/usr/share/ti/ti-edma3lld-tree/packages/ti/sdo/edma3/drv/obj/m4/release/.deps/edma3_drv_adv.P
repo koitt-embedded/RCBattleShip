@@ -1,0 +1,11 @@
+obj/m4/release/edma3_drv_adv.oem4: src/edma3_drv_adv.c
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/drv/src/edma3.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/drv/edma3_drv.h
+obj/m4/release/edma3_drv_adv.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdint.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/rm/edma3_rm.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/rm/edma3_common.h
+obj/m4/release/edma3_drv_adv.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stddef.h
+obj/m4/release/edma3_drv_adv.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdbool.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/rm/src/edma3_rl_cc.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/rm/src/edma3resmgr.h
+obj/m4/release/edma3_drv_adv.oem4: ../../../../ti/sdo/edma3/rm/src/edma3_rl_tc.h

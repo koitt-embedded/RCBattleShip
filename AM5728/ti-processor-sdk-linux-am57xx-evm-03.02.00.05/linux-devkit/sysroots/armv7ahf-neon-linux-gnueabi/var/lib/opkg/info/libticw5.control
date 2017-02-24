@@ -1,0 +1,14 @@
+Package: libticw5
+Version: 6.0+20160213-r0.0
+Description: ncurses ticw library
+ ncurses ticw library
+Section: libs
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: MIT
+Architecture: armv7ahf-neon
+OE: ncurses
+Homepage: http://www.gnu.org/software/ncurses/ncurses.html
+Depends: libtinfo5 (>= 6.0+20160213), libc6 (>= 2.21)
+Provides: ncurses-libticw
+Source: git://anonscm.debian.org/collab-maint/ncurses.git file://tic-hang.patch file://config.cache

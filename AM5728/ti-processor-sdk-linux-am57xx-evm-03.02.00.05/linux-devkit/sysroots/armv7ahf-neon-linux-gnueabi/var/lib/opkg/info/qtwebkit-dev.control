@@ -1,0 +1,15 @@
+Package: qtwebkit-dev
+Version: 5.6.2+git0+bb43bca166-r0.arago4.0
+Description: qtwebkit version 5.6.2+gitAUTOINC+bb43bca166-r0.arago4 - Development files
+ qtwebkit version 5.6.2+gitAUTOINC+bb43bca166-r0.arago4.  This package
+ contains symbolic links, header files, and related items necessary for
+ software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD & LGPLv2+ | GPL-2.0
+Architecture: armv7ahf-neon
+OE: qtwebkit
+Depends: qtwebkit (= 5.6.2+git0+bb43bca166-r0.arago4.0)
+Recommends: libgcc-s-dev, libjpeg-dev, libz-dev, qtbase-dev, libicui18n-dev, icu-dev, ti-sgx-ddk-um-dev, qtlocation-dev, qtwebkit-qmldesigner, libgstpbutils-1.0-dev, sqlite3-dev, qtwebkit-mkspecs, gstreamer1.0-plugins-base-dev, libicuuc-dev, libicudata-dev, libqt5webchannel-dev, qtmultimedia-dev, libstdc++-dev, libxslt-dev, libc6-dev, libsqlite3-dev, qtwebkit, gstreamer1.0-dev, libxml2-dev, libqt5sensors-dev, libpng16-dev, qtdeclarative-dev, libglib-2.0-dev, libgstaudio-1.0-dev, libgstvideo-1.0-dev, libdrm-omap-dev, libgstapp-1.0-dev
+Source: git://github.com/qt/qtwebkit.git;name=qtwebkit;branch=5.6;protocol=git file://0001-qtwebkit-fix-QA-issue-bad-RPATH.patch file://0002-Remove-TEXTREL-tag-in-x86.patch file://0003-Exclude-backtrace-API-for-non-glibc-libraries.patch file://GraphicsSurfaceGL_NoX.cpp.patch file://GraphicsSurfaceToken.h.patch file://0001-Target.pri-update-to-use-GL_NoX-version-of-GraphicsS.patch file://WebCore.pri.patch

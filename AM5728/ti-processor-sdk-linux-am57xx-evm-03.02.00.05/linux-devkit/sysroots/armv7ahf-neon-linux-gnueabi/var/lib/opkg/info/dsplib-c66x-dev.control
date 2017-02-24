@@ -1,0 +1,15 @@
+Package: dsplib-c66x-dev
+Version: 3_4_0_0-r1.0
+Description: dsplib-c66x version 3_4_0_0-r1 - Development files
+ DSPLIB contains optimized general-purpose signal-processing routines for
+ TI DSPs  This package contains symbolic links, header files, and related
+ items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD-3-Clause
+Architecture: armv7ahf-neon
+OE: dsplib-c66x
+Homepage: http://www.ti.com/tool/sprc265
+Depends: dsplib-c66x (= 3_4_0_0-r1.0)
+Source: http://software-dl.ti.com/sdoemb/sdoemb_public_sw/dsplib/3_4_0_0/exports/dsplib_c66x_3_4_0_0_Linux.bin;name=dsplib

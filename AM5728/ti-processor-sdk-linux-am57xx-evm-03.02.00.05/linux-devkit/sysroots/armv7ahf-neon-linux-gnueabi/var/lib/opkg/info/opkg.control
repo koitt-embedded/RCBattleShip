@@ -1,0 +1,16 @@
+Package: opkg
+Version: 1:0.3.1-r0.0
+Description: Open Package Manager
+ Open Package Manager.
+Section: base
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv2+
+Architecture: armv7ahf-neon
+OE: opkg
+Homepage: http://code.google.com/p/opkg/
+Depends: run-postinsts, libarchive13 (>= 3.1.2), libxml2 (>= 2.9.4), libz1 (>= 1.2.8), libattr1 (>= 2.4.47), opkg-arch-config, libc6 (>= 2.21), update-alternatives-opkg, libopkg1 (>= 0.3.1), libbz2-1 (>= 1.0.6)
+Provides: opkg-collateral
+Replaces: opkg-collateral, opkg-nogpg
+Conflicts: opkg-collateral
+Source: http://downloads.yoctoproject.org/releases/opkg/opkg-0.3.1.tar.gz file://opkg-configure.service file://opkg.conf file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch file://0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch file://0001-configure.ac-use-pkg-config-for-libsolv.patch

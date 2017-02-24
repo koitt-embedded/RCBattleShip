@@ -1,0 +1,2 @@
+package/lib/lib/ti_runtime_openmp_am57x_release_e66/src/tomp_tls_get_tp.oe66: src/tomp_tls_get_tp.asm 
+src/tomp_tls_get_tp.asm:

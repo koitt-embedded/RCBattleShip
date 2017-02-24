@@ -1,0 +1,5 @@
+/usr/lib/qt5/mkspecs/modules/qt_lib_multimediawidgets_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_multimedia.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_multimedia_private.pri
+/usr/lib/qt5/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri

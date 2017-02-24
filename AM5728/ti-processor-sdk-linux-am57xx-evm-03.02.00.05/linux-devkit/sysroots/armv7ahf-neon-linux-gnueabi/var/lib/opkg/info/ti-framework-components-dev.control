@@ -1,0 +1,14 @@
+Package: ti-framework-components-dev
+Version: 3_40_02_07-r0.0
+Description: ti-framework-components version 3_40_02_07-r0 - Development files
+ TI Framework Components  This package contains symbolic links, header
+ files, and related items necessary for software development.
+Section: devel
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: BSD
+Architecture: armv7ahf-neon
+OE: ti-framework-components
+Homepage: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/fc
+Depends: ti-framework-components (= 3_40_02_07-r0.0)
+Source: http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/fc/3_40_02_07/exports/framework_components_3_40_02_07,lite.tar.gz;name=fctarball
