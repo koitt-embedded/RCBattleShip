@@ -1,9 +1,1 @@
-./.git/objects/pack/pack-211c91edbbed0f1d98e8d002eb71090b36b4b399.pack filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/board-support/u-boot-2016.05+gitAUTOINC+6c5519b6fc-g6c5519b6fc/.git/objects/pack/pack-3929e29525ae0123593c92d794a3c717d7f623bf.pack filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/board-support/linux-4.4.32+gitAUTOINC+adde2ca9f8-gadde2ca9f8/.git/objects/pack/pack-cf59fdee7752ce74536c3961bacb64dedf6f8f10.idx filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/board-support/linux-4.4.32+gitAUTOINC+adde2ca9f8-gadde2ca9f8/.git/objects/pack/pack-cf59fdee7752ce74536c3961bacb64dedf6f8f10.pack filter=lfs diff=lfs merge=lfs -text
 ./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/libexec/gcc/arm-linux-gnueabihf/5.3.1/cc1plus filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/libexec/gcc/arm-linux-gnueabihf/5.3.1/f951 filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/libexec/gcc/arm-linux-gnueabihf/5.3.1/cc1 filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/linux-devkit/sysroots/x86_64-arago-linux/usr/libexec/gcc/arm-linux-gnueabihf/5.3.1/lto1 filter=lfs diff=lfs merge=lfs -text
-./AM5728/ti-processor-sdk-linux-am57xx-evm-03.02.00.05/filesystem/tisdk-rootfs-image-am57xx-evm.tar.xz filter=lfs diff=lfs merge=lfs -text
