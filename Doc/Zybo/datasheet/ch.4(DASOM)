@@ -18,7 +18,7 @@ ARM코어가 올라가는 영역을 PS 라 하고 설계하는 로직 부분을 
 두 영역의 Data 전송은 AXI Ports를 통해 연결되어있다.
 ㄴ http://blog.naver.com/chacagea/220957002285
 
-IOP : IOP (I / O Peripherals)는 외부 데이터 통신을 위한 업계 표준 인터페이스 모음입니다.니
+IOP : IOP (I / O Peripherals)는 외부 데이터 통신을 위한 업계 표준 인터페이스 모음입니다.
 SMC : Static Memory Controller( 정적 메모리 컨트롤러 )
 SLCR : System-Level Control registers ( 시스템 레벨 제어 레지스터 )
 Quad-SPI : Shared Peripheral Interrupts ( 12 챕터 )
