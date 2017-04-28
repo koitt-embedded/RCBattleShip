@@ -73,3 +73,302 @@ EEPROM Emulation Flash Bank 7 을 위한 0xF0100000 시작 영역에 맵핑된�
 Note :
 
 CPU 내부의 SECDED Logic 은 AXI-M 과 AXI-S 인터페이스를 영구적으로 사용할 수 있다.
+
+DMA(Direct Memory Access)
+* 두개의 하드웨어 디바이스 간의 데이터 블록을 Transfer하는 트릭으로 사용되는 DMA
+
+* Source, Destination, 전송할 바이트 수 만 주면 알아서 Data를 전송해 주고 Processor가 전혀 신경쓰지 않아도 된다. 
+
+* DMA는 모든 Data전송이 끝나면 HW Interrupt로 CPU에게 완료를 알려주는 구조
+
+
+
+20.2.7 DMA Request
+DMA transfer 세가지 방법
+• Software request:
+transfer 는 set 할수 잇는 SW Channel 과 Status Register 에 기록해서 trigger 된다.
+
+The software request can trigger either a block or a frame transfer depending on what the trigger type (TTYPE) bit is set to in the Channel Control Register
+소프트웨어 요청은 Channel Control Register에서 TTYPE로 set 되는 것에 따라 block 과 frame transfer 로 trigger 될수 있다.
+
+• Hardware request:
+DMA Controller 는 32 DMA Request lines를 조종 할수 잇다. 
+하드웨어 요청은 채널 제어 레지스터의 TTYPE control bit 세팅 되는 것에 따라 frame 또는 block Transfer로 trigger 될수 있다. 
+
+• Triggered by other control packet:
+control packet이 프로그램된 번호의 전송을 끝내면 
+control packet은 다른 채널을 trigger 해서 전송을 시작할수 있다.
+
+DMA 요청이 있을 때마다 하나의 프레임 전송 또는 하나의 블록 전송이 선택 
+활성화된 DMA 요청 신호는 DMA 처리를 trigger한다. 
+
+DMA 컨트롤러에는 채널당 HW 요청을 잡아내는 two-level 버퍼가 있다.
+HW 요청이 발생하면 그리고 채널이 시작되면 DMA Status Register 내의 비트가 set 된다. 
+
+pending register가 first-level buffer 역활을 한다.
+
+데이터가 목적지에 완벽히 전송되지 않아도 
+전송 소스 로서의 peripheral acting은 DMA에 의해 데이터 레지스터가 read 된 후에 다른 요청을 시작할 수있다
+
+만약 두번째 HW 요청이 주변장치에 의해 발생하면 
+DMA 컨트롤러는 두번째 요청을 잡아내는 extra request buffer 가 있꼬
+첫번째 요청이 완료되고 나서 service 한다. 
+
+NOTE : DMA 는 동시에 두개이상의 요청을 잡아내지 못한다. 
+	추가 요청은 적어도 하나의 대기중인 요청이 완전히 처리되기 까지 무시된다.
+
+DMA 컨트롤러는 같은 채널의 HW, SW 요청을 혼용
+이것은 주변장치와 동기화되지 않을 수 있음
+이 동기화 손실을 막는 built-in mechanism이 없으므로 조심히 다뤄
+
+만약 SW 요청이 발생한다면 채널 대기 레지스터의 비트가 설정
+만약 대기중인 요청이 DMA에 의해 서비스가 완료되지 않고
+HW요청이 동일한 채널에 주변기기에 발생햇다면 DMA는 request buffer에 HW 요청을 인식할것이다. 
+
+NOTE : 만약 첫번째 SW 요청이 대기중이면 DMA 컨트롤러는 같은 채널에 두개의 SW 요청을 인식못함
+if 요청이 발생하면 DMA는 그 요청을 버림
+그러므로 새로운 요청이 발생하기전에 pending register를 체크 해야한다. 
+
+
+
+20.2.8 Auto-Initiation
+Channel Control Register 의 AIM(Auto-initiation Mode) 비트는 채널에 대해 실행 되고 
+채널은 block 전송에 대한 SW 요청에 의해 채널이 trigger되면 같은 동일하게 저장된 채널정보를 사용하여 재시작
+1 block 전송 완료후 각 control packet 완료됨 (SW)
+
+HW 요청은 만약 자동 초기화가 활성화 되어있어도 블록이 완료된후 retrigger 됨 (HW)
+
+
+
+20.2.9 Interrupts
+각 전송의 인터럽트 생성 조건
+• Frame transfer complete (FTC) interrupt:
+프레임의 마지막 요소가 전송 된후 발생
+
+• Last frame transfer started (LFS) interrupt:
+블록 프레임의 첫번째 요소가 시작되기전에 발생
+
+• First half of block complete (HBC) interrupt:
+블록의 절반 이상이 전송되면 인터럽트 발생
+
+– If the number of frames n is odd, (홀수)
+ (n + 1) / 2 개의 프레임 수가 블록에 남아 있을때 
+ 프레임의 끝에 HBC 인터럽트 발생
+
+– If the number of frames n is even, (짝수)
+ n/2 개의 프레임 수가 블록에 남아 있을때
+ 프레임의 끝에 HBC인터럽트 발생
+
+
+• Block transfer complete (BTC) interrupt:
+마지막 프레임의 마지막 요소가 전송 된 후에 인터럽트 발생
+
+• Bus error (BER) interrupt:
+DMA가 버스에서 오류를 감지하면 인터럽트가 발생
+BER 인터럽트는 ESM 모듈에 연결
+
+• Memory Protection Unit error (MPU):
+DMA가 DMA의 MPU 레지스터에 프로그램 된 메모리 엑세스 영역 밖에 있다는 것을 DMA가 검출 할 때 발생
+MPU 인터럽트는 ESM 모듈에 연결
+
+• Parity error (PAR):
+제어 패킷 중 하나를 읽을 때 DMA가 패리티 오류를 
+검출하면 인터럽트가 발행
+PAR 인터럽트는 ESM 모듈에 연결
+
+DMA는 제어 패킷 처리, 패리티 인터럽트 및 메모리 보호 인터럽트를 위해 5 개의 인터럽트 라인을 출력
+전송 인터럽트는 그룹화됨 (GPOUPA)
+
+ 인터럽트를 유발 한 채널은 해당 인터럽트 채널 오프셋 레지스터에 제공
+
+ 같은 인터럽트 유형 간의 우선 순위는 fixed priority scheme에 의해 해결
+ 다른 인터럽트 유형 간의 우선 순위는 Vector Interrupt Manager에서 해결
+
+NOTE:
+ DMA 모듈의 각 채널 특정 인터럽트는 두 개의 서로 다른 CPU를 개별적으로 지원하기 위해 그룹 A 또는 B를 향해 라우팅
+ 단일 CPU 또는 이중 CPU가있는 devices 경우 delayed lock-step에서 동일한 코드를 실행
+
+ Group A - Interrupts (FTC, LFS, HBC, BTC, and BER) are routed to the ARM CPU.
+Group B - Interrupts (FTC, LFS, HBC, BTC, and BER) are not routed out.
+User software should configure only Group A interrupts.
+
+
+
+20.2.10 Debugging
+
+DMA 는 suspend mode 에서 4가지 동작 제공
+
+• Immediate stop at a DMA channel arbitration boundary. Please refer to Table 20-2 and Table 20-3 for arbitration boundary definition.
+• Finish current frame transfer and continue after suspend ends.
+• Finish current block transfer and continue after suspend ends.
+• Ignore the suspend. The DMA continues to be operational as in functional mode when debug mode is active.
+
+suspend mode 진입시 하드웨어 DMA 요청은 계속 샘플링
+Channel Pending Register는 업데이트 정지
+
+suspend mode 끝날시 suspend mode 동안 받은 모든 새로운 요청은 
+Channel Pending Register 에 반영됨
+
+DMA 컨트롤러가 일시 중단 모드를 무시하도록 구성된 경우를 제외하고는 suspend mode에서 채널 중재가 수행 안됨
+suspend mode의 채널은 디버그 옵션이 선택된 방식의 따라 suspend mode 가 끝난후에 전체 프레임 또는 블록 전송
+
+디버깅을 용이하게 하려면 
+Watch Point Register (Section 20.3.1.57) and a Watch Mask Register
+(Section 20.3.1.58) 사용
+The watch point register together with the watch mask register
+는 unique address 와 주소 번위를 감시
+조건이 참이면 DMA 상태를 고정시키고 CPU에 디버그 요청 신호를 생성해서
+DMA 상태를 검사함
+
+
+
+20.2.11 Power Management
+두개의 파워 매니지먼트 모드 제공
+run and sleep.
+
+In run mode : DMA 가 완전히 동작
+The sleep mode :
+pending channel이 서비스 대기중인경우 DMA shut down
+DMA 요청을 받거나 유저 소프트웨어에서 SW 요청 발생시 DMA를 꺠움
+전력소모 최적화를 위해 사용
+
+시스템 모듈이 저전력 모드 요청이 발생하면 
+DMA 가 arbitration boundary 도달시 시스템 모듈에 승인 요청 보냄
+보류중인 DMA 요청이 없으면 즉시 승인 요청 보냄
+
+NOTE:
+global low power mode 이면 clock이 중지
+그러므로 DMA 요청 못찾음 
+device는 반드시 DMA 요청이 오기전에 꺠워져야 한다.
+
+
+20.2.12 FIFO Buffer
+DMA FIFO is 4 levels deep and 64-bit wide (can hold up to 4 × 64-bits of data)
+Data packing and unpacking 사용 
+
+The DMA FIFO has two states:
+• EMPTY: The FIFO contains no data.
+• FULL: FIFO가 채워지거나 element count 가 0에 도달
+		read operation이 중지됨
+
+DMA 채널은 FIFO가 empty 상태일떄만 switch 할수 있다.
+(FIFO가 empty일떄 채널간 arbitration 수행)
+
+The DMA has two FIFOs viz. ( FIFO A and FIFO B )
+최대 2개의 채널 동시 실행기능을 제공하는 채널을 실행
+
+bypass(우회) 기능
+FIFO 버퍼는 포트 제어 레지스터의 bypass(우회) 기능을 사용
+(Port Control Register (Section 20.3.1.54) for register details.)
+이 비트에 1을 쓰면 FIFO 깊이가 하나의 요소 크기로 제한
+이것은 한 요소를 읽은 후 대상에 대한 쓰기가 실행된다는 의미
+이 기능은 채널 간 스위칭 대기 시간을 최소화
+DMA 바이 패스 모드가 활성화되면 DMA는 중재 경계 내에서 최소 전송을 수행
+우회 기능은 소스 요소 입도로 수행 할 수있는 채널 간의 중재를 허용
+
+그러나 우회 기능은 DMA 컨트롤러가 bus bandwidth 를 최적으로 사용하지 못함
+읽기 및 쓰기 요소 크기가 다를 수 있기 때문에 읽기 및 쓰기 트랜잭션 수가 달라짐
+Table 20-2 and Table 20-3 는 
+비 우회 및 바이 패스 모드에서 중재하기 전에 한 채널에서 다른 채널로 DMA 컨트롤러가 수행하는 읽기 및 쓰기 트랜잭션 수를 비교 한 것
+
+
+20.2.13 Channel Chaining
+채널 체인은 외부 DMA 요청없이 단일 또는 다중 채널을 트리거하는 데 사용
+패킷 끼리 연결 하여 가능
+채널 제어 레지스터 (섹션 20.3.2.4)의 체인 [5 : 0] 필드는 체인 제어 패킷을 프로그래밍하는 데 사용
+연결된 제어 패킷은 pending register 내에서 arbitration rules을 따름.
+예를 들어
+CH1, CH2, CH4, CH5 가 실행되면 CH3는 CH1과 연결됨
+채널이 연결되도 채널순서는 바뀌지 않음 (CH1 -> CH2 -> CH3 -> CH4 -> CH5)
+
+Channel Control Register은 첫 DMA 요청 이 triggering 되기전에 가능한 모든 채널을 연결해 놔야함
+
+Figure 20-16은 내부 전송 요청이 필요한 전송을 완료하고 보류중인 레지스터에 저장된 후 어떻게 생성되는지 보여줍
+In this example CH1 is Chained to CH0. When CH0 is triggered CH1 is
+captured as pending in the Channel Pending Register (Section 20.3.1.2) even when it is not triggered.
+
+
+20.2.14 Request Polarity
+DMA는 active high and active low hardware requests 둘다  지원
+DMAREQPS1 and DMAREQPS0 레지스터로 구성
+
+request polarity 선택은 프로그램 시작전 이루어 져야한다.
+request polarity 따라 active high 에서 active low 변경은 다음을 따름
+1. Disable channel for which polarity is to be changed using the HWCHENA bit.
+2. Disable the peripheral in order that it may set the request line to inactive high state (since by default
+requests are active high).
+3. Apply software reset to the DMA using the GCTRL register.
+4. Program the request polarity for the channel.
+5. Re-enable the DMA channel.
+6. Re-enable the peripheral that triggers the DMA event.
+
+20.2.15 Memory Protection
+DMA 컨트롤러는 장치의 전체 주소 범위에 액세스
+중요한 응용 프로그램 데이터가 실수로 DMA 컨트롤러에 의해 액세스되는 것을 방지
+
+20.2.15.1 Protection Mechanism
+access privilege for a given memory region,
+주어진 메모리 영역에 대한 액세스 권한
+the start and end address for the region,
+영역의 시작 및 끝 주소
+notification of an access violation for the protected region
+보호 된 영역에 대한 액세스 위반
+로 구성
+
+DMAMPRxS and DMAMPRxE 에 각 영역의 시작 주소와 끝 주소를 기록
+(DMA 메모리 보호 레지스터)
+
+액세스 권한은 네 가지 권한 설정 중 하나로 설정
+• Full access
+• Read only access
+• Write only access
+• No access
+
+주어진 영역에 대한 사용 권한은 DMA 메모리 보호 제어 레지스터 (Section 20.3.1.67) 에 적절한 값을 쓰면 선택
+
+엑세스 설정이 되지 않은 메모리 영역은  "Full Access (전체 액세스)"권한
+(default)
+
+NOTE:
+시작 및 끝 주소로 정의 된 영역이 겹치면 레지스터 공간에서 처음 정의 된 영역이 액세스 권한을 결정합니다. 예를 들어, 영역 0과 영역 1이 겹치면 영역 0 레지스터가 영역 1보다 먼저 있기 때문에 영역 0에 대해 정의 된 액세스 권한이 우선 적용됩니다.
+
+
+memory protection 위반 발생시 interrupts 발생 
+The DMA Memory Protection Status Register (Section 20.3.1.68) contains the status flags for the memory protection mechanism, 
+and the DMA Memory Protection Control Register (Section 20.3.1.67) contains the interrupt enable bits.
+메모리 보호 위반이 감지되면 위반을 유발 한 DMA 채널이 중지되고 사용 가능한 다음 DMA 채널이 서비스
+
+
+20.2.16 ECC Checking
+Control packet RAM 은 
+Single Error Correction Double Error Detection (SECDED) 을 사용해 보호 
+
+total of 9 ECC check bits
+DMA Control Packet RAM.에 저장된 128 비트의 데이터마다 총 9 개의 ECC 검사 비트를 사용하여 구현
+
+ECC 검사는 4 비트 키로 모듈 내에서 활성화 및 비활성화
+Control Packet RAM에 대한 쓰기 액세스 중에 ECC 비트가 자동으로 생성되고 데이터 비트와 함께 메모리에 저장
+Control Packet RAM으로부터의 판독 액세스 동안, 메모리 내의 ECC 비트는 128 비트의 데이터에 대한 계산 된 ECC 값에 대해 검사
+
+읽기 도중 발생할수 있는 두가지 오류
+Single Bit Error - If a single bit error occurs during the reads to the control packet either by the CPU or
+by DMA logic and the EDCAMODE[3:0] in DMASECCCTRL register is 0xA, the error is automatically
+corrected. The SBEFLG bit in the register is also set to 1 to indicate a single bit error was corrected.
+The DMAECCSBE register is updated to indicate the error address. In addition, if the
+SBE_EVT_EN[3:0] in DMASECCCTRL register is 0xA, the error is also indicated to ESM.
+
+Double Bit Error - If a double bit error occurs during the reads to the control packet either by the CPU
+or the DMA logic and the ECC_ENA[3:0] in DMAPECR register is 0xA, the error is indicated to ESM.
+The EDFLG bit gets set and the error address is stored in DMAPAR register.
+
+DMA 모듈은 제어 패킷 RAM의 CPU 구성 중에 필요한 제어 패킷 RAM에 대한 읽기 - 수정 - 쓰기 작업을 자동으로 수행
+이러한 읽는 동안 발생하는 오류는 SECDED 체계에서도 다룹
+또한, CPU 또는 DMA 로직에 의한 워킹 패킷에 대한 판독 및 DMA 로직에 의한 워킹 패킷에 대한 기록은 또한 SECDED에 의해 보호된다.
+
+
+이중 비트 오류 동안 DMAPECR 레지스터의 ERRA 비트를 사용하여 채널의 동작을 구성 할 수 있습니다.
+
+• If ERRA bit is cleared, errors are ignored and channel operation will resume normally.
+• If ERRA bit is set, errors will cause the DMA to be disabled (DMA_EN bit in GCTRL register is
+cleared). All channels will stop servicing at the next arbitration boundary. This action will be taken
+regardless of the origin of error being a CPU read or a DMA logic read.
