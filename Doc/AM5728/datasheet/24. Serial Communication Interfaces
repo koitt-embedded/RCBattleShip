@@ -1,0 +1,10 @@
+24. Serial Communication interfaces
+
+<24.1> High-Speed I2C Contraller
+
+5개의 High speed I2C 컨트롤러 모듈이 있다.
+
+
+<24.1.1> HS I2C 개요
+
+로컬 호스트와 I2C 버스(선)을 통해 연결되는 장비들 사이의 인터페이스를 제공
