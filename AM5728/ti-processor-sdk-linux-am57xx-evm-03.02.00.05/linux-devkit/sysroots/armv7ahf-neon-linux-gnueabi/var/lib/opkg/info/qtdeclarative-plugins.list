@@ -1,8 +1,0 @@
-/usr/lib/qt5/plugins/qmltooling/
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_tcp.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_server.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_local.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_native.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_profiler.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_inspector.so
-/usr/lib/qt5/plugins/qmltooling/libqmldbg_debugger.so

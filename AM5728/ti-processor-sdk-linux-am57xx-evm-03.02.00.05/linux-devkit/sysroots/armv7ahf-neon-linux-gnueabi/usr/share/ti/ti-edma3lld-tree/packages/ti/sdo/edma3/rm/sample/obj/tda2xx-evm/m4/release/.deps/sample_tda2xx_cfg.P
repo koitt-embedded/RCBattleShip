@@ -1,6 +1,0 @@
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: src/platforms/sample_tda2xx_cfg.c
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: ../../../../../ti/sdo/edma3/rm/edma3_rm.h
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdint.h
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: ../../../../../ti/sdo/edma3/rm/edma3_common.h
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stddef.h
-obj/tda2xx-evm/m4/release/sample_tda2xx_cfg.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdbool.h

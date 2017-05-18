@@ -1,7 +1,0 @@
-/usr/lib/qt5/plugins/position/
-/usr/lib/qt5/plugins/geoservices/libqtgeoservices_mapbox.so
-/usr/lib/qt5/plugins/geoservices/
-/usr/lib/qt5/plugins/geoservices/libqtgeoservices_osm.so
-/usr/lib/qt5/plugins/position/libqtposition_geoclue.so
-/usr/lib/qt5/plugins/position/libqtposition_positionpoll.so
-/usr/lib/qt5/plugins/geoservices/libqtgeoservices_nokia.so

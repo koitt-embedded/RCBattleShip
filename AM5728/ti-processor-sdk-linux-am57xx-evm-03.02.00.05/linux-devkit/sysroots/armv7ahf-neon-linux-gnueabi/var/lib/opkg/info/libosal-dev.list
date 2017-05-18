@@ -1,9 +1,0 @@
-/usr/include/ti/osal/HwiP.h
-/usr/include/ti/osal/osalver.h
-/usr/include/ti/osal/
-/usr/lib/libosal.so
-/usr/include/ti/osal/TimerP.h
-/usr/include/ti/osal/MuxIntcP.h
-/usr/include/ti/osal/SemaphoreP.h
-/usr/include/ti/osal/CacheP.h
-/usr/include/ti/osal/osal.h

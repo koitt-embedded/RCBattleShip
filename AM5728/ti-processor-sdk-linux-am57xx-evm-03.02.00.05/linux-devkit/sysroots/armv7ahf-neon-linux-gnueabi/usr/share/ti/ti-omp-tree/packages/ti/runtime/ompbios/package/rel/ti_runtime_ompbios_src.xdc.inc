@@ -1,9 +1,0 @@
-package/package.bld.xml
-package/build.cfg
-config.bld
-package.bld
-goals.xs
-./OpenMP.c
-./HeapOMP.c
-package/package.xdc.inc
-package/package.cfg.xdc.inc

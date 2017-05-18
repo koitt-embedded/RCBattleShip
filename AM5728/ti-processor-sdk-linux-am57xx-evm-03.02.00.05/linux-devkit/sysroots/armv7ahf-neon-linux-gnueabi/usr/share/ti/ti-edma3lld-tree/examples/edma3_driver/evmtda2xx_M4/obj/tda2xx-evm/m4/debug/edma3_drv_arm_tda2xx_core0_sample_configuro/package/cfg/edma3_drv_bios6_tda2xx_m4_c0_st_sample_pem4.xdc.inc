@@ -1,2 +1,0 @@
-package.xs
-package/cfg/edma3_drv_bios6_tda2xx_m4_c0_st_sample_pem4.cfg

@@ -1,3 +1,0 @@
-#!/bin/sh
-	update-alternatives --remove  dra7-dsp1-fw.xe66 /lib/firmware/dra7-dsp1-fw.xe66.opencl-monitor
-	update-alternatives --remove  dra7-dsp2-fw.xe66 /lib/firmware/dra7-dsp2-fw.xe66.opencl-monitor

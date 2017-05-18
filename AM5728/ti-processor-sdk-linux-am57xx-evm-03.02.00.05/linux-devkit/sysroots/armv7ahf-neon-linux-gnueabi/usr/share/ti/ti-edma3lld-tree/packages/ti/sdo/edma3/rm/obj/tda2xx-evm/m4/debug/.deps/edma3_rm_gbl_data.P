@@ -1,9 +1,0 @@
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: src/edma3_rm_gbl_data.c
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: ../../../../ti/sdo/edma3/rm/src/edma3resmgr.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: ../../../../ti/sdo/edma3/rm/edma3_rm.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdint.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: ../../../../ti/sdo/edma3/rm/edma3_common.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stddef.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/x86_64-linux/usr/share/ti/ti-cgt-arm/include/stdbool.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: ../../../../ti/sdo/edma3/rm/src/edma3_rl_cc.h
-obj/tda2xx-evm/m4/debug/edma3_rm_gbl_data.oem4: ../../../../ti/sdo/edma3/rm/src/edma3_rl_tc.h

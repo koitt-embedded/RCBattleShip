@@ -1,2 +1,0 @@
-#!/bin/sh
-/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm/usr/bin/g-ir-scanner-qemuwrapper /home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm/usr/bin/g-ir-compiler "$@"

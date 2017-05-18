@@ -1,7 +1,0 @@
-/usr/lib/qt5/mkspecs/modules/qt_lib_webengine_private.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webenginecore_private.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webenginewidgets.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webengine.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webenginewidgets_private.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webenginecoreheaders_private.pri
-/usr/lib/qt5/mkspecs/modules/qt_lib_webenginecore.pri

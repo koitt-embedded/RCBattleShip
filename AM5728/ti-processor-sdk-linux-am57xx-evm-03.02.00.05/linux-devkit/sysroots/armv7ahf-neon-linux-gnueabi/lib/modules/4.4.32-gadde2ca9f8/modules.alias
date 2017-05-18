@@ -1,4 +1,0 @@
-# Aliases extracted from modules themselves.
-alias ip_conntrack nf_conntrack_ipv4
-alias nf_conntrack-2 nf_conntrack_ipv4
-alias nf-nat-2 nf_nat_ipv4

@@ -1,2 +1,0 @@
-#!/bin/sh
-	update-alternatives --remove  kmstest /usr/bin/kmstest.libdrm

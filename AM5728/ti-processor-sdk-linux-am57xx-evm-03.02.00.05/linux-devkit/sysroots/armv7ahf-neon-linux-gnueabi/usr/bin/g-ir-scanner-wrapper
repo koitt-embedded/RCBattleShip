@@ -1,5 +1,0 @@
-#!/bin/sh
-# This prevents g-ir-scanner from writing cache data to /home/gtbldadm
-export GI_SCANNER_DISABLE_CACHE=1
-
-g-ir-scanner --use-binary-wrapper=/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm/usr/bin/g-ir-scanner-qemuwrapper --use-ldd-wrapper=/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm/usr/bin/g-ir-scanner-lddwrapper --add-include-path=/home/gtbldadm/processor-sdk-linux-krogoth-build/build-CORTEX_1/arago-tmp-external-linaro-toolchain/sysroots/am57xx-evm/usr/share/gir-1.0 "$@"

@@ -1,9 +1,0 @@
-package/package.bld.xml
-package/build.cfg
-config.bld
-package.bld
-goals.xs
-./autoinit.c
-./boot.c
-package/package.xdc.inc
-package/package.cfg.xdc.inc
