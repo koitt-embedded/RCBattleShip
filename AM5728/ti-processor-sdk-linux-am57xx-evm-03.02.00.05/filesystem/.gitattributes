@@ -1,1 +1,0 @@
-tisdk-rootfs-image-am57xx-evm.tar.xz filter=lfs diff=lfs merge=lfs -text
