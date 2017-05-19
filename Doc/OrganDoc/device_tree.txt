@@ -4,6 +4,7 @@ FPGA 와 유사하게 Description Language 개념이 적용된 것임
 좀 더 구체적으로 HW(SoC, Board) 에 대한 정보를 기술함
 이와 대비되는 방식으로 기존에 사용하던
 Platform Device 기반의 Board 기술 방식이 존재함
+(이 방식은 기존에 사용하던 방식으로 C 로 기술하던 방식임)
 
 
 
@@ -91,11 +92,72 @@ arch/arm/boot/dts/am57xx-beagle-x15-common.dtsi 에서
 i2c 를 찾아보면 node 표현을 볼 수 있다.
 또한 i2c controller node 를 표현한것으로
 compatible = "ti,tps659038" 속성을 갖고 있음을 볼 수 있다.
+여기서 tps659038 이라는 반도체 소자는 차량용 전원 관리 소자에 해당한다.
+실제 AM5728 Datasheet 와 회로도를 살펴보면
+tps65903 과 기타 관련 소자들이 연결되어 있는 것을 볼 수 있다.
+해당 파일에서 tps659038-pmic 같은것도 보인다.
+회로도에 보면 pmic 가 TPS6590376ZWSR 에 있는 것을 볼 수 있다.
+또한 여기에는 스위칭 레귤레이터가 있어서 SMPS 를 볼 수 있다.
+i2c1 에 보면 smps 들이 있고 7 번, 9 번은
+사용하지 않는다고 디바이스 트리에 표현되어 있다.
+그 외에 LDO 리니어 레귤레이터들이 있고 rtc, pwr_button,
+gpio, usb 등이 여기에 물려 있는것을 볼 수 있다.
+
 i2c Slave Device 는 반드시 Slave address 속성을 지정해줘야 하는데
 이것을 reg = <주소> 속성을 통해서 지정할 수 있다.
 실질적으로 FW 프로그래밍시에도 I2C Slave 장치와의 통신에서도 0x58 을 사용한다.
 그리고 drivers/i2c/busses/*.c 파일을 보면
 Platform Driver 를 연결해주는 것에 해당하는 compatible 속성을 볼 수 있다.
 
-또한 Interrupt 도 표현해줘야 한다.
 
+
+또한 Interrupt 도 표현해줘야 한다.
+arch/arm/boot/dts/dra7.dtsi 에 보면 gic 라는 interrupt-controller 가 보인다.
+Interrupt Controller 는 반드시 자신이 인터럽트 제어기임을
+알리기 위해 interrupt-controller; 문을 선언해 주어야 한다.
+Interrupt 를 사용하는 장치에서 자신이 사용하는
+Interrupt Controller 가 어떤 장치인지 기술해줘야 한다.
+해당 파일에 보면 interrupt-parent = <&gic> 를 통해
+gic 를 인터럽트 제어기로 사용하는 장치가 많다.
+또한 interrupt 에 사용할 pin 번호를 지정해 준다.
+이것은 interrupts = <숫자> 로 표현한다.
+마지막으로 Driver Code 에서 Interrupt 를 등록해야 한다.
+drivers/net/wireless/ti/wlcore/sdio.c 에 241 번 라인을 보면
+irq_of_parse_and_map() 을 통해 반환값으로 Interrupt pin 번호를 얻어온다.
+
+
+
+다음으로 Clock 부분을 살펴보자!
+TRM 문서를 통해 Clock 이 어떻게 구동되는지 파악할 필요가 있다.
+Device Tree 에서 Clock 은 아래와 같이 표현한다.
+대표적으로 arch/arm/boot/dts/dra7xx-clocks.dtsi 를 살펴보면 됨
+추가적으로 arch/arm/boot/dts/dra7.dtsi 도 살펴볼 필요가 있음
+
+1. SoC 내의 모든 Clock 을 열거하며 주파수는 필수적이다.
+2. 각각의 Device 에서 필요한 clock 을 clocks = <&cpuclk> 와 같이 참조한다.
+3. 마찬가지로 Device Driver 단에서 이를 처리해주는 SW 가 필요하다.
+
+
+
+Pin Mux 부분을 살펴보도록 하자!
+Device Tree 에서 Pin Control 을 위해서 2 가지 절차가 필요하다.
+
+1. 사용하려면 pin 의 목록을 정의한다(ex: I2C, UART, DMA, CAN 등등)
+   Device(GPIO, I2C, DMA, CAN 등등)를 기준으로 pin 을 정의함
+2. 1 번에서 정의한 pin 을 실제 Device 와 결합함
+   pinctrl-<번호> 에는 pin control 목록을 적는다(ex: &can0_pins_a)
+   그리고 pinctrl-names 에 pin control 이름을 부여한다.
+   참고로 이름이 "defaults" 일 경우 probe 하면 자동으로 pin control 요청을 하게됨
+3. 역시 마찬가지로 Device Driver 에서 pin control 을 요청하여
+   실제 해당 pin 을 동작하게 만들어준다.
+
+실제 AM5728 에 있는 led 를 고려해보자!
+arch/arm/boot/dts/omap5-board-common.dtsi
+arch/arm/boot/dts/omap5-cm-t54.dts
+위의 두 부분을 보면 pinctrl 과 관련하여 LED 를 제어하는 부분이 있음을 볼 수 있다.
+Pin Mux 를 하게되면 각각의 Device 에서 이를 사용하기 위해
+결합(pinctrl-0, pinctrl-names) 와 같이 결합하는 부분을 볼 수도 있다.
+
+arch/arm/boot/dts/omap5-board-common.dtsi 을 살펴보면 pinctrl-single,pins 속성도 보인다.
+이와 같은것은 TI Chip 의 특성과 관련된 부분으로
+drivers/pinctrl/pinctrl-single.c 에서 볼 수 있다.
