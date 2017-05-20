@@ -53,7 +53,7 @@ URB는 정보를 완료 핸들러에 전달하기 위해 내용-포인터도 포
 URB의 구조
 
 Some of the fields in an URB are:
-URB안에 있는 몇가지 필드들
+URB안에 있는 몇가지 필드
 
 struct urb
 {
