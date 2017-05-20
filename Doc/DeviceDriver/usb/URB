@@ -312,3 +312,4 @@ information to the completion handler.
 이것은 완성 콜을 일으키는 URB를 갖는다. 완성 핸들러에서 너는 모든 USB 에러를 감지하기 위해
 urb->status 확인해야 한다. 내용 파라미터가 URB안에 포함되어 있어서 너는 완성 컴파일러로
 정보를 전달할 수 있다.
+
