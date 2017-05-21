@@ -313,3 +313,93 @@ information to the completion handler.
 urb->status 확인해야 한다. 내용 파라미터가 URB안에 포함되어 있어서 너는 완성 컴파일러로
 정보를 전달할 수 있다.
 
+Note that even when an error (or unlink) is reported, data may have been
+transferred.  That's because USB transfers are packetized; it might take
+sixteen packets to transfer your 1KByte buffer, and ten of them might
+have transferred successfully before the completion was called.
+에러(또는 연결 해제)가 나타났을 때에도 데이터가 전송된다는 것을 주의하라.
+USB 전송이 패킷화되기 때문이다. 너의 1바이트 버퍼를 전송하는 것이 16패킷을 가진다.
+그리고 그것의 10개는 완성이 호출되기 전에 성공적으로 전송된다.
+
+NOTE:  ***** WARNING *****
+주의: ***** 주의사항 *****
+NEVER SLEEP IN A COMPLETION HANDLER.  These are often called in atomic
+context.
+절대로 완성 핸들러를 슬립모드로 하지 마라. 이것은 종종 atomic context(원자적 내용?)으로 불린다.
+
+In the current kernel, completion handlers run with local interrupts
+disabled, but in the future this will be changed, so don't assume that
+local IRQs are always disabled inside completion handlers.
+현재 커널에서는 지역의 인터럽트를 사용하지 않고 완성 핸들러가 실행된다.
+그러나 미래의 커널에서는 변화할 것이다. 지역 IRQ가 항상 완성핸들러 안에서 사용되지 않는다고 가정하지 마라.
+
+1.8. How to do isochronous (ISO) transfers?
+어떻게 동시성 전송을 하는가?
+
+For ISO transfers you have to fill a usb_iso_packet_descriptor structure,
+allocated at the end of the URB by usb_alloc_urb(n,mem_flags), for each
+packet you want to schedule.   You also have to set urb->interval to say
+how often to make transfers; it's often one per frame (which is once
+every microframe for highspeed devices).  The actual interval used will
+be a power of two that's no bigger than what you specify.
+ISO 전송을 너는 usb_iso_packet_descroptor 구조를 채워야하고
+usb_alloc_urb(n, mem_flags)에 의해 URB의 끝에 니가 원하는 패킷을 할당해야 한다.
+너는 urb->interval도 설정해야 한다. 얼마나 자주 전송을 할 것인지 알려주기 위해;
+이것은 보통 프레임 당 한번이다. (하이스피드 장치를 위한 모든 마이크로 프레임) 
+실제 사용되는 인터벌은 니가 지정한 것보다 크지 않은 값의 제곱이 된다.
+
+The usb_submit_urb() call modifies urb->interval to the implemented interval
+value that is less than or equal to the requested interval value.  If
+ISO_ASAP scheduling is used, urb->start_frame is also updated.
+usb_submit_urb() 콜은 urb->interval을 실행된 인터벌 값으로 수정한다.
+요청한 인터벌 값보다 같거나 작은 값이다.
+만약 ISO_ASAP 스케줄링을 사용한다면 urb->start_frame도 업데이트 된다.
+
+For each entry you have to specify the data offset for this frame (base is
+transfer_buffer), and the length you want to write/expect to read.
+After completion, actual_length contains the actual transferred length and 
+status contains the resulting status for the ISO transfer for this frame.
+It is allowed to specify a varying length from frame to frame (e.g. for
+audio synchronisation/adaptive transfer rates). You can also use the length 
+0 to omit one or more frames (striping).
+각 엔트리마다 니가 프레임(베이스는 transfer_buffer)의 데이터 오프셋을 지정해야한다.
+니가 쓰기 원하고 읽기를 기대하는 길이에 맞게.
+완성 후에 actual_length는 실제 전송된 길이를 포함한다.
+그리고 status는 이 프레임 ISO 전송 결과 상태를 포함한다.
+프레임으로부터 프레임까지 댜양한 길이를 지정하는 것이 허용된다. (예를 들어 오디오 동기화/알맞은 전송 속도)
+너는 하나 또는 그 이상의 프레임을 생략하기 위해 길이 0도 사용할수 있다. (striping)
+
+For scheduling you can choose your own start frame or ISO_ASAP. As explained
+earlier, if you always keep at least one URB queued and your completion
+keeps (re)submitting a later URB, you'll get smooth ISO streaming (if usb
+bandwidth utilization allows).
+스케쥴링을 위해 너는 너 자신의 시작 프레임이나 ISO_ASAP를 선택할 수 있다.
+앞에 설명했던대로 만약 니가 항상 최소한 하나의 URB를 큐에 유지하고 너의 완성이
+나중의 URB를 다시 재출하는 것을 유지한다면 너는 부드러운 ISO 스트리밍을 얻을 수 있다.
+
+If you specify your own start frame, make sure it's several frames in advance
+of the current frame.  You might want this model if you're synchronizing
+ISO data with some other event stream.
+만약 니가 너의 시작 프레임을 지정한다면 현재의 프레임보다 몇 프레임이 앞인지 확인하라.
+너는 이 모델을 원할지 모른다. 만약 니가 ISO 데이터를 몇가지 다른 이벤트 스트림에 동기화한다면
+
+1.9. How to start interrupt (INT) transfers?
+어떻게 인터럽트 전송을 시작하나?
+
+Interrupt transfers, like isochronous transfers, are periodic, and happen
+in intervals that are powers of two (1, 2, 4 etc) units.  Units are frames
+for full and low speed devices, and microframes for high speed ones.
+The usb_submit_urb() call modifies urb->interval to the implemented interval
+value that is less than or equal to the requested interval value.
+인터럽트 전송(등시성의 전송 같은)은 주기적이고 인터벌을 두고 발생한다. 인터벌은 제곱수 단위로 간다.
+단위는 제일 높고 낮은 스피드 디바이스의 프레임이고 그리고 마이크로프레임은 높은 스피드를 위한 것이다.
+usb_submit_urb() 콜은 urb->interval을 사용된 인터벌 값으로 수정한다. 
+사용된 인터벌 값은 요청된 값과 같거나 작다. 
+
+In Linux 2.6, unlike earlier versions, interrupt URBs are not automagically
+restarted when they complete.  They end when the completion handler is
+called, just like other URBs.  If you want an interrupt URB to be restarted,
+your completion handler must resubmit it.
+리눅스 2.6에서는 이전 버전과 다르게 인터럽트 URB가 완료되었을 때 자동적으로 재시작을 하지 않는다.
+그들은 완성 핸들러가 호출되었을 때 끝난다. 다른 URB들과 같이.
+만약 니가 인터럽트 URB가 재시작하길 원한다면 너의 완성 핸들러는 인터럽트 URB를 반드시 다시 제출해야 한다.
