@@ -401,5 +401,5 @@ restarted when they complete.  They end when the completion handler is
 called, just like other URBs.  If you want an interrupt URB to be restarted,
 your completion handler must resubmit it.
 리눅스 2.6에서는 이전 버전과 다르게 인터럽트 URB가 완료되었을 때 자동적으로 재시작을 하지 않는다.
-그들은 완성 핸들러가 호출되었을 때 끝난다. 다른 URB들과 같이.
+그들은 완성 핸들러가 호출되었을 때 끝난다. 다른 URB들처럼.
 만약 니가 인터럽트 URB가 재시작하길 원한다면 너의 완성 핸들러는 인터럽트 URB를 반드시 다시 제출해야 한다.
