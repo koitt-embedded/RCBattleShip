@@ -1,0 +1,152 @@
+Vivado HLS Design Flow Lab
+
+Introduction
+
+이 Lab 에서 Vivado HLS Tool 을 사용하여
+High-Level Synthesis 하는 기본 정보를 제공한다.
+GUI Mode 에서 Vivado HLS 를 사용하여 Project 를 만든다.
+제공된 Design 을 Simulate 하고 Synthesize(합성) 하고 구현한다.
+
+
+
+Objectives
+
+이 Lab 을 완료한 후 아래의 것을 할 수 있을 것이다:
+
+* Vivado HLS GUI 를 통해 새로운 Project 생성
+* Design 시뮬레이션 하기
+* Design 합성하기
+* Design 구현하기
+* Vivado HLS 의 분석 기능을 사용하여 Design 분석 수행
+* Vivado 및 XSim 시뮬레이터를 사용하여 시뮬레이터 출력 분석
+
+
+
+Procedure
+
+이 Lab 은 세부적인 지침에 대한 정보를
+일반적인 소개부터 단계적으로 제공하도록 구성되어있다.
+Lab 을 진행하려면 세부 지침을 따르라.
+
+이 Lab 은 8 가지 기본 단계로 구성된다:
+Vivado HLS 에서 새로운 Project 를 만들고,
+시뮬레이션을 실행하고 Debug 를 실행하고 Design 을 합성하고,
+분석 perspective 를 열고, RTL Co-Simulation 을 실행하고,
+Vivado 및 XSim 을 사용하여 Simulation 결과를 보고,
+Vivado HLS 에서 Design 을 내보내고 구현한다.
+
+
+
+General Flow for this Lab
+
+1 단계: 새로운 프로젝트 생성하기
+2 단계: C 시뮬레이션 구동하기
+3 단계: Debugger 구동하기
+4 단계: Design 합성하기
+5 단계: Analysis Perspective 를 사용하여 분석하기
+6 단계: C/RTL Co-Simulation 구동하기
+7 단계: Vivado 내에 Simulation 결과 살펴보기
+8 단계: RTL 을 내보내고 구현하기
+
+
+
+Create a New Project
+
+1-1. Zynq xc7z020clg484-1(ZedBoard) 혹은 xc7z010clg400-1(Zybo) 를
+     Targeting 하여 Vivado HLS 에서 새로운 Project 생성하기
+
+1-1-1. Vivado HLS 를 띄운다:
+       /opt/Xilinx/Vivado_HLS/2017.1/bin/vivado_hls
+       GUI 창이 나타나는 것을 볼 수 있다.
+
+1-1-2. GUI 창에서 Create New Project 를 누른다.
+       New Vivado HLS Project 창이 열린다.
+
+1-1-3. Location 필드에 있는 Browse... 버튼을 누르고
+       lab1 코드를 찾아서 OK 를 누른다.
+
+1-1-4. Project 이름을, matrixmul.prj 로 입력한다.
+
+1-1-5. Next 를 누른다.
+
+1-1-6. Add/Remove Files 창에서 Top Function 이름으로 matrixmul 을 입력
+       (matrixmul 이라는 합성될 제공된 소스 코드가 포함하는 함수)
+
+1-1-7. Add Files... 버튼을 누르고
+       lab1 폴더에서 matrixmul.cpp 파일을 선택하고 Open 을 누른다.
+
+1-1-8. Next 를 누른다.
+
+1-1-9. testbench 를 위해 Add/Remove Files 에서 Add Files... 버튼을 누르고
+       lab1 폴더에서 matrixmul_test.cpp 파일을 선택하고 Open 을 누른다.
+
+1-1-10. Files List 창에서 matrixmul_test.cpp 를 선택하고
+        Edit CFLAG... 버튼을 누르고 -DHW_COSIM 을 입력하고 OK 를 누른다.
+        (나중에 사용될 custom flag 를 정의함)
+
+1-1-11. Next 를 누른다.
+
+1-1-12. Solution Configuration 페이지에서
+        Solution Name 필드를 solution1 로 하고
+        clock period 를 10(ZedBoard 를 위해) 혹은 8(Zybo 를 위해) 으로 설정함.
+        불확실한 필드를 비워두면 ZedBoard 의 기본값으로 1.25,
+        Zybo 의 기본값으로 1.25 가 지정될 것이다.
+
+        Part Selection 절에서 ... 버튼을 클릭한다.
+
+1-1-13. Device Selection Dialog 페이지에서, Parts Specify 필드를 선택하고,
+        Filter 부분에 Package 에 clg400, Speed grade 에 -1,
+        그리고 Sub-Family 에 zynq 를 넣은 후에 xc7z020clg484-1(ZedBoard)
+        혹은 xc7z010clg400-1(Zybo) 파트를 선택하고 OK 를 누른다:
+        (clg400(Zybo), clg484(ZedBoard))
+
+        여기서 xc7z010clg400-1 을 선택하도록 한다.
+        SLICE 4400, LUT 17600, FF 35200, DSP 80, BRAM 120 에 해당한다.
+
+        Board 지정 옵션(ZedBoard 에만 해당)을 선택하고
+        원하는 Target Board 가 나열된 경우
+        나열된 Board 중 하나를 선택할 수도 있다.
+
+1-1-14. Finish 를 클릭한다.
+
+1-1-15. 정보 창에 소스 폴더의 내용을 열기 위해 matrixmul.cpp 를 더블클릭한다.
+
+        이 설계는 3 개의 중첩된 Loop 로 구성된 행렬 곱셈 구현임을 알 수 있다.
+        Product 루프는 실제 Matrix 요소 곱과 합계를 수행하는 가장 내부 Loop 이다.
+        Col Loop 는 전달된 행 요소 데이터가 있는
+        다음 열 요소 데이터를 Product Loop 에 공급하는 외부 Loop 다.
+        마지막 Row 는 가장 바깥 쪽 Loop 다.
+        res[i][j] = 0(79 번 라인)은 새로운 행 요소가 전달되고
+        새로운 열 요소가 사용될 때마다 결과를 다시 설정한다.
+
+
+
+Run C Simulation
+
+2-1. Run C simulation to view the expected output
+
+2-1-1. Project -> Run C Simulation
+       혹은 tool bar 버튼에 있는 플레이 버튼을 누르고
+       C Simulation Dialog 창에서 OK 를 누른다.
+
+2-1-2. 파일이 컴파일 될 것이고 콘솔 창에서 출력을 볼 수 있을 것이다.
+
+2-1-3. 내용을 보기 위해 Explorer 에서
+       testbench 폴더 하위의 matrixmul_test.cpp 를 더블 클릭한다.
+
+       일부 값으로 초기화된 2 개의 입력 행렬과
+       알고리즘을 실행하는 코드가 표시되어야 한다.
+       HW_COSIM 이 정의된 경우(프로젝트 설정 중에 수행됨)
+       matrixmul 함수가 호출되고 계산된 결과의 출력을 호출된 함수에서
+       반환된 출력과 비교하여 결과가 일치하면 Test 를 출력한다.
+
+       HW_COSIM 이 정의되지 않았으면
+       단순히 계산된 결과를 출력하고 matrixmul 함수를 호출하지 않을 것이다.
+
+
+
+Run Debugger
+
+3-1. Debugger Mode 에서 Application 을 구동하고 Program 의 동작 이해하기
+
+3-1-1. 
