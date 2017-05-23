@@ -1,0 +1,109 @@
+Improving Performance Lab
+
+Introduction
+
+이 Lab 에서 Vivado HLS 를 사용하여
+High-Level Synthesis 설계 흐름의 주요 단계를 완료했다.
+Project 를 만들고 Source 파일을 추가하고 Design 을 합성하고
+Design 을 Simulation 한 다음 Design 을 구현했다.
+또한 Analysis 기능을 사용하여 Scheduling 및 Binding 을 이해하는 방법을 학습한다.
+
+
+
+Objectives
+
+이 Lab 을 완료한 이후 우리는 아래를 할 수 있을 것이다:
+
+* Design 에 지침 추가
+* INLINE 지시문의 효과 이해
+* PIPELINE 지시문을 사용하여 성능 향상
+* DATAFLOW 지시문과 구성 명령 기능을 구별
+
+
+
+Procedure
+
+이 Lab 은 세부적인 지침에 대한 정보를 제공하는
+일반적인 개요부터 단계적으로 구성되어있다.
+Lab 을 진행하려면 이 세부 지침을 따르라.
+
+이 Lab 은 6 가지 기본 단계로 구성된다.
+Vivado HLS 명령 프롬프트를 사용하여 새로운 프로젝트를 만들고
+생성된 프로젝트와 생성된 로루션을 분석하고 인라인을 끄고
+TRIPCOUNT, PIPELINE 및 DATAFLOW 지시문과 명령 구성을 적용한 다음
+마지막으로 Design 을 Export 하고 구현한다.
+
+
+
+General Flow for this Lab
+
+1. CLI 를 사용하여 Project 를 생성한다.
+2. Project 를 분석하고 결과를 확인한다.
+3. TRIPCOUNT 지시문을 적용한다.
+4. PIPELINE 지시문을 적용한다.
+5. DATAFLOW 지시문을 적용한다.
+6. Design 을 Export 하고 구현한다.
+
+
+
+Create a Vivado HLS Project from Command Line
+
+1-1. Vivado HLS Command Line 을 사용하여 Design 의 유효성을 검사한다.
+     Command Line 에서 새로운 Vivado HLS Project 를 생성하라.
+
+1-1-1. Vivado HLS 를 띄운다.
+       /opt/Xilinx/Vivado_HLS/2017.1/bin/vivado_hls
+
+1-1-2. Vivado HLS Command Prompt 에서 디렉토리를 lab2 로 변경한다.
+
+1-1-3. 자체 점검 프로그램(yuv_filter_test.c)가 제공된다.
+       이것을 사용하여 Design 을 검증할 수 있다.
+       Makefile 도 제공된다.
+       Makefile 을 사용하여 필요한 Source 파일을 컴파일하고
+       컴파일된 프로그램을 실행할 수 있다.
+       이러한 파일과 Project 디렉토리의 내용을 검사할 수 있다.
+       Vivado HLS 명령 프롬프트에서 make 를 입력하여
+       Program 을 컴파일하고 실행한다.
+
+       Source 파일(yuv_filter.c, yuv_filter_test.c 및 image_aux.c)이
+       컴파일 된 다음 yuv_filter 실행 가능 프로그램이 작성된 다음 실행되었다.
+       Program 은 Design 을 테스트하고 통과 테스트 메시지를 출력한다.
+
+1-1-4. Vivado HLS tcl Script File(yuv_filter.tcl)이 제공되며
+       Vivado HLS Project 를 만드는데 사용할 수 있다.
+
+1-1-5. Vivado HLS Command Prompt 창에서
+       vivado_hls -f zed_yuv_filter.tcl 를 타입하여
+       ZedBoard 를 Target 으로 Project 를 만들거나
+       Vivado HLS Command Prompt 창에서
+       vivado_hls -f zybo_yuv_filter.tcl 을 타입하여
+       Zybo 를 Target 으로 Project 를 만든다.
+
+       Project 가 생성될 것이고 Vivado HLS.log 파일이 생성될 것이다.
+
+1-1-6. Text 편집기를 사용하여 lab2 에서
+       vivado_hls.log 파일을 열고 아래 섹션을 참조하라.
+
+       * yuv_filter.prj 라는 디렉토리와 Project 를 생성하고,
+         Project 에 Design 파일을 추가하고,
+         Solution 이름을 solution1 로 설정하고,
+         Target Device(ZedBoard 의 경우 Zynq-z020
+         혹은 Zybo 의 경우 Zynqz010)을 설정하고,
+         원하는 Clock 주기를 10 ns(ZedBoard) 혹은 8 ns(Zybo)로 설정하고
+         Design 및 Test Bnech 파일 가져오도록 한다.
+
+       * 각 기능과 하위 기능의 Scheduling 과
+         Binding 을 포함하는 Design 을 합성(생성)한다.
+
+       * SystemC, Verilog 및 VHDL Language 에서 각 함수 및 하위 함수의 RTL 생성
+
+1-1-7. Vivado HLS 명령 프롬프트 창에서
+       vivado_hls -p yuv_filter.prj 를 입력하여
+       생성된 Project(GUI 모드에서)를 연다.
+
+
+
+Analyze the Created Project and Results
+
+2-1. Source 파일을 열고 3 가지 기능이 사용됨에 주의하라.
+     결과를 보고 Latency 가 정의되지 않았음을 관찰하라(? 로 표기)
