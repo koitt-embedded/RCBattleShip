@@ -107,3 +107,30 @@ Analyze the Created Project and Results
 
 2-1. Source 파일을 열고 3 가지 기능이 사용됨에 주의하라.
      결과를 보고 Latency 가 정의되지 않았음을 관찰하라(? 로 표기)
+
+2-1-1. Vivado HLS GUI 의 Explorer View 에서 원본 폴더를 확장하고
+       yuv_filter.c 를 더블 클릭하여 내용을 살펴본다.
+
+       * Design 은 rgb2yuv, yuv_scale 및 yuv2rgb 의 3 가지 기능으로 구현된다.
+
+       * 이러한 각 Filter 함수는 전체 Source Image
+         (image_aux.h 에 지정된 최대 크기를 가짐)를 반복하여
+         결과 Image 에 Pixel 을 생성하기 위해 단일 Source Pixel 이 필요하다.
+
+       * Scale 함수는 Y'UV 구성 요소에
+         최상위 인수로 제공된 개별 Scale 인수를 간단히 적용한다.
+
+       * 대부분의 변수는 사용자 정의(typedef) 및 집계(예: 구조, 배열) 유형이다.
+
+       * 원본 소스가 malloc() 을 사용하여 내부 Image Buffer 에
+         동적으로 Storage 를 할당했음을 주목하십시오.
+         malloc() 은 SW 에서 큰 자료 구조에 적합하지만
+         합성할 수 없으며 Vivado HLS 에서 지원하지 않는다.
+
+       * 가능한 해결 방법은 __SYNTHESIS__ 매크로를 사용하여
+         조건부로 코드를 컴파일 한다.
+         Vivado HLS 는 Code 를 읽을 때 __SYNTHESIS__ 매크로를 자동으로 정의한다.
+         이렇게하면 원본 malloc() 코드가 synthesis 의 외부에서 사용되지만
+         Vivado HLS 는 합성할 때 해결 방법을 사용한다.
+
+2-1-2.
