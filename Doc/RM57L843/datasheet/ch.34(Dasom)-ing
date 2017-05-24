@@ -3,8 +3,7 @@ Chapter 34
 -1712p
 향상된 펄스 폭 변조기 (ePWM) 모듈
 
-향상된 펄스 폭 변조기 (ePWM) 주변 장치는 상업 및 산업 장비에서 발견되는 많은 전력 전자 시스템을 제어하는 핵심 요소입니다. 
-ePWM이 지원하는 기능은 특히 디지털 모터 제어에 적합합니다.
+향상된 펄스 폭 변조기 (ePWM) 주변 장치는 상업 및 산업 장비에서 발견되는 많은 전력 전자 시스템을 제어하는 핵심 요소입니다. ePWM이 지원하는 기능은 특히 디지털 모터 제어에 적합합니다.
 
 34.1 Introduction ................................................................................................... 1713
       소개 
@@ -223,12 +222,12 @@ Figure 34-3. Time-Base Submodule Block Diagram 타임 베이스 서브 모듈 �
     34.2.2.1 Purpose of the Time-Base Submodule 타임 베이스 서브 모듈의 목적
 다음을 위해 타임 베이스 하위 모듈을 구성 할 수 있습니다.
 
-- ePWM 시간-기반 카운터 (TBCTR) 빈도 또는 기간을 지정하여 이벤트 발생 빈도를 제어하십시오.
+- ePWM 시간-기반 카운터 (TBCTR) 빈도 또는 주기을 지정하여 이벤트 발생 빈도를 제어하십시오.
 - 다른 ePWM 모듈과의 시간 기반 동기화를 관리합니다.
 - 다른 ePWM 모듈과의 위상 관계 유지
 - 타임베이스 카운터를 카운트 업, 카운트 다운 또는 카운트 업 및 다운 모드로 설정하십시오.
 - 다음 이벤트를 생성하십시오 : 
-  CTR = PRD: 지정된 기간과 동일한 타임 베이스 카운터 (TBCTR = TBPRD)
+  CTR = PRD: 지정된 주기과 동일한 타임 베이스 카운터 (TBCTR = TBPRD)
   CTR = Zero: 0과 동일한 시간축 카운터 (TBCTR = 0x0000)
 
 타임 베이스 클록의 속도를 구성하십시오. (디바이스 주변 장치 클록 도메인 (VCLK3)의 프리 스케일 버전) 이렇게 하면 타임 베이스 카운터가 느린 속도로 증가 / 감소 할 수 있습니다.
@@ -256,7 +255,7 @@ EPWMxSYNCO : 타임 베이스 동기화 출력.
                   2. CTR = Zero: 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
                   3. CTR = CMPB: 타임베이스 카운터는 counter-compare B 레지스터(TBCTR = CMPB)와 같습니다. 
 
-CTR = PRD : 지정된 기간과 동일한 타임 베이스 카운터.
+CTR = PRD : 지정된 주기과 동일한 타임 베이스 카운터.
                : 이 신호는 counter 값이 active period 레지스터 값과 같을 때마다 생성됩니다. TBCTR = TBPRD 일 때 입니다.
 
 CTR = Zero : 제로와 동일한 타임 베이스 카운터
@@ -280,9 +279,9 @@ PWM 이벤트의 빈도는 time-base period (TBPRD) 레지스터와 타임베이
 
 - 업 - 다운 카운트 모드 : 업 - 다운 카운트 모드에서 타임베이스 카운터는 0부터 시작하여 주기 (TBPRD) 값에 도달 할 때까지 증가합니다. 마침표 값에 도달하면 타임베이스 카운터는 0에 도달 할 때까지 감소합니다. 이 시점에서 카운터는 패턴을 반복하고 증가하기 시작합니다.
 
-- 업 카운트 모드 : 이 모드에서 타임 베이스 카운터는 0부터 시작하여 주기 레지스터 (TBPRD)의 값에 도달 할 때까지 증가합니다. 기간 값에 도달하면 시간축 카운터가 0으로 재설정되고 다시 한 번 증가하기 시작합니다.
+- 업 카운트 모드 : 이 모드에서 타임 베이스 카운터는 0부터 시작하여 주기 레지스터 (TBPRD)의 값에 도달 할 때까지 증가합니다. 주기 값에 도달하면 시간축 카운터가 0으로 재설정되고 다시 한 번 증가하기 시작합니다.
 
-- 다운 카운트 모드 : 다운 카운트 모드에서 타임베이스 카운터는 주기 (TBPRD) 값에서 시작하여 0에 도달 할 때까지 감소합니다. 0에 도달하면 시간축 카운터가 기간 값으로 재설정되고 다시 한 번 감소하기 시작합니다.
+- 다운 카운트 모드 : 다운 카운트 모드에서 타임베이스 카운터는 주기 (TBPRD) 값에서 시작하여 0에 도달 할 때까지 감소합니다. 0에 도달하면 시간축 카운터가 주기 값으로 재설정되고 다시 한 번 감소하기 시작합니다.
 
      34.2.2.3.1 Time-Base Period Shadow Register 
 time-base period 레지스터 (TBPRD)에는 음영 레지스터가 있습니다. 음영 처리를 사용하면 레지스터 업데이트를 하드웨어와 동기화 할 수 있습니다. 다음 정의는 ePWM 모듈의 모든 섀도우 레지스터를 설명하는 데 사용됩니다.
@@ -290,7 +289,7 @@ time-base period 레지스터 (TBPRD)에는 음영 레지스터가 있습니다.
 Active Register : Active Register는 하드웨어를 제어하며 하드웨어가 유발하거나 호출하는 동작을 담당합니다
 Shadow Register : Shadow Register는 Active Register의 버퍼를 일시적으로 유지하거나 버퍼링합니다. 모든 제어 하드웨어에 직접적인 영향을 미치지 않습니다. 전략적 시점에서 Shadow Register의 내용은 Active Register로 전송됩니다. 이렇게 하면 레지스터가 소프트웨어에 의해 비동기 적으로 수정되기 때문에 손상이나 잘못된 동작을 방지 할 수 있습니다.
 
-Figure 34-5. Time-Base Frequency and Period 타임베이스 주파수 및 기간 
+Figure 34-5. Time-Base Frequency and Period 타임베이스 주파수 및 주기 
 
 shadow period 레지스터의 메모리 주소는 active 레지스터와 동일합니다. 어떤 레지스터가 쓰여지거나 읽히는지는 TBCTL [PRDLD] 비트에 의해 결정됩니다. 이 비트는 다음과 같이 TBPRD shadow 레지스터를 활성화 및 비활성화합니다.
 
@@ -298,7 +297,7 @@ shadow period 레지스터의 메모리 주소는 active 레지스터와 동일�
 TBPRD Shadow 레지스터는 TBCTL [PRDLD] = 0 일 때 활성화됩니다. TBPRD 메모리 주소에 대한 읽기 및 쓰기는 Shadow 레지스터로 이동합니다. 타임베이스 카운터가 0 인 경우 (TBCTR = 0x0000) Shadow 레지스터 내용이 활성 레지스터 (TBPRD (활성) ← TBPRD (섀도우))로 전송됩니다. 기본적으로 TBPRD Shadow 레지스터가 활성화 됩니다.
 
 - Time-Base Period Immediate Load Mode:
-즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
+​즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
 
      34.2.2.3.2 Time-Base Clock Synchronization 타임베이스 클록 동기화
 장치 레벨 멀티플렉싱 제어 모듈 (IOMM) 레지스터의 비트 1 PINMMR166은 TBCLKSYNC 비트로 정의됩니다. TBCLKSYNC 비트를 사용하면 사용 가능한 모든 ePWM 모듈을 TBCLK (Time-Base Clock)에 전역적으로 동기화 할 수 있습니다. 설정되면 활성화 된 모든 ePWM 모듈 클럭이 TBCLK의 첫 번째 상승 에지와 정렬되어 시작됩니다. 완벽하게 동기화 된 TBCLK의 경우 각 ePWM 모듈의 프리스케일러가 동일하게 설정되어야합니다.
@@ -387,7 +386,7 @@ Table 34-6. Counter-Compare Submodule Key Signals
 Signal : Description of Event : Registers Compared
 CTR = CMPA : 활성 카운터-비교 A 값과 동일한 시간 기준 카운터 : TBCTR = CMPA
 CTR = CMPB : 활성 카운터-비교 B 값과 동일한 시간 기준 카운터 : TBCTR = CMPB
-CTR = PRD : 활성 기간과 동일한 타임베이스 카운터.
+CTR = PRD : 활성 주기과 동일한 타임베이스 카운터.
                 shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?) : TBCTR = TBPRD
 ( Time-base counter equal to the active period. Used to load active counter-compare A and B registers from the shadow register )
 CTR = ZERO : 0과 동일한 타임베이스 카운터. shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?)
@@ -410,7 +409,7 @@ Shadow Mode:
 CMPA의 shadow 모드는 CMPCTL [SHDWAMODE] 비트를 지우고 CMPB의 shadow 레지스터를 CMPCTL [SHDWBMODE] 비트를 지우면 활성화됩니다. shadow 모드는 CMPA 및 CMPB 모두에 기본적으로 사용됩니다.
 shadow 레지스터가 활성화되면 shadow 레지스터의 내용은 CMPCTL [LOADAMODE] 및 CMPCTL [LOADBMODE] 레지스터 비트에 지정된 다음 이벤트 중 하나에서 active 레지스터로 전송됩니다.
 
-- CTR = PRD : 기간과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
+- CTR = PRD : 주기과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
 - CTR = Zero : 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
 - Both CTR = PRD and CTR = Zero
 
@@ -446,7 +445,7 @@ Figure 34-17. Action-Qualifier Submodule
 action-qualifier 하위 모듈은 다음을 담당합니다 : 
 
 - 다음 이벤트를 기반으로 작업을 검증 및 생성 (설정, 지우기, 전환)합니다.
-  CTR = PRD: 기간과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
+  CTR = PRD: 주기과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
   CTR = Zero: 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
   CTR = CMPA: 카운터-비교 A 레지스터와 동일한 타임베이스 카운터 (TBCTR = CMPA)
   CTR = CMPB: 카운터-비교 B 레지스터와 동일한 타임베이스 카운터 (TBCTR = CMPB)
@@ -461,8 +460,8 @@ Table 34-7. Action-Qualifier Submodule Registers
 
 action-qualifier 하위 모듈은 이벤트 기반 논리를 기반으로합니다. 이것은 입력시 이벤트 및 출력시 조치가 있는 프로그래밍 가능한 교차 스위치로 생각할 수 있습니다. 이 스위치는 모두 표 34-7에 나와있는 레지스터 세트를 통해 소프트웨어로 제어됩니다.
 
-Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
-
+​Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
+​
 가능한 입력 이벤트는 표 34-8에 다시 요약되어 있습니다.
 
 Table 34-8. Action-Qualifier Submodule Possible Input Events 동작 한정자 서브 모듈 가능한 입력 이벤트
@@ -505,7 +504,7 @@ Priority Level : 이벤트가 TBCTR이 증가하는 경우 TBCTR = 0부터 TBCTR
 1 (Highest) : 소프트웨어 강제 이벤트 : 소프트웨어 강제 이벤트
 2 : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다. : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다.
 3 : 카운터는 업 카운트 (CAU)시 CMPA와 같습니다. : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다.
-4 : 카운터는 0입니다. : 카운터는 기간과 동등합니다. (TBPRD)
+4 : 카운터는 0입니다. : 카운터는 주기과 동등합니다. (TBPRD)
 5 : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다.
 6 (Lowest) : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPA와 같습니다.
 
@@ -702,14 +701,4 @@ Figure 34-27. Dead_Band Submodule
 Table 34-13. Dead-Band Generator Submodule Registers 데드 밴드 생성기 서브 모듈 레지스터
 
    34.2.5.3 Operational Highlights for the Dead-Band Submodule 데드 밴드 서브 모듈의 주요 특징
-
-Priority Level : Event 
-1 (Highest) : 소프트웨어 강제 이벤트
-2 : 카운터는 0과 같습니다.
-3 : 다운 카운트 (CBD)시 CMPB와 동일한 카운터
-4 : 다운 카운트 (CAD)시 CMPA와 동일한 카운터
-5 (Lowest) : 주기와 동등한 카운터 (TBPRD)
-
-비교 값을 주기보다 크게 설정할 수 있습니다. 이 경우 작업은 표 34-12와 같이 수행됩니다.
-Table 34-12. Behavior if CMPA/CMPB is Greater than the Period
-
+ 
