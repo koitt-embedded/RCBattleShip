@@ -47,43 +47,43 @@ Example:
 	};
 
 /*
-NXP TDA998x HDMI ¼Û½Å±âÀÇ ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+NXP TDA998x HDMI ì†¡ì‹ ê¸°ì˜ ìž¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
-ÇÊ¼ö ¼Ó¼º;
-??- È£È¯ °¡´É : "nxp, tda998x"¿©¾ßÇÕ´Ï´Ù.
+í•„ìˆ˜ ì†ì„±;
+??- í˜¸í™˜ ê°€ëŠ¥ : "nxp, tda998x"ì—¬ì•¼í•©ë‹ˆë‹¤.
 ?
 
-?- µî·Ï : I2C ÁÖ¼Ò
+?- ë“±ë¡ : I2C ì£¼ì†Œ
 
-¿É¼Ç ¼Ó¼º :
-- ÀÎÅÍ·´Æ® : ÀÎÅÍ·´Æ® ¹øÈ£¿Í Æ®¸®°Å À¯Çü
+ì˜µì…˜ ì†ì„± :
+- ì¸í„°ëŸ½íŠ¸ : ì¸í„°ëŸ½íŠ¸ ë²ˆí˜¸ì™€ íŠ¸ë¦¬ê±° ìœ í˜•
 
-±âº»°ª : Æú¸µ
+ê¸°ë³¸ê°’ : í´ë§
 
- - pinctrl-0 : ½ºÅ©¸° ÇÃ·¯±× / ¾ðÇÃ·¯±× ÀÎÅÍ·´Æ®¿¡ »ç¿ëÇÏ´Â ÇÉ Á¦¾î ±×·ì.
+ - pinctrl-0 : ìŠ¤í¬ë¦° í”ŒëŸ¬ê·¸ / ì–¸í”ŒëŸ¬ê·¸ ì¸í„°ëŸ½íŠ¸ì— ì‚¬ìš©í•˜ëŠ” í•€ ì œì–´ ê·¸ë£¹.
 
-- pinctrl-names : "default"Ç×¸ñÀ» Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+- pinctrl-names : "default"í•­ëª©ì„ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- video-ports : ºñµð¿À ÄÁÆ®·Ñ·¯ÀÇ Á¤ÀÇ ¹æ¹ýÀ» Á¤ÀÇÇÏ´Â 24 ºñÆ® °ª
+- video-ports : ë¹„ë””ì˜¤ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì •ì˜ ë°©ë²•ì„ ì •ì˜í•˜ëŠ” 24 ë¹„íŠ¸ ê°’
 
-"±âº»"Ç×¸ñ.
+"ê¸°ë³¸"í•­ëª©.
 
-??- ºñµð¿À Æ÷Æ® : ºñµð¿À ÄÁÆ®·Ñ·¯ÀÇ Á¤ÀÇ ¹æ¹ýÀ» Á¤ÀÇÇÏ´Â 24 ºñÆ® °ª
-Ãâ·ÂÀº TDA998x ÀÔ·Â - ±âº»°ª : <0x230145>
+??- ë¹„ë””ì˜¤ í¬íŠ¸ : ë¹„ë””ì˜¤ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì •ì˜ ë°©ë²•ì„ ì •ì˜í•˜ëŠ” 24 ë¹„íŠ¸ ê°’
+ì¶œë ¥ì€ TDA998x ìž…ë ¥ - ê¸°ë³¸ê°’ : <0x230145>
 
-?- audio-ports : 8 ºñÆ® °ªÀÇ ¹è¿­ ÇÑ DAI [1] ´ç 2 °³ÀÇ °ª.
+?- audio-ports : 8 ë¹„íŠ¸ ê°’ì˜ ë°°ì—´ í•œ DAI [1] ë‹¹ 2 ê°œì˜ ê°’.
 
-Ã¹ ¹øÂ° °ªÀº DAI À¯ÇüÀ» Á¤ÀÇÇÕ´Ï´Ù : TDA998x_SPDIF ¶Ç´Â TDA998x_I2S [2].
+ì²« ë²ˆì§¸ ê°’ì€ DAI ìœ í˜•ì„ ì •ì˜í•©ë‹ˆë‹¤ : TDA998x_SPDIF ë˜ëŠ” TDA998x_I2S [2].
 
-°ªÀº DAI À¯ÇüÀ» Á¤ÀÇÇÕ´Ï´Ù (TDA998x_SPDIF ¶Ç´Â TDA998x_I2S [2]).
+ê°’ì€ DAI ìœ í˜•ì„ ì •ì˜í•©ë‹ˆë‹¤ (TDA998x_SPDIF ë˜ëŠ” TDA998x_I2S [2]).
 
-µÎ ¹øÂ° °ªÀº tda998x AP_ENA reg¸¦ Á¤ÀÇÇÕ´Ï´Ù.
+ë‘ ë²ˆì§¸ ê°’ì€ tda998x AP_ENA regë¥¼ ì •ì˜í•©ë‹ˆë‹¤.
 
-µÎ ¹øÂ° °ªÀº ¹®Á¦ÀÇ DAI°¡ »ç¿ëµÇ´Â °æ¿ìÀÇ tda998x AP_ENA regÀÇ ³»¿ëÀ» Á¤ÀÇÇÕ´Ï´Ù. 
+ë‘ ë²ˆì§¸ ê°’ì€ ë¬¸ì œì˜ DAIê°€ ì‚¬ìš©ë˜ëŠ” ê²½ìš°ì˜ tda998x AP_ENA regì˜ ë‚´ìš©ì„ ì •ì˜í•©ë‹ˆë‹¤. 
 
-ÀÌ ±¸ÇöÀº ÇÏ³ª ¶Ç´Â µÎ °³ÀÇ DAI°¡ Çã¿ëµË´Ï´Ù. 
+ì´ êµ¬í˜„ì€ í•˜ë‚˜ ë˜ëŠ” ë‘ ê°œì˜ DAIê°€ í—ˆìš©ë©ë‹ˆë‹¤. 
 
-µÎ DAI°¡ Á¤ÀÇµÇ¾îÀÖ´Â °æ¿ì ´Ù¸¥ À¯ÇüÀÌ¾î¾ßÇÕ´Ï´Ù.
+ë‘ DAIê°€ ì •ì˜ë˜ì–´ìžˆëŠ” ê²½ìš° ë‹¤ë¥¸ ìœ í˜•ì´ì–´ì•¼í•©ë‹ˆë‹¤.
 
 Example:
 

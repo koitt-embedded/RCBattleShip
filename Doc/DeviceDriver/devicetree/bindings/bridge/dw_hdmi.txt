@@ -52,30 +52,30 @@ Example:
 /*
 DesignWare HDMI bridge bindings
 
-ÇÊ¼ö ¼Ó¼º:
--È£È¯ : ´ÙÀ½°ú °°Àº Æ¯Á¤ ÇÃ·§Æû
+í•„ìˆ˜ ì†ì„±:
+-í˜¸í™˜ : ë‹¤ìŒê³¼ ê°™ì€ íŠ¹ì • í”Œë«í¼
 
 ?* "snps, dw-hdmi-tx"
 ?* "fsl, imx6q-hdmi"
 ?* "fsl, imx6dl-hdmi"
 ?* "rockchip, rk3288-dw-hdmi"
 
-- reg : ÄÁÆ®·Ñ·¯ÀÇ ·¹Áö½ºÅÍÀÇ ¹°¸®Àû ±âº» ÁÖ¼Ò¿Í ±æÀÌ.
+- reg : ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ë ˆì§€ìŠ¤í„°ì˜ ë¬¼ë¦¬ì  ê¸°ë³¸ ì£¼ì†Œì™€ ê¸¸ì´.
 
- - ÀÎÅÍ·´Æ® : HDMI ÀÎÅÍ·´Æ® ¹øÈ£
+ - ì¸í„°ëŸ½íŠ¸ : HDMI ì¸í„°ëŸ½íŠ¸ ë²ˆí˜¸
 
- - Å¬·°, Å¬·° ÀÌ¸§ : HDMI iahb ¹× isfr Å¬·°¿¡ p hadle °¡Áö°í ÀÖÁö ¾ÊÀ¸¸é ¾ÈµË´Ï´Ù.
+ - í´ëŸ­, í´ëŸ­ ì´ë¦„ : HDMI iahb ë° isfr í´ëŸ­ì— p hadle ê°€ì§€ê³  ìˆì§€ ì•Šìœ¼ë©´ ì•ˆë©ë‹ˆë‹¤.
 
--port @ [X] : Documentation / devicetree / bindings / media / video-interfaces.txt¿¡ Á¤ÀÇ µÈ ¿£µå Æ÷ÀÎÆ® Á¤ÀÇ°¡ÀÖ´Â SoC Æ¯Á¤ Æ÷Æ® ³ëµå.
+-port @ [X] : Documentation / devicetree / bindings / media / video-interfaces.txtì— ì •ì˜ ëœ ì—”ë“œ í¬ì¸íŠ¸ ì •ì˜ê°€ìˆëŠ” SoC íŠ¹ì • í¬íŠ¸ ë…¸ë“œ.
 
-???SoC Æ¯Á¤ ¹ÙÀÎµù ¹®¼­¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À.
+???SoC íŠ¹ì • ë°”ì¸ë”© ë¬¸ì„œë¥¼ ì°¸ì¡°í•˜ì‹­ì‹œì˜¤.
 ????* Documentation / devicetree / bindings / display / imx / hdmi.txt
 ????* Documentation / devicetree / bindings / display / rockchip / dw_hdmi-rockchip.txt
 
-¼±ÅÃÀû ¼Ó¼º
-- reg-io-width : regÀÇ ³Êºñ : 1,4, Á¸ÀçÇÏÁö ¾ÊÀ¸¸é ±âº»°ªÀº 1·Î ¼³Á¤µË´Ï´Ù.
-- ddc-i2c-bus : DDC EDID ÇÁ·Îºù¿¡ »ç¿ëµÇ´Â I2C ÄÁÆ®·Ñ·¯ÀÇ p ÇÚµé
-- Å¬·°, Å¬·° ÀÌ¸§ : HDMI CEC Å¬·Ï¿¡ ´ëÇÑ pÇÚµé, ÀÌ¸§Àº "cec"¿©¾ßÇÕ´Ï´Ù.
+ì„ íƒì  ì†ì„±
+- reg-io-width : regì˜ ë„ˆë¹„ : 1,4, ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì€ 1ë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
+- ddc-i2c-bus : DDC EDID í”„ë¡œë¹™ì— ì‚¬ìš©ë˜ëŠ” I2C ì»¨íŠ¸ë¡¤ëŸ¬ì˜ p í•¸ë“¤
+- í´ëŸ­, í´ëŸ­ ì´ë¦„ : HDMI CEC í´ë¡ì— ëŒ€í•œ pí•¸ë“¤, ì´ë¦„ì€ "cec"ì—¬ì•¼í•©ë‹ˆë‹¤.
 
 Example:
 	hdmi: hdmi@0120000 {
