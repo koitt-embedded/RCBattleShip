@@ -1,22 +1,22 @@
 Overview of the V4L2 driver framework
 =====================================
-V4L2 µå¶óÀÌ¹ö ÇÁ·¹ÀÓ ¿öÅ© °³¿ä
+V4L2 ë“œë¼ì´ë²„ í”„ë ˆì„ ì›Œí¬ ê°œìš”
 
 This text documents the various structures provided by the V4L2 framework and
 their relationships.
-ÀÌ ÅØ½ºÆ®´Â V4L2 ÇÁ·¹ÀÓ ¿öÅ©°¡ Á¦°øÇÏ´Â ´Ù¾çÇÑ ±¸Á¶¿Í °ü°è¸¦ ¼³¸íÇÕ´Ï´Ù.
+ì´ í…ìŠ¤íŠ¸ëŠ” V4L2 í”„ë ˆì„ ì›Œí¬ê°€ ì œê³µí•˜ëŠ” ë‹¤ì–‘í•œ êµ¬ì¡°ì™€ ê´€ê³„ë¥¼ ì„¤ëª…í•©ë‹ˆë‹¤.
 
 
 Introduction
 ------------
-¼Ò°³
+ì†Œê°œ
 
 The V4L2 drivers tend to be very complex due to the complexity of the
 hardware: most devices have multiple ICs, export multiple device nodes in
 /dev, and create also non-V4L2 devices such as DVB, ALSA, FB, I2C and input
 (IR) devices.
-V4L2 µå¶óÀÌ¹ö´Â ÇÏµå¿ş¾îÀÇ º¹Àâ¼ºÀ¸·Î ÀÎÇØ ¸Å¿ì º¹ÀâÇÕ´Ï´Ù : ´ëºÎºĞÀÇ ÀåÄ¡¿¡´Â ´ÙÁß IC°¡ ÀÖÀ¸¸ç 
-/ dev¿¡ ¿©·¯ ÀåÄ¡ ³ëµå¸¦ ³»º¸³»°í DVB, ALSA, FB, I2C ¹× ÀÔ·Â (IR ) ÀåÄ¡¿Í °°Àº V4L2°¡ ¾Æ´Ñ ÀåÄ¡¸¦ ¸¸µì´Ï´Ù .
+V4L2 ë“œë¼ì´ë²„ëŠ” í•˜ë“œì›¨ì–´ì˜ ë³µì¡ì„±ìœ¼ë¡œ ì¸í•´ ë§¤ìš° ë³µì¡í•©ë‹ˆë‹¤ : ëŒ€ë¶€ë¶„ì˜ ì¥ì¹˜ì—ëŠ” ë‹¤ì¤‘ ICê°€ ìˆìœ¼ë©° 
+/ devì— ì—¬ëŸ¬ ì¥ì¹˜ ë…¸ë“œë¥¼ ë‚´ë³´ë‚´ê³  DVB, ALSA, FB, I2C ë° ì…ë ¥ (IR ) ì¥ì¹˜ì™€ ê°™ì€ V4L2ê°€ ì•„ë‹Œ ì¥ì¹˜ë¥¼ ë§Œë“­ë‹ˆë‹¤ .
 
 
 Especially the fact that V4L2 drivers have to setup supporting ICs to
@@ -24,65 +24,65 @@ do audio/video muxing/encoding/decoding makes it more complex than most.
 Usually these ICs are connected to the main bridge driver through one or
 more I2C busses, but other busses can also be used. Such devices are
 called 'sub-devices'.
-Æ¯È÷ V4L2 µå¶óÀÌ¹ö°¡ ¿Àµğ¿À / ºñµğ¿À muxing / ÀÎÄÚµù / µğÄÚµùÀ» Áö¿øÇÏ´Â IC¸¦ ¼³Á¤ÇØ¾ßÇÑ´Ù´Â »ç½ÇÀº ´ëºÎºĞÀÇ °æ¿ìº¸´Ù ´õ º¹ÀâÇÕ´Ï´Ù. 
-ÀÏ¹İÀûÀ¸·ÎÀÌ IC´Â ÇÏ³ª ÀÌ»óÀÇ I2C ¹ö½º¸¦ ÅëÇØ ÁÖ ºê¸®Áö µå¶óÀÌ¹ö¿¡ ¿¬°áµÇÁö¸¸ ´Ù¸¥ ¹ö½ºµµ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ·¯ÇÑ ÀåÄ¡¸¦ 'ÇÏÀ§ ÀåÄ¡'¶ó°íÇÕ´Ï´Ù.
+íŠ¹íˆ V4L2 ë“œë¼ì´ë²„ê°€ ì˜¤ë””ì˜¤ / ë¹„ë””ì˜¤ muxing / ì¸ì½”ë”© / ë””ì½”ë”©ì„ ì§€ì›í•˜ëŠ” ICë¥¼ ì„¤ì •í•´ì•¼í•œë‹¤ëŠ” ì‚¬ì‹¤ì€ ëŒ€ë¶€ë¶„ì˜ ê²½ìš°ë³´ë‹¤ ë” ë³µì¡í•©ë‹ˆë‹¤. 
+ì¼ë°˜ì ìœ¼ë¡œì´ ICëŠ” í•˜ë‚˜ ì´ìƒì˜ I2C ë²„ìŠ¤ë¥¼ í†µí•´ ì£¼ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ì— ì—°ê²°ë˜ì§€ë§Œ ë‹¤ë¥¸ ë²„ìŠ¤ë„ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ëŸ¬í•œ ì¥ì¹˜ë¥¼ 'í•˜ìœ„ ì¥ì¹˜'ë¼ê³ í•©ë‹ˆë‹¤.
 
 For a long time the framework was limited to the video_device struct for
 creating V4L device nodes and video_buf for handling the video buffers
 (note that this document does not discuss the video_buf framework).
-¿À·¡ µ¿¾È ÇÁ·¹ÀÓ ¿öÅ©´Â V4L ÀåÄ¡ ³ëµå¸¦ »ı¼ºÇÏ±âÀ§ÇÑ video_device ±¸Á¶Ã¼¿Í ºñµğ¿À ¹öÆÛ¸¦ Ã³¸®ÇÏ±âÀ§ÇÑ video_buf·Î Á¦ÇÑµÇ¾ú½À´Ï´Ù 
-(ÀÌ ¹®¼­¿¡¼­´Â video_buf ÇÁ·¹ÀÓ ¿öÅ©¿¡ ´ëÇØ ¼³¸íÇÏÁö ¾ÊÀ½).
+ì˜¤ë˜ ë™ì•ˆ í”„ë ˆì„ ì›Œí¬ëŠ” V4L ì¥ì¹˜ ë…¸ë“œë¥¼ ìƒì„±í•˜ê¸°ìœ„í•œ video_device êµ¬ì¡°ì²´ì™€ ë¹„ë””ì˜¤ ë²„í¼ë¥¼ ì²˜ë¦¬í•˜ê¸°ìœ„í•œ video_bufë¡œ ì œí•œë˜ì—ˆìŠµë‹ˆë‹¤ 
+(ì´ ë¬¸ì„œì—ì„œëŠ” video_buf í”„ë ˆì„ ì›Œí¬ì— ëŒ€í•´ ì„¤ëª…í•˜ì§€ ì•ŠìŒ).
 
 This meant that all drivers had to do the setup of device instances and
 connecting to sub-devices themselves. Some of this is quite complicated
 to do right and many drivers never did do it correctly.
-ÀÌ°ÍÀº ¸ğµç µå¶óÀÌ¹ö°¡ ÀåÄ¡ ÀÎ½ºÅÏ½ºÀÇ ¼³Á¤À» ¼öÇàÇÏ°í ÇÏÀ§ ÀåÄ¡ ÀÚÃ¼¿¡ ¿¬°áÇØ¾ßÇÑ´Ù´Â °ÍÀ» ÀÇ¹ÌÇß½À´Ï´Ù. 
-ÀÌ Áß ÀÏºÎ´Â ¶È¹Ù·Î ÀÏÀ»ÇÏ±â¿¡´Â »ó´çÈ÷ º¹ÀâÇÏ°í ¸¹Àº µå¶óÀÌ¹ö´Â Á¦´ë·ÎÇÏÁö ¾Ê¾Ò½À´Ï´Ù.
+ì´ê²ƒì€ ëª¨ë“  ë“œë¼ì´ë²„ê°€ ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ì˜ ì„¤ì •ì„ ìˆ˜í–‰í•˜ê³  í•˜ìœ„ ì¥ì¹˜ ìì²´ì— ì—°ê²°í•´ì•¼í•œë‹¤ëŠ” ê²ƒì„ ì˜ë¯¸í–ˆìŠµë‹ˆë‹¤. 
+ì´ ì¤‘ ì¼ë¶€ëŠ” ë˜‘ë°”ë¡œ ì¼ì„í•˜ê¸°ì—ëŠ” ìƒë‹¹íˆ ë³µì¡í•˜ê³  ë§ì€ ë“œë¼ì´ë²„ëŠ” ì œëŒ€ë¡œí•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.
 
 There is also a lot of common code that could never be refactored due to
 the lack of a framework.
-ÇÁ·¹ÀÓ ¿öÅ©°¡ ¾ø¾î¼­ °áÄÚ ¸®ÆÑÅä¸µ µÉ ¼ö¾ø´Â ¸¹Àº °øÅë ÄÚµå°¡ ÀÖ½À´Ï´Ù.
+í”„ë ˆì„ ì›Œí¬ê°€ ì—†ì–´ì„œ ê²°ì½” ë¦¬íŒ©í† ë§ ë  ìˆ˜ì—†ëŠ” ë§ì€ ê³µí†µ ì½”ë“œê°€ ìˆìŠµë‹ˆë‹¤.
 
 So this framework sets up the basic building blocks that all drivers
 need and this same framework should make it much easier to refactor
 common code into utility functions shared by all drivers.
-µû¶ó¼­ ÀÌ ÇÁ·¹ÀÓ ¿öÅ©´Â ¸ğµç µå¶óÀÌ¹ö°¡ ÇÊ¿ä·ÎÇÏ´Â ±âº» ºôµù ºí·ÏÀ» ¼³Á¤ÇÏ°í ÀÌ µ¿ÀÏÇÑ ÇÁ·¹ÀÓ ¿öÅ©´Â 
-°øÅë ÄÚµå¸¦ ¸ğµç µå¶óÀÌ¹ö°¡ °øÀ¯ÇÏ´Â À¯Æ¿¸®Æ¼ ±â´ÉÀ¸·Î ¸®ÆÑÅä¸µÇÏ´Â °ÍÀ» ÈÎ¾À ½±°Ô ¸¸µé¾î¾ßÇÕ´Ï´Ù.
+ë”°ë¼ì„œ ì´ í”„ë ˆì„ ì›Œí¬ëŠ” ëª¨ë“  ë“œë¼ì´ë²„ê°€ í•„ìš”ë¡œí•˜ëŠ” ê¸°ë³¸ ë¹Œë”© ë¸”ë¡ì„ ì„¤ì •í•˜ê³  ì´ ë™ì¼í•œ í”„ë ˆì„ ì›Œí¬ëŠ” 
+ê³µí†µ ì½”ë“œë¥¼ ëª¨ë“  ë“œë¼ì´ë²„ê°€ ê³µìœ í•˜ëŠ” ìœ í‹¸ë¦¬í‹° ê¸°ëŠ¥ìœ¼ë¡œ ë¦¬íŒ©í† ë§í•˜ëŠ” ê²ƒì„ í›¨ì”¬ ì‰½ê²Œ ë§Œë“¤ì–´ì•¼í•©ë‹ˆë‹¤.
 
 A good example to look at as a reference is the v4l2-pci-skeleton.c
 source that is available in this directory. It is a skeleton driver for
 a PCI capture card, and demonstrates how to use the V4L2 driver
 framework. It can be used as a template for real PCI video capture driver.
-ÂüÁ¶·Î º¸´Â ÁÁÀº ¿¹´Â ÀÌ µğ·ºÅä¸®¿¡¼­ »ç¿ëÇÒ ¼öÀÖ´Â v4l2-pci-skeleton.c ¼Ò½ºÀÔ´Ï´Ù. 
-PCI Ä¸Ã³ Ä«µåÀÇ »À´ë µå¶óÀÌ¹öÀÌ¸ç V4L2 µå¶óÀÌ¹ö ÇÁ·¹ÀÓ ¿öÅ©¸¦ »ç¿ëÇÏ´Â ¹æ¹ıÀ» º¸¿©Áİ´Ï´Ù. 
-½ÇÁ¦ PCI ºñµğ¿À Ä¸Ã³ µå¶óÀÌ¹öÀÇ ÅÛÇÃ¸´À¸·Î »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì°¸ì¡°ë¡œ ë³´ëŠ” ì¢‹ì€ ì˜ˆëŠ” ì´ ë””ë ‰í† ë¦¬ì—ì„œ ì‚¬ìš©í•  ìˆ˜ìˆëŠ” v4l2-pci-skeleton.c ì†ŒìŠ¤ì…ë‹ˆë‹¤. 
+PCI ìº¡ì²˜ ì¹´ë“œì˜ ë¼ˆëŒ€ ë“œë¼ì´ë²„ì´ë©° V4L2 ë“œë¼ì´ë²„ í”„ë ˆì„ ì›Œí¬ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì„ ë³´ì—¬ì¤ë‹ˆë‹¤. 
+ì‹¤ì œ PCI ë¹„ë””ì˜¤ ìº¡ì²˜ ë“œë¼ì´ë²„ì˜ í…œí”Œë¦¿ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 Structure of a driver
 ---------------------
-µå¶óÀÌ¹ö ±¸Á¶
+ë“œë¼ì´ë²„ êµ¬ì¡°
 
 All drivers have the following structure:
-¸ğµç µå¶óÀÌ¹öÀÇ ±¸Á¶´Â ´ÙÀ½°ú °°½À´Ï´Ù.
+ëª¨ë“  ë“œë¼ì´ë²„ì˜ êµ¬ì¡°ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
 
 1) A struct for each device instance containing the device state.
-ÀåÄ¡ »óÅÂ¸¦ Æ÷ÇÔÇÏ´Â °¢ ÀåÄ¡ ÀÎ½ºÅÏ½ºÀÇ ±¸Á¶Ã¼ÀÔ´Ï´Ù.
+ì¥ì¹˜ ìƒíƒœë¥¼ í¬í•¨í•˜ëŠ” ê° ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ì˜ êµ¬ì¡°ì²´ì…ë‹ˆë‹¤.
 
 2) A way of initializing and commanding sub-devices (if any).
-ÇÏÀ§ ÀåÄ¡¸¦ ÃÊ±âÈ­ÇÏ°í ¸í·ÉÇÏ´Â ¹æ¹ı (ÀÖ´Â °æ¿ì).
+í•˜ìœ„ ì¥ì¹˜ë¥¼ ì´ˆê¸°í™”í•˜ê³  ëª…ë ¹í•˜ëŠ” ë°©ë²• (ìˆëŠ” ê²½ìš°).
 
 3) Creating V4L2 device nodes (/dev/videoX, /dev/vbiX and /dev/radioX)
    and keeping track of device-node specific data.
-V4L2 ÀåÄ¡ ³ëµå (/ dev / videoX, / dev / vboX ¹× / dev / radio X)¸¦ ¸¸µé°í ÀåÄ¡ ³ëµå Æ¯Á¤ µ¥ÀÌÅÍ¸¦ ÃßÀûÇÕ´Ï´Ù.
+V4L2 ì¥ì¹˜ ë…¸ë“œ (/ dev / videoX, / dev / vboX ë° / dev / radio X)ë¥¼ ë§Œë“¤ê³  ì¥ì¹˜ ë…¸ë“œ íŠ¹ì • ë°ì´í„°ë¥¼ ì¶”ì í•©ë‹ˆë‹¤.
 
 4) Filehandle-specific structs containing per-filehandle data;
-ÆÄÀÏ ÇÚµé ´ç µ¥ÀÌÅÍ¸¦ Æ÷ÇÔÇÏ´Â ÆÄÀÏ ÇÚµé °ü·Ã ±¸Á¶Ã¼.
+íŒŒì¼ í•¸ë“¤ ë‹¹ ë°ì´í„°ë¥¼ í¬í•¨í•˜ëŠ” íŒŒì¼ í•¸ë“¤ ê´€ë ¨ êµ¬ì¡°ì²´.
 
 5) video buffer handling.
-ºñµğ¿À ¹öÆÛ Ã³¸®.
+ë¹„ë””ì˜¤ ë²„í¼ ì²˜ë¦¬.
 
 This is a rough schematic of how it all relates:
-ÀÌ ¸ğµç °ÍÀÌ ¾î¶»°Ô °ü·ÃµÇ´ÂÁö ´ë·«ÀûÀÎ °³¿äÀÔ´Ï´Ù.
+ì´ ëª¨ë“  ê²ƒì´ ì–´ë–»ê²Œ ê´€ë ¨ë˜ëŠ”ì§€ ëŒ€ëµì ì¸ ê°œìš”ì…ë‹ˆë‹¤.
 
     device instances
       |
@@ -95,21 +95,21 @@ This is a rough schematic of how it all relates:
 
 Structure of the framework
 --------------------------
-ÇÁ·¹ÀÓ ¿öÅ©ÀÇ ±¸Á¶
+í”„ë ˆì„ ì›Œí¬ì˜ êµ¬ì¡°
 
 The framework closely resembles the driver structure: it has a v4l2_device
 struct for the device instance data, a v4l2_subdev struct to refer to
 sub-device instances, the video_device struct stores V4L2 device node data
 and the v4l2_fh struct keeps track of filehandle instances.
-ÇÁ·¹ÀÓ ¿öÅ©´Â µå¶óÀÌ¹ö ±¸Á¶¿Í ¸Å¿ì À¯»çÇÕ´Ï´Ù. 
-ÀåÄ¡ ÀÎ½ºÅÏ½º µ¥ÀÌÅÍ ¿ë v4l2_device ±¸Á¶Ã¼, ÇÏÀ§ ÀåÄ¡ ÀÎ½ºÅÏ½º¸¦ ÂüÁ¶ÇÏ´Â v4l2_subdev ±¸Á¶Ã¼, 
-video_device ±¸Á¶Ã¼´Â V4L2 ÀåÄ¡ ³ëµå µ¥ÀÌÅÍ¸¦ ÀúÀåÇÏ¸ç v4l2_fh ±¸Á¶Ã¼´Â ÆÄÀÏ ÇÚµé ÀÎ½ºÅÏ½º¸¦ ÃßÀûÇÕ´Ï´Ù.
+í”„ë ˆì„ ì›Œí¬ëŠ” ë“œë¼ì´ë²„ êµ¬ì¡°ì™€ ë§¤ìš° ìœ ì‚¬í•©ë‹ˆë‹¤. 
+ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ ë°ì´í„° ìš© v4l2_device êµ¬ì¡°ì²´, í•˜ìœ„ ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì°¸ì¡°í•˜ëŠ” v4l2_subdev êµ¬ì¡°ì²´, 
+video_device êµ¬ì¡°ì²´ëŠ” V4L2 ì¥ì¹˜ ë…¸ë“œ ë°ì´í„°ë¥¼ ì €ì¥í•˜ë©° v4l2_fh êµ¬ì¡°ì²´ëŠ” íŒŒì¼ í•¸ë“¤ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì¶”ì í•©ë‹ˆë‹¤.
 
 The V4L2 framework also optionally integrates with the media framework. If a
 driver sets the struct v4l2_device mdev field, sub-devices and video nodes
 will automatically appear in the media framework as entities.
-¶ÇÇÑ V4L2 ÇÁ·¹ÀÓ ¿öÅ©´Â ¼±ÅÃÀûÀ¸·Î ¹Ìµğ¾î ÇÁ·¹ÀÓ ¿öÅ©¿Í ÅëÇÕµË´Ï´Ù. 
-µå¶óÀÌ¹ö°¡ ±¸Á¶Ã¼ v4l2_device mdev ÇÊµå¸¦ ¼³Á¤ÇÏ¸é ÇÏÀ§ ÀåÄ¡ ¹× ºñµğ¿À ³ëµå°¡ ¹Ìµğ¾î ÇÁ·¹ÀÓ ¿öÅ©¿¡ ¿£Æ¼Æ¼·Î ÀÚµ¿ Ç¥½ÃµË´Ï´Ù.
+ë˜í•œ V4L2 í”„ë ˆì„ ì›Œí¬ëŠ” ì„ íƒì ìœ¼ë¡œ ë¯¸ë””ì–´ í”„ë ˆì„ ì›Œí¬ì™€ í†µí•©ë©ë‹ˆë‹¤. 
+ë“œë¼ì´ë²„ê°€ êµ¬ì¡°ì²´ v4l2_device mdev í•„ë“œë¥¼ ì„¤ì •í•˜ë©´ í•˜ìœ„ ì¥ì¹˜ ë° ë¹„ë””ì˜¤ ë…¸ë“œê°€ ë¯¸ë””ì–´ í”„ë ˆì„ ì›Œí¬ì— ì—”í‹°í‹°ë¡œ ìë™ í‘œì‹œë©ë‹ˆë‹¤.
 
 
 
@@ -119,17 +119,17 @@ struct v4l2_device
 Each device instance is represented by a struct v4l2_device (v4l2-device.h).
 Very simple devices can just allocate this struct, but most of the time you
 would embed this struct inside a larger struct.
-°¢ ÀåÄ¡ ÀÎ½ºÅÏ½º´Â struct v4l2 ÀåÄ¡ (v4l2-device.h)·Î Ç¥½ÃµË´Ï´Ù.
-¾ÆÁÖ °£´ÜÇÑ ÀåÄ¡´ÂÀÌ ±¸Á¶Ã¼¸¦ ÇÒ´ç ÇÒ ¼ö ÀÖÁö¸¸ ´ëºÎºĞÀÇ °æ¿ìÀÌ ±¸Á¶Ã¼¸¦ ´õ Å« ±¸Á¶Ã¼¿¡ Æ÷ÇÔÇÕ´Ï´Ù.
+ê° ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ëŠ” struct v4l2 ì¥ì¹˜ (v4l2-device.h)ë¡œ í‘œì‹œë©ë‹ˆë‹¤.
+ì•„ì£¼ ê°„ë‹¨í•œ ì¥ì¹˜ëŠ”ì´ êµ¬ì¡°ì²´ë¥¼ í• ë‹¹ í•  ìˆ˜ ìˆì§€ë§Œ ëŒ€ë¶€ë¶„ì˜ ê²½ìš°ì´ êµ¬ì¡°ì²´ë¥¼ ë” í° êµ¬ì¡°ì²´ì— í¬í•¨í•©ë‹ˆë‹¤.
 
 You must register the device instance:
-ÀåÄ¡ ÀÎ½ºÅÏ½º¸¦ µî·ÏÇØ¾ßÇÕ´Ï´Ù.
+ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë“±ë¡í•´ì•¼í•©ë‹ˆë‹¤.
 
 	v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev);
 
 Registration will initialize the v4l2_device struct. If the dev->driver_data
 field is NULL, it will be linked to v4l2_dev.
-µî·ÏÀº v4l2 ÀåÄ¡ ±¸Á¶¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù. ev-> driver_data ÇÊµå°¡ NULLÀÌ¸é v4l2 dev¿¡ ¸µÅ©µË´Ï´Ù.
+ë“±ë¡ì€ v4l2 ì¥ì¹˜ êµ¬ì¡°ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤. ev-> driver_data í•„ë“œê°€ NULLì´ë©´ v4l2 devì— ë§í¬ë©ë‹ˆë‹¤.
 
 Drivers that want integration with the media device framework need to set
 dev->driver_data manually to point to the driver-specific device structure
@@ -137,73 +137,73 @@ that embed the struct v4l2_device instance. This is achieved by a
 dev_set_drvdata() call before registering the V4L2 device instance. They must
 also set the struct v4l2_device mdev field to point to a properly initialized
 and registered media_device instance.
-¹Ìµğ¾î ÀåÄ¡ ÇÁ·¹ÀÓ ¿öÅ©¿ÍÀÇ ÅëÇÕÀ» ¿øÇÏ´Â µå¶óÀÌ¹ö´Â ±¸Á¶Ã¼ v4l2_device ÀÎ½ºÅÏ½º¸¦ 
-Æ÷ÇÔÇÏ´Â µå¶óÀÌ¹ö °ü·Ã ÀåÄ¡ ±¸Á¶¸¦ °¡¸® Å°µµ·Ï dev-> driver_data¸¦ ¼öµ¿À¸·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù. 
-ÀÌ´Â V4L2 µğ¹ÙÀÌ½º ÀÎ½ºÅÏ½º¸¦ µî·ÏÇÏ±â Àü¿¡ dev_set_drvdata () È£Ãâ¿¡ ÀÇÇØ ¼öÇàµË´Ï´Ù. 
-¶ÇÇÑ ¿Ã¹Ù¸£°Ô ÃÊ±âÈ­µÇ°í µî·Ï µÈ media_device ÀÎ½ºÅÏ½º¸¦ °¡¸® Å°µµ·Ï ±¸Á¶Ã¼ v4l2_device mdev ÇÊµå¸¦ ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+ë¯¸ë””ì–´ ì¥ì¹˜ í”„ë ˆì„ ì›Œí¬ì™€ì˜ í†µí•©ì„ ì›í•˜ëŠ” ë“œë¼ì´ë²„ëŠ” êµ¬ì¡°ì²´ v4l2_device ì¸ìŠ¤í„´ìŠ¤ë¥¼ 
+í¬í•¨í•˜ëŠ” ë“œë¼ì´ë²„ ê´€ë ¨ ì¥ì¹˜ êµ¬ì¡°ë¥¼ ê°€ë¦¬ í‚¤ë„ë¡ dev-> driver_dataë¥¼ ìˆ˜ë™ìœ¼ë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤. 
+ì´ëŠ” V4L2 ë””ë°”ì´ìŠ¤ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë“±ë¡í•˜ê¸° ì „ì— dev_set_drvdata () í˜¸ì¶œì— ì˜í•´ ìˆ˜í–‰ë©ë‹ˆë‹¤. 
+ë˜í•œ ì˜¬ë°”ë¥´ê²Œ ì´ˆê¸°í™”ë˜ê³  ë“±ë¡ ëœ media_device ì¸ìŠ¤í„´ìŠ¤ë¥¼ ê°€ë¦¬ í‚¤ë„ë¡ êµ¬ì¡°ì²´ v4l2_device mdev í•„ë“œë¥¼ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 If v4l2_dev->name is empty then it will be set to a value derived from dev
 (driver name followed by the bus_id, to be precise). If you set it up before
 calling v4l2_device_register then it will be untouched. If dev is NULL, then
 you *must* setup v4l2_dev->name before calling v4l2_device_register.
-v4l2_dev-> nameÀÌ ºñ¾î ÀÖÀ¸¸é dev (µå¶óÀÌ¹ö ÀÌ¸§°ú bus_id°¡ Á¤È®È÷ ÀÏÄ¡ ÇÔ)¿¡¼­ ÆÄ»ı µÈ °ªÀ¸·Î ¼³Á¤µË´Ï´Ù. 
-v4l2_device_register¸¦ È£ÃâÇÏ±â Àü¿¡ ¼³Á¤ÇÏ¸é º¯°æµÇÁö ¾Ê½À´Ï´Ù. dev°¡ NULLÀÌ¸é v4l2_device_register¸¦ È£ÃâÇÏ±â Àü¿¡ v4l2_dev-> nameÀ» ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+v4l2_dev-> nameì´ ë¹„ì–´ ìˆìœ¼ë©´ dev (ë“œë¼ì´ë²„ ì´ë¦„ê³¼ bus_idê°€ ì •í™•íˆ ì¼ì¹˜ í•¨)ì—ì„œ íŒŒìƒ ëœ ê°’ìœ¼ë¡œ ì„¤ì •ë©ë‹ˆë‹¤. 
+v4l2_device_registerë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— ì„¤ì •í•˜ë©´ ë³€ê²½ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤. devê°€ NULLì´ë©´ v4l2_device_registerë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— v4l2_dev-> nameì„ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 You can use v4l2_device_set_name() to set the name based on a driver name and
 a driver-global atomic_t instance. This will generate names like ivtv0, ivtv1,
 etc. If the name ends with a digit, then it will insert a dash: cx18-0,
 cx18-1, etc. This function returns the instance number.
-v4l2_device_set_name ()À» »ç¿ëÇÏ¿© µå¶óÀÌ¹ö ÀÌ¸§°ú driver-global atomic_t ÀÎ½ºÅÏ½º¸¦ ±â¹İÀ¸·Î ÀÌ¸§À» ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù. ivtv0, ivtv1 µî°ú °°Àº ÀÌ¸§À» »ı¼ºÇÕ´Ï´Ù. 
-ÀÌ¸§ÀÌ ¼ıÀÚ·Î ³¡³ª¸é ´ë½Ã°¡ »ğÀÔµË´Ï´Ù (cx18-0, cx18-1 µî).ÀÌ ÇÔ¼ö´Â ÀÎ½ºÅÏ½º ¹øÈ£¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+v4l2_device_set_name ()ì„ ì‚¬ìš©í•˜ì—¬ ë“œë¼ì´ë²„ ì´ë¦„ê³¼ driver-global atomic_t ì¸ìŠ¤í„´ìŠ¤ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì´ë¦„ì„ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ivtv0, ivtv1 ë“±ê³¼ ê°™ì€ ì´ë¦„ì„ ìƒì„±í•©ë‹ˆë‹¤. 
+ì´ë¦„ì´ ìˆ«ìë¡œ ëë‚˜ë©´ ëŒ€ì‹œê°€ ì‚½ì…ë©ë‹ˆë‹¤ (cx18-0, cx18-1 ë“±).ì´ í•¨ìˆ˜ëŠ” ì¸ìŠ¤í„´ìŠ¤ ë²ˆí˜¸ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 
 The first 'dev' argument is normally the struct device pointer of a pci_dev,
 usb_interface or platform_device. It is rare for dev to be NULL, but it happens
 with ISA devices or when one device creates multiple PCI devices, thus making
 it impossible to associate v4l2_dev with a particular parent.
-Ã¹ ¹øÂ° 'dev'ÀÎ¼ö´Â ÀÏ¹İÀûÀ¸·Î pci_dev, usb_interface ¶Ç´Â platform_deviceÀÇ struct ÀåÄ¡ Æ÷ÀÎÅÍÀÔ´Ï´Ù. 
-dev°¡ NULLÀÌµÇ´Â °æ¿ì´Â °ÅÀÇ ¾øÁö¸¸ ISA ÀåÄ¡ ³ª ÇÑ ÀåÄ¡°¡ ¿©·¯ PCI ÀåÄ¡¸¦ »ı¼º ÇÒ ¶§ ¹ß»ıÇÏ¹Ç·Î v4l2_dev¸¦ Æ¯Á¤ ºÎ¸ğ¿Í ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.
+ì²« ë²ˆì§¸ 'dev'ì¸ìˆ˜ëŠ” ì¼ë°˜ì ìœ¼ë¡œ pci_dev, usb_interface ë˜ëŠ” platform_deviceì˜ struct ì¥ì¹˜ í¬ì¸í„°ì…ë‹ˆë‹¤. 
+devê°€ NULLì´ë˜ëŠ” ê²½ìš°ëŠ” ê±°ì˜ ì—†ì§€ë§Œ ISA ì¥ì¹˜ ë‚˜ í•œ ì¥ì¹˜ê°€ ì—¬ëŸ¬ PCI ì¥ì¹˜ë¥¼ ìƒì„± í•  ë•Œ ë°œìƒí•˜ë¯€ë¡œ v4l2_devë¥¼ íŠ¹ì • ë¶€ëª¨ì™€ ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 
 You can also supply a notify() callback that can be called by sub-devices to
 notify you of events. Whether you need to set this depends on the sub-device.
 Any notifications a sub-device supports must be defined in a header in
 include/media/<subdevice>.h.
-ÀÌº¥Æ®¸¦ ¾Ë¸®±â À§ÇØ ÇÏÀ§ ÀåÄ¡¿¡¼­ È£Ãâ ÇÒ ¼öÀÖ´Â notify () Äİ¹éÀ» Á¦°ø ÇÒ ¼öµµ ÀÖ½À´Ï´Ù. ÀÌ ¼³Á¤ÀÌ ÇÊ¿äÇÑÁö ¿©ºÎ´Â ÇÏÀ§ ÀåÄ¡¿¡ µû¶ó ´Ù¸¨´Ï´Ù.
-ÇÏÀ§ ÀåÄ¡°¡ Áö¿øÇÏ´Â ¸ğµç ¾Ë¸²Àº include / media / <subdevice> .hÀÇ Çì´õ¿¡ Á¤ÀÇµÇ¾î¾ßÇÕ´Ï´Ù.
+ì´ë²¤íŠ¸ë¥¼ ì•Œë¦¬ê¸° ìœ„í•´ í•˜ìœ„ ì¥ì¹˜ì—ì„œ í˜¸ì¶œ í•  ìˆ˜ìˆëŠ” notify () ì½œë°±ì„ ì œê³µ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤. ì´ ì„¤ì •ì´ í•„ìš”í•œì§€ ì—¬ë¶€ëŠ” í•˜ìœ„ ì¥ì¹˜ì— ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤.
+í•˜ìœ„ ì¥ì¹˜ê°€ ì§€ì›í•˜ëŠ” ëª¨ë“  ì•Œë¦¼ì€ include / media / <subdevice> .hì˜ í—¤ë”ì— ì •ì˜ë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 
 You unregister with:
-µî·Ï Ãë¼Ò :
+ë“±ë¡ ì·¨ì†Œ :
 
 	v4l2_device_unregister(struct v4l2_device *v4l2_dev);
 
 If the dev->driver_data field points to v4l2_dev, it will be reset to NULL.
 Unregistering will also automatically unregister all subdevs from the device.
-dev-> driver_data ÇÊµå°¡ v4l2_dev¸¦ °¡¸®Å°¸é NULL·Î Àç¼³Á¤µË´Ï´Ù.
-µî·ÏÀ» Ãë¼ÒÇÏ¸é ÀåÄ¡ÀÇ ¸ğµç ÇÏÀ§ Ç×¸ñµµ ÀÚµ¿À¸·Î µî·Ï Ãë¼ÒµË´Ï´Ù.
+dev-> driver_data í•„ë“œê°€ v4l2_devë¥¼ ê°€ë¦¬í‚¤ë©´ NULLë¡œ ì¬ì„¤ì •ë©ë‹ˆë‹¤.
+ë“±ë¡ì„ ì·¨ì†Œí•˜ë©´ ì¥ì¹˜ì˜ ëª¨ë“  í•˜ìœ„ í•­ëª©ë„ ìë™ìœ¼ë¡œ ë“±ë¡ ì·¨ì†Œë©ë‹ˆë‹¤.
 
 If you have a hotpluggable device (e.g. a USB device), then when a disconnect
 happens the parent device becomes invalid. Since v4l2_device has a pointer to
 that parent device it has to be cleared as well to mark that the parent is
 gone. To do this call:
-ÇÖ ÇÃ·¯±× °¡´ÉÇÑ ±â±â (¿¹ : USB ±â±â)°¡ÀÖ´Â °æ¿ì ¿¬°áÀÌ ²÷¾îÁö¸é »óÀ§ ±â±â°¡ ¹«È¿È­µË´Ï´Ù. 
-v4l2_device´Â ±× ºÎ¸ğ ÀåÄ¡¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ °¡Áö°í ÀÖ±â ¶§¹®¿¡ ºÎ¸ğ°¡ ¾ø¾î Á³À½À» Ç¥½ÃÇÏ±â À§ÇØ¼­µµ Áö¿ö Á®¾ßÇÕ´Ï´Ù. 
-ÀÌ È£ÃâÀ» ÇÏ·Á¸é :
+í•« í”ŒëŸ¬ê·¸ ê°€ëŠ¥í•œ ê¸°ê¸° (ì˜ˆ : USB ê¸°ê¸°)ê°€ìˆëŠ” ê²½ìš° ì—°ê²°ì´ ëŠì–´ì§€ë©´ ìƒìœ„ ê¸°ê¸°ê°€ ë¬´íš¨í™”ë©ë‹ˆë‹¤. 
+v4l2_deviceëŠ” ê·¸ ë¶€ëª¨ ì¥ì¹˜ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ ê°€ì§€ê³  ìˆê¸° ë•Œë¬¸ì— ë¶€ëª¨ê°€ ì—†ì–´ ì¡ŒìŒì„ í‘œì‹œí•˜ê¸° ìœ„í•´ì„œë„ ì§€ì›Œ ì ¸ì•¼í•©ë‹ˆë‹¤. 
+ì´ í˜¸ì¶œì„ í•˜ë ¤ë©´ :
 
 	v4l2_device_disconnect(struct v4l2_device *v4l2_dev);
 
 This does *not* unregister the subdevs, so you still need to call the
 v4l2_device_unregister() function for that. If your driver is not hotpluggable,
 then there is no need to call v4l2_device_disconnect().
-ÇÏÀ§ ¹öÀüÀÇ µî·ÏÀ» Ãë¼ÒÇÏÁö ¾ÊÀ¸¹Ç·Î v4l2_device_unregister () ÇÔ¼ö¸¦ È£ÃâÇØ¾ßÇÕ´Ï´Ù. µå¶óÀÌ¹ö¸¦ ÇÖ ÇÃ·¯±× ÇÒ ¼ö¾ø´Â °æ¿ì v4l2_device_disconnect ()¸¦ È£Ãâ ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù.
+í•˜ìœ„ ë²„ì „ì˜ ë“±ë¡ì„ ì·¨ì†Œí•˜ì§€ ì•Šìœ¼ë¯€ë¡œ v4l2_device_unregister () í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì•¼í•©ë‹ˆë‹¤. ë“œë¼ì´ë²„ë¥¼ í•« í”ŒëŸ¬ê·¸ í•  ìˆ˜ì—†ëŠ” ê²½ìš° v4l2_device_disconnect ()ë¥¼ í˜¸ì¶œ í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤.
 
 Sometimes you need to iterate over all devices registered by a specific
 driver. This is usually the case if multiple device drivers use the same
 hardware. E.g. the ivtvfb driver is a framebuffer driver that uses the ivtv
 hardware. The same is true for alsa drivers for example.
-¶§·Î´Â Æ¯Á¤ µå¶óÀÌ¹ö¿¡ ÀÇÇØ µî·Ï µÈ ¸ğµç ÀåÄ¡¸¦ ¹İº¹ÇØ¾ßÇÕ´Ï´Ù. ÀÏ¹İÀûÀ¸·Î ¿©·¯ ÀåÄ¡ µå¶óÀÌ¹ö°¡ µ¿ÀÏÇÑ ÇÏµå¿ş¾î¸¦ »ç¿ëÇÏ´Â °æ¿ìÀÔ´Ï´Ù. 
-¿¹ : ivtvfb µå¶óÀÌ¹ö´Â ivtv ÇÏµå¿ş¾î¸¦ »ç¿ëÇÏ´Â ÇÁ·¹ÀÓ ¹öÆÛ µå¶óÀÌ¹öÀÔ´Ï´Ù. ¿¹¸¦ µé¾î alsa µå¶óÀÌ¹ö¿¡¼­µµ ¸¶Âù°¡ÁöÀÔ´Ï´Ù.
+ë•Œë¡œëŠ” íŠ¹ì • ë“œë¼ì´ë²„ì— ì˜í•´ ë“±ë¡ ëœ ëª¨ë“  ì¥ì¹˜ë¥¼ ë°˜ë³µí•´ì•¼í•©ë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ ì—¬ëŸ¬ ì¥ì¹˜ ë“œë¼ì´ë²„ê°€ ë™ì¼í•œ í•˜ë“œì›¨ì–´ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ì…ë‹ˆë‹¤. 
+ì˜ˆ : ivtvfb ë“œë¼ì´ë²„ëŠ” ivtv í•˜ë“œì›¨ì–´ë¥¼ ì‚¬ìš©í•˜ëŠ” í”„ë ˆì„ ë²„í¼ ë“œë¼ì´ë²„ì…ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ alsa ë“œë¼ì´ë²„ì—ì„œë„ ë§ˆì°¬ê°€ì§€ì…ë‹ˆë‹¤.
 
 You can iterate over all registered devices as follows:
-´ÙÀ½°ú °°ÀÌ µî·Ï µÈ ¸ğµç ÀåÄ¡¸¦ ¹İº¹ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ë‹¤ìŒê³¼ ê°™ì´ ë“±ë¡ ëœ ëª¨ë“  ì¥ì¹˜ë¥¼ ë°˜ë³µ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 static int callback(struct device *dev, void *p)
 {
@@ -232,10 +232,10 @@ int iterate(void *p)
 
 Sometimes you need to keep a running counter of the device instance. This is
 commonly used to map a device instance to an index of a module option array.
-¶§·Î´Â ÀåÄ¡ ÀÎ½ºÅÏ½ºÀÇ ½ÇÇàÁßÀÎ Ä«¿îÅÍ¸¦ À¯ÁöÇØ¾ßÇÕ´Ï´Ù. ÀÌ°ÍÀº ÀÏ¹İÀûÀ¸·Î ÀåÄ¡ ÀÎ½ºÅÏ½º¸¦ ¸ğµâ ¿É¼Ç ¹è¿­ÀÇ ÀÎµ¦½º¿¡ ¸ÅÇÎÇÏ´Â µ¥ »ç¿ëµË´Ï´Ù.
+ë•Œë¡œëŠ” ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ì˜ ì‹¤í–‰ì¤‘ì¸ ì¹´ìš´í„°ë¥¼ ìœ ì§€í•´ì•¼í•©ë‹ˆë‹¤. ì´ê²ƒì€ ì¼ë°˜ì ìœ¼ë¡œ ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ëª¨ë“ˆ ì˜µì…˜ ë°°ì—´ì˜ ì¸ë±ìŠ¤ì— ë§¤í•‘í•˜ëŠ” ë° ì‚¬ìš©ë©ë‹ˆë‹¤.
 
 The recommended approach is as follows:
-±ÇÀåµÇ´Â Á¢±Ù ¹æ½ÄÀº ´ÙÀ½°ú °°½À´Ï´Ù.
+ê¶Œì¥ë˜ëŠ” ì ‘ê·¼ ë°©ì‹ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
 
 static atomic_t drv_instance = ATOMIC_INIT(0);
 
@@ -251,13 +251,13 @@ v4l2_device has refcounting support. The refcount is increased whenever
 video_register_device is called and it is decreased whenever that device node
 is released. When the refcount reaches zero, then the v4l2_device release()
 callback is called. You can do your final cleanup there.
-¿©·¯ °³ÀÇ ÀåÄ¡ ³ëµå°¡ÀÖ´Â °æ¿ì ÇÖ ÇÃ·¯±× °¡´ÉÇÑ ÀåÄ¡¿¡ ´ëÇØ v4l2_device¸¦ µî·Ï ÇØÁ¦ÇØµµ ¾ÈÀüÇÑÁö ¾Ë±â°¡ ¾î·Á¿ï ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ¸¦ À§ÇØ v4l2_device´Â refcountingÀ» Áö¿øÇÕ´Ï´Ù. refcount´Â video_register_device°¡ È£Ãâ µÉ ¶§¸¶´Ù Áõ°¡ÇÏ¸ç ÇØ´ç ÀåÄ¡ ³ëµå°¡ ÇØÁ¦ µÉ ¶§¸¶´Ù °¨¼ÒµË´Ï´Ù. 
-refcount°¡ 0¿¡ µµ´ŞÇÏ¸é v4l2_device release () Äİ¹éÀÌ È£ÃâµË´Ï´Ù. °Å±â¿¡¼­ ÃÖÁ¾ Á¤¸®¸¦ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì—¬ëŸ¬ ê°œì˜ ì¥ì¹˜ ë…¸ë“œê°€ìˆëŠ” ê²½ìš° í•« í”ŒëŸ¬ê·¸ ê°€ëŠ¥í•œ ì¥ì¹˜ì— ëŒ€í•´ v4l2_deviceë¥¼ ë“±ë¡ í•´ì œí•´ë„ ì•ˆì „í•œì§€ ì•Œê¸°ê°€ ì–´ë ¤ìš¸ ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ë¥¼ ìœ„í•´ v4l2_deviceëŠ” refcountingì„ ì§€ì›í•©ë‹ˆë‹¤. refcountëŠ” video_register_deviceê°€ í˜¸ì¶œ ë  ë•Œë§ˆë‹¤ ì¦ê°€í•˜ë©° í•´ë‹¹ ì¥ì¹˜ ë…¸ë“œê°€ í•´ì œ ë  ë•Œë§ˆë‹¤ ê°ì†Œë©ë‹ˆë‹¤. 
+refcountê°€ 0ì— ë„ë‹¬í•˜ë©´ v4l2_device release () ì½œë°±ì´ í˜¸ì¶œë©ë‹ˆë‹¤. ê±°ê¸°ì—ì„œ ìµœì¢… ì •ë¦¬ë¥¼ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 If other device nodes (e.g. ALSA) are created, then you can increase and
 decrease the refcount manually as well by calling:
-´Ù¸¥ ±â±â ³ëµå (¿¹ : ALSA)°¡ »ı¼º µÈ °æ¿ì ´ÙÀ½À» È£ÃâÇÏ¿© ¼öµ¿À¸·Î Á¶È¸ ¼ö¸¦ ´Ã¸®°Å³ª ÁÙÀÏ ¼ö ÀÖ½À´Ï´Ù.
+ë‹¤ë¥¸ ê¸°ê¸° ë…¸ë“œ (ì˜ˆ : ALSA)ê°€ ìƒì„± ëœ ê²½ìš° ë‹¤ìŒì„ í˜¸ì¶œí•˜ì—¬ ìˆ˜ë™ìœ¼ë¡œ ì¡°íšŒ ìˆ˜ë¥¼ ëŠ˜ë¦¬ê±°ë‚˜ ì¤„ì¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 void v4l2_device_get(struct v4l2_device *v4l2_dev);
 
@@ -268,8 +268,8 @@ int v4l2_device_put(struct v4l2_device *v4l2_dev);
 Since the initial refcount is 1 you also need to call v4l2_device_put in the
 disconnect() callback (for USB devices) or in the remove() callback (for e.g.
 PCI devices), otherwise the refcount will never reach 0.
-ÃÊ±â ÂüÁ¶ È½¼ö°¡ 1ÀÌ¹Ç·Î disconnect () Äİ¹é (USB ±â±â) ¶Ç´Â remove () Äİ¹é (¿¹ : PCI ±â±â)¿¡¼­ v4l2_device_putÀ» È£ÃâÇØ¾ßÇÕ´Ï´Ù. 
-±×·¸Áö ¾ÊÀ¸¸é refcount°¡ 0¿¡ µµ´ŞÇÏÁö ¾Ê½À´Ï´Ù.
+ì´ˆê¸° ì°¸ì¡° íšŸìˆ˜ê°€ 1ì´ë¯€ë¡œ disconnect () ì½œë°± (USB ê¸°ê¸°) ë˜ëŠ” remove () ì½œë°± (ì˜ˆ : PCI ê¸°ê¸°)ì—ì„œ v4l2_device_putì„ í˜¸ì¶œí•´ì•¼í•©ë‹ˆë‹¤. 
+ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ refcountê°€ 0ì— ë„ë‹¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 struct v4l2_subdev
 ------------------
@@ -278,14 +278,14 @@ Many drivers need to communicate with sub-devices. These devices can do all
 sort of tasks, but most commonly they handle audio and/or video muxing,
 encoding or decoding. For webcams common sub-devices are sensors and camera
 controllers.
-¸¹Àº µå¶óÀÌ¹ö°¡ ÇÏÀ§ ÀåÄ¡¿Í Åë½ÅÇØ¾ßÇÕ´Ï´Ù. ÀÌ·¯ÇÑ ÀåÄ¡´Â ¸ğµç Á¾·ùÀÇ ÀÛ¾÷À» ¼öÇà ÇÒ ¼ö ÀÖÁö¸¸ ÀÏ¹İÀûÀ¸·Î ¿Àµğ¿À ¹× / ¶Ç´Â ºñµğ¿À muxing, ÀÎÄÚµù ¶Ç´Â µğÄÚµùÀ» Ã³¸®ÇÕ´Ï´Ù.
-À¥Ä·ÀÇ °æ¿ì ÀÏ¹İÀûÀÎ ÇÏÀ§ ÀåÄ¡´Â ¼¾¼­ ¹× Ä«¸Ş¶ó ÄÁÆ®·Ñ·¯ÀÔ´Ï´Ù.
+ë§ì€ ë“œë¼ì´ë²„ê°€ í•˜ìœ„ ì¥ì¹˜ì™€ í†µì‹ í•´ì•¼í•©ë‹ˆë‹¤. ì´ëŸ¬í•œ ì¥ì¹˜ëŠ” ëª¨ë“  ì¢…ë¥˜ì˜ ì‘ì—…ì„ ìˆ˜í–‰ í•  ìˆ˜ ìˆì§€ë§Œ ì¼ë°˜ì ìœ¼ë¡œ ì˜¤ë””ì˜¤ ë° / ë˜ëŠ” ë¹„ë””ì˜¤ muxing, ì¸ì½”ë”© ë˜ëŠ” ë””ì½”ë”©ì„ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+ì›¹ìº ì˜ ê²½ìš° ì¼ë°˜ì ì¸ í•˜ìœ„ ì¥ì¹˜ëŠ” ì„¼ì„œ ë° ì¹´ë©”ë¼ ì»¨íŠ¸ë¡¤ëŸ¬ì…ë‹ˆë‹¤.
 
 Usually these are I2C devices, but not necessarily. In order to provide the
 driver with a consistent interface to these sub-devices the v4l2_subdev struct
 (v4l2-subdev.h) was created.
-ÀÏ¹İÀûÀ¸·Î ÀÌµéÀº I2C ÀåÄ¡ÀÌÁö¸¸ ¹İµå½Ã ±×·± °ÍÀº ¾Æ´Õ´Ï´Ù. 
-µå¶óÀÌ¹ö¿¡ ÀÌ·¯ÇÑ ÇÏÀ§ ÀåÄ¡¿¡ ´ëÇÑ ÀÏ°üµÈ ÀÎÅÍÆäÀÌ½º¸¦ Á¦°øÇÏ±â À§ÇØ v4l2_subdev struct (v4l2-subdev.h)°¡ »ı¼ºµÇ¾ú½À´Ï´Ù.
+ì¼ë°˜ì ìœ¼ë¡œ ì´ë“¤ì€ I2C ì¥ì¹˜ì´ì§€ë§Œ ë°˜ë“œì‹œ ê·¸ëŸ° ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤. 
+ë“œë¼ì´ë²„ì— ì´ëŸ¬í•œ í•˜ìœ„ ì¥ì¹˜ì— ëŒ€í•œ ì¼ê´€ëœ ì¸í„°í˜ì´ìŠ¤ë¥¼ ì œê³µí•˜ê¸° ìœ„í•´ v4l2_subdev struct (v4l2-subdev.h)ê°€ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.
 
 Each sub-device driver must have a v4l2_subdev struct. This struct can be
 stand-alone for simple sub-devices or it might be embedded in a larger struct
@@ -294,46 +294,46 @@ device struct (e.g. i2c_client) that contains the device data as setup
 by the kernel. It is recommended to store that pointer in the private
 data of v4l2_subdev using v4l2_set_subdevdata(). That makes it easy to go
 from a v4l2_subdev to the actual low-level bus-specific device data.
-°¢ ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö¿¡´Â v4l2_subdev ±¸Á¶Ã¼°¡ ÀÖ¾î¾ßÇÕ´Ï´Ù. ÀÌ ±¸Á¶Ã¼´Â °£´ÜÇÑ ÇÏÀ§ ÀåÄ¡¿¡ ´ëÇØ µ¶¸³ÇüÀÌ µÉ ¼öµµ ÀÖ°í ´õ ¸¹Àº »óÅÂ Á¤º¸°¡ ÀúÀåµÇ¾î¾ßÇÏ´Â °æ¿ì 
-´õ Å« ±¸Á¶Ã¼¿¡ Æ÷ÇÔµÉ ¼öµµ ÀÖ½À´Ï´Ù. ÀÏ¹İÀûÀ¸·Î Ä¿³Î¿¡¼­ ¼³Á¤ ÇÑ´ë·Î ÀåÄ¡ µ¥ÀÌÅÍ¸¦ Æ÷ÇÔÇÏ´Â Àú¼öÁØ ÀåÄ¡ ±¸Á¶Ã¼ (¿¹ : i2c_client)°¡ ÀÖ½À´Ï´Ù. 
-v4l2_set_subdevdata ()¸¦ »ç¿ëÇÏ¿© v4l2_subdevÀÇ °³ÀÎ µ¥ÀÌÅÍ¿¡ ÇØ´ç Æ÷ÀÎÅÍ¸¦ ÀúÀåÇÏ´Â °ÍÀÌ ÁÁ½À´Ï´Ù. µû¶ó¼­ v4l2_subdev¿¡¼­ ½ÇÁ¦ Àú¼öÁØ ¹ö½º Æ¯Á¤ ÀåÄ¡ µ¥ÀÌÅÍ·Î ½±°Ô ÀÌµ¿ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ê° í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ì—ëŠ” v4l2_subdev êµ¬ì¡°ì²´ê°€ ìˆì–´ì•¼í•©ë‹ˆë‹¤. ì´ êµ¬ì¡°ì²´ëŠ” ê°„ë‹¨í•œ í•˜ìœ„ ì¥ì¹˜ì— ëŒ€í•´ ë…ë¦½í˜•ì´ ë  ìˆ˜ë„ ìˆê³  ë” ë§ì€ ìƒíƒœ ì •ë³´ê°€ ì €ì¥ë˜ì–´ì•¼í•˜ëŠ” ê²½ìš° 
+ë” í° êµ¬ì¡°ì²´ì— í¬í•¨ë  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ ì»¤ë„ì—ì„œ ì„¤ì • í•œëŒ€ë¡œ ì¥ì¹˜ ë°ì´í„°ë¥¼ í¬í•¨í•˜ëŠ” ì €ìˆ˜ì¤€ ì¥ì¹˜ êµ¬ì¡°ì²´ (ì˜ˆ : i2c_client)ê°€ ìˆìŠµë‹ˆë‹¤. 
+v4l2_set_subdevdata ()ë¥¼ ì‚¬ìš©í•˜ì—¬ v4l2_subdevì˜ ê°œì¸ ë°ì´í„°ì— í•´ë‹¹ í¬ì¸í„°ë¥¼ ì €ì¥í•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤. ë”°ë¼ì„œ v4l2_subdevì—ì„œ ì‹¤ì œ ì €ìˆ˜ì¤€ ë²„ìŠ¤ íŠ¹ì • ì¥ì¹˜ ë°ì´í„°ë¡œ ì‰½ê²Œ ì´ë™í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 You also need a way to go from the low-level struct to v4l2_subdev. For the
 common i2c_client struct the i2c_set_clientdata() call is used to store a
 v4l2_subdev pointer, for other busses you may have to use other methods.
-¶ÇÇÑ ÇÏÀ§ ¼öÁØ ±¸Á¶Ã¼¿¡¼­ v4l2_subdev·Î ÀÌµ¿ÇÏ´Â ¹æ¹ıÀÌ ÇÊ¿äÇÕ´Ï´Ù. ÀÏ¹İÀûÀÎ i2c_client ±¸Á¶Ã¼ÀÇ °æ¿ì i2c_set_clientdata () È£ÃâÀÌ v4l2_subdev Æ÷ÀÎÅÍ¸¦ ÀúÀåÇÏ´Â µ¥ »ç¿ëµÇ°í 
-´Ù¸¥ ¹ö½ºÀÇ °æ¿ì ´Ù¸¥ ¹æ¹ıÀ» »ç¿ëÇØ¾ß ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.
+ë˜í•œ í•˜ìœ„ ìˆ˜ì¤€ êµ¬ì¡°ì²´ì—ì„œ v4l2_subdevë¡œ ì´ë™í•˜ëŠ” ë°©ë²•ì´ í•„ìš”í•©ë‹ˆë‹¤. ì¼ë°˜ì ì¸ i2c_client êµ¬ì¡°ì²´ì˜ ê²½ìš° i2c_set_clientdata () í˜¸ì¶œì´ v4l2_subdev í¬ì¸í„°ë¥¼ ì €ì¥í•˜ëŠ” ë° ì‚¬ìš©ë˜ê³  
+ë‹¤ë¥¸ ë²„ìŠ¤ì˜ ê²½ìš° ë‹¤ë¥¸ ë°©ë²•ì„ ì‚¬ìš©í•´ì•¼ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤.
 
 Bridges might also need to store per-subdev private data, such as a pointer to
 bridge-specific per-subdev private data. The v4l2_subdev structure provides
 host private data for that purpose that can be accessed with
 v4l2_get_subdev_hostdata() and v4l2_set_subdev_hostdata().
-ºê¸®Áö´Â ¶ÇÇÑ ºê¸®Áö º° °³ÀÎ ÇÏÀ§ µ¥ÀÌÅÍ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¿Í °°ÀÌ subdev º° °³ÀÎ µ¥ÀÌÅÍ¸¦ ÀúÀåÇØ¾ß ÇÒ ¼öµµ ÀÖ½À´Ï´Ù. 
-v4l2_subdev ±¸Á¶Ã¼´Â v4l2_get_subdev_hostdata () ¹× v4l2_set_subdev_hostdata ()¸¦ »ç¿ëÇÏ¿© ¾×¼¼½º ÇÒ ¼öÀÖ´Â È£½ºÆ® °³ÀÎ µ¥ÀÌÅÍ¸¦ Á¦°øÇÕ´Ï´Ù.
+ë¸Œë¦¬ì§€ëŠ” ë˜í•œ ë¸Œë¦¬ì§€ ë³„ ê°œì¸ í•˜ìœ„ ë°ì´í„°ì— ëŒ€í•œ í¬ì¸í„°ì™€ ê°™ì´ subdev ë³„ ê°œì¸ ë°ì´í„°ë¥¼ ì €ì¥í•´ì•¼ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤. 
+v4l2_subdev êµ¬ì¡°ì²´ëŠ” v4l2_get_subdev_hostdata () ë° v4l2_set_subdev_hostdata ()ë¥¼ ì‚¬ìš©í•˜ì—¬ ì•¡ì„¸ìŠ¤ í•  ìˆ˜ìˆëŠ” í˜¸ìŠ¤íŠ¸ ê°œì¸ ë°ì´í„°ë¥¼ ì œê³µí•©ë‹ˆë‹¤.
 
 From the bridge driver perspective you load the sub-device module and somehow
 obtain the v4l2_subdev pointer. For i2c devices this is easy: you call
 i2c_get_clientdata(). For other busses something similar needs to be done.
 Helper functions exists for sub-devices on an I2C bus that do most of this
 tricky work for you.
-ºê¸®Áö µå¶óÀÌ¹ö °üÁ¡¿¡¼­ ÇÏÀ§ ÀåÄ¡ ¸ğµâÀ»·ÎµåÇÏ°í ¾î¶»°Ô µç v4l2_subdev Æ÷ÀÎÅÍ¸¦ ¾ò½À´Ï´Ù. i2c ÀåÄ¡ÀÇ °æ¿ì ÀÌ°ÍÀº ½±½À´Ï´Ù. i2c_get_clientdata ()¸¦ È£ÃâÇÕ´Ï´Ù. 
-´Ù¸¥ ¹ö½ºµé¿¡ ´ëÇØ¼­µµ ºñ½ÁÇÑ °ÍÀÌ ÇÊ¿äÇÕ´Ï´Ù.
-ÀÌ ±î´Ù·Î¿î ÀÛ¾÷À» ´ëºÎºĞ ¼öÇàÇÏ´Â I2C ¹ö½ºÀÇ ÇÏÀ§ ÀåÄ¡¿¡ ´ëÇÑ µµ¿ì¹Ì ±â´ÉÀÌ ÀÖ½À´Ï´Ù.
+ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ ê´€ì ì—ì„œ í•˜ìœ„ ì¥ì¹˜ ëª¨ë“ˆì„ë¡œë“œí•˜ê³  ì–´ë–»ê²Œ ë“  v4l2_subdev í¬ì¸í„°ë¥¼ ì–»ìŠµë‹ˆë‹¤. i2c ì¥ì¹˜ì˜ ê²½ìš° ì´ê²ƒì€ ì‰½ìŠµë‹ˆë‹¤. i2c_get_clientdata ()ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤. 
+ë‹¤ë¥¸ ë²„ìŠ¤ë“¤ì— ëŒ€í•´ì„œë„ ë¹„ìŠ·í•œ ê²ƒì´ í•„ìš”í•©ë‹ˆë‹¤.
+ì´ ê¹Œë‹¤ë¡œìš´ ì‘ì—…ì„ ëŒ€ë¶€ë¶„ ìˆ˜í–‰í•˜ëŠ” I2C ë²„ìŠ¤ì˜ í•˜ìœ„ ì¥ì¹˜ì— ëŒ€í•œ ë„ìš°ë¯¸ ê¸°ëŠ¥ì´ ìˆìŠµë‹ˆë‹¤.
 
 Each v4l2_subdev contains function pointers that sub-device drivers can
 implement (or leave NULL if it is not applicable). Since sub-devices can do
 so many different things and you do not want to end up with a huge ops struct
 of which only a handful of ops are commonly implemented, the function pointers
 are sorted according to category and each category has its own ops struct.
-°¢ v4l2_subdev¿¡´Â ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö°¡ ±¸ÇöÇÒ ¼öÀÖ´Â ÇÔ¼ö Æ÷ÀÎÅÍ°¡ Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù (Àû¿ë ÇÒ ¼ö¾ø´Â °æ¿ì NULLÀ» ³²°Ü µÓ´Ï´Ù). ÇÏÀ§ ÀåÄ¡´Â ¿©·¯ °¡Áö ÀÏÀ» ÇÒ ¼ö ÀÖ°í 
-¸¹Àº ¿¬»ê ÀÛ¾÷ ¸¸ ¼öÇàÇÏ´Â °Å´ëÇÑ ¿¬»ê ±¸Á¶Ã¼·Î ³¡³»±â¸¦ ¿øÇÏÁö ¾ÊÀ¸¹Ç·Î ÇÔ¼ö Æ÷ÀÎÅÍ´Â ¹üÁÖ¿¡ µû¶ó Á¤·ÄµÇ¸ç °¢ ¹üÁÖ¿¡´Â ÀÚÃ¼ ops ±¸Á¶Ã¼°¡ ÀÖ½À´Ï´Ù .
+ê° v4l2_subdevì—ëŠ” í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ê°€ êµ¬í˜„í•  ìˆ˜ìˆëŠ” í•¨ìˆ˜ í¬ì¸í„°ê°€ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤ (ì ìš© í•  ìˆ˜ì—†ëŠ” ê²½ìš° NULLì„ ë‚¨ê²¨ ë‘¡ë‹ˆë‹¤). í•˜ìœ„ ì¥ì¹˜ëŠ” ì—¬ëŸ¬ ê°€ì§€ ì¼ì„ í•  ìˆ˜ ìˆê³  
+ë§ì€ ì—°ì‚° ì‘ì—… ë§Œ ìˆ˜í–‰í•˜ëŠ” ê±°ëŒ€í•œ ì—°ì‚° êµ¬ì¡°ì²´ë¡œ ëë‚´ê¸°ë¥¼ ì›í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ í•¨ìˆ˜ í¬ì¸í„°ëŠ” ë²”ì£¼ì— ë”°ë¼ ì •ë ¬ë˜ë©° ê° ë²”ì£¼ì—ëŠ” ìì²´ ops êµ¬ì¡°ì²´ê°€ ìˆìŠµë‹ˆë‹¤ .
 
 The top-level ops struct contains pointers to the category ops structs, which
 may be NULL if the subdev driver does not support anything from that category.
-ÃÖ»óÀ§ ops ±¸Á¶Ã¼¿¡´Â Ä«Å×°í¸® ops ±¸Á¶Ã¼¿¡ ´ëÇÑ Æ÷ÀÎÅÍ°¡ Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù. subdev µå¶óÀÌ¹ö°¡ ÇØ´ç ¹üÁÖÀÇ Ç×¸ñÀ» Áö¿øÇÏÁö ¾ÊÀ¸¸é NULLÀÌ µÉ ¼ö ÀÖ½À´Ï´Ù.
+ìµœìƒìœ„ ops êµ¬ì¡°ì²´ì—ëŠ” ì¹´í…Œê³ ë¦¬ ops êµ¬ì¡°ì²´ì— ëŒ€í•œ í¬ì¸í„°ê°€ í¬í•¨ë˜ì–´ ìˆìŠµë‹ˆë‹¤. subdev ë“œë¼ì´ë²„ê°€ í•´ë‹¹ ë²”ì£¼ì˜ í•­ëª©ì„ ì§€ì›í•˜ì§€ ì•Šìœ¼ë©´ NULLì´ ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 It looks like this:
-´ÙÀ½°ú °°ÀÌ º¸ÀÔ´Ï´Ù.
+ë‹¤ìŒê³¼ ê°™ì´ ë³´ì…ë‹ˆë‹¤.
 
 struct v4l2_subdev_core_ops {
 	int (*log_status)(struct v4l2_subdev *sd);
@@ -368,11 +368,11 @@ struct v4l2_subdev_ops {
 The core ops are common to all subdevs, the other categories are implemented
 depending on the sub-device. E.g. a video device is unlikely to support the
 audio ops and vice versa.
-ÇÙ½É ÀÛ¾÷Àº ¸ğµç ÇÏÀ§ ÀÛ¾÷¿¡ °øÅëÀûÀÌ¸ç ´Ù¸¥ ÀÛ¾÷Àº ÇÏÀ§ ÀÛ¾÷¿¡ µû¶ó ±¸ÇöµË´Ï´Ù. ¿¹ : ºñµğ¿À ÀåÄ¡´Â ¿Àµğ¿À ÀåÄ¡¸¦ Áö¿øÇÏÁö ¾ÊÀ» °ÍÀÌ¸ç ¹İ´ëÀÇ °æ¿ìµµ ¸¶Âù°¡ÁöÀÔ´Ï´Ù.
+í•µì‹¬ ì‘ì—…ì€ ëª¨ë“  í•˜ìœ„ ì‘ì—…ì— ê³µí†µì ì´ë©° ë‹¤ë¥¸ ì‘ì—…ì€ í•˜ìœ„ ì‘ì—…ì— ë”°ë¼ êµ¬í˜„ë©ë‹ˆë‹¤. ì˜ˆ : ë¹„ë””ì˜¤ ì¥ì¹˜ëŠ” ì˜¤ë””ì˜¤ ì¥ì¹˜ë¥¼ ì§€ì›í•˜ì§€ ì•Šì„ ê²ƒì´ë©° ë°˜ëŒ€ì˜ ê²½ìš°ë„ ë§ˆì°¬ê°€ì§€ì…ë‹ˆë‹¤.
 
 This setup limits the number of function pointers while still making it easy
 to add new ops and categories.
-ÀÌ ¼³Á¤Àº ÇÔ¼ö Æ÷ÀÎÅÍÀÇ ¼ö¸¦ Á¦ÇÑÇÏ¸é¼­µµ »õ·Î¿î ÇÔ¼ö ¹× ¹üÁÖ¸¦ ½±°Ô Ãß°¡ ÇÒ ¼öÀÖ°ÔÇÕ´Ï´Ù.
+ì´ ì„¤ì •ì€ í•¨ìˆ˜ í¬ì¸í„°ì˜ ìˆ˜ë¥¼ ì œí•œí•˜ë©´ì„œë„ ìƒˆë¡œìš´ í•¨ìˆ˜ ë° ë²”ì£¼ë¥¼ ì‰½ê²Œ ì¶”ê°€ í•  ìˆ˜ìˆê²Œí•©ë‹ˆë‹¤.
 
 A sub-device driver initializes the v4l2_subdev struct using:
 
@@ -380,12 +380,12 @@ A sub-device driver initializes the v4l2_subdev struct using:
 
 Afterwards you need to initialize subdev->name with a unique name and set the
 module owner. This is done for you if you use the i2c helper functions.
-ÀÌÈÄ subdev-> nameÀ» °íÀ¯ ÇÑ ÀÌ¸§À¸·Î ÃÊ±âÈ­ÇÏ°í ¸ğµâ ¼ÒÀ¯ÀÚ¸¦ ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù. i2c µµ¿ì¹Ì ±â´ÉÀ» »ç¿ëÇÏ¸éÀÌ ÀÛ¾÷ÀÌ ¿Ï·áµË´Ï´Ù.
+ì´í›„ subdev-> nameì„ ê³ ìœ  í•œ ì´ë¦„ìœ¼ë¡œ ì´ˆê¸°í™”í•˜ê³  ëª¨ë“ˆ ì†Œìœ ìë¥¼ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤. i2c ë„ìš°ë¯¸ ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ë©´ì´ ì‘ì—…ì´ ì™„ë£Œë©ë‹ˆë‹¤.
 
 If integration with the media framework is needed, you must initialize the
 media_entity struct embedded in the v4l2_subdev struct (entity field) by
 calling media_entity_init():
-¹Ìµğ¾î ÇÁ·¹ÀÓ ¿öÅ©¿ÍÀÇ ÅëÇÕÀÌ ÇÊ¿äÇÑ °æ¿ì media_entity_init ()¸¦ È£ÃâÇÏ¿© v4l2 subdev struct (¿£ÅÍÆ¼ ÇÊµå)¿¡ Æ÷ÇÔ µÈ media_entity struct¸¦ ÃÊ±âÈ­ÇØ¾ßÇÕ´Ï´Ù.
+ë¯¸ë””ì–´ í”„ë ˆì„ ì›Œí¬ì™€ì˜ í†µí•©ì´ í•„ìš”í•œ ê²½ìš° media_entity_init ()ë¥¼ í˜¸ì¶œí•˜ì—¬ v4l2 subdev struct (ì—”í„°í‹° í•„ë“œ)ì— í¬í•¨ ëœ media_entity structë¥¼ ì´ˆê¸°í™”í•´ì•¼í•©ë‹ˆë‹¤.
 
 	struct media_pad *pads = &my_sd->pads;
 	int err;
@@ -395,38 +395,38 @@ calling media_entity_init():
 The pads array must have been previously initialized. There is no need to
 manually set the struct media_entity type and name fields, but the revision
 field must be initialized if needed.
-ÆĞµå ¹è¿­Àº ÀÌÀü¿¡ ÃÊ±âÈ­µÇ¾î ÀÖ¾î¾ßÇÕ´Ï´Ù. struct media_entity À¯Çü ¹× ÀÌ¸§ ÇÊµå¸¦ ¼öµ¿À¸·Î ¼³Á¤ÇÒ ÇÊ¿ä´Â ¾øÁö¸¸ ÇÊ¿äÇÑ °æ¿ì °³Á¤ ÇÊµå¸¦ ÃÊ±âÈ­ÇØ¾ßÇÕ´Ï´Ù.
+íŒ¨ë“œ ë°°ì—´ì€ ì´ì „ì— ì´ˆê¸°í™”ë˜ì–´ ìˆì–´ì•¼í•©ë‹ˆë‹¤. struct media_entity ìœ í˜• ë° ì´ë¦„ í•„ë“œë¥¼ ìˆ˜ë™ìœ¼ë¡œ ì„¤ì •í•  í•„ìš”ëŠ” ì—†ì§€ë§Œ í•„ìš”í•œ ê²½ìš° ê°œì • í•„ë“œë¥¼ ì´ˆê¸°í™”í•´ì•¼í•©ë‹ˆë‹¤.
 
 A reference to the entity will be automatically acquired/released when the
 subdev device node (if any) is opened/closed.
-¿£Æ¼Æ¼¿¡ ´ëÇÑ ÂüÁ¶´Â ÇÏÀ§ ³ëµå ÀåÄ¡ ³ëµå (ÀÖ´Â °æ¿ì)°¡ ¿­¸®°Å³ª ´İÈú ¶§ ÀÚµ¿À¸·Î È¹µæ / ÇØÁ¦µË´Ï´Ù.
+ì—”í‹°í‹°ì— ëŒ€í•œ ì°¸ì¡°ëŠ” í•˜ìœ„ ë…¸ë“œ ì¥ì¹˜ ë…¸ë“œ (ìˆëŠ” ê²½ìš°)ê°€ ì—´ë¦¬ê±°ë‚˜ ë‹«í ë•Œ ìë™ìœ¼ë¡œ íšë“ / í•´ì œë©ë‹ˆë‹¤.
 
 Don't forget to cleanup the media entity before the sub-device is destroyed:
-ÇÏÀ§ ÀåÄ¡°¡ ÆÄ±«µÇ±â Àü¿¡ ¹Ìµğ¾î ¿£Æ¼Æ¼¸¦ Á¤¸®ÇÏ´Â °ÍÀ» ÀØÁö ¸¶½Ê½Ã¿À.
+í•˜ìœ„ ì¥ì¹˜ê°€ íŒŒê´´ë˜ê¸° ì „ì— ë¯¸ë””ì–´ ì—”í‹°í‹°ë¥¼ ì •ë¦¬í•˜ëŠ” ê²ƒì„ ìŠì§€ ë§ˆì‹­ì‹œì˜¤.
 
 	media_entity_cleanup(&sd->entity);
 
 If the subdev driver intends to process video and integrate with the media
 framework, it must implement format related functionality using
 v4l2_subdev_pad_ops instead of v4l2_subdev_video_ops.
-ÇÏÀ§ µå¶óÀÌ¹ö°¡ ºñµğ¿À¸¦ Ã³¸®ÇÏ°í ¹Ìµğ¾î ÇÁ·¹ÀÓ ¿öÅ©¿Í ÅëÇÕÇÏ·Á´Â °æ¿ì v4l2_subdev_video_ops ´ë½Å v4l2_subdev_pad_ops¸¦ »ç¿ëÇÏ¿© Çü½Ä °ü·Ã ±â´ÉÀ» ±¸ÇöÇØ¾ßÇÕ´Ï´Ù.
+í•˜ìœ„ ë“œë¼ì´ë²„ê°€ ë¹„ë””ì˜¤ë¥¼ ì²˜ë¦¬í•˜ê³  ë¯¸ë””ì–´ í”„ë ˆì„ ì›Œí¬ì™€ í†µí•©í•˜ë ¤ëŠ” ê²½ìš° v4l2_subdev_video_ops ëŒ€ì‹  v4l2_subdev_pad_opsë¥¼ ì‚¬ìš©í•˜ì—¬ í˜•ì‹ ê´€ë ¨ ê¸°ëŠ¥ì„ êµ¬í˜„í•´ì•¼í•©ë‹ˆë‹¤.
 
 In that case, the subdev driver may set the link_validate field to provide
 its own link validation function. The link validation function is called for
 every link in the pipeline where both of the ends of the links are V4L2
 sub-devices. The driver is still responsible for validating the correctness
 of the format configuration between sub-devices and video nodes.
-ÀÌ °æ¿ì subdev µå¶óÀÌ¹ö´Â link_validate ÇÊµå¸¦ ¼³Á¤ÇÏ¿© ÀÚÃ¼ ¸µÅ© À¯È¿¼º °Ë»ç ±â´ÉÀ» Á¦°ø ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-¸µÅ© À¯È¿¼º È®ÀÎ ±â´ÉÀº ¸µÅ©ÀÇ ¾çÂÊ ³¡ÀÌ V4L2 ºÎ¼Ó ÀåÄ¡ ÀÎ ÆÄÀÌÇÁ ¶óÀÎÀÇ ¸ğµç ¸µÅ©¿¡ ´ëÇØ È£ÃâµË´Ï´Ù. 
-µå¶óÀÌ¹ö´Â ÇÏÀ§ ÀåÄ¡¿Í ºñµğ¿À ³ëµå °£ÀÇ Çü½Ä ±¸¼ºÀÌ ¿Ã¹Ù¸¥Áö ¿©ºÎ¸¦ È®ÀÎÇØ¾ßÇÕ´Ï´Ù.
+ì´ ê²½ìš° subdev ë“œë¼ì´ë²„ëŠ” link_validate í•„ë“œë¥¼ ì„¤ì •í•˜ì—¬ ìì²´ ë§í¬ ìœ íš¨ì„± ê²€ì‚¬ ê¸°ëŠ¥ì„ ì œê³µ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ë§í¬ ìœ íš¨ì„± í™•ì¸ ê¸°ëŠ¥ì€ ë§í¬ì˜ ì–‘ìª½ ëì´ V4L2 ë¶€ì† ì¥ì¹˜ ì¸ íŒŒì´í”„ ë¼ì¸ì˜ ëª¨ë“  ë§í¬ì— ëŒ€í•´ í˜¸ì¶œë©ë‹ˆë‹¤. 
+ë“œë¼ì´ë²„ëŠ” í•˜ìœ„ ì¥ì¹˜ì™€ ë¹„ë””ì˜¤ ë…¸ë“œ ê°„ì˜ í˜•ì‹ êµ¬ì„±ì´ ì˜¬ë°”ë¥¸ì§€ ì—¬ë¶€ë¥¼ í™•ì¸í•´ì•¼í•©ë‹ˆë‹¤.
 
 If link_validate op is not set, the default function
 v4l2_subdev_link_validate_default() is used instead. This function ensures
 that width, height and the media bus pixel code are equal on both source and
 sink of the link. Subdev drivers are also free to use this function to
 perform the checks mentioned above in addition to their own checks.
-link_validate op°¡ ¼³Á¤µÇÁö ¾ÊÀº °æ¿ì ±âº» ÇÔ¼ö ÀÎ v4l2_subdev_link_validate_default ()°¡ ´ë½Å »ç¿ëµË´Ï´Ù. 
-ÀÌ ±â´ÉÀº ³Êºñ, ³ôÀÌ ¹× ¹Ìµğ¾î ¹ö½º ÇÈ¼¿ ÄÚµå°¡ ¸µÅ©ÀÇ ¿øº»°ú ½ÌÅ©¿¡¼­ µ¿ÀÏÇÏ°Ô À¯ÁöµÇµµ·ÏÇÕ´Ï´Ù. Subdev µå¶óÀÌ¹ö´ÂÀÌ ±â´ÉÀ» »ç¿ëÇÏ¿© ÀÚÃ¼ Á¡°Ë ¿Ü¿¡ À§¿¡¼­ ¾ğ±Ş ÇÑ Á¡°ËÀ» ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+link_validate opê°€ ì„¤ì •ë˜ì§€ ì•Šì€ ê²½ìš° ê¸°ë³¸ í•¨ìˆ˜ ì¸ v4l2_subdev_link_validate_default ()ê°€ ëŒ€ì‹  ì‚¬ìš©ë©ë‹ˆë‹¤. 
+ì´ ê¸°ëŠ¥ì€ ë„ˆë¹„, ë†’ì´ ë° ë¯¸ë””ì–´ ë²„ìŠ¤ í”½ì…€ ì½”ë“œê°€ ë§í¬ì˜ ì›ë³¸ê³¼ ì‹±í¬ì—ì„œ ë™ì¼í•˜ê²Œ ìœ ì§€ë˜ë„ë¡í•©ë‹ˆë‹¤. Subdev ë“œë¼ì´ë²„ëŠ”ì´ ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ì—¬ ìì²´ ì ê²€ ì™¸ì— ìœ„ì—ì„œ ì–¸ê¸‰ í•œ ì ê²€ì„ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 There are currently two ways to register subdevices with the V4L2 core. The
 first (traditional) possibility is to have subdevices registered by bridge
@@ -436,9 +436,9 @@ is typically the case for internal subdevices, like video data processing units
 within SoCs or complex PCI(e) boards, camera sensors in USB cameras or connected
 to SoCs, which pass information about them to bridge drivers, usually in their
 platform data.
-ÇöÀç V4L2 ÄÚ¾î¿¡ ÇÏÀ§ ÀåÄ¡¸¦ µî·ÏÇÏ´Â µÎ °¡Áö ¹æ¹ıÀÌ ÀÖ½À´Ï´Ù. 
-Ã¹ ¹øÂ° (±âÁ¸) °¡´É¼ºÀº ºê¸®Áö µå¶óÀÌ¹ö°¡ µî·ÏÇÑ ÇÏÀ§ ÀåÄ¡¸¦ °®´Â °ÍÀÔ´Ï´Ù. ÀÌ°ÍÀº ºê¸®Áö µå¶óÀÌ¹ö°¡ ¿¬°áµÈ ºê·£Ä¡¿¡ ´ëÇÑ ¿ÏÀüÇÑ Á¤º¸¸¦ °®°í ÀÖ°í ¾ğÁ¦ µî·Ï ÇÒ °ÍÀÎÁö Á¤È®ÇÏ°Ô ¾Ë°íÀÖÀ» ¶§ ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-SoC ¶Ç´Â º¹ÀâÇÑ PCI (e) º¸µåÀÇ ºñµğ¿À µ¥ÀÌÅÍ Ã³¸® ÀåÄ¡, USB Ä«¸Ş¶óÀÇ Ä«¸Ş¶ó ¼¾¼­ ¶Ç´Â SoC¿¡ ¿¬°áµÈ Ä«¸Ş¶ó¿Í °°Àº ³»ºÎ ÇÏÀ§ ÀåÄ¡ÀÇ °æ¿ì ÀÏ¹İÀûÀ¸·Î ÇÃ·§Æû µ¥ÀÌÅÍ¿¡¼­ µå¶óÀÌ¹ö¸¦ ¿¬°áÇÏ´Â µ¥ ÇÊ¿äÇÑ Á¤º¸¸¦ Àü´ŞÇÕ´Ï´Ù.
+í˜„ì¬ V4L2 ì½”ì–´ì— í•˜ìœ„ ì¥ì¹˜ë¥¼ ë“±ë¡í•˜ëŠ” ë‘ ê°€ì§€ ë°©ë²•ì´ ìˆìŠµë‹ˆë‹¤. 
+ì²« ë²ˆì§¸ (ê¸°ì¡´) ê°€ëŠ¥ì„±ì€ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ ë“±ë¡í•œ í•˜ìœ„ ì¥ì¹˜ë¥¼ ê°–ëŠ” ê²ƒì…ë‹ˆë‹¤. ì´ê²ƒì€ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ ì—°ê²°ëœ ë¸Œëœì¹˜ì— ëŒ€í•œ ì™„ì „í•œ ì •ë³´ë¥¼ ê°–ê³  ìˆê³  ì–¸ì œ ë“±ë¡ í•  ê²ƒì¸ì§€ ì •í™•í•˜ê²Œ ì•Œê³ ìˆì„ ë•Œ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+SoC ë˜ëŠ” ë³µì¡í•œ PCI (e) ë³´ë“œì˜ ë¹„ë””ì˜¤ ë°ì´í„° ì²˜ë¦¬ ì¥ì¹˜, USB ì¹´ë©”ë¼ì˜ ì¹´ë©”ë¼ ì„¼ì„œ ë˜ëŠ” SoCì— ì—°ê²°ëœ ì¹´ë©”ë¼ì™€ ê°™ì€ ë‚´ë¶€ í•˜ìœ„ ì¥ì¹˜ì˜ ê²½ìš° ì¼ë°˜ì ìœ¼ë¡œ í”Œë«í¼ ë°ì´í„°ì—ì„œ ë“œë¼ì´ë²„ë¥¼ ì—°ê²°í•˜ëŠ” ë° í•„ìš”í•œ ì •ë³´ë¥¼ ì „ë‹¬í•©ë‹ˆë‹¤.
 
 There are however also situations where subdevices have to be registered
 asynchronously to bridge devices. An example of such a configuration is a Device
@@ -446,74 +446,74 @@ Tree based system where information about subdevices is made available to the
 system independently from the bridge devices, e.g. when subdevices are defined
 in DT as I2C device nodes. The API used in this second case is described further
 below.
-±×·¯³ª ÇÏÀ§ ÀåÄ¡¸¦ ºê¸®Áö ÀåÄ¡¿¡ ºñµ¿±â ÀûÀ¸·Î µî·ÏÇØ¾ßÇÏ´Â »óÈ²µµ ÀÖ½À´Ï´Ù. ±×·¯ÇÑ ±¸¼ºÀÇ ÀÏ·Ê´Â ¼­ºê ÀåÄ¡¿¡ °üÇÑ Á¤º¸°¡ ºê¸®Áö ÀåÄ¡¿Í µ¶¸³ÀûÀ¸·Î ½Ã½ºÅÛ¿¡ ÀÌ¿ë °¡´ÉÇÏ°ÔµÇ´Â ÀåÄ¡ Æ®¸® ±â¹İ ½Ã½ºÅÛÀÌ´Ù. 
-ÇÏÀ§ ÀåÄ¡°¡ DT¿¡¼­ I2C ÀåÄ¡ ³ëµå·Î Á¤ÀÇµÇ´Â °æ¿ì µÎ ¹øÂ° °æ¿ì¿¡ »ç¿ëµÇ´Â API´Â ¾Æ·¡¿¡¼­ ÀÚ¼¼È÷ ¼³¸íÇÕ´Ï´Ù.
+ê·¸ëŸ¬ë‚˜ í•˜ìœ„ ì¥ì¹˜ë¥¼ ë¸Œë¦¬ì§€ ì¥ì¹˜ì— ë¹„ë™ê¸° ì ìœ¼ë¡œ ë“±ë¡í•´ì•¼í•˜ëŠ” ìƒí™©ë„ ìˆìŠµë‹ˆë‹¤. ê·¸ëŸ¬í•œ êµ¬ì„±ì˜ ì¼ë¡€ëŠ” ì„œë¸Œ ì¥ì¹˜ì— ê´€í•œ ì •ë³´ê°€ ë¸Œë¦¬ì§€ ì¥ì¹˜ì™€ ë…ë¦½ì ìœ¼ë¡œ ì‹œìŠ¤í…œì— ì´ìš© ê°€ëŠ¥í•˜ê²Œë˜ëŠ” ì¥ì¹˜ íŠ¸ë¦¬ ê¸°ë°˜ ì‹œìŠ¤í…œì´ë‹¤. 
+í•˜ìœ„ ì¥ì¹˜ê°€ DTì—ì„œ I2C ì¥ì¹˜ ë…¸ë“œë¡œ ì •ì˜ë˜ëŠ” ê²½ìš° ë‘ ë²ˆì§¸ ê²½ìš°ì— ì‚¬ìš©ë˜ëŠ” APIëŠ” ì•„ë˜ì—ì„œ ìì„¸íˆ ì„¤ëª…í•©ë‹ˆë‹¤.
 
 Using one or the other registration method only affects the probing process, the
 run-time bridge-subdevice interaction is in both cases the same.
-ÇÏ³ª ¶Ç´Â ´Ù¸¥ µî·Ï ¸Ş¼Òµå¸¦ »ç¿ëÇÏ´Â °ÍÀº ÇÁ·Îºù ÇÁ·Î¼¼½º¿¡¸¸ ¿µÇâÀ» ¹ÌÄ¡¸ç, ·±Å¸ÀÓ ºê¸®Áö - ÇÏÀ§ ÀåÄ¡ »óÈ£ ÀÛ¿ëÀº µÎ °æ¿ì ¸ğµÎ µ¿ÀÏÇÕ´Ï´Ù.
+í•˜ë‚˜ ë˜ëŠ” ë‹¤ë¥¸ ë“±ë¡ ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì€ í”„ë¡œë¹™ í”„ë¡œì„¸ìŠ¤ì—ë§Œ ì˜í–¥ì„ ë¯¸ì¹˜ë©°, ëŸ°íƒ€ì„ ë¸Œë¦¬ì§€ - í•˜ìœ„ ì¥ì¹˜ ìƒí˜¸ ì‘ìš©ì€ ë‘ ê²½ìš° ëª¨ë‘ ë™ì¼í•©ë‹ˆë‹¤.
 
 In the synchronous case a device (bridge) driver needs to register the
 v4l2_subdev with the v4l2_device:
-µ¿±â½Ä °æ¿ì ÀåÄ¡ (ºê¸®Áö) µå¶óÀÌ¹ö´Â v4l2_subdev¸¦ v4l2_device¿¡ µî·ÏÇØ¾ßÇÕ´Ï´Ù.
+ë™ê¸°ì‹ ê²½ìš° ì¥ì¹˜ (ë¸Œë¦¬ì§€) ë“œë¼ì´ë²„ëŠ” v4l2_subdevë¥¼ v4l2_deviceì— ë“±ë¡í•´ì•¼í•©ë‹ˆë‹¤.
 
 	int err = v4l2_device_register_subdev(v4l2_dev, sd);
 
 This can fail if the subdev module disappeared before it could be registered.
 After this function was called successfully the subdev->dev field points to
 the v4l2_device.
-subdev ¸ğµâÀÌ µî·ÏµÇ±â Àü¿¡ »ç¶óÁø °æ¿ì ½ÇÆĞ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-ÀÌ ÇÔ¼ö°¡ ¼º°øÀûÀ¸·Î È£Ãâ µÈ ÈÄ subdev-> dev ÇÊµå´Â v4l2_device¸¦ °¡¸® Åµ´Ï´Ù.
+subdev ëª¨ë“ˆì´ ë“±ë¡ë˜ê¸° ì „ì— ì‚¬ë¼ì§„ ê²½ìš° ì‹¤íŒ¨ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ì´ í•¨ìˆ˜ê°€ ì„±ê³µì ìœ¼ë¡œ í˜¸ì¶œ ëœ í›„ subdev-> dev í•„ë“œëŠ” v4l2_deviceë¥¼ ê°€ë¦¬ í‚µë‹ˆë‹¤.
 
 If the v4l2_device parent device has a non-NULL mdev field, the sub-device
 entity will be automatically registered with the media device.
-v4l2_device »óÀ§ ÀåÄ¡¿¡ NULLÀÌ ¾Æ´Ñ mdev ÇÊµå°¡ ÀÖÀ¸¸é ÇÏÀ§ ÀåÄ¡ ¿£Æ¼Æ¼°¡ ÀÚµ¿À¸·Î ¹Ìµğ¾î ÀåÄ¡¿¡ µî·ÏµË´Ï´Ù.
+v4l2_device ìƒìœ„ ì¥ì¹˜ì— NULLì´ ì•„ë‹Œ mdev í•„ë“œê°€ ìˆìœ¼ë©´ í•˜ìœ„ ì¥ì¹˜ ì—”í‹°í‹°ê°€ ìë™ìœ¼ë¡œ ë¯¸ë””ì–´ ì¥ì¹˜ì— ë“±ë¡ë©ë‹ˆë‹¤.
 
 You can unregister a sub-device using:
-´ÙÀ½À» »ç¿ëÇÏ¿© ÇÏÀ§ ÀåÄ¡ÀÇ µî·ÏÀ» Ãë¼Ò ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ë‹¤ìŒì„ ì‚¬ìš©í•˜ì—¬ í•˜ìœ„ ì¥ì¹˜ì˜ ë“±ë¡ì„ ì·¨ì†Œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 	v4l2_device_unregister_subdev(sd);
 
 Afterwards the subdev module can be unloaded and sd->dev == NULL.
-±× ÈÄ¿¡ ÇÏÀ§ ¸ğµâÀº ¾ğ·ÎµåµÇ°í sd-> dev == NULLÀÌ µÉ ¼ö ÀÖ½À´Ï´Ù.
+ê·¸ í›„ì— í•˜ìœ„ ëª¨ë“ˆì€ ì–¸ë¡œë“œë˜ê³  sd-> dev == NULLì´ ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 You can call an ops function either directly:
-ops ÇÔ¼ö¸¦ Á÷Á¢ È£Ãâ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ops í•¨ìˆ˜ë¥¼ ì§ì ‘ í˜¸ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 	err = sd->ops->core->g_std(sd, &norm);
 
 but it is better and easier to use this macro:
-ÇÏÁö¸¸ÀÌ ¸ÅÅ©·Î¸¦ »ç¿ëÇÏ´Â °ÍÀÌ ´õ ½±°í ´õ ÁÁ½À´Ï´Ù.
+í•˜ì§€ë§Œì´ ë§¤í¬ë¡œë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ë” ì‰½ê³  ë” ì¢‹ìŠµë‹ˆë‹¤.
 
 	err = v4l2_subdev_call(sd, core, g_std, &norm);
 
 The macro will to the right NULL pointer checks and returns -ENODEV if subdev
 is NULL, -ENOIOCTLCMD if either subdev->core or subdev->core->g_std is
 NULL, or the actual result of the subdev->ops->core->g_std ops.
-¸ÅÅ©·Î´Â ¿À¸¥ÂÊ NULL Æ÷ÀÎÅÍ¸¦ °Ë»çÇÏ¿© subdev°¡ NULLÀÌ¸é -ENODEV¸¦ ¹İÈ¯ÇÏ°í, subdev-> core ¶Ç´Â subdev-> core-> g_std°¡ NULL ¶Ç´Â subdev-> ops-> core -> g_std opsÀÇ ½ÇÁ¦ °á°úÀÌ¸é -ENOIOCTLCMD¸¦ ¹İÈ¯ÇÕ´Ï´Ù. 
+ë§¤í¬ë¡œëŠ” ì˜¤ë¥¸ìª½ NULL í¬ì¸í„°ë¥¼ ê²€ì‚¬í•˜ì—¬ subdevê°€ NULLì´ë©´ -ENODEVë¥¼ ë°˜í™˜í•˜ê³ , subdev-> core ë˜ëŠ” subdev-> core-> g_stdê°€ NULL ë˜ëŠ” subdev-> ops-> core -> g_std opsì˜ ì‹¤ì œ ê²°ê³¼ì´ë©´ -ENOIOCTLCMDë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤. 
 
 It is also possible to call all or a subset of the sub-devices:
-ÇÏÀ§ ÀåÄ¡ÀÇ ÀüÃ¼ ¶Ç´Â ÀÏºÎ¸¦ È£Ãâ ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.
+í•˜ìœ„ ì¥ì¹˜ì˜ ì „ì²´ ë˜ëŠ” ì¼ë¶€ë¥¼ í˜¸ì¶œ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤.
 
 	v4l2_device_call_all(v4l2_dev, 0, core, g_std, &norm);
 
 Any subdev that does not support this ops is skipped and error results are
 ignored. If you want to check for errors use this:
-ÀÌ ÀÛ¾÷À» Áö¿øÇÏÁö ¾Ê´Â ÇÏÀ§ ÀÛ¾÷Àº °Ç³Ê ¶Ù°í ¿À·ù °á°ú´Â ¹«½ÃµË´Ï´Ù. ¿À·ù¸¦ È®ÀÎÇÏ·Á¸é ´ÙÀ½À» »ç¿ëÇÏ½Ê½Ã¿À.
+ì´ ì‘ì—…ì„ ì§€ì›í•˜ì§€ ì•ŠëŠ” í•˜ìœ„ ì‘ì—…ì€ ê±´ë„ˆ ë›°ê³  ì˜¤ë¥˜ ê²°ê³¼ëŠ” ë¬´ì‹œë©ë‹ˆë‹¤. ì˜¤ë¥˜ë¥¼ í™•ì¸í•˜ë ¤ë©´ ë‹¤ìŒì„ ì‚¬ìš©í•˜ì‹­ì‹œì˜¤.
 
 	err = v4l2_device_call_until_err(v4l2_dev, 0, core, g_std, &norm);
 
 Any error except -ENOIOCTLCMD will exit the loop with that error. If no
 errors (except -ENOIOCTLCMD) occurred, then 0 is returned.
--ENOIOCTLCMD¸¦ Á¦¿ÜÇÑ ¸ğµç ¿À·ù´Â ÇØ´ç ¿À·ù·Î ÀÎÇØ ·çÇÁ¸¦ Á¾·áÇÕ´Ï´Ù. ¿À·ù (-ENOIOCTLCMD Á¦¿Ü)°¡ ¹ß»ıÇÏÁö ¾ÊÀ¸¸é 0ÀÌ ¸®ÅÏµË´Ï´Ù.
+-ENOIOCTLCMDë¥¼ ì œì™¸í•œ ëª¨ë“  ì˜¤ë¥˜ëŠ” í•´ë‹¹ ì˜¤ë¥˜ë¡œ ì¸í•´ ë£¨í”„ë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤. ì˜¤ë¥˜ (-ENOIOCTLCMD ì œì™¸)ê°€ ë°œìƒí•˜ì§€ ì•Šìœ¼ë©´ 0ì´ ë¦¬í„´ë©ë‹ˆë‹¤.
 
 The second argument to both calls is a group ID. If 0, then all subdevs are
 called. If non-zero, then only those whose group ID match that value will
 be called. Before a bridge driver registers a subdev it can set sd->grp_id
 to whatever value it wants (it's 0 by default). This value is owned by the
 bridge driver and the sub-device driver will never modify or use it.
-µÎ È£ÃâÀÇ µÎ ¹øÂ° ÀÎ¼ö´Â ±×·ì IDÀÔ´Ï´Ù. 0ÀÌ¸é ¸ğµç subdev°¡ È£ÃâµË´Ï´Ù. 0ÀÌ ¾Æ´Ï¸é ±×·ì ID°¡ ÇØ´ç °ª°ú ÀÏÄ¡ÇÏ´Â »ç¿ëÀÚ ¸¸ È£ÃâµË´Ï´Ù. 
-ºê¸®Áö µå¶óÀÌ¹ö°¡ ÇÏÀ§ µğ·ºÅä¸®¸¦ µî·ÏÇÏ±â Àü¿¡ sd-> grp_id¸¦ ¿øÇÏ´Â °ªÀ¸·Î ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù (±âº»ÀûÀ¸·Î 0ÀÔ´Ï´Ù). ÀÌ °ªÀº ºê¸®Áö µå¶óÀÌ¹ö°¡ ¼ÒÀ¯ÇÏ¸ç ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö´Â °áÄÚ ¼öÁ¤ÇÏ°Å³ª »ç¿ëÇÏÁö ¾Ê½À´Ï´Ù.
+ë‘ í˜¸ì¶œì˜ ë‘ ë²ˆì§¸ ì¸ìˆ˜ëŠ” ê·¸ë£¹ IDì…ë‹ˆë‹¤. 0ì´ë©´ ëª¨ë“  subdevê°€ í˜¸ì¶œë©ë‹ˆë‹¤. 0ì´ ì•„ë‹ˆë©´ ê·¸ë£¹ IDê°€ í•´ë‹¹ ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” ì‚¬ìš©ì ë§Œ í˜¸ì¶œë©ë‹ˆë‹¤. 
+ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ í•˜ìœ„ ë””ë ‰í† ë¦¬ë¥¼ ë“±ë¡í•˜ê¸° ì „ì— sd-> grp_idë¥¼ ì›í•˜ëŠ” ê°’ìœ¼ë¡œ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤ (ê¸°ë³¸ì ìœ¼ë¡œ 0ì…ë‹ˆë‹¤). ì´ ê°’ì€ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ ì†Œìœ í•˜ë©° í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ëŠ” ê²°ì½” ìˆ˜ì •í•˜ê±°ë‚˜ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 The group ID gives the bridge driver more control how callbacks are called.
 For example, there may be multiple audio chips on a board, each capable of
@@ -522,25 +522,25 @@ user want to change the volume. You can set the group ID for that subdev to
 e.g. AUDIO_CONTROLLER and specify that as the group ID value when calling
 v4l2_device_call_all(). That ensures that it will only go to the subdev
 that needs it.
-±×·ì ID¸¦ ÅëÇØ ºê¸®Áö µå¶óÀÌ¹ö´Â Äİ¹é È£Ãâ ¹æ¹ıÀ»º¸´Ù Àß Á¦¾î ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¿¹¸¦ µé¾î º¸µå¿¡ ¿©·¯ °³ÀÇ ¿Àµğ¿À Ä¨ÀÌÀÖÀ» ¼ö ÀÖÀ¸¸ç °¢ º¼·ıÀº º¼·ıÀ» º¯°æÇÒ ¼ö ÀÖ½À´Ï´Ù. ±×·¯³ª ÀÏ¹İÀûÀ¸·Î »ç¿ëÀÚ°¡ º¼·ıÀ» º¯°æÇÏ·Á°í ÇÒ ¶§ ½ÇÁ¦·Î´Â ÇÏ³ª¸¸ »ç¿ëµË´Ï´Ù. 
-ÇÏÀ§devÀÇ ±×·ì ID¸¦ ¿¹ : AUDIO_CONTROLLER¸¦ È£ÃâÇÏ°í v4l2_device_call_all ()À» È£Ãâ ÇÒ ¶§ÀÌ¸¦ ±×·ì ID °ªÀ¸·Î ÁöÁ¤ÇÏ½Ê½Ã¿À. ±×°ÍÀº ±×°ÍÀ» ÇÊ¿ä·ÎÇÏ´Â ÇÏºÎ Á¶Á÷¿¡°Ô¸¸ °¥ °ÍÀÌ¶ó´Â °ÍÀ» º¸ÁõÇÕ´Ï´Ù.
+ê·¸ë£¹ IDë¥¼ í†µí•´ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ëŠ” ì½œë°± í˜¸ì¶œ ë°©ë²•ì„ë³´ë‹¤ ì˜ ì œì–´ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ì˜ˆë¥¼ ë“¤ì–´ ë³´ë“œì— ì—¬ëŸ¬ ê°œì˜ ì˜¤ë””ì˜¤ ì¹©ì´ìˆì„ ìˆ˜ ìˆìœ¼ë©° ê° ë³¼ë¥¨ì€ ë³¼ë¥¨ì„ ë³€ê²½í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ê·¸ëŸ¬ë‚˜ ì¼ë°˜ì ìœ¼ë¡œ ì‚¬ìš©ìê°€ ë³¼ë¥¨ì„ ë³€ê²½í•˜ë ¤ê³  í•  ë•Œ ì‹¤ì œë¡œëŠ” í•˜ë‚˜ë§Œ ì‚¬ìš©ë©ë‹ˆë‹¤. 
+í•˜ìœ„devì˜ ê·¸ë£¹ IDë¥¼ ì˜ˆ : AUDIO_CONTROLLERë¥¼ í˜¸ì¶œí•˜ê³  v4l2_device_call_all ()ì„ í˜¸ì¶œ í•  ë•Œì´ë¥¼ ê·¸ë£¹ ID ê°’ìœ¼ë¡œ ì§€ì •í•˜ì‹­ì‹œì˜¤. ê·¸ê²ƒì€ ê·¸ê²ƒì„ í•„ìš”ë¡œí•˜ëŠ” í•˜ë¶€ ì¡°ì§ì—ê²Œë§Œ ê°ˆ ê²ƒì´ë¼ëŠ” ê²ƒì„ ë³´ì¦í•©ë‹ˆë‹¤.
 
 If the sub-device needs to notify its v4l2_device parent of an event, then
 it can call v4l2_subdev_notify(sd, notification, arg). This macro checks
 whether there is a notify() callback defined and returns -ENODEV if not.
 Otherwise the result of the notify() call is returned.
-ÇÏÀ§ ÀåÄ¡°¡ v4l2_device ºÎ¸ğ¿¡°Ô ÀÌº¥Æ®¸¦ ¾Ë¸± ÇÊ¿ä°¡ ÀÖÀ¸¸é v4l2_subdev_notify (sd, notification, arg)¸¦ È£Ãâ ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ ¸ÅÅ©·Î´Â notify () Äİ¹éÀÌ Á¤ÀÇµÇ¾î ÀÖ´ÂÁö È®ÀÎÇÏ°í ±×·¸Áö ¾ÊÀ¸¸é -ENODEV¸¦ ¹İÈ¯ÇÕ´Ï´Ù. ±×·¸Áö ¾ÊÀ¸¸é notify () È£ÃâÀÇ °á°ú°¡ ¸®ÅÏµË´Ï´Ù.
+í•˜ìœ„ ì¥ì¹˜ê°€ v4l2_device ë¶€ëª¨ì—ê²Œ ì´ë²¤íŠ¸ë¥¼ ì•Œë¦´ í•„ìš”ê°€ ìˆìœ¼ë©´ v4l2_subdev_notify (sd, notification, arg)ë¥¼ í˜¸ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ ë§¤í¬ë¡œëŠ” notify () ì½œë°±ì´ ì •ì˜ë˜ì–´ ìˆëŠ”ì§€ í™•ì¸í•˜ê³  ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ -ENODEVë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤. ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ notify () í˜¸ì¶œì˜ ê²°ê³¼ê°€ ë¦¬í„´ë©ë‹ˆë‹¤.
 
 The advantage of using v4l2_subdev is that it is a generic struct and does
 not contain any knowledge about the underlying hardware. So a driver might
 contain several subdevs that use an I2C bus, but also a subdev that is
 controlled through GPIO pins. This distinction is only relevant when setting
 up the device, but once the subdev is registered it is completely transparent.
-v4l2_subdev¸¦ »ç¿ëÇÒ ¶§ÀÇ ÀåÁ¡Àº ±âº» ±¸Á¶Ã¼ÀÌ¸ç ±âº» ÇÏµå¿ş¾î¿¡ ´ëÇÑ Áö½ÄÀÌ ÀüÇô ¾ø´Ù´Â °ÍÀÔ´Ï´Ù. 
-µû¶ó¼­ µå¶óÀÌ¹ö¿¡´Â I2C ¹ö½º¸¦ »ç¿ëÇÏ´Â ¿©·¯ ÇÏÀ§ ±¸¼º ¿ä¼Ò°¡ Æ÷ÇÔµÉ ¼ö ÀÖÁö¸¸ GPIO ÇÉÀ» ÅëÇØ Á¦¾îµÇ´Â ÇÏÀ§ ±¸¼º ¿ä¼Òµµ Æ÷ÇÔµÉ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ ±¸º°Àº ÀåÄ¡¸¦ ¼³Á¤ÇÒ ¶§¸¸ °ü·ÃÀÌ ÀÖÁö¸¸, ÀÏ´Ü ÇÏÀ§ Á¤ÀÇ°¡ µî·ÏµÇ¸é ¿ÏÀüÈ÷ Åõ¸íÇÕ´Ï´Ù.
+v4l2_subdevë¥¼ ì‚¬ìš©í•  ë•Œì˜ ì¥ì ì€ ê¸°ë³¸ êµ¬ì¡°ì²´ì´ë©° ê¸°ë³¸ í•˜ë“œì›¨ì–´ì— ëŒ€í•œ ì§€ì‹ì´ ì „í˜€ ì—†ë‹¤ëŠ” ê²ƒì…ë‹ˆë‹¤. 
+ë”°ë¼ì„œ ë“œë¼ì´ë²„ì—ëŠ” I2C ë²„ìŠ¤ë¥¼ ì‚¬ìš©í•˜ëŠ” ì—¬ëŸ¬ í•˜ìœ„ êµ¬ì„± ìš”ì†Œê°€ í¬í•¨ë  ìˆ˜ ìˆì§€ë§Œ GPIO í•€ì„ í†µí•´ ì œì–´ë˜ëŠ” í•˜ìœ„ êµ¬ì„± ìš”ì†Œë„ í¬í•¨ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ êµ¬ë³„ì€ ì¥ì¹˜ë¥¼ ì„¤ì •í•  ë•Œë§Œ ê´€ë ¨ì´ ìˆì§€ë§Œ, ì¼ë‹¨ í•˜ìœ„ ì •ì˜ê°€ ë“±ë¡ë˜ë©´ ì™„ì „íˆ íˆ¬ëª…í•©ë‹ˆë‹¤.
 
 
 In the asynchronous case subdevice probing can be invoked independently of the
@@ -552,11 +552,11 @@ attempts. Once all conditions are met the subdevice shall be registered using
 the v4l2_async_register_subdev() function. Unregistration is performed using
 the v4l2_async_unregister_subdev() call. Subdevices registered this way are
 stored in a global list of subdevices, ready to be picked up by bridge drivers.
-ºñµ¿±âÀûÀÎ °æ¿ì ¼­ºê ÀåÄ¡ ÇÁ·Îºê´Â ºê¸®Áö µå¶óÀÌ¹ö °¡¿ë¼º°ú´Â µ¶¸³ÀûÀ¸·Î È£Ãâ µÉ ¼ö ÀÖ½À´Ï´Ù. 
-±×·¯¸é ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö´Â ¼º°øÀûÀÎ °Ë»ç¸¦À§ÇÑ ¸ğµç ¿ä±¸ »çÇ×ÀÌ ÃæÁ·µÇ´ÂÁö È®ÀÎÇØ¾ßÇÕ´Ï´Ù. 
-¿©±â¿¡´Â ¸¶½ºÅÍ Å¬·° °¡¿ë¼º¿¡ ´ëÇÑ È®ÀÎÀÌ Æ÷ÇÔµÉ ¼ö ÀÖ½À´Ï´Ù. Á¶°Ç Áß ÇÏ³ª¶óµµ ¸¸Á·½º·´Áö ¾ÊÀ¸¸é µå¶óÀÌ¹ö´Â ´Ù½Ã Å½»ö ½Ãµµ¸¦ ¿äÃ»ÇÏ±â À§ÇØ -EPROBE_DEFER¸¦ ¹İÈ¯ÇÏ±â·Î °áÁ¤ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-¸ğµç Á¶°ÇÀÌ ÃæÁ·µÇ¸é ÇÏÀ§ ÀåÄ¡´Â v4l2_async_register_subdev () ÇÔ¼ö¸¦ »ç¿ëÇÏ¿© µî·ÏÇØ¾ßÇÕ´Ï´Ù. µî·Ï ÇØÁ¦´Â v4l2_async_unregister_subdev () È£ÃâÀ» »ç¿ëÇÏ¿© ¼öÇàµË´Ï´Ù. 
-ÀÌ ¹æ¹ıÀ¸·Î µî·Ï µÈ ÇÏÀ§ ÀåÄ¡´Â ÀüÃ¼ ÇÏÀ§ ÀåÄ¡ ¸ñ·Ï¿¡ ÀúÀåµÇ¾î ºê¸®Áö µå¶óÀÌ¹ö°¡ ÁØºñÇÕ´Ï´Ù.
+ë¹„ë™ê¸°ì ì¸ ê²½ìš° ì„œë¸Œ ì¥ì¹˜ í”„ë¡œë¸ŒëŠ” ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ ê°€ìš©ì„±ê³¼ëŠ” ë…ë¦½ì ìœ¼ë¡œ í˜¸ì¶œ ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ê·¸ëŸ¬ë©´ í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ëŠ” ì„±ê³µì ì¸ ê²€ì‚¬ë¥¼ìœ„í•œ ëª¨ë“  ìš”êµ¬ ì‚¬í•­ì´ ì¶©ì¡±ë˜ëŠ”ì§€ í™•ì¸í•´ì•¼í•©ë‹ˆë‹¤. 
+ì—¬ê¸°ì—ëŠ” ë§ˆìŠ¤í„° í´ëŸ­ ê°€ìš©ì„±ì— ëŒ€í•œ í™•ì¸ì´ í¬í•¨ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì¡°ê±´ ì¤‘ í•˜ë‚˜ë¼ë„ ë§Œì¡±ìŠ¤ëŸ½ì§€ ì•Šìœ¼ë©´ ë“œë¼ì´ë²„ëŠ” ë‹¤ì‹œ íƒìƒ‰ ì‹œë„ë¥¼ ìš”ì²­í•˜ê¸° ìœ„í•´ -EPROBE_DEFERë¥¼ ë°˜í™˜í•˜ê¸°ë¡œ ê²°ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ëª¨ë“  ì¡°ê±´ì´ ì¶©ì¡±ë˜ë©´ í•˜ìœ„ ì¥ì¹˜ëŠ” v4l2_async_register_subdev () í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ ë“±ë¡í•´ì•¼í•©ë‹ˆë‹¤. ë“±ë¡ í•´ì œëŠ” v4l2_async_unregister_subdev () í˜¸ì¶œì„ ì‚¬ìš©í•˜ì—¬ ìˆ˜í–‰ë©ë‹ˆë‹¤. 
+ì´ ë°©ë²•ìœ¼ë¡œ ë“±ë¡ ëœ í•˜ìœ„ ì¥ì¹˜ëŠ” ì „ì²´ í•˜ìœ„ ì¥ì¹˜ ëª©ë¡ì— ì €ì¥ë˜ì–´ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ ì¤€ë¹„í•©ë‹ˆë‹¤.
 
 Bridge drivers in turn have to register a notifier object with an array of
 subdevice descriptors that the bridge device needs for its operation. This is
@@ -570,11 +570,11 @@ subdevices to them. If a match is detected the .bound() notifier callback is
 called. After all subdevices have been located the .complete() callback is
 called. When a subdevice is removed from the system the .unbind() method is
 called. All three callbacks are optional.
-ºê¸´Áö µå¶óÀÌ¹ö´Â ¾Ë¸®¹Ì °´Ã¼¸¦ ºê¸® Áö µğ¹ÙÀÌ½º°¡ µ¿ÀÛÀ» À§ÇØ ÇÊ¿ä·ÎÇÏ´Â ¼­ºê µğ¹ÙÀÌ½º µğ½ºÅ©¸³ÅÍ ¹è¿­·Î µî·ÏÇØ¾ßÇÑ´Ù. 
-ÀÌ ÀÛ¾÷Àº v4l2_async_notifier_register () È£ÃâÀ» »ç¿ëÇÏ¿© ¼öÇàµË´Ï´Ù. ¾Ë¸®¹Ì µî·ÏÀ» Ãë¼ÒÇÏ·Á¸é µå¶óÀÌ¹ö°¡ v4l2_async_notifier_unregister ()¸¦ È£ÃâÇØ¾ßÇÕ´Ï´Ù. 
-¾ÕÀÇ µÎ ÇÔ¼ö´Â struct v4l2_device¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¿Í struct v4l2_async_notifier¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¶ó´Â µÎ °³ÀÇ ÀÎ¼ö¸¦ »ç¿ëÇÕ´Ï´Ù. 
-ÈÄÀÚ¿¡´Â struct v4l2_async_subdev À¯ÇüÀÇ ÇÏÀ§ ÀåÄ¡ ¼³¸íÀÚ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ ¹è¿­¿¡ ´ëÇÑ Æ÷ÀÎÅÍ°¡ ÀÖ½À´Ï´Ù. ±×·± ´ÙÀ½ V4L2 ÄÚ¾î´Â ÀÌ·¯ÇÑ ¼³¸íÀÚ¸¦ »ç¿ëÇÏ¿© ºñµ¿±â ÀûÀ¸·Î µî·Ï µÈ ÇÏÀ§ ÀåÄ¡¸¦ ÀÏÄ¡½ÃÅµ´Ï´Ù. 
-ÀÏÄ¡ÇÏ´Â °ÍÀÌ ¹ß°ßµÇ¸é .bound () ÅëÁö ÀÚ Äİ¹éÀÌ È£ÃâµË´Ï´Ù. ¸ğµç ÇÏÀ§ ÀåÄ¡¸¦ Ã£Àº ÈÄ .complete () Äİ¹éÀÌ È£ÃâµË´Ï´Ù. ÇÏÀ§ ÀåÄ¡°¡ ½Ã½ºÅÛ¿¡¼­ Á¦°ÅµÇ¸é .unbind () ¸Ş¼­µå°¡ È£ÃâµË´Ï´Ù. ¼¼ °¡Áö Äİ¹éÀº ¸ğµÎ ¼±ÅÃ »çÇ×ÀÔ´Ï´Ù.
+ë¸Œë¦¿ì§€ ë“œë¼ì´ë²„ëŠ” ì•Œë¦¬ë¯¸ ê°ì²´ë¥¼ ë¸Œë¦¬ ì§€ ë””ë°”ì´ìŠ¤ê°€ ë™ì‘ì„ ìœ„í•´ í•„ìš”ë¡œí•˜ëŠ” ì„œë¸Œ ë””ë°”ì´ìŠ¤ ë””ìŠ¤í¬ë¦½í„° ë°°ì—´ë¡œ ë“±ë¡í•´ì•¼í•œë‹¤. 
+ì´ ì‘ì—…ì€ v4l2_async_notifier_register () í˜¸ì¶œì„ ì‚¬ìš©í•˜ì—¬ ìˆ˜í–‰ë©ë‹ˆë‹¤. ì•Œë¦¬ë¯¸ ë“±ë¡ì„ ì·¨ì†Œí•˜ë ¤ë©´ ë“œë¼ì´ë²„ê°€ v4l2_async_notifier_unregister ()ë¥¼ í˜¸ì¶œí•´ì•¼í•©ë‹ˆë‹¤. 
+ì•ì˜ ë‘ í•¨ìˆ˜ëŠ” struct v4l2_deviceì— ëŒ€í•œ í¬ì¸í„°ì™€ struct v4l2_async_notifierì— ëŒ€í•œ í¬ì¸í„°ë¼ëŠ” ë‘ ê°œì˜ ì¸ìˆ˜ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. 
+í›„ìì—ëŠ” struct v4l2_async_subdev ìœ í˜•ì˜ í•˜ìœ„ ì¥ì¹˜ ì„¤ëª…ìì— ëŒ€í•œ í¬ì¸í„° ë°°ì—´ì— ëŒ€í•œ í¬ì¸í„°ê°€ ìˆìŠµë‹ˆë‹¤. ê·¸ëŸ° ë‹¤ìŒ V4L2 ì½”ì–´ëŠ” ì´ëŸ¬í•œ ì„¤ëª…ìë¥¼ ì‚¬ìš©í•˜ì—¬ ë¹„ë™ê¸° ì ìœ¼ë¡œ ë“±ë¡ ëœ í•˜ìœ„ ì¥ì¹˜ë¥¼ ì¼ì¹˜ì‹œí‚µë‹ˆë‹¤. 
+ì¼ì¹˜í•˜ëŠ” ê²ƒì´ ë°œê²¬ë˜ë©´ .bound () í†µì§€ ì ì½œë°±ì´ í˜¸ì¶œë©ë‹ˆë‹¤. ëª¨ë“  í•˜ìœ„ ì¥ì¹˜ë¥¼ ì°¾ì€ í›„ .complete () ì½œë°±ì´ í˜¸ì¶œë©ë‹ˆë‹¤. í•˜ìœ„ ì¥ì¹˜ê°€ ì‹œìŠ¤í…œì—ì„œ ì œê±°ë˜ë©´ .unbind () ë©”ì„œë“œê°€ í˜¸ì¶œë©ë‹ˆë‹¤. ì„¸ ê°€ì§€ ì½œë°±ì€ ëª¨ë‘ ì„ íƒ ì‚¬í•­ì…ë‹ˆë‹¤.
 
 
 V4L2 sub-device userspace API
@@ -582,22 +582,22 @@ V4L2 sub-device userspace API
 
 Beside exposing a kernel API through the v4l2_subdev_ops structure, V4L2
 sub-devices can also be controlled directly by userspace applications.
-v4l2_subdev_ops ±¸Á¶¸¦ ÅëÇØ Ä¿³Î API¸¦ Ç¥½ÃÇÏ´Â °Í ¿Ü¿¡µµ V4L2 ÇÏÀ§ ÀåÄ¡´Â »ç¿ëÀÚ °ø°£ ÀÀ¿ë ÇÁ·Î±×·¥¿¡¼­ Á÷Á¢ Á¦¾î ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.
+v4l2_subdev_ops êµ¬ì¡°ë¥¼ í†µí•´ ì»¤ë„ APIë¥¼ í‘œì‹œí•˜ëŠ” ê²ƒ ì™¸ì—ë„ V4L2 í•˜ìœ„ ì¥ì¹˜ëŠ” ì‚¬ìš©ì ê³µê°„ ì‘ìš© í”„ë¡œê·¸ë¨ì—ì„œ ì§ì ‘ ì œì–´ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤.
 
 Device nodes named v4l-subdevX can be created in /dev to access sub-devices
 directly. If a sub-device supports direct userspace configuration it must set
 the V4L2_SUBDEV_FL_HAS_DEVNODE flag before being registered.
-v4l-subdevX¶ó´Â ÀåÄ¡ ³ëµå¸¦ / dev¿¡ ¸¸µé¾î ÇÏÀ§ ÀåÄ¡¿¡ Á÷Á¢ ¾×¼¼½º ÇÒ ¼ö ÀÖ½À´Ï´Ù. ÇÏÀ§ ÀåÄ¡°¡ Á÷Á¢ »ç¿ëÀÚ °ø°£ ±¸¼ºÀ» Áö¿øÇÏ¸é µî·ÏµÇ±â Àü¿¡ V4L2_SUBDEV_FL_HAS_DEVNODE ÇÃ·¡±×¸¦ ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+v4l-subdevXë¼ëŠ” ì¥ì¹˜ ë…¸ë“œë¥¼ / devì— ë§Œë“¤ì–´ í•˜ìœ„ ì¥ì¹˜ì— ì§ì ‘ ì•¡ì„¸ìŠ¤ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. í•˜ìœ„ ì¥ì¹˜ê°€ ì§ì ‘ ì‚¬ìš©ì ê³µê°„ êµ¬ì„±ì„ ì§€ì›í•˜ë©´ ë“±ë¡ë˜ê¸° ì „ì— V4L2_SUBDEV_FL_HAS_DEVNODE í”Œë˜ê·¸ë¥¼ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 After registering sub-devices, the v4l2_device driver can create device nodes
 for all registered sub-devices marked with V4L2_SUBDEV_FL_HAS_DEVNODE by calling
 v4l2_device_register_subdev_nodes(). Those device nodes will be automatically
 removed when sub-devices are unregistered.
-ÇÏÀ§ ÀåÄ¡¸¦ µî·ÏÇÑ ÈÄ v4l2_device µå¶óÀÌ¹ö´Â v4l2_device_register_subdev_nodes ()¸¦ È£ÃâÇÏ¿© V4L2_SUBDEV_FL_HAS_DEVNODE·Î Ç¥½ÃµÈ ¸ğµç µî·Ï µÈ ÇÏÀ§ ÀåÄ¡¿¡ ´ëÇÑ ÀåÄ¡ ³ëµå¸¦ ¸¸µé ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ·¯ÇÑ ÀåÄ¡ ³ëµå´Â ÇÏÀ§ ÀåÄ¡°¡ µî·Ï ÇØÁ¦ µÉ ¶§ ÀÚµ¿À¸·Î Á¦°ÅµË´Ï´Ù.
+í•˜ìœ„ ì¥ì¹˜ë¥¼ ë“±ë¡í•œ í›„ v4l2_device ë“œë¼ì´ë²„ëŠ” v4l2_device_register_subdev_nodes ()ë¥¼ í˜¸ì¶œí•˜ì—¬ V4L2_SUBDEV_FL_HAS_DEVNODEë¡œ í‘œì‹œëœ ëª¨ë“  ë“±ë¡ ëœ í•˜ìœ„ ì¥ì¹˜ì— ëŒ€í•œ ì¥ì¹˜ ë…¸ë“œë¥¼ ë§Œë“¤ ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ëŸ¬í•œ ì¥ì¹˜ ë…¸ë“œëŠ” í•˜ìœ„ ì¥ì¹˜ê°€ ë“±ë¡ í•´ì œ ë  ë•Œ ìë™ìœ¼ë¡œ ì œê±°ë©ë‹ˆë‹¤.
 
 The device node handles a subset of the V4L2 API.
-µğ¹ÙÀÌ½º ³ëµå´Â V4L2 APIÀÇ ¼­ºê ¼¼Æ®¸¦ Ã³¸®ÇÕ´Ï´Ù.
+ë””ë°”ì´ìŠ¤ ë…¸ë“œëŠ” V4L2 APIì˜ ì„œë¸Œ ì„¸íŠ¸ë¥¼ ì²˜ë¦¬í•©ë‹ˆë‹¤.
 
 VIDIOC_QUERYCTRL
 VIDIOC_QUERYMENU
@@ -612,7 +612,7 @@ VIDIOC_TRY_EXT_CTRLS
 	controls implemented in the sub-device. Depending on the driver, those
 	controls can be also be accessed through one (or several) V4L2 device
 	nodes.
-ÄÁÆ®·Ñ ioctls´Â V4L2¿¡ Á¤ÀÇ µÈ °Í°ú µ¿ÀÏÇÕ´Ï´Ù. À¯ÀÏÇÑ µ¿ÀÛÀº ÇÏÀ§ ÀåÄ¡¿¡ ±¸Çö µÈ ÄÁÆ®·Ñ ¸¸ Ã³¸®ÇÑ´Ù´Â Á¡¸¸ Á¦¿ÜÇÏ¸é µ¿ÀÏÇÏ°Ô ÀÛµ¿ÇÕ´Ï´Ù. µå¶óÀÌ¹ö¿¡ µû¶ó ÇÏ³ª ¶Ç´Â ¿©·¯ °³ÀÇ V4L2 ÀåÄ¡ ³ëµå¸¦ ÅëÇØ ÀÌ·¯ÇÑ ÄÁÆ®·Ñ¿¡ ¾×¼¼½º ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.
+ì»¨íŠ¸ë¡¤ ioctlsëŠ” V4L2ì— ì •ì˜ ëœ ê²ƒê³¼ ë™ì¼í•©ë‹ˆë‹¤. ìœ ì¼í•œ ë™ì‘ì€ í•˜ìœ„ ì¥ì¹˜ì— êµ¬í˜„ ëœ ì»¨íŠ¸ë¡¤ ë§Œ ì²˜ë¦¬í•œë‹¤ëŠ” ì ë§Œ ì œì™¸í•˜ë©´ ë™ì¼í•˜ê²Œ ì‘ë™í•©ë‹ˆë‹¤. ë“œë¼ì´ë²„ì— ë”°ë¼ í•˜ë‚˜ ë˜ëŠ” ì—¬ëŸ¬ ê°œì˜ V4L2 ì¥ì¹˜ ë…¸ë“œë¥¼ í†µí•´ ì´ëŸ¬í•œ ì»¨íŠ¸ë¡¤ì— ì•¡ì„¸ìŠ¤ í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤.
 
 VIDIOC_DQEVENT
 VIDIOC_SUBSCRIBE_EVENT
@@ -622,25 +622,25 @@ VIDIOC_UNSUBSCRIBE_EVENT
 	behave identically, with the only exception that they deal only with
 	events generated by the sub-device. Depending on the driver, those
 	events can also be reported by one (or several) V4L2 device nodes.
-ÀÌº¥Æ® ioctls´Â V4L2¿¡ Á¤ÀÇ µÈ °Í°ú µ¿ÀÏÇÕ´Ï´Ù. ±×µéÀº ÇÏÀ§ ÀåÄ¡¿¡¼­ »ı¼º µÈ ÀÌº¥Æ® ¸¸ Ã³¸®ÇÑ´Ù´Â À¯ÀÏÇÑ ¿¹¿Ü¸¦ Á¦¿ÜÇÏ°í µ¿ÀÏÇÏ°Ô ÀÛµ¿ÇÕ´Ï´Ù. µå¶óÀÌ¹ö¿¡ µû¶ó ÇÏ³ª ¶Ç´Â ¿©·¯ °³ÀÇ V4L2 ÀåÄ¡ ³ëµå¿¡¼­ ÀÌ·¯ÇÑ ÀÌº¥Æ®¸¦º¸°í ÇÒ ¼öµµ ÀÖ½À´Ï´Ù.
+ì´ë²¤íŠ¸ ioctlsëŠ” V4L2ì— ì •ì˜ ëœ ê²ƒê³¼ ë™ì¼í•©ë‹ˆë‹¤. ê·¸ë“¤ì€ í•˜ìœ„ ì¥ì¹˜ì—ì„œ ìƒì„± ëœ ì´ë²¤íŠ¸ ë§Œ ì²˜ë¦¬í•œë‹¤ëŠ” ìœ ì¼í•œ ì˜ˆì™¸ë¥¼ ì œì™¸í•˜ê³  ë™ì¼í•˜ê²Œ ì‘ë™í•©ë‹ˆë‹¤. ë“œë¼ì´ë²„ì— ë”°ë¼ í•˜ë‚˜ ë˜ëŠ” ì—¬ëŸ¬ ê°œì˜ V4L2 ì¥ì¹˜ ë…¸ë“œì—ì„œ ì´ëŸ¬í•œ ì´ë²¤íŠ¸ë¥¼ë³´ê³  í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤.
 
 	Sub-device drivers that want to use events need to set the
 	V4L2_SUBDEV_USES_EVENTS v4l2_subdev::flags and initialize
 	v4l2_subdev::nevents to events queue depth before registering the
 	sub-device. After registration events can be queued as usual on the
 	v4l2_subdev::devnode device node.
-ÀÌº¥Æ®¸¦ »ç¿ëÇÏ·Á´Â ¼­ºê µğ¹ÙÀÌ½º µå¶óÀÌ¹ö´Â ¼­ºê µğ¹ÙÀÌ½º¸¦ µî·ÏÇÏ±â Àü¿¡ V4L2_SUBDEV_USES_EVENTS v4l2_subdev :: flags¸¦ ¼³Á¤ÇÏ°í v4l2_subdev :: nevents¸¦ ÀÌº¥Æ® ´ë±â¿­ ±íÀÌ·Î ÃÊ±âÈ­ÇØ¾ßÇÕ´Ï´Ù. 
-µî·Ï ÀÌº¥Æ®´Â v4l2_subdev :: devnode ÀåÄ¡ ³ëµå¿¡¼­ Æò¼Ò¿Í °°ÀÌ ´ë±â ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ë²¤íŠ¸ë¥¼ ì‚¬ìš©í•˜ë ¤ëŠ” ì„œë¸Œ ë””ë°”ì´ìŠ¤ ë“œë¼ì´ë²„ëŠ” ì„œë¸Œ ë””ë°”ì´ìŠ¤ë¥¼ ë“±ë¡í•˜ê¸° ì „ì— V4L2_SUBDEV_USES_EVENTS v4l2_subdev :: flagsë¥¼ ì„¤ì •í•˜ê³  v4l2_subdev :: neventsë¥¼ ì´ë²¤íŠ¸ ëŒ€ê¸°ì—´ ê¹Šì´ë¡œ ì´ˆê¸°í™”í•´ì•¼í•©ë‹ˆë‹¤. 
+ë“±ë¡ ì´ë²¤íŠ¸ëŠ” v4l2_subdev :: devnode ì¥ì¹˜ ë…¸ë“œì—ì„œ í‰ì†Œì™€ ê°™ì´ ëŒ€ê¸° í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 	To properly support events, the poll() file operation is also
 	implemented.
-ÀÌº¥Æ®¸¦ ÀûÀıÈ÷ Áö¿øÇÏ±â À§ÇØ poll () ÆÄÀÏ ÀÛ¾÷µµ ±¸ÇöµË´Ï´Ù.
+ì´ë²¤íŠ¸ë¥¼ ì ì ˆíˆ ì§€ì›í•˜ê¸° ìœ„í•´ poll () íŒŒì¼ ì‘ì—…ë„ êµ¬í˜„ë©ë‹ˆë‹¤.
 
 Private ioctls
 
 	All ioctls not in the above list are passed directly to the sub-device
 	driver through the core::ioctl operation.
-À§ÀÇ ¸ñ·Ï¿¡¾ø´Â ¸ğµç ioctls´Â core :: ioctl ¿¬»êÀ» ÅëÇØ ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö·Î Á÷Á¢ Àü´ŞµË´Ï´Ù.
+ìœ„ì˜ ëª©ë¡ì—ì—†ëŠ” ëª¨ë“  ioctlsëŠ” core :: ioctl ì—°ì‚°ì„ í†µí•´ í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ë¡œ ì§ì ‘ ì „ë‹¬ë©ë‹ˆë‹¤.
 
 
 I2C sub-device drivers
@@ -648,18 +648,18 @@ I2C sub-device drivers
 
 Since these drivers are so common, special helper functions are available to
 ease the use of these drivers (v4l2-common.h).
-ÀÌ µå¶óÀÌ¹öµéÀº ¸Å¿ì ÀÏ¹İÀûÀÌ¹Ç·Î Æ¯º°ÇÑ µµ¿ì¹Ì ±â´ÉÀÌ ÀÌ µå¶óÀÌ¹öÀÇ »ç¿ëÀ» ½±°Ô ÇÏ´Âµ¥¿¡ »ç¿ë°¡´ÉÇÏ´Ù (v4l2-common.h).
+ì´ ë“œë¼ì´ë²„ë“¤ì€ ë§¤ìš° ì¼ë°˜ì ì´ë¯€ë¡œ íŠ¹ë³„í•œ ë„ìš°ë¯¸ ê¸°ëŠ¥ì´ ì´ ë“œë¼ì´ë²„ì˜ ì‚¬ìš©ì„ ì‰½ê²Œ í•˜ëŠ”ë°ì— ì‚¬ìš©ê°€ëŠ¥í•˜ë‹¤ (v4l2-common.h).
 
 The recommended method of adding v4l2_subdev support to an I2C driver is to
 embed the v4l2_subdev struct into the state struct that is created for each
 I2C device instance. Very simple devices have no state struct and in that case
 you can just create a v4l2_subdev directly.
-v4l2_subdev Áö¿øÀ» I2C µå¶óÀÌ¹ö¿¡ Ãß°¡ÇÏ´Â ±ÇÀå ¹æ¹ıÀº v4l2_subdev ±¸Á¶Ã¼¸¦ °¢ I2C ÀåÄ¡ ÀÎ½ºÅÏ½º¿¡ ´ëÇØ »ı¼º µÈ »óÅÂ ±¸Á¶Ã¼¿¡ Æ÷ÇÔ½ÃÅ°´Â °ÍÀÔ´Ï´Ù. 
-¾ÆÁÖ °£´ÜÇÑ ÀåÄ¡¿¡´Â »óÅÂ ±¸Á¶Ã¼°¡ ¾øÀ¸¹Ç·ÎÀÌ °æ¿ì¿¡´Â v4l2_subdev¸¦ Á÷Á¢ ¸¸µé¸éµË´Ï´Ù.
+v4l2_subdev ì§€ì›ì„ I2C ë“œë¼ì´ë²„ì— ì¶”ê°€í•˜ëŠ” ê¶Œì¥ ë°©ë²•ì€ v4l2_subdev êµ¬ì¡°ì²´ë¥¼ ê° I2C ì¥ì¹˜ ì¸ìŠ¤í„´ìŠ¤ì— ëŒ€í•´ ìƒì„± ëœ ìƒíƒœ êµ¬ì¡°ì²´ì— í¬í•¨ì‹œí‚¤ëŠ” ê²ƒì…ë‹ˆë‹¤. 
+ì•„ì£¼ ê°„ë‹¨í•œ ì¥ì¹˜ì—ëŠ” ìƒíƒœ êµ¬ì¡°ì²´ê°€ ì—†ìœ¼ë¯€ë¡œì´ ê²½ìš°ì—ëŠ” v4l2_subdevë¥¼ ì§ì ‘ ë§Œë“¤ë©´ë©ë‹ˆë‹¤.
 
 A typical state struct would look like this (where 'chipname' is replaced by
 the name of the chip):
-ÀüÇüÀûÀÎ state struct´Â ´ÙÀ½°ú °°ÀÌ º¸ÀÏ °ÍÀÔ´Ï´Ù ( 'chipname'Àº Ä¨ÀÇ ÀÌ¸§À¸·Î ´ëÃ¼µË´Ï´Ù) :
+ì „í˜•ì ì¸ state structëŠ” ë‹¤ìŒê³¼ ê°™ì´ ë³´ì¼ ê²ƒì…ë‹ˆë‹¤ ( 'chipname'ì€ ì¹©ì˜ ì´ë¦„ìœ¼ë¡œ ëŒ€ì²´ë©ë‹ˆë‹¤) :
 
 struct chipname_state {
 	struct v4l2_subdev sd;
@@ -672,11 +672,11 @@ Initialize the v4l2_subdev struct as follows:
 
 This function will fill in all the fields of v4l2_subdev and ensure that the
 v4l2_subdev and i2c_client both point to one another.
-ÀÌ ÇÔ¼ö´Â v4l2_subdevÀÇ ¸ğµç ÇÊµå¸¦ Ã¤¿ì°í v4l2_subdev¿Í i2c_client°¡ ¸ğµÎ ¼­·Î¸¦ °¡¸®Å°´Â Áö È®ÀÎÇÕ´Ï´Ù.
+ì´ í•¨ìˆ˜ëŠ” v4l2_subdevì˜ ëª¨ë“  í•„ë“œë¥¼ ì±„ìš°ê³  v4l2_subdevì™€ i2c_clientê°€ ëª¨ë‘ ì„œë¡œë¥¼ ê°€ë¦¬í‚¤ëŠ” ì§€ í™•ì¸í•©ë‹ˆë‹¤.
 
 You should also add a helper inline function to go from a v4l2_subdev pointer
 to a chipname_state struct:
-¶ÇÇÑ v4l2_subdev Æ÷ÀÎÅÍ¿¡¼­ chipname_state ±¸Á¶Ã¼·Î ÀÌµ¿ÇÏ´Â µµ¿ì¹Ì ÀÎ¶óÀÎ ÇÔ¼ö¸¦ Ãß°¡ÇØ¾ßÇÕ´Ï´Ù.
+ë˜í•œ v4l2_subdev í¬ì¸í„°ì—ì„œ chipname_state êµ¬ì¡°ì²´ë¡œ ì´ë™í•˜ëŠ” ë„ìš°ë¯¸ ì¸ë¼ì¸ í•¨ìˆ˜ë¥¼ ì¶”ê°€í•´ì•¼í•©ë‹ˆë‹¤.
 
 static inline struct chipname_state *to_state(struct v4l2_subdev *sd)
 {
@@ -684,32 +684,32 @@ static inline struct chipname_state *to_state(struct v4l2_subdev *sd)
 }
 
 Use this to go from the v4l2_subdev struct to the i2c_client struct:
-ÀÌ°ÍÀ» »ç¿ëÇÏ¿© v4l2_subdev ±¸Á¶Ã¼¿¡¼­ i2c_client ±¸Á¶Ã¼·Î ÀÌµ¿ÇÕ´Ï´Ù.
+ì´ê²ƒì„ ì‚¬ìš©í•˜ì—¬ v4l2_subdev êµ¬ì¡°ì²´ì—ì„œ i2c_client êµ¬ì¡°ì²´ë¡œ ì´ë™í•©ë‹ˆë‹¤.
 
 	struct i2c_client *client = v4l2_get_subdevdata(sd);
 
 And this to go from an i2c_client to a v4l2_subdev struct:
-±×¸®°í ÀÌ°ÍÀº i2c_client¿¡¼­ v4l2_subdev ±¸Á¶Ã¼·Î ÀÌµ¿ÇÕ´Ï´Ù :
+ê·¸ë¦¬ê³  ì´ê²ƒì€ i2c_clientì—ì„œ v4l2_subdev êµ¬ì¡°ì²´ë¡œ ì´ë™í•©ë‹ˆë‹¤ :
 
 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 
 Make sure to call v4l2_device_unregister_subdev(sd) when the remove() callback
 is called. This will unregister the sub-device from the bridge driver. It is
 safe to call this even if the sub-device was never registered.
-remove () Äİ¹éÀÌ È£Ãâ µÉ ¶§ v4l2_device_unregister_subdev (sd)¸¦ È£ÃâÇØ¾ßÇÕ´Ï´Ù. ±×·¯¸é ºê¸®Áö µå¶óÀÌ¹ö¿¡¼­ ÇÏÀ§ ÀåÄ¡ÀÇ µî·ÏÀÌ Ãë¼ÒµË´Ï´Ù. 
-ÇÏÀ§ ÀåÄ¡°¡ µî·ÏµÇÁö ¾ÊÀº °æ¿ì¿¡µµÀÌ¸¦ È£ÃâÇÏ´Â °ÍÀÌ ¾ÈÀüÇÕ´Ï´Ù.
+remove () ì½œë°±ì´ í˜¸ì¶œ ë  ë•Œ v4l2_device_unregister_subdev (sd)ë¥¼ í˜¸ì¶œí•´ì•¼í•©ë‹ˆë‹¤. ê·¸ëŸ¬ë©´ ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ì—ì„œ í•˜ìœ„ ì¥ì¹˜ì˜ ë“±ë¡ì´ ì·¨ì†Œë©ë‹ˆë‹¤. 
+í•˜ìœ„ ì¥ì¹˜ê°€ ë“±ë¡ë˜ì§€ ì•Šì€ ê²½ìš°ì—ë„ì´ë¥¼ í˜¸ì¶œí•˜ëŠ” ê²ƒì´ ì•ˆì „í•©ë‹ˆë‹¤.
 
 You need to do this because when the bridge driver destroys the i2c adapter
 the remove() callbacks are called of the i2c devices on that adapter.
 After that the corresponding v4l2_subdev structures are invalid, so they
 have to be unregistered first. Calling v4l2_device_unregister_subdev(sd)
 from the remove() callback ensures that this is always done correctly.
-ºê¸®Áö µå¶óÀÌ¹ö°¡ i2c ¾î´ğÅÍ¸¦ ÆÄ±« ÇÒ ¶§ remove () Äİ¹éÀÌ ÇØ´ç ¾î´ğÅÍÀÇ i2c ÀåÄ¡·Î È£ÃâµÇ±â ¶§¹®¿¡ ÀÌ·¸°ÔÇØ¾ßÇÕ´Ï´Ù.
-±×·± ´ÙÀ½ ÇØ´ç v4l2_subdev ±¸Á¶°¡ À¯È¿ÇÏÁö ¾ÊÀ¸¹Ç·Î ¸ÕÀú µî·Ï ÇØÁ¦ÇØ¾ßÇÕ´Ï´Ù. remove () Äİ¹é¿¡¼­ v4l2_device_unregister_subdev (sd)¸¦ È£ÃâÇÏ¸é ÀÌ ÀÛ¾÷ÀÌ Ç×»ó ¿Ã¹Ù¸£°Ô ¼öÇàµË´Ï´Ù.
+ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ê°€ i2c ì–´ëŒ‘í„°ë¥¼ íŒŒê´´ í•  ë•Œ remove () ì½œë°±ì´ í•´ë‹¹ ì–´ëŒ‘í„°ì˜ i2c ì¥ì¹˜ë¡œ í˜¸ì¶œë˜ê¸° ë•Œë¬¸ì— ì´ë ‡ê²Œí•´ì•¼í•©ë‹ˆë‹¤.
+ê·¸ëŸ° ë‹¤ìŒ í•´ë‹¹ v4l2_subdev êµ¬ì¡°ê°€ ìœ íš¨í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ ë¨¼ì € ë“±ë¡ í•´ì œí•´ì•¼í•©ë‹ˆë‹¤. remove () ì½œë°±ì—ì„œ v4l2_device_unregister_subdev (sd)ë¥¼ í˜¸ì¶œí•˜ë©´ ì´ ì‘ì—…ì´ í•­ìƒ ì˜¬ë°”ë¥´ê²Œ ìˆ˜í–‰ë©ë‹ˆë‹¤.
 
 
 The bridge driver also has some helper functions it can use:
-ºê¸®Áö µå¶óÀÌ¹ö¿¡´Â »ç¿ëÇÒ ¼öÀÖ´Â ¸î °¡Áö µµ¿ì¹Ì ±â´ÉÀÌ ÀÖ½À´Ï´Ù.
+ë¸Œë¦¬ì§€ ë“œë¼ì´ë²„ì—ëŠ” ì‚¬ìš©í•  ìˆ˜ìˆëŠ” ëª‡ ê°€ì§€ ë„ìš°ë¯¸ ê¸°ëŠ¥ì´ ìˆìŠµë‹ˆë‹¤.
 
 struct v4l2_subdev *sd = v4l2_i2c_new_subdev(v4l2_dev, adapter,
 	       "module_foo", "chipid", 0x36, NULL);
@@ -717,18 +717,18 @@ struct v4l2_subdev *sd = v4l2_i2c_new_subdev(v4l2_dev, adapter,
 This loads the given module (can be NULL if no module needs to be loaded) and
 calls i2c_new_device() with the given i2c_adapter and chip/address arguments.
 If all goes well, then it registers the subdev with the v4l2_device.
-ÁÖ¾îÁø ¸ğµâÀ»·ÎµåÇÏ°í (¸ğµâÀ»·Îµå ÇÒ ÇÊ¿ä°¡ ¾øÀ¸¸é NULLÀÌ µÉ ¼ö ÀÖÀ½) ÁÖ¾îÁø i2c_adapter ¹× Ä¨ / ÁÖ¼Ò ÀÎ¼ö·Î i2c_new_device ()¸¦ È£ÃâÇÕ´Ï´Ù.
-¸ğµÎ ÀßµÇ¸é, subdev¸¦ v4l2_device¿¡ µî·ÏÇÕ´Ï´Ù.
+ì£¼ì–´ì§„ ëª¨ë“ˆì„ë¡œë“œí•˜ê³  (ëª¨ë“ˆì„ë¡œë“œ í•  í•„ìš”ê°€ ì—†ìœ¼ë©´ NULLì´ ë  ìˆ˜ ìˆìŒ) ì£¼ì–´ì§„ i2c_adapter ë° ì¹© / ì£¼ì†Œ ì¸ìˆ˜ë¡œ i2c_new_device ()ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+ëª¨ë‘ ì˜ë˜ë©´, subdevë¥¼ v4l2_deviceì— ë“±ë¡í•©ë‹ˆë‹¤.
 
 You can also use the last argument of v4l2_i2c_new_subdev() to pass an array
 of possible I2C addresses that it should probe. These probe addresses are
 only used if the previous argument is 0. A non-zero argument means that you
 know the exact i2c address so in that case no probing will take place.
-v4l2_i2c_new_subdev ()ÀÇ ¸¶Áö¸· ÀÎ¼ö¸¦ »ç¿ëÇÏ¿© ÇÁ·ÎºêÇØ¾ßÇÏ´Â °¡´ÉÇÑ I2C ÁÖ¼ÒÀÇ ¹è¿­À» Àü´ŞÇÒ ¼öµµ ÀÖ½À´Ï´Ù. ÀÌ·¯ÇÑ ÇÁ·Îºê ÁÖ¼Ò´Â ÀÌÀü ÀÎ¼ö°¡ 0 ÀÎ °æ¿ì¿¡¸¸ »ç¿ëµË´Ï´Ù. 
-0ÀÌ ¾Æ´Ñ ÀÎ¼ö´Â Á¤È®ÇÑ i2c ÁÖ¼Ò¸¦ ¾Ë°í ÀÖÀ¸¹Ç·ÎÀÌ °æ¿ì ÇÁ·ÎºùÀÌ ¼öÇàµÇÁö ¾Ê½À´Ï´Ù.
+v4l2_i2c_new_subdev ()ì˜ ë§ˆì§€ë§‰ ì¸ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ í”„ë¡œë¸Œí•´ì•¼í•˜ëŠ” ê°€ëŠ¥í•œ I2C ì£¼ì†Œì˜ ë°°ì—´ì„ ì „ë‹¬í•  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤. ì´ëŸ¬í•œ í”„ë¡œë¸Œ ì£¼ì†ŒëŠ” ì´ì „ ì¸ìˆ˜ê°€ 0 ì¸ ê²½ìš°ì—ë§Œ ì‚¬ìš©ë©ë‹ˆë‹¤. 
+0ì´ ì•„ë‹Œ ì¸ìˆ˜ëŠ” ì •í™•í•œ i2c ì£¼ì†Œë¥¼ ì•Œê³  ìˆìœ¼ë¯€ë¡œì´ ê²½ìš° í”„ë¡œë¹™ì´ ìˆ˜í–‰ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 Both functions return NULL if something went wrong.
-¹º°¡ Àß¸øµÇ¾úÀ» °æ¿ì µÎ ÇÔ¼ö ¸ğµÎ NULLÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+ë­”ê°€ ì˜ëª»ë˜ì—ˆì„ ê²½ìš° ë‘ í•¨ìˆ˜ ëª¨ë‘ NULLì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 
 Note that the chipid you pass to v4l2_i2c_new_subdev() is usually
 the same as the module name. It allows you to specify a chip variant, e.g.
@@ -737,18 +737,18 @@ The use of chipid is something that needs to be looked at more closely at a
 later date. It differs between i2c drivers and as such can be confusing.
 To see which chip variants are supported you can look in the i2c driver code
 for the i2c_device_id table. This lists all the possibilities.
-v4l2_i2c_new_subdev ()¿¡ Àü´ŞÇÏ´Â chipid´Â ÀÏ¹İÀûÀ¸·Î ¸ğµâ ÀÌ¸§°ú °°½À´Ï´Ù. Ä¨ º¯ÇüÀ» ÁöÁ¤ÇÒ ¼ö ÀÖ½À´Ï´Ù 
-(¿¹ : "saa7114"¶Ç´Â "saa7115". ÀÏ¹İÀûÀ¸·Î i2c µå¶óÀÌ¹ö°¡ ÀÚµ¿ °¨ÁöÇÕ´Ï´Ù. chipidÀÇ »ç¿ëÀº ³ªÁß¿¡ ´õ ÀÚ¼¼È÷º¸¾Æ¾ß ÇÒ °ÍÀÔ´Ï´Ù. ±×°ÍÀº i2c µå¶óÀÌ¹ö¸¶´Ù ´Ù¸£¹Ç·Î È¥µ¿À» ÁÙ ¼ö ÀÖ½À´Ï´Ù. 
-Áö¿øµÇ´Â Ä¨ º¯ÇüÀ» º¸·Á¸é i2c µå¶óÀÌ¹ö ÄÚµå¿¡¼­ i2c_device_id Å×ÀÌºíÀ» Ã£¾Æ º¼ ¼ö ÀÖ½À´Ï´Ù. ¿©±â¿¡´Â ¸ğµç °¡´É¼ºÀÌ ³ª¿­µÇ¾î ÀÖ½À´Ï´Ù.
+v4l2_i2c_new_subdev ()ì— ì „ë‹¬í•˜ëŠ” chipidëŠ” ì¼ë°˜ì ìœ¼ë¡œ ëª¨ë“ˆ ì´ë¦„ê³¼ ê°™ìŠµë‹ˆë‹¤. ì¹© ë³€í˜•ì„ ì§€ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤ 
+(ì˜ˆ : "saa7114"ë˜ëŠ” "saa7115". ì¼ë°˜ì ìœ¼ë¡œ i2c ë“œë¼ì´ë²„ê°€ ìë™ ê°ì§€í•©ë‹ˆë‹¤. chipidì˜ ì‚¬ìš©ì€ ë‚˜ì¤‘ì— ë” ìì„¸íˆë³´ì•„ì•¼ í•  ê²ƒì…ë‹ˆë‹¤. ê·¸ê²ƒì€ i2c ë“œë¼ì´ë²„ë§ˆë‹¤ ë‹¤ë¥´ë¯€ë¡œ í˜¼ë™ì„ ì¤„ ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì§€ì›ë˜ëŠ” ì¹© ë³€í˜•ì„ ë³´ë ¤ë©´ i2c ë“œë¼ì´ë²„ ì½”ë“œì—ì„œ i2c_device_id í…Œì´ë¸”ì„ ì°¾ì•„ ë³¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì—¬ê¸°ì—ëŠ” ëª¨ë“  ê°€ëŠ¥ì„±ì´ ë‚˜ì—´ë˜ì–´ ìˆìŠµë‹ˆë‹¤.
 
 There are two more helper functions:
-µµ¿ì¹Ì(ÇïÆÛ) ÇÔ¼ö°¡ µÎ °¡Áö ´õ ÀÖ½À´Ï´Ù.
+ë„ìš°ë¯¸(í—¬í¼) í•¨ìˆ˜ê°€ ë‘ ê°€ì§€ ë” ìˆìŠµë‹ˆë‹¤.
 
 v4l2_i2c_new_subdev_cfg: this function adds new irq and platform_data
 arguments and has both 'addr' and 'probed_addrs' arguments: if addr is not
 0 then that will be used (non-probing variant), otherwise the probed_addrs
 are probed.
-v4l2_i2c_new_subdev_cfg :ÀÌ ÇÔ¼ö´Â »õ·Î¿î irq ¹× platform_data ÀÎ¼ö¸¦ Ãß°¡ÇÏ°í 'addr'¹× 'probed_addrs'ÀÎ¼ö¸¦ ¸ğµÎ °®½À´Ï´Ù. addrÀÌ 0ÀÌ ¾Æ´Ñ °æ¿ì (probingÀÌ ¾Æ´Ñ º¯Çü) »ç¿ëµË´Ï´Ù. ±×·¸Áö ¾ÊÀ¸¸é probed_addrs°¡ Á¶»çµË´Ï´Ù.
+v4l2_i2c_new_subdev_cfg :ì´ í•¨ìˆ˜ëŠ” ìƒˆë¡œìš´ irq ë° platform_data ì¸ìˆ˜ë¥¼ ì¶”ê°€í•˜ê³  'addr'ë° 'probed_addrs'ì¸ìˆ˜ë¥¼ ëª¨ë‘ ê°–ìŠµë‹ˆë‹¤. addrì´ 0ì´ ì•„ë‹Œ ê²½ìš° (probingì´ ì•„ë‹Œ ë³€í˜•) ì‚¬ìš©ë©ë‹ˆë‹¤. ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ probed_addrsê°€ ì¡°ì‚¬ë©ë‹ˆë‹¤.
 
 For example: this will probe for address 0x10:
 
@@ -757,13 +757,13 @@ struct v4l2_subdev *sd = v4l2_i2c_new_subdev_cfg(v4l2_dev, adapter,
 
 v4l2_i2c_new_subdev_board uses an i2c_board_info struct which is passed
 to the i2c driver and replaces the irq, platform_data and addr arguments.
-v4l2_i2c_new_subdev_board´Â i2c µå¶óÀÌ¹ö¿¡ Àü´ŞµÇ´Â i2c_board_info ±¸Á¶Ã¼¸¦ »ç¿ëÇÏ°í irq, platform_data ¹× addr ÀÎ¼ö¸¦ ´ëÃ¼ÇÕ´Ï´Ù.
+v4l2_i2c_new_subdev_boardëŠ” i2c ë“œë¼ì´ë²„ì— ì „ë‹¬ë˜ëŠ” i2c_board_info êµ¬ì¡°ì²´ë¥¼ ì‚¬ìš©í•˜ê³  irq, platform_data ë° addr ì¸ìˆ˜ë¥¼ ëŒ€ì²´í•©ë‹ˆë‹¤.
 
 If the subdev supports the s_config core ops, then that op is called with
 the irq and platform_data arguments after the subdev was setup. The older
 v4l2_i2c_new_(probed_)subdev functions will call s_config as well, but with
 irq set to 0 and platform_data set to NULL.
-subdev°¡ s_config core ops¸¦ Áö¿øÇÏ¸é subdev°¡ ¼³Á¤µÈ ÈÄ ÇØ´ç op°¡ irq ¹× platform_data ÀÎ¼ö¿Í ÇÔ²² È£ÃâµË´Ï´Ù. ÀÌÀü ¹öÀüÀÇ v4l2_i2c_new_ (probed_) ÇÏÀ§ ÇÔ¼ö´Â s_configµµ È£ÃâÇÏÁö¸¸ irq´Â 0À¸·Î ¼³Á¤µÇ°í platform_data´Â NULL·Î ¼³Á¤µË´Ï´Ù.
+subdevê°€ s_config core opsë¥¼ ì§€ì›í•˜ë©´ subdevê°€ ì„¤ì •ëœ í›„ í•´ë‹¹ opê°€ irq ë° platform_data ì¸ìˆ˜ì™€ í•¨ê»˜ í˜¸ì¶œë©ë‹ˆë‹¤. ì´ì „ ë²„ì „ì˜ v4l2_i2c_new_ (probed_) í•˜ìœ„ í•¨ìˆ˜ëŠ” s_configë„ í˜¸ì¶œí•˜ì§€ë§Œ irqëŠ” 0ìœ¼ë¡œ ì„¤ì •ë˜ê³  platform_dataëŠ” NULLë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
 
 struct video_device
 -------------------
@@ -771,10 +771,10 @@ struct video_device
 The actual device nodes in the /dev directory are created using the
 video_device struct (v4l2-dev.h). This struct can either be allocated
 dynamically or embedded in a larger struct.
-/ dev µğ·ºÅä¸®ÀÇ ½ÇÁ¦ µğ¹ÙÀÌ½º ³ëµå´Â video_device ±¸Á¶Ã¼ (v4l2-dev.h)¸¦ »ç¿ëÇÏ¿© ÀÛ¼ºµË´Ï´Ù. ÀÌ ±¸Á¶Ã¼´Â µ¿ÀûÀ¸·Î ÇÒ´çµÇ°Å³ª ´õ Å« ±¸Á¶Ã¼¿¡ Æ÷ÇÔµÉ ¼ö ÀÖ½À´Ï´Ù.
+/ dev ë””ë ‰í† ë¦¬ì˜ ì‹¤ì œ ë””ë°”ì´ìŠ¤ ë…¸ë“œëŠ” video_device êµ¬ì¡°ì²´ (v4l2-dev.h)ë¥¼ ì‚¬ìš©í•˜ì—¬ ì‘ì„±ë©ë‹ˆë‹¤. ì´ êµ¬ì¡°ì²´ëŠ” ë™ì ìœ¼ë¡œ í• ë‹¹ë˜ê±°ë‚˜ ë” í° êµ¬ì¡°ì²´ì— í¬í•¨ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 To allocate it dynamically use:
-µ¿ÀûÀ¸·Î ÇÒ´çÇÏ·Á¸é ´ÙÀ½À» »ç¿ëÇÏ½Ê½Ã¿À.
+ë™ì ìœ¼ë¡œ í• ë‹¹í•˜ë ¤ë©´ ë‹¤ìŒì„ ì‚¬ìš©í•˜ì‹­ì‹œì˜¤.
 
 	struct video_device *vdev = video_device_alloc();
 
@@ -785,7 +785,7 @@ To allocate it dynamically use:
 
 If you embed it in a larger struct, then you must set the release()
 callback to your own function:
-´õ Å« ±¸Á¶Ã¼¿¡ ±×°ÍÀ» Æ÷ÇÔÇÏ´Â °æ¿ì release () Äİ¹éÀ» ÀÚ½ÅÀÇ ÇÔ¼ö·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+ë” í° êµ¬ì¡°ì²´ì— ê·¸ê²ƒì„ í¬í•¨í•˜ëŠ” ê²½ìš° release () ì½œë°±ì„ ìì‹ ì˜ í•¨ìˆ˜ë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 	struct video_device *vdev = &my_vdev->vdev;
 
@@ -793,33 +793,33 @@ callback to your own function:
 
 The release callback must be set and it is called when the last user
 of the video device exits.
-ÇØÁ¦ Äİ¹éÀº ¼³Á¤µÇ¾î¾ßÇÏ¸ç ºñµğ¿À ÀåÄ¡ÀÇ ¸¶Áö¸· »ç¿ëÀÚ°¡ Á¾·á µÉ ¶§ È£ÃâµË´Ï´Ù.
+í•´ì œ ì½œë°±ì€ ì„¤ì •ë˜ì–´ì•¼í•˜ë©° ë¹„ë””ì˜¤ ì¥ì¹˜ì˜ ë§ˆì§€ë§‰ ì‚¬ìš©ìê°€ ì¢…ë£Œ ë  ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
 
 The default video_device_release() callback just calls kfree to free the
 allocated memory.
-±âº» video_device_release () Äİ¹éÀº kfree¸¦ È£ÃâÇÏ¿© ÇÒ´ç µÈ ¸Ş¸ğ¸®¸¦ ÇØÁ¦ÇÕ´Ï´Ù.
+ê¸°ë³¸ video_device_release () ì½œë°±ì€ kfreeë¥¼ í˜¸ì¶œí•˜ì—¬ í• ë‹¹ ëœ ë©”ëª¨ë¦¬ë¥¼ í•´ì œí•©ë‹ˆë‹¤.
 
 There is also a video_device_release_empty() function that does nothing
 (is empty) and can be used if the struct is embedded and there is nothing
 to do when it is released.
-¾Æ¹« °ÍµµÇÏÁö ¾Ê´Â (ºñ¾îÀÖ´Â) video_device_release_empty () ÇÔ¼ö°¡ ÀÖÀ¸¸ç ±¸Á¶Ã¼°¡ Æ÷ÇÔµÇ¾î ÀÖ°í ¸±¸®Áî µÉ ¶§ ¾Æ¹« °Íµµ ÇÒ ¼ö¾ø´Â °æ¿ì »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì•„ë¬´ ê²ƒë„í•˜ì§€ ì•ŠëŠ” (ë¹„ì–´ìˆëŠ”) video_device_release_empty () í•¨ìˆ˜ê°€ ìˆìœ¼ë©° êµ¬ì¡°ì²´ê°€ í¬í•¨ë˜ì–´ ìˆê³  ë¦´ë¦¬ì¦ˆ ë  ë•Œ ì•„ë¬´ ê²ƒë„ í•  ìˆ˜ì—†ëŠ” ê²½ìš° ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 You should also set these fields:
-´ÙÀ½ ÇÊµåµµ ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+ë‹¤ìŒ í•„ë“œë„ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 - v4l2_dev: must be set to the v4l2_device parent device.
-- v4l2_dev : v4l2_device »óÀ§ ÀåÄ¡·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+- v4l2_dev : v4l2_device ìƒìœ„ ì¥ì¹˜ë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 - name: set to something descriptive and unique.
-- ÀÌ¸§ : ¼³¸íÀûÀÌ°í °íÀ¯ ÇÑ °ÍÀ¸·Î ¼³Á¤µË´Ï´Ù.
+- ì´ë¦„ : ì„¤ëª…ì ì´ê³  ê³ ìœ  í•œ ê²ƒìœ¼ë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
 
 - vfl_dir: set this to VFL_DIR_RX for capture devices (VFL_DIR_RX has value 0,
   so this is normally already the default), set to VFL_DIR_TX for output
   devices and VFL_DIR_M2M for mem2mem (codec) devices.
-- vfl_dir : Ä¸Ã³ ÀåÄ¡ÀÇ °æ¿ì VFL_DIR_RX·Î ¼³Á¤ÇÕ´Ï´Ù (VFL_DIR_RXÀÇ °ªÀÌ 0ÀÌ¹Ç·Î ÀÏ¹İÀûÀ¸·Î ÀÌ¹Ì ±âº»°ª ÀÓ). Ãâ·Â ÀåÄ¡ÀÇ °æ¿ì VFL_DIR_TX·Î ¼³Á¤µÇ°í mem2mem (ÄÚµ¦) ÀåÄ¡ÀÇ °æ¿ì VFL_DIR_M2MÀ¸·Î ¼³Á¤ÇÕ´Ï´Ù.
+- vfl_dir : ìº¡ì²˜ ì¥ì¹˜ì˜ ê²½ìš° VFL_DIR_RXë¡œ ì„¤ì •í•©ë‹ˆë‹¤ (VFL_DIR_RXì˜ ê°’ì´ 0ì´ë¯€ë¡œ ì¼ë°˜ì ìœ¼ë¡œ ì´ë¯¸ ê¸°ë³¸ê°’ ì„). ì¶œë ¥ ì¥ì¹˜ì˜ ê²½ìš° VFL_DIR_TXë¡œ ì„¤ì •ë˜ê³  mem2mem (ì½”ë±) ì¥ì¹˜ì˜ ê²½ìš° VFL_DIR_M2Mìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
 
 - fops: set to the v4l2_file_operations struct.
-- fops : v4l2_file_operations ±¸Á¶Ã¼·Î ¼³Á¤ÇÕ´Ï´Ù.
+- fops : v4l2_file_operations êµ¬ì¡°ì²´ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
 
 - ioctl_ops: if you use the v4l2_ioctl_ops to simplify ioctl maintenance
   (highly recommended to use this and it might become compulsory in the
@@ -828,16 +828,16 @@ You should also set these fields:
   combination. E.g. VBI ops are disabled for non-VBI nodes, and output ops
   are disabled for a capture device. This makes it possible to provide
   just one v4l2_ioctl_ops struct for both vbi and video nodes.
-- ioctl_ops : v4l2_ioctl_ops¸¦ »ç¿ëÇÏ¿© ioctl À¯Áö °ü¸®¸¦ °£¼ÒÈ­ÇÏ¸é (ÀÌ ±â´ÉÀ» »ç¿ëÇÏ´Â °ÍÀÌ ÁÁÀ¸¸ç ³ªÁß¿¡ ÇÊ¼ö°¡ µÉ ¼öµµ ÀÖ½À´Ï´Ù!),ÀÌ °ªÀ» v4l2_ioctl_ops ±¸Á¶Ã¼·Î ¼³Á¤ÇÏ½Ê½Ã¿À. 
-vfl_type ¹× vfl_dir ÇÊµå´Â À¯Çü / µğ·ºÅä¸® Á¶ÇÕ°ú ÀÏÄ¡ÇÏÁö ¾Ê´Â ÀÛ¾÷À» ºñÈ°¼ºÈ­ÇÏ´Â µ¥ »ç¿ëµË´Ï´Ù. ¿¹ : VBI ³ëµå´Â VBI°¡ ¾Æ´Ñ ³ëµå¿¡¼­´Â »ç¿ëÇÒ ¼ö ¾øÀ¸¸ç Ä¸Ã³ ÀåÄ¡¿¡¼­´Â Ãâ·Â ÀÛ¾÷ÀÌ ºñÈ°¼ºÈ­µË´Ï´Ù. 
-ÀÌ¸¦ ÅëÇØ vbi ¹× ºñµğ¿À ³ëµå ¸ğµÎ¿¡ ÇÏ³ªÀÇ v4l2_ioctl_ops ±¸Á¶Ã¼ ¸¸ Á¦°ø ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+- ioctl_ops : v4l2_ioctl_opsë¥¼ ì‚¬ìš©í•˜ì—¬ ioctl ìœ ì§€ ê´€ë¦¬ë¥¼ ê°„ì†Œí™”í•˜ë©´ (ì´ ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ìœ¼ë©° ë‚˜ì¤‘ì— í•„ìˆ˜ê°€ ë  ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤!),ì´ ê°’ì„ v4l2_ioctl_ops êµ¬ì¡°ì²´ë¡œ ì„¤ì •í•˜ì‹­ì‹œì˜¤. 
+vfl_type ë° vfl_dir í•„ë“œëŠ” ìœ í˜• / ë””ë ‰í† ë¦¬ ì¡°í•©ê³¼ ì¼ì¹˜í•˜ì§€ ì•ŠëŠ” ì‘ì—…ì„ ë¹„í™œì„±í™”í•˜ëŠ” ë° ì‚¬ìš©ë©ë‹ˆë‹¤. ì˜ˆ : VBI ë…¸ë“œëŠ” VBIê°€ ì•„ë‹Œ ë…¸ë“œì—ì„œëŠ” ì‚¬ìš©í•  ìˆ˜ ì—†ìœ¼ë©° ìº¡ì²˜ ì¥ì¹˜ì—ì„œëŠ” ì¶œë ¥ ì‘ì—…ì´ ë¹„í™œì„±í™”ë©ë‹ˆë‹¤. 
+ì´ë¥¼ í†µí•´ vbi ë° ë¹„ë””ì˜¤ ë…¸ë“œ ëª¨ë‘ì— í•˜ë‚˜ì˜ v4l2_ioctl_ops êµ¬ì¡°ì²´ ë§Œ ì œê³µ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 - lock: leave to NULL if you want to do all the locking in the driver.
   Otherwise you give it a pointer to a struct mutex_lock and before the
   unlocked_ioctl file operation is called this lock will be taken by the
   core and released afterwards. See the next section for more details.
-- lock : µå¶óÀÌ¹ö¿¡¼­ ¸ğµç Àá±İÀ» ¿øÇÒ °æ¿ì NULL·Î ³²°Ü µÓ´Ï´Ù.
-??±×·¸Áö ¾ÊÀ¸¸é struct mutex_lock¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ÁÖ°í locked_ioctl ÆÄÀÏ ¿¬»êÀÌ È£ÃâµÇ±â Àü¿¡ÀÌ Àá±İÀº ÄÚ¾î¿¡ ÀÇÇØ ÃëÇØÁö°í ³ªÁß¿¡ ÇØÁ¦µÈ´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¼½¼ÇÀ» ÂüÁ¶ÇÏ½Ê½Ã¿À.
+- lock : ë“œë¼ì´ë²„ì—ì„œ ëª¨ë“  ì ê¸ˆì„ ì›í•  ê²½ìš° NULLë¡œ ë‚¨ê²¨ ë‘¡ë‹ˆë‹¤.
+??ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ struct mutex_lockì— ëŒ€í•œ í¬ì¸í„°ë¥¼ì£¼ê³  locked_ioctl íŒŒì¼ ì—°ì‚°ì´ í˜¸ì¶œë˜ê¸° ì „ì—ì´ ì ê¸ˆì€ ì½”ì–´ì— ì˜í•´ ì·¨í•´ì§€ê³  ë‚˜ì¤‘ì— í•´ì œëœë‹¤. ìì„¸í•œ ë‚´ìš©ì€ ë‹¤ìŒ ì„¹ì…˜ì„ ì°¸ì¡°í•˜ì‹­ì‹œì˜¤.
 
 - queue: a pointer to the struct vb2_queue associated with this device node.
   If queue is non-NULL, and queue->lock is non-NULL, then queue->lock is
@@ -847,22 +847,22 @@ vfl_type ¹× vfl_dir ÇÊµå´Â À¯Çü / µğ·ºÅä¸® Á¶ÇÕ°ú ÀÏÄ¡ÇÏÁö ¾Ê´Â ÀÛ¾÷À» ºñÈ°¼ºÈ­Ç
   This queue pointer is also used by the vb2 helper functions to check for
   queuing ownership (i.e. is the filehandle calling it allowed to do the
   operation).
-- Å¥ :ÀÌ ÀåÄ¡ ³ëµå¿Í °ü·ÃµÈ ±¸Á¶Ã¼ vb2_queue¿¡ ´ëÇÑ Æ÷ÀÎÅÍ. Å¥ queue°¡ non-NULLÀÌ°í queue-> lockÀÌ NULLÀÌ ¾Æ´Ñ °æ¿ì queue-> lockÀº »ó±â Àá±İ ´ë½Å¿¡ queuing ioctls 
-(VIDIOC_REQBUFS, CREATE_BUFS, QBUF, DQBUF, QUERYBUF, PREPARE_BUF, STREAMON ¹× STREAMOFF)¸¦ »ç¿ëÇÏ½Ê½Ã¿À. ±×·¸°ÔÇÏ¸é vb2 queuing ÇÁ·¹ÀÓ ¿öÅ©´Â ´Ù¸¥ ioctlÀ» ±â´Ù¸± ÇÊ¿ä°¡ ¾ø½À´Ï´Ù. 
-ÀÌ Å¥ Æ÷ÀÎÅÍ´Â vb2 µµ¿ì¹Ì ÇÔ¼ö¿¡ ÀÇÇØ ¼ÒÀ¯±ÇÀ» ´ë±â¿­¿¡ ³ÖÀ½ (queuing ownership, Áï ±× µ¿ÀÛÀ» Çã¿ëÇÏ´Â ÆÄÀÏÇÚµé È£ÃâÀÓ)À» À§ÇÑ È®ÀÎÀ» ÇÏ±â À§ÇØ »ç¿ëµÈ´Ù.
+- í :ì´ ì¥ì¹˜ ë…¸ë“œì™€ ê´€ë ¨ëœ êµ¬ì¡°ì²´ vb2_queueì— ëŒ€í•œ í¬ì¸í„°. í queueê°€ non-NULLì´ê³  queue-> lockì´ NULLì´ ì•„ë‹Œ ê²½ìš° queue-> lockì€ ìƒê¸° ì ê¸ˆ ëŒ€ì‹ ì— queuing ioctls 
+(VIDIOC_REQBUFS, CREATE_BUFS, QBUF, DQBUF, QUERYBUF, PREPARE_BUF, STREAMON ë° STREAMOFF)ë¥¼ ì‚¬ìš©í•˜ì‹­ì‹œì˜¤. ê·¸ë ‡ê²Œí•˜ë©´ vb2 queuing í”„ë ˆì„ ì›Œí¬ëŠ” ë‹¤ë¥¸ ioctlì„ ê¸°ë‹¤ë¦´ í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤. 
+ì´ í í¬ì¸í„°ëŠ” vb2 ë„ìš°ë¯¸ í•¨ìˆ˜ì— ì˜í•´ ì†Œìœ ê¶Œì„ ëŒ€ê¸°ì—´ì— ë„£ìŒ (queuing ownership, ì¦‰ ê·¸ ë™ì‘ì„ í—ˆìš©í•˜ëŠ” íŒŒì¼í•¸ë“¤ í˜¸ì¶œì„)ì„ ìœ„í•œ í™•ì¸ì„ í•˜ê¸° ìœ„í•´ ì‚¬ìš©ëœë‹¤.
 
 - prio: keeps track of the priorities. Used to implement VIDIOC_G/S_PRIORITY.
   If left to NULL, then it will use the struct v4l2_prio_state in v4l2_device.
   If you want to have a separate priority state per (group of) device node(s),
   then you can point it to your own struct v4l2_prio_state.
-- prio : ¿ì¼± ¼øÀ§¸¦ ÃßÀûÇÕ´Ï´Ù. VIDIOC_G / S_PRIORITY¸¦ ±¸ÇöÇÏ´Â µ¥ »ç¿ëµË´Ï´Ù.
-?? NULL·Î ³²°ÜµÎ¸é v4l2_device¿¡¼­ struct v4l2_prio_state°¡ »ç¿ëµË´Ï´Ù.
-?? ÀåÄ¡ ³ëµå (±×·ì)º°·Î º°µµÀÇ ¿ì¼± ¼øÀ§ »óÅÂ¸¦ ¿øÇÒ °æ¿ì ÀÚ½ÅÀÇ struct v4l2_prio_state¸¦ °¡¸®Å³ ¼ö ÀÖ½À´Ï´Ù.
+- prio : ìš°ì„  ìˆœìœ„ë¥¼ ì¶”ì í•©ë‹ˆë‹¤. VIDIOC_G / S_PRIORITYë¥¼ êµ¬í˜„í•˜ëŠ” ë° ì‚¬ìš©ë©ë‹ˆë‹¤.
+?? NULLë¡œ ë‚¨ê²¨ë‘ë©´ v4l2_deviceì—ì„œ struct v4l2_prio_stateê°€ ì‚¬ìš©ë©ë‹ˆë‹¤.
+?? ì¥ì¹˜ ë…¸ë“œ (ê·¸ë£¹)ë³„ë¡œ ë³„ë„ì˜ ìš°ì„  ìˆœìœ„ ìƒíƒœë¥¼ ì›í•  ê²½ìš° ìì‹ ì˜ struct v4l2_prio_stateë¥¼ ê°€ë¦¬í‚¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 - dev_parent: you only set this if v4l2_device was registered with NULL as
   the parent device struct. This only happens in cases where one hardware
   device has multiple PCI devices that all share the same v4l2_device core.
-- dev_parent : v4l2_device°¡ ºÎ¸ğ ÀåÄ¡ ±¸Á¶Ã¼·Î NULL·Î µî·Ï µÈ °æ¿ì¿¡¸¸ ¼³Á¤ÇÕ´Ï´Ù. ÀÌ´Â ÇÏ³ªÀÇ ÇÏµå¿ş¾î ÀåÄ¡¿¡ ¸ğµÎ µ¿ÀÏÇÑ v4l2_device ÄÚ¾î¸¦ °øÀ¯ÇÏ´Â ¿©·¯ PCI ÀåÄ¡°¡ÀÖ´Â °æ¿ì¿¡¸¸ ¹ß»ıÇÕ´Ï´Ù.
+- dev_parent : v4l2_deviceê°€ ë¶€ëª¨ ì¥ì¹˜ êµ¬ì¡°ì²´ë¡œ NULLë¡œ ë“±ë¡ ëœ ê²½ìš°ì—ë§Œ ì„¤ì •í•©ë‹ˆë‹¤. ì´ëŠ” í•˜ë‚˜ì˜ í•˜ë“œì›¨ì–´ ì¥ì¹˜ì— ëª¨ë‘ ë™ì¼í•œ v4l2_device ì½”ì–´ë¥¼ ê³µìœ í•˜ëŠ” ì—¬ëŸ¬ PCI ì¥ì¹˜ê°€ìˆëŠ” ê²½ìš°ì—ë§Œ ë°œìƒí•©ë‹ˆë‹¤.
 
   The cx88 driver is an example of this: one core v4l2_device struct, but
   it is used by both a raw video PCI device (cx8800) and a MPEG PCI device
@@ -870,36 +870,36 @@ vfl_type ¹× vfl_dir ÇÊµå´Â À¯Çü / µğ·ºÅä¸® Á¶ÇÕ°ú ÀÏÄ¡ÇÏÁö ¾Ê´Â ÀÛ¾÷À» ºñÈ°¼ºÈ­Ç
   at the same time it is setup without a parent device. But when the struct
   video_device is initialized you *do* know which parent PCI device to use and
   so you set dev_device to the correct PCI device.
-cx88 µå¶óÀÌ¹ö´Â ÇÏ³ªÀÇ ÄÚ¾î v4l2_device ±¸Á¶Ã¼ÀÌÁö¸¸ÀÌ¸¦ ¿ø½Ã ºñµğ¿À PCI ÀåÄ¡ (cx8800)¿Í MPEG PCI ÀåÄ¡ (cx8802)¿¡¼­ ¸ğµÎ »ç¿ëÇÕ´Ï´Ù. 
-v4l2_device´Â µÎ °³ÀÇ PCI ÀåÄ¡¿Í µ¿½Ã¿¡ ¿¬°áÇÒ ¼ö ¾øÀ¸¹Ç·Î »óÀ§ ÀåÄ¡¾øÀÌ ¼³Ä¡µË´Ï´Ù. ±×·¯³ª struct video_device°¡ ÃÊ±âÈ­ µÉ ¶§ »ç¿ëÇÒ ºÎ¸ğ PCI ÀåÄ¡¸¦ ¾Ë±â ¶§¹®¿¡ dev_device¸¦ ¿Ã¹Ù¸¥ PCI ÀåÄ¡·Î ¼³Á¤ÇÏ½Ê½Ã¿À.
+cx88 ë“œë¼ì´ë²„ëŠ” í•˜ë‚˜ì˜ ì½”ì–´ v4l2_device êµ¬ì¡°ì²´ì´ì§€ë§Œì´ë¥¼ ì›ì‹œ ë¹„ë””ì˜¤ PCI ì¥ì¹˜ (cx8800)ì™€ MPEG PCI ì¥ì¹˜ (cx8802)ì—ì„œ ëª¨ë‘ ì‚¬ìš©í•©ë‹ˆë‹¤. 
+v4l2_deviceëŠ” ë‘ ê°œì˜ PCI ì¥ì¹˜ì™€ ë™ì‹œì— ì—°ê²°í•  ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ìƒìœ„ ì¥ì¹˜ì—†ì´ ì„¤ì¹˜ë©ë‹ˆë‹¤. ê·¸ëŸ¬ë‚˜ struct video_deviceê°€ ì´ˆê¸°í™” ë  ë•Œ ì‚¬ìš©í•  ë¶€ëª¨ PCI ì¥ì¹˜ë¥¼ ì•Œê¸° ë•Œë¬¸ì— dev_deviceë¥¼ ì˜¬ë°”ë¥¸ PCI ì¥ì¹˜ë¡œ ì„¤ì •í•˜ì‹­ì‹œì˜¤.
 
 If you use v4l2_ioctl_ops, then you should set .unlocked_ioctl to video_ioctl2
 in your v4l2_file_operations struct.
-v4l2_ioctl_ops¸¦ »ç¿ëÇÏ´Â °æ¿ì v4l2_file_operations ±¸Á¶Ã¼¿¡¼­ .unlocked_ioctlÀ» video_ioctl2·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
+v4l2_ioctl_opsë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš° v4l2_file_operations êµ¬ì¡°ì²´ì—ì„œ .unlocked_ioctlì„ video_ioctl2ë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
 
 Do not use .ioctl! This is deprecated and will go away in the future.
-.ioctlÀ» »ç¿ëÇÏÁö ¸¶½Ê½Ã¿À! ÀÌ°ÍÀº ´õ ÀÌ»ó »ç¿ëµÇÁö ¾ÊÀ¸¸ç ¾ÕÀ¸·Î »ç¶óÁú °ÍÀÔ´Ï´Ù.
+.ioctlì„ ì‚¬ìš©í•˜ì§€ ë§ˆì‹­ì‹œì˜¤! ì´ê²ƒì€ ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•Šìœ¼ë©° ì•ìœ¼ë¡œ ì‚¬ë¼ì§ˆ ê²ƒì…ë‹ˆë‹¤.
 
 In some cases you want to tell the core that a function you had specified in
 your v4l2_ioctl_ops should be ignored. You can mark such ioctls by calling this
 function before video_device_register is called:
-¾î¶² °æ¿ì¿¡´Â v4l2_ioctl_ops¿¡¼­ ÁöÁ¤ÇÑ ±â´ÉÀÌ ¹«½ÃµÇ¾î¾ßÇÑ´Ù´Â »ç½ÇÀ» ÄÚ¾î¿¡ ¾Ë¸®°í ½ÍÀ» ¼öµµ ÀÖ½À´Ï´Ù. video_device_register°¡ È£ÃâµÇ±â Àü¿¡ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ÀÌ·¯ÇÑ ioctlÀ» Ç¥½Ã ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì–´ë–¤ ê²½ìš°ì—ëŠ” v4l2_ioctl_opsì—ì„œ ì§€ì •í•œ ê¸°ëŠ¥ì´ ë¬´ì‹œë˜ì–´ì•¼í•œë‹¤ëŠ” ì‚¬ì‹¤ì„ ì½”ì–´ì— ì•Œë¦¬ê³  ì‹¶ì„ ìˆ˜ë„ ìˆìŠµë‹ˆë‹¤. video_device_registerê°€ í˜¸ì¶œë˜ê¸° ì „ì—ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ëŸ¬í•œ ioctlì„ í‘œì‹œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 void v4l2_disable_ioctl(struct video_device *vdev, unsigned int cmd);
 
 This tends to be needed if based on external factors (e.g. which card is
 being used) you want to turns off certain features in v4l2_ioctl_ops without
 having to make a new struct.
-ÀÌ°ÍÀº »õ·Î¿î ±¸Á¶Ã¼¸¦ ¸¸µéÁö ¾Ê°íµµ v4l2_ioctl_ops¿¡¼­ Æ¯Á¤ ±â´ÉÀ» ÇØÁ¦ÇÏ·Á´Â ¿ÜºÎ ¿äÀÎ (¿¹ : ¾î¶² Ä«µå°¡ »ç¿ë ÁßÀÎÁö)À» ±â¹İÀ¸·ÎÇÏ´Â °æ¿ì¿¡ ÇÊ¿äÇÕ´Ï´Ù.
+ì´ê²ƒì€ ìƒˆë¡œìš´ êµ¬ì¡°ì²´ë¥¼ ë§Œë“¤ì§€ ì•Šê³ ë„ v4l2_ioctl_opsì—ì„œ íŠ¹ì • ê¸°ëŠ¥ì„ í•´ì œí•˜ë ¤ëŠ” ì™¸ë¶€ ìš”ì¸ (ì˜ˆ : ì–´ë–¤ ì¹´ë“œê°€ ì‚¬ìš© ì¤‘ì¸ì§€)ì„ ê¸°ë°˜ìœ¼ë¡œí•˜ëŠ” ê²½ìš°ì— í•„ìš”í•©ë‹ˆë‹¤.
 
 The v4l2_file_operations struct is a subset of file_operations. The main
 difference is that the inode argument is omitted since it is never used.
-v4l2_file_operations ±¸Á¶Ã¼´Â file_operationsÀÇ ÇÏÀ§ ÁıÇÕÀÔ´Ï´Ù. °¡Àå Å« Â÷ÀÌÁ¡Àº inode ÀÎ¼ö´Â »ç¿ëµÇÁö ¾ÊÀ¸¹Ç·Î »ı·«µÈ´Ù´Â °ÍÀÔ´Ï´Ù.
+v4l2_file_operations êµ¬ì¡°ì²´ëŠ” file_operationsì˜ í•˜ìœ„ ì§‘í•©ì…ë‹ˆë‹¤. ê°€ì¥ í° ì°¨ì´ì ì€ inode ì¸ìˆ˜ëŠ” ì‚¬ìš©ë˜ì§€ ì•Šìœ¼ë¯€ë¡œ ìƒëµëœë‹¤ëŠ” ê²ƒì…ë‹ˆë‹¤.
 
 If integration with the media framework is needed, you must initialize the
 media_entity struct embedded in the video_device struct (entity field) by
 calling media_entity_init():
-¹Ìµğ¾î ÇÁ·¹ÀÓ ¿öÅ©¿ÍÀÇ ÅëÇÕÀÌ ÇÊ¿äÇÑ °æ¿ì media_entity_init ()¸¦ È£ÃâÇÏ¿© video_device ±¸Á¶Ã¼ (¿£ÅÍÆ¼ ÇÊµå)¿¡ Æ÷ÇÔ µÈ media_entity struct¸¦ ÃÊ±âÈ­ÇØ¾ßÇÕ´Ï´Ù.
+ë¯¸ë””ì–´ í”„ë ˆì„ ì›Œí¬ì™€ì˜ í†µí•©ì´ í•„ìš”í•œ ê²½ìš° media_entity_init ()ë¥¼ í˜¸ì¶œí•˜ì—¬ video_device êµ¬ì¡°ì²´ (ì—”í„°í‹° í•„ë“œ)ì— í¬í•¨ ëœ media_entity structë¥¼ ì´ˆê¸°í™”í•´ì•¼í•©ë‹ˆë‹¤.
 
 	struct media_pad *pad = &my_vdev->pad;
 	int err;
@@ -908,11 +908,11 @@ calling media_entity_init():
 
 The pads array must have been previously initialized. There is no need to
 manually set the struct media_entity type and name fields.
-ÆĞµå ¹è¿­Àº ÀÌÀü¿¡ ÃÊ±âÈ­µÇ¾î ÀÖ¾î¾ßÇÕ´Ï´Ù. struct media_entity À¯Çü ¹× ÀÌ¸§ ÇÊµå¸¦ ¼öµ¿À¸·Î ¼³Á¤ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù.
+íŒ¨ë“œ ë°°ì—´ì€ ì´ì „ì— ì´ˆê¸°í™”ë˜ì–´ ìˆì–´ì•¼í•©ë‹ˆë‹¤. struct media_entity ìœ í˜• ë° ì´ë¦„ í•„ë“œë¥¼ ìˆ˜ë™ìœ¼ë¡œ ì„¤ì •í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤.
 
 A reference to the entity will be automatically acquired/released when the
 video device is opened/closed.
-¿£Æ¼Æ¼¿¡ ´ëÇÑ ÂüÁ¶´Â ºñµğ¿À ÀåÄ¡°¡ ¿­¸®°Å³ª ´İÈú ¶§ ÀÚµ¿À¸·Î È¹µæ / ÇØÁ¦µË´Ï´Ù.
+ì—”í‹°í‹°ì— ëŒ€í•œ ì°¸ì¡°ëŠ” ë¹„ë””ì˜¤ ì¥ì¹˜ê°€ ì—´ë¦¬ê±°ë‚˜ ë‹«í ë•Œ ìë™ìœ¼ë¡œ íšë“ / í•´ì œë©ë‹ˆë‹¤.
 
 ioctls and locking
 ------------------
@@ -920,26 +920,26 @@ ioctls and locking
 The V4L core provides optional locking services. The main service is the
 lock field in struct video_device, which is a pointer to a mutex. If you set
 this pointer, then that will be used by unlocked_ioctl to serialize all ioctls.
-V4L ÄÚ¾î´Â ¼±ÅÃÀû Àá±İ ¼­ºñ½º¸¦ Á¦°øÇÕ´Ï´Ù. ÁÖ ¼­ºñ½º´Â mutex¿¡ ´ëÇÑ Æ÷ÀÎÅÍ ÀÎ struct video_deviceÀÇ Àá±İ ÇÊµåÀÔ´Ï´Ù. ÀÌ Æ÷ÀÎÅÍ¸¦ ¼³Á¤ÇÏ¸é unlocked_ioctlÀÌÀÌ¸¦ »ç¿ëÇÏ¿© ¸ğµç ioctlÀ» Á÷·ÄÈ­ÇÕ´Ï´Ù.
+V4L ì½”ì–´ëŠ” ì„ íƒì  ì ê¸ˆ ì„œë¹„ìŠ¤ë¥¼ ì œê³µí•©ë‹ˆë‹¤. ì£¼ ì„œë¹„ìŠ¤ëŠ” mutexì— ëŒ€í•œ í¬ì¸í„° ì¸ struct video_deviceì˜ ì ê¸ˆ í•„ë“œì…ë‹ˆë‹¤. ì´ í¬ì¸í„°ë¥¼ ì„¤ì •í•˜ë©´ unlocked_ioctlì´ì´ë¥¼ ì‚¬ìš©í•˜ì—¬ ëª¨ë“  ioctlì„ ì§ë ¬í™”í•©ë‹ˆë‹¤.
 
 If you are using the videobuf2 framework, then there is a second lock that you
 can set: video_device->queue->lock. If set, then this lock will be used instead
 of video_device->lock to serialize all queuing ioctls (see the previous section
 for the full list of those ioctls).
-videobuf2 ÇÁ·¹ÀÓ ¿öÅ©¸¦ »ç¿ëÇÏ°í ÀÖ´Ù¸é ¼³Á¤ÇÒ ¼öÀÖ´Â µÎ ¹øÂ° Àá±İ ÀåÄ¡°¡ ÀÖ½À´Ï´Ù : video_device-> queue-> lock. ¼³Á¤µÈ °æ¿ì,ÀÌ Àá±İÀº video_device-> lock ´ë½Å¿¡ »ç¿ëµÇ¾î ¸ğµç ´ë±â¿­ ioctlÀ» Á÷·ÄÈ­ÇÕ´Ï´Ù 
-(ÀÌÀü Àı¿¡¼­´Â ÇØ´ç ioctlÀÇ ÀüÃ¼ ¸ñ·ÏÀ» ÂüÁ¶ÇÏ½Ê½Ã¿À).
+videobuf2 í”„ë ˆì„ ì›Œí¬ë¥¼ ì‚¬ìš©í•˜ê³  ìˆë‹¤ë©´ ì„¤ì •í•  ìˆ˜ìˆëŠ” ë‘ ë²ˆì§¸ ì ê¸ˆ ì¥ì¹˜ê°€ ìˆìŠµë‹ˆë‹¤ : video_device-> queue-> lock. ì„¤ì •ëœ ê²½ìš°,ì´ ì ê¸ˆì€ video_device-> lock ëŒ€ì‹ ì— ì‚¬ìš©ë˜ì–´ ëª¨ë“  ëŒ€ê¸°ì—´ ioctlì„ ì§ë ¬í™”í•©ë‹ˆë‹¤ 
+(ì´ì „ ì ˆì—ì„œëŠ” í•´ë‹¹ ioctlì˜ ì „ì²´ ëª©ë¡ì„ ì°¸ì¡°í•˜ì‹­ì‹œì˜¤).
 
 The advantage of using a different lock for the queuing ioctls is that for some
 drivers (particularly USB drivers) certain commands such as setting controls
 can take a long time, so you want to use a separate lock for the buffer queuing
 ioctls. That way your VIDIOC_DQBUF doesn't stall because the driver is busy
 changing the e.g. exposure of the webcam.
-´ë±â¿­ ioctls¿¡ ´Ù¸¥ Àá±İÀ» »ç¿ëÇÏ´Â ÀÌÁ¡Àº ¾î¶² µå¶óÀÌ¹ö (Æ¯È÷ USB µå¶óÀÌ¹ö)¿¡°Ô´Â Á¦¾î ¼³Á¤°ú °°Àº Æ¯Á¤ ¸í·É¿¡ ½Ã°£ÀÌ ¿À·¡ °É¸± ¼ö ÀÖÀ¸¹Ç·Î ¹öÆÛ ´ë±â¿­ ioctls¿¡ º°µµÀÇ Àá±İÀ» »ç¿ëÇÏ·Á°íÇÕ´Ï´Ù. 
-±×·± ¹æ½ÄÀ¸·Î VIDIOC_DQBUF°¡ À¥Ä· ³ëÃâ Ã³·³ ¹Ù»Ú°Ô º¯È­ÇÏ±â ¶§¹®¿¡ Áö¿¬µÇÁö ¾Ê´Â´Ù.
+ëŒ€ê¸°ì—´ ioctlsì— ë‹¤ë¥¸ ì ê¸ˆì„ ì‚¬ìš©í•˜ëŠ” ì´ì ì€ ì–´ë–¤ ë“œë¼ì´ë²„ (íŠ¹íˆ USB ë“œë¼ì´ë²„)ì—ê²ŒëŠ” ì œì–´ ì„¤ì •ê³¼ ê°™ì€ íŠ¹ì • ëª…ë ¹ì— ì‹œê°„ì´ ì˜¤ë˜ ê±¸ë¦´ ìˆ˜ ìˆìœ¼ë¯€ë¡œ ë²„í¼ ëŒ€ê¸°ì—´ ioctlsì— ë³„ë„ì˜ ì ê¸ˆì„ ì‚¬ìš©í•˜ë ¤ê³ í•©ë‹ˆë‹¤. 
+ê·¸ëŸ° ë°©ì‹ìœ¼ë¡œ VIDIOC_DQBUFê°€ ì›¹ìº  ë…¸ì¶œ ì²˜ëŸ¼ ë°”ì˜ê²Œ ë³€í™”í•˜ê¸° ë•Œë¬¸ì— ì§€ì—°ë˜ì§€ ì•ŠëŠ”ë‹¤.
 
 Of course, you can always do all the locking yourself by leaving both lock
 pointers at NULL.
-¹°·Ğ ¾çÂÊ Àá±İ Æ÷ÀÎÅÍ¸¦ NULL·ÎµÎ¸é Ç×»ó ¸ğµç Àá±İÀ» ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ë¬¼ë¡  ì–‘ìª½ ì ê¸ˆ í¬ì¸í„°ë¥¼ NULLë¡œë‘ë©´ í•­ìƒ ëª¨ë“  ì ê¸ˆì„ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 If you use the old videobuf then you must pass the video_device lock to the
 videobuf queue initialize function: if videobuf has to wait for a frame to
@@ -947,29 +947,29 @@ arrive, then it will temporarily unlock the lock and relock it afterwards. If
 your driver also waits in the code, then you should do the same to allow other
 processes to access the device node while the first process is waiting for
 something.
-ÀÌÀü videobuf¸¦ »ç¿ëÇÏ´Â °æ¿ì video_device Àá±İÀ» videobuf ´ë±â¿­ ÃÊ±âÈ­ ÇÔ¼ö¿¡ Àü´ŞÇØ¾ßÇÕ´Ï´Ù. videobuf°¡ ÇÁ·¹ÀÓÀÌ µµÂøÇÏ±â¸¦ ±â´Ù·Á¾ßÇÏ´Â °æ¿ì ÀÏ½ÃÀûÀ¸·Î Àá±İÀ» ÇØÁ¦ÇÏ°í ´Ù½Ã Àá±İÀ» ÇØÁ¦ÇÕ´Ï´Ù. 
-µå¶óÀÌ¹ö°¡ ÄÚµå¸¦ ±â´Ù¸®´Â °æ¿ì Ã¹ ¹øÂ° ÇÁ·Î¼¼½º°¡ ¹«¾ğ°¡¸¦ ±â´Ù¸®´Â µ¿¾È ´Ù¸¥ ÇÁ·Î¼¼½º°¡ ÀåÄ¡ ³ëµå¿¡ ¾×¼¼½º ÇÒ ¼ö ÀÖµµ·Ï µ¿ÀÏÇÑ ÀÛ¾÷À» ¼öÇàÇØ¾ßÇÕ´Ï´Ù.
+ì´ì „ videobufë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš° video_device ì ê¸ˆì„ videobuf ëŒ€ê¸°ì—´ ì´ˆê¸°í™” í•¨ìˆ˜ì— ì „ë‹¬í•´ì•¼í•©ë‹ˆë‹¤. videobufê°€ í”„ë ˆì„ì´ ë„ì°©í•˜ê¸°ë¥¼ ê¸°ë‹¤ë ¤ì•¼í•˜ëŠ” ê²½ìš° ì¼ì‹œì ìœ¼ë¡œ ì ê¸ˆì„ í•´ì œí•˜ê³  ë‹¤ì‹œ ì ê¸ˆì„ í•´ì œí•©ë‹ˆë‹¤. 
+ë“œë¼ì´ë²„ê°€ ì½”ë“œë¥¼ ê¸°ë‹¤ë¦¬ëŠ” ê²½ìš° ì²« ë²ˆì§¸ í”„ë¡œì„¸ìŠ¤ê°€ ë¬´ì–¸ê°€ë¥¼ ê¸°ë‹¤ë¦¬ëŠ” ë™ì•ˆ ë‹¤ë¥¸ í”„ë¡œì„¸ìŠ¤ê°€ ì¥ì¹˜ ë…¸ë“œì— ì•¡ì„¸ìŠ¤ í•  ìˆ˜ ìˆë„ë¡ ë™ì¼í•œ ì‘ì—…ì„ ìˆ˜í–‰í•´ì•¼í•©ë‹ˆë‹¤.
 
 In the case of videobuf2 you will need to implement the wait_prepare and
 wait_finish callbacks to unlock/lock if applicable. If you use the queue->lock
 pointer, then you can use the helper functions vb2_ops_wait_prepare/finish.
-videobuf2ÀÇ °æ¿ì¿¡´Â Àû¿ë °¡´ÉÇÑ °æ¿ì Àá±İ ÇØÁ¦ / Àá ±×±â À§ÇØ wait_prepare ¹× wait_finish Äİ¹éÀ» ±¸ÇöÇØ¾ßÇÕ´Ï´Ù. ´ë±â¿­ -> Àá±İ Æ÷ÀÎÅÍ¸¦ »ç¿ëÇÏ´Â °æ¿ì vb2_ops_wait_prepare / finish µµ¿ì¹Ì ÇÔ¼ö¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+videobuf2ì˜ ê²½ìš°ì—ëŠ” ì ìš© ê°€ëŠ¥í•œ ê²½ìš° ì ê¸ˆ í•´ì œ / ì  ê·¸ê¸° ìœ„í•´ wait_prepare ë° wait_finish ì½œë°±ì„ êµ¬í˜„í•´ì•¼í•©ë‹ˆë‹¤. ëŒ€ê¸°ì—´ -> ì ê¸ˆ í¬ì¸í„°ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš° vb2_ops_wait_prepare / finish ë„ìš°ë¯¸ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 The implementation of a hotplug disconnect should also take the lock from
 video_device before calling v4l2_device_disconnect. If you are also using
 video_device->queue->lock, then you have to first lock video_device->queue->lock
 followed by video_device->lock. That way you can be sure no ioctl is running
 when you call v4l2_device_disconnect.
-ÇÖ ÇÃ·¯±× ¿¬°á ÇØÁ¦ ±¸ÇöÀº v4l2_device_disconnect¸¦ È£ÃâÇÏ±â Àü¿¡ video_device¿¡¼­ Àá±İÀ» °¡Á®¿Í¾ßÇÕ´Ï´Ù. video_device-> queue-> lockµµ »ç¿ëÇÏ°í ÀÖ´Ù¸é ¸ÕÀú video_device-> queue-> lockÀ» Àá °¡¾ßÇÕ´Ï´Ù±× µÚ¿¡´Â video_device-> lockÀÌ ÀÖ½À´Ï´Ù. 
-±×·¸°ÔÇÏ¸é v4l2_device_disconnect¸¦ È£Ãâ ÇÒ ¶§ È®½ÇÇÏ°Ô ioctlÀÌ ½ÇÇàµÇÁö ¾Ê½À´Ï´Ù.
+í•« í”ŒëŸ¬ê·¸ ì—°ê²° í•´ì œ êµ¬í˜„ì€ v4l2_device_disconnectë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— video_deviceì—ì„œ ì ê¸ˆì„ ê°€ì ¸ì™€ì•¼í•©ë‹ˆë‹¤. video_device-> queue-> lockë„ ì‚¬ìš©í•˜ê³  ìˆë‹¤ë©´ ë¨¼ì € video_device-> queue-> lockì„ ì  ê°€ì•¼í•©ë‹ˆë‹¤ê·¸ ë’¤ì—ëŠ” video_device-> lockì´ ìˆìŠµë‹ˆë‹¤. 
+ê·¸ë ‡ê²Œí•˜ë©´ v4l2_device_disconnectë¥¼ í˜¸ì¶œ í•  ë•Œ í™•ì‹¤í•˜ê²Œ ioctlì´ ì‹¤í–‰ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 video_device registration
 -------------------------
-video_device µî·Ï
+video_device ë“±ë¡
 
 Next you register the video device: this will create the character device
 for you.
-´ÙÀ½À¸·Î ºñµğ¿À ÀåÄ¡¸¦ µî·ÏÇÏ½Ê½Ã¿À. ±×·¯¸é ¹®ÀÚ ÀåÄ¡°¡ »ı¼ºµË´Ï´Ù.
+ë‹¤ìŒìœ¼ë¡œ ë¹„ë””ì˜¤ ì¥ì¹˜ë¥¼ ë“±ë¡í•˜ì‹­ì‹œì˜¤. ê·¸ëŸ¬ë©´ ë¬¸ì ì¥ì¹˜ê°€ ìƒì„±ë©ë‹ˆë‹¤.
 
 	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
 	if (err) {
@@ -979,11 +979,11 @@ for you.
 
 If the v4l2_device parent device has a non-NULL mdev field, the video device
 entity will be automatically registered with the media device.
-v4l2_device »óÀ§ ÀåÄ¡¿¡ NULLÀÌ ¾Æ´Ñ mdev ÇÊµå°¡ ÀÖÀ¸¸é ºñµğ¿À ÀåÄ¡ ¿£Æ¼Æ¼°¡ ¹Ìµğ¾î ÀåÄ¡¿¡ ÀÚµ¿À¸·Î µî·ÏµË´Ï´Ù.
+v4l2_device ìƒìœ„ ì¥ì¹˜ì— NULLì´ ì•„ë‹Œ mdev í•„ë“œê°€ ìˆìœ¼ë©´ ë¹„ë””ì˜¤ ì¥ì¹˜ ì—”í‹°í‹°ê°€ ë¯¸ë””ì–´ ì¥ì¹˜ì— ìë™ìœ¼ë¡œ ë“±ë¡ë©ë‹ˆë‹¤.
 
 Which device is registered depends on the type argument. The following
 types exist:
-µî·Ï µÈ ÀåÄ¡´Â À¯Çü ÀÎ¼ö¿¡ µû¶ó ´Ù¸¨´Ï´Ù. ´ÙÀ½°ú °°Àº À¯ÇüÀÌ ÀÖ½À´Ï´Ù.
+ë“±ë¡ ëœ ì¥ì¹˜ëŠ” ìœ í˜• ì¸ìˆ˜ì— ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤. ë‹¤ìŒê³¼ ê°™ì€ ìœ í˜•ì´ ìˆìŠµë‹ˆë‹¤.
 
 VFL_TYPE_GRABBER: videoX for video input/output devices
 VFL_TYPE_VBI: vbiX for vertical blank data (i.e. closed captions, teletext)
@@ -999,9 +999,9 @@ option. That number is then passed to this function and video_register_device
 will attempt to select that device node number. If that number was already
 in use, then the next free device node number will be selected and it
 will send a warning to the kernel log.
-¸¶Áö¸· ÀÎ¼ö´Â »ç¿ë µÈ ±â±â ³ëµå ¹øÈ£ (Áï, videoXÀÇ X)¿¡ ´ëÇØ Æ¯Á¤ ¾çÀÇ Á¦¾î¸¦ Á¦°øÇÕ´Ï´Ù. ÀÏ¹İÀûÀ¸·Î -1À» Àü´ŞÇÏ¸é v4l2 ÇÁ·¹ÀÓ ¿öÅ©°¡ Ã¹ ¹øÂ° ºñ¾îÀÖ´Â ¹øÈ£¸¦ ¼±ÅÃÇÕ´Ï´Ù. 
-±×·¯³ª ¶§·Î´Â »ç¿ëÀÚ°¡ Æ¯Á¤ ³ëµå ¹øÈ£¸¦ ¼±ÅÃÇÏ·Á°íÇÕ´Ï´Ù. ÀÏ¹İÀûÀ¸·Î µå¶óÀÌ¹ö´Â »ç¿ëÀÚ°¡ µå¶óÀÌ¹ö ¸ğµâ ¿É¼ÇÀ» ÅëÇØ Æ¯Á¤ ÀåÄ¡ ³ëµå ¹øÈ£¸¦ ¼±ÅÃÇÒ ¼ö ÀÖµµ·ÏÇÕ´Ï´Ù. 
-ÀÌ ¹øÈ£´ÂÀÌ ÇÔ¼ö¿¡ Àü´ŞµÇ°í video_register_device´Â ÇØ´ç ÀåÄ¡ ³ëµå ¹øÈ£¸¦ ¼±ÅÃÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù. ÇØ´ç ¹øÈ£°¡ ÀÌ¹Ì »ç¿ë ÁßÀÌ¸é ´ÙÀ½ »ç¿ë °¡´É ÀåÄ¡ ³ëµå ¹øÈ£°¡ ¼±ÅÃµÇ°í Ä¿³Î ·Î±×¿¡ °æ°í°¡ Àü¼ÛµË´Ï´Ù.
+ë§ˆì§€ë§‰ ì¸ìˆ˜ëŠ” ì‚¬ìš© ëœ ê¸°ê¸° ë…¸ë“œ ë²ˆí˜¸ (ì¦‰, videoXì˜ X)ì— ëŒ€í•´ íŠ¹ì • ì–‘ì˜ ì œì–´ë¥¼ ì œê³µí•©ë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ -1ì„ ì „ë‹¬í•˜ë©´ v4l2 í”„ë ˆì„ ì›Œí¬ê°€ ì²« ë²ˆì§¸ ë¹„ì–´ìˆëŠ” ë²ˆí˜¸ë¥¼ ì„ íƒí•©ë‹ˆë‹¤. 
+ê·¸ëŸ¬ë‚˜ ë•Œë¡œëŠ” ì‚¬ìš©ìê°€ íŠ¹ì • ë…¸ë“œ ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ë ¤ê³ í•©ë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ ë“œë¼ì´ë²„ëŠ” ì‚¬ìš©ìê°€ ë“œë¼ì´ë²„ ëª¨ë“ˆ ì˜µì…˜ì„ í†µí•´ íŠ¹ì • ì¥ì¹˜ ë…¸ë“œ ë²ˆí˜¸ë¥¼ ì„ íƒí•  ìˆ˜ ìˆë„ë¡í•©ë‹ˆë‹¤. 
+ì´ ë²ˆí˜¸ëŠ”ì´ í•¨ìˆ˜ì— ì „ë‹¬ë˜ê³  video_register_deviceëŠ” í•´ë‹¹ ì¥ì¹˜ ë…¸ë“œ ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ë ¤ê³  ì‹œë„í•©ë‹ˆë‹¤. í•´ë‹¹ ë²ˆí˜¸ê°€ ì´ë¯¸ ì‚¬ìš© ì¤‘ì´ë©´ ë‹¤ìŒ ì‚¬ìš© ê°€ëŠ¥ ì¥ì¹˜ ë…¸ë“œ ë²ˆí˜¸ê°€ ì„ íƒë˜ê³  ì»¤ë„ ë¡œê·¸ì— ê²½ê³ ê°€ ì „ì†¡ë©ë‹ˆë‹¤.
 
 Another use-case is if a driver creates many devices. In that case it can
 be useful to place different video devices in separate ranges. For example,
@@ -1010,13 +1010,13 @@ So you can use the last argument to specify a minimum device node number
 and the v4l2 framework will try to pick the first free number that is equal
 or higher to what you passed. If that fails, then it will just pick the
 first free number.
-¶Ç ÇÏ³ªÀÇ À¯½º ÄÉÀÌ½º´Â µå¶óÀÌ¹ö°¡ ¸¹Àº µğ¹ÙÀÌ½º¸¦ »ı¼ºÇÏ´Â °æ¿ìÀÌ´Ù. ÀÌ °æ¿ì ´Ù¸¥ ºñµğ¿À ÀåÄ¡¸¦ º°µµÀÇ ¹üÀ§¿¡ ¹èÄ¡ÇÏ´Â °ÍÀÌ À¯¿ë ÇÒ ¼ö ÀÖ½À´Ï´Ù. ¿¹¸¦ µé¾î ºñµğ¿À Ä¸Ã³ ÀåÄ¡´Â 0¿¡¼­ ½ÃÀÛÇÏ°í ºñµğ¿À Ãâ·Â ÀåÄ¡´Â 16¿¡¼­ ½ÃÀÛÇÕ´Ï´Ù. 
-µû¶ó¼­ ¸¶Áö¸· ÀÎ¼ö¸¦ »ç¿ëÇÏ¿© ÃÖ¼Ò ÀåÄ¡ ³ëµå ¹øÈ£¸¦ ÁöÁ¤ÇÒ ¼ö ÀÖÀ¸¸ç v4l2 ÇÁ·¹ÀÓ ¿öÅ©´Â ´ç½ÅÀÌ ³Ñ°ÜÁØ °Í°ú °°°Å³ª ´õ ³ôÀº Ã¹ ¹øÂ° ÀÚÀ¯ ¹øÈ£¸¦ ¼±ÅÃÇÏ·Á ½ÃµµÇÑ´Ù. ½ÇÆĞÇÏ¸é Ã¹ ¹øÂ° ÀÚÀ¯·Î¿î ¹øÈ£¸¦ ¼±ÅÃÇÕ´Ï´Ù.
+ë˜ í•˜ë‚˜ì˜ ìœ ìŠ¤ ì¼€ì´ìŠ¤ëŠ” ë“œë¼ì´ë²„ê°€ ë§ì€ ë””ë°”ì´ìŠ¤ë¥¼ ìƒì„±í•˜ëŠ” ê²½ìš°ì´ë‹¤. ì´ ê²½ìš° ë‹¤ë¥¸ ë¹„ë””ì˜¤ ì¥ì¹˜ë¥¼ ë³„ë„ì˜ ë²”ìœ„ì— ë°°ì¹˜í•˜ëŠ” ê²ƒì´ ìœ ìš© í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ë¹„ë””ì˜¤ ìº¡ì²˜ ì¥ì¹˜ëŠ” 0ì—ì„œ ì‹œì‘í•˜ê³  ë¹„ë””ì˜¤ ì¶œë ¥ ì¥ì¹˜ëŠ” 16ì—ì„œ ì‹œì‘í•©ë‹ˆë‹¤. 
+ë”°ë¼ì„œ ë§ˆì§€ë§‰ ì¸ìˆ˜ë¥¼ ì‚¬ìš©í•˜ì—¬ ìµœì†Œ ì¥ì¹˜ ë…¸ë“œ ë²ˆí˜¸ë¥¼ ì§€ì •í•  ìˆ˜ ìˆìœ¼ë©° v4l2 í”„ë ˆì„ ì›Œí¬ëŠ” ë‹¹ì‹ ì´ ë„˜ê²¨ì¤€ ê²ƒê³¼ ê°™ê±°ë‚˜ ë” ë†’ì€ ì²« ë²ˆì§¸ ììœ  ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ë ¤ ì‹œë„í•œë‹¤. ì‹¤íŒ¨í•˜ë©´ ì²« ë²ˆì§¸ ììœ ë¡œìš´ ë²ˆí˜¸ë¥¼ ì„ íƒí•©ë‹ˆë‹¤.
 
 Since in this case you do not care about a warning about not being able
 to select the specified device node number, you can call the function
 video_register_device_no_warn() instead.
-ÀÌ °æ¿ì ÁöÁ¤µÈ ÀåÄ¡ ³ëµå ¹øÈ£¸¦ ¼±ÅÃÇÒ ¼ö ¾ø´Ù´Â °æ°í°¡ Ç¥½ÃµÇÁö ¾ÊÀ¸¹Ç·Î ´ë½Å video_register_device_no_warn () ÇÔ¼ö¸¦ È£Ãâ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ ê²½ìš° ì§€ì •ëœ ì¥ì¹˜ ë…¸ë“œ ë²ˆí˜¸ë¥¼ ì„ íƒí•  ìˆ˜ ì—†ë‹¤ëŠ” ê²½ê³ ê°€ í‘œì‹œë˜ì§€ ì•Šìœ¼ë¯€ë¡œ ëŒ€ì‹  video_register_device_no_warn () í•¨ìˆ˜ë¥¼ í˜¸ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 Whenever a device node is created some attributes are also created for you.
 If you look in /sys/class/video4linux you see the devices. Go into e.g.
@@ -1024,21 +1024,21 @@ video0 and you will see 'name', 'dev_debug' and 'index' attributes. The 'name'
 attribute is the 'name' field of the video_device struct. The 'dev_debug' attribute
 can be used to enable core debugging. See the next section for more detailed
 information on this.
-µğ¹ÙÀÌ½º ³ëµå°¡ »ı¼º µÉ ¶§¸¶´Ù ¾î¶² ¼Ó¼ºµµ »ı¼ºµË´Ï´Ù.
-/ sys / class / video4linux¸¦ º¸¸é ÀåÄ¡¸¦ º¼ ¼ö ÀÖ½À´Ï´Ù. ¿¹ : video0À» ÀÔ·ÂÇÏ¸é 'name', 'dev_debug'¹× 'index'¼Ó¼ºÀÌ Ç¥½ÃµË´Ï´Ù. 
-'name'¼Ó¼ºÀº video_device ±¸Á¶Ã¼ÀÇ 'name'ÇÊµåÀÔ´Ï´Ù. 'dev_debug'¼Ó¼ºÀº ÇÙ½É µğ¹ö±ëÀ» È°¼ºÈ­ÇÏ´Â µ¥ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¼½¼ÇÀ» ÂüÁ¶ÇÏ½Ê½Ã¿À.
+ë””ë°”ì´ìŠ¤ ë…¸ë“œê°€ ìƒì„± ë  ë•Œë§ˆë‹¤ ì–´ë–¤ ì†ì„±ë„ ìƒì„±ë©ë‹ˆë‹¤.
+/ sys / class / video4linuxë¥¼ ë³´ë©´ ì¥ì¹˜ë¥¼ ë³¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì˜ˆ : video0ì„ ì…ë ¥í•˜ë©´ 'name', 'dev_debug'ë° 'index'ì†ì„±ì´ í‘œì‹œë©ë‹ˆë‹¤. 
+'name'ì†ì„±ì€ video_device êµ¬ì¡°ì²´ì˜ 'name'í•„ë“œì…ë‹ˆë‹¤. 'dev_debug'ì†ì„±ì€ í•µì‹¬ ë””ë²„ê¹…ì„ í™œì„±í™”í•˜ëŠ” ë° ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ìì„¸í•œ ë‚´ìš©ì€ ë‹¤ìŒ ì„¹ì…˜ì„ ì°¸ì¡°í•˜ì‹­ì‹œì˜¤.
 
 The 'index' attribute is the index of the device node: for each call to
 video_register_device() the index is just increased by 1. The first video
 device node you register always starts with index 0.
-'index'¼Ó¼ºÀº ÀåÄ¡ ³ëµåÀÇ ÀÎµ¦½ºÀÔ´Ï´Ù. video_register_device ()¸¦ È£Ãâ ÇÒ ¶§¸¶´Ù ÀÎµ¦½º°¡ 1 ¾¿ Áõ°¡ÇÕ´Ï´Ù. µî·ÏÇÑ Ã¹ ¹øÂ° ºñµğ¿À ÀåÄ¡ ³ëµå´Â Ç×»ó ÀÎµ¦½º 0À¸·Î ½ÃÀÛÇÕ´Ï´Ù.
+'index'ì†ì„±ì€ ì¥ì¹˜ ë…¸ë“œì˜ ì¸ë±ìŠ¤ì…ë‹ˆë‹¤. video_register_device ()ë¥¼ í˜¸ì¶œ í•  ë•Œë§ˆë‹¤ ì¸ë±ìŠ¤ê°€ 1 ì”© ì¦ê°€í•©ë‹ˆë‹¤. ë“±ë¡í•œ ì²« ë²ˆì§¸ ë¹„ë””ì˜¤ ì¥ì¹˜ ë…¸ë“œëŠ” í•­ìƒ ì¸ë±ìŠ¤ 0ìœ¼ë¡œ ì‹œì‘í•©ë‹ˆë‹¤.
 
 Users can setup udev rules that utilize the index attribute to make fancy
 device names (e.g. 'mpegX' for MPEG video capture device nodes).
-»ç¿ëÀÚ´Â ¸ÚÁø ÀåÄ¡ ÀÌ¸§ (¿¹ : MPEG ºñµğ¿À Ä¸Ã³ ÀåÄ¡ ³ëµåÀÇ °æ¿ì 'mpegX')À» ¸¸µé±â À§ÇØ »öÀÎ ¼Ó¼ºÀ» »ç¿ëÇÏ´Â udev ±ÔÄ¢À» ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì‚¬ìš©ìëŠ” ë©‹ì§„ ì¥ì¹˜ ì´ë¦„ (ì˜ˆ : MPEG ë¹„ë””ì˜¤ ìº¡ì²˜ ì¥ì¹˜ ë…¸ë“œì˜ ê²½ìš° 'mpegX')ì„ ë§Œë“¤ê¸° ìœ„í•´ ìƒ‰ì¸ ì†ì„±ì„ ì‚¬ìš©í•˜ëŠ” udev ê·œì¹™ì„ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 After the device was successfully registered, then you can use these fields:
-ÀåÄ¡°¡ ¼º°øÀûÀ¸·Î µî·ÏµÇ¸é ´ÙÀ½ ÇÊµå¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì¥ì¹˜ê°€ ì„±ê³µì ìœ¼ë¡œ ë“±ë¡ë˜ë©´ ë‹¤ìŒ í•„ë“œë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 - vfl_type: the device type passed to video_register_device.
 - minor: the assigned device minor number.
@@ -1050,8 +1050,8 @@ to free the allocated video_device struct, or free your own struct if the
 video_device was embedded in it. The vdev->release() callback will never
 be called if the registration failed, nor should you ever attempt to
 unregister the device if the registration failed.
-µî·Ï¿¡ ½ÇÆĞÇÏ¸é video_device_release ()¸¦ È£ÃâÇÏ¿© ÇÒ´ç µÈ video_device ±¸Á¶Ã¼¸¦ ÇØÁ¦ÇÏ°Å³ª video_device°¡ Æ÷ÇÔ µÈ ±¸Á¶Ã¼¸¦ ÇØÁ¦ÇØ¾ßÇÕ´Ï´Ù. 
-µî·Ï¿¡ ½ÇÆĞÇÏ¸é vdev-> release () Äİ¹éÀÌ È£ÃâµÇÁö ¾ÊÀ¸¸ç µî·ÏÀÌ ½ÇÆĞÇÑ °æ¿ì ÀåÄ¡¸¦ µî·Ï Ãë¼ÒÇÏ·Á°í ½ÃµµÇØ¼­µµ ¾ÈµË´Ï´Ù.
+ë“±ë¡ì— ì‹¤íŒ¨í•˜ë©´ video_device_release ()ë¥¼ í˜¸ì¶œí•˜ì—¬ í• ë‹¹ ëœ video_device êµ¬ì¡°ì²´ë¥¼ í•´ì œí•˜ê±°ë‚˜ video_deviceê°€ í¬í•¨ ëœ êµ¬ì¡°ì²´ë¥¼ í•´ì œí•´ì•¼í•©ë‹ˆë‹¤. 
+ë“±ë¡ì— ì‹¤íŒ¨í•˜ë©´ vdev-> release () ì½œë°±ì´ í˜¸ì¶œë˜ì§€ ì•Šìœ¼ë©° ë“±ë¡ì´ ì‹¤íŒ¨í•œ ê²½ìš° ì¥ì¹˜ë¥¼ ë“±ë¡ ì·¨ì†Œí•˜ë ¤ê³  ì‹œë„í•´ì„œë„ ì•ˆë©ë‹ˆë‹¤.
 
 video device debugging
 ----------------------
@@ -1059,30 +1059,30 @@ video device debugging
 The 'dev_debug' attribute that is created for each video, vbi, radio or swradio
 device in /sys/class/video4linux/<devX>/ allows you to enable logging of
 file operations.
-/ sys / class / video4linux / <devX> /ÀÇ °¢ ºñµğ¿À, vbi, ¶óµğ¿À ¶Ç´Â swradio ÀåÄ¡¿¡ ´ëÇØ »ı¼ºµÇ´Â 'dev_debug'¼Ó¼ºÀº ÆÄÀÏ ÀÛ¾÷ÀÇ ·Î±ëÀ» È°¼ºÈ­ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+/ sys / class / video4linux / <devX> /ì˜ ê° ë¹„ë””ì˜¤, vbi, ë¼ë””ì˜¤ ë˜ëŠ” swradio ì¥ì¹˜ì— ëŒ€í•´ ìƒì„±ë˜ëŠ” 'dev_debug'ì†ì„±ì€ íŒŒì¼ ì‘ì—…ì˜ ë¡œê¹…ì„ í™œì„±í™” í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 It is a bitmask and the following bits can be set:
-ÀÌ°ÍÀº ºñÆ® ¸¶½ºÅ©ÀÌ¸ç ´ÙÀ½°ú °°Àº ºñÆ®¸¦ ¼³Á¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ê²ƒì€ ë¹„íŠ¸ ë§ˆìŠ¤í¬ì´ë©° ë‹¤ìŒê³¼ ê°™ì€ ë¹„íŠ¸ë¥¼ ì„¤ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 0x01: Log the ioctl name and error code. VIDIOC_(D)QBUF ioctls are only logged
       if bit 0x08 is also set.
-0x01 : ioctl ÀÌ¸§°ú ¿À·ù ÄÚµå¸¦ ±â·ÏÇÏ½Ê½Ã¿À. VIDIOC_ (D) QBUF ioctls´Â ºñÆ® 0x08µµ ¼³Á¤µÇ¾îÀÖ´Â °æ¿ì¿¡¸¸ ±â·ÏµË´Ï´Ù.
+0x01 : ioctl ì´ë¦„ê³¼ ì˜¤ë¥˜ ì½”ë“œë¥¼ ê¸°ë¡í•˜ì‹­ì‹œì˜¤. VIDIOC_ (D) QBUF ioctlsëŠ” ë¹„íŠ¸ 0x08ë„ ì„¤ì •ë˜ì–´ìˆëŠ” ê²½ìš°ì—ë§Œ ê¸°ë¡ë©ë‹ˆë‹¤.
 
 0x02: Log the ioctl name arguments and error code. VIDIOC_(D)QBUF ioctls are
       only logged if bit 0x08 is also set.
-0x02 : ioctl ÀÌ¸§ ÀÎ¼ö¿Í ¿À·ù ÄÚµå¸¦ ±â·ÏÇÏ½Ê½Ã¿À. VIDIOC_ (D) QBUF ioctls´Â ºñÆ® 0x08µµ ¼³Á¤µÇ¾îÀÖ´Â °æ¿ì¿¡¸¸ ±â·ÏµË´Ï´Ù.
+0x02 : ioctl ì´ë¦„ ì¸ìˆ˜ì™€ ì˜¤ë¥˜ ì½”ë“œë¥¼ ê¸°ë¡í•˜ì‹­ì‹œì˜¤. VIDIOC_ (D) QBUF ioctlsëŠ” ë¹„íŠ¸ 0x08ë„ ì„¤ì •ë˜ì–´ìˆëŠ” ê²½ìš°ì—ë§Œ ê¸°ë¡ë©ë‹ˆë‹¤.
 
 0x04: Log the file operations open, release, read, write, mmap and
       get_unmapped_area. The read and write operations are only logged if
       bit 0x08 is also set.
-0x04 : ÆÄÀÏ ÀÛ¾÷À» ¿­±â, ÇØÁ¦, ÀĞ±â, ¾²±â, mmap ¹× get_unmapped_area ·Î±ëÇÕ´Ï´Ù. ºñÆ® 0x08µµ ¼³Á¤µÇ¾î ÀÖÀ¸¸é ÀĞ±â ¹× ¾²±â ÀÛ¾÷ ¸¸ ±â·ÏµË´Ï´Ù.
+0x04 : íŒŒì¼ ì‘ì—…ì„ ì—´ê¸°, í•´ì œ, ì½ê¸°, ì“°ê¸°, mmap ë° get_unmapped_area ë¡œê¹…í•©ë‹ˆë‹¤. ë¹„íŠ¸ 0x08ë„ ì„¤ì •ë˜ì–´ ìˆìœ¼ë©´ ì½ê¸° ë° ì“°ê¸° ì‘ì—… ë§Œ ê¸°ë¡ë©ë‹ˆë‹¤.
 
 0x08: Log the read and write file operations and the VIDIOC_QBUF and
       VIDIOC_DQBUF ioctls.
-0x08 : ÀĞ±â ¹× ¾²±â ÆÄÀÏ ÀÛ¾÷°ú VIDIOC_QBUF ¹× VIDIOC_DQBUF ioctls¸¦ ·Î±ëÇÕ´Ï´Ù.
+0x08 : ì½ê¸° ë° ì“°ê¸° íŒŒì¼ ì‘ì—…ê³¼ VIDIOC_QBUF ë° VIDIOC_DQBUF ioctlsë¥¼ ë¡œê¹…í•©ë‹ˆë‹¤.
 
 0x10: Log the poll file operation.
-0x10 : Æú ÆÄÀÏ ÀÛ¾÷À» ±â·ÏÇÕ´Ï´Ù.
+0x10 : í´ íŒŒì¼ ì‘ì—…ì„ ê¸°ë¡í•©ë‹ˆë‹¤.
 
 video_device cleanup
 --------------------
@@ -1090,81 +1090,81 @@ video_device cleanup
 When the video device nodes have to be removed, either during the unload
 of the driver or because the USB device was disconnected, then you should
 unregister them:
-µå¶óÀÌ¹ö ¾ğ·Îµå ¶Ç´Â USB ÀåÄ¡ ºĞ¸®·Î ÀÎÇØ ºñµğ¿À ÀåÄ¡ ³ëµå¸¦ Á¦°ÅÇØ¾ß ÇÒ °æ¿ì ´ÙÀ½°ú °°ÀÌ µî·ÏÀ» Ãë¼ÒÇØ¾ßÇÕ´Ï´Ù.
+ë“œë¼ì´ë²„ ì–¸ë¡œë“œ ë˜ëŠ” USB ì¥ì¹˜ ë¶„ë¦¬ë¡œ ì¸í•´ ë¹„ë””ì˜¤ ì¥ì¹˜ ë…¸ë“œë¥¼ ì œê±°í•´ì•¼ í•  ê²½ìš° ë‹¤ìŒê³¼ ê°™ì´ ë“±ë¡ì„ ì·¨ì†Œí•´ì•¼í•©ë‹ˆë‹¤.
 
 	video_unregister_device(vdev);
 
 This will remove the device nodes from sysfs (causing udev to remove them
 from /dev).
-±×·¯¸é sysfs¿¡¼­ ÀåÄ¡ ³ëµå°¡ Á¦°ÅµÇ¾î udev°¡ / dev¿¡¼­ ÀåÄ¡ ³ëµå¸¦ Á¦°ÅÇÕ´Ï´Ù.
+ê·¸ëŸ¬ë©´ sysfsì—ì„œ ì¥ì¹˜ ë…¸ë“œê°€ ì œê±°ë˜ì–´ udevê°€ / devì—ì„œ ì¥ì¹˜ ë…¸ë“œë¥¼ ì œê±°í•©ë‹ˆë‹¤.
 
 After video_unregister_device() returns no new opens can be done. However,
 in the case of USB devices some application might still have one of these
 device nodes open. So after the unregister all file operations (except
 release, of course) will return an error as well.
-video_unregister_device ()°¡ ¹İÈ¯ ÇÑ ÈÄ¿¡´Â »õ·Î ¿­¸®Áö ¾Ê½À´Ï´Ù. ±×·¯³ª USB ÀåÄ¡ÀÇ °æ¿ì ÀÏºÎ ÀÀ¿ë ÇÁ·Î±×·¥Àº ÀÌ·¯ÇÑ ÀåÄ¡ ³ëµå Áß ÇÏ³ª¸¦ ¿­¾î µÑ ¼ö ÀÖ½À´Ï´Ù. 
-µû¶ó¼­ ¸ğµç ÆÄÀÏ ÀÛ¾÷ µî·ÏÀ» Ãë¼Ò ÇÑ ÈÄ¿¡ (¹°·Ğ ¸±¸®½º Á¦¿Ü) ¿À·ùµµ ¹İÈ¯µË´Ï´Ù.
+video_unregister_device ()ê°€ ë°˜í™˜ í•œ í›„ì—ëŠ” ìƒˆë¡œ ì—´ë¦¬ì§€ ì•ŠìŠµë‹ˆë‹¤. ê·¸ëŸ¬ë‚˜ USB ì¥ì¹˜ì˜ ê²½ìš° ì¼ë¶€ ì‘ìš© í”„ë¡œê·¸ë¨ì€ ì´ëŸ¬í•œ ì¥ì¹˜ ë…¸ë“œ ì¤‘ í•˜ë‚˜ë¥¼ ì—´ì–´ ë‘˜ ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ë”°ë¼ì„œ ëª¨ë“  íŒŒì¼ ì‘ì—… ë“±ë¡ì„ ì·¨ì†Œ í•œ í›„ì— (ë¬¼ë¡  ë¦´ë¦¬ìŠ¤ ì œì™¸) ì˜¤ë¥˜ë„ ë°˜í™˜ë©ë‹ˆë‹¤.
 
 When the last user of the video device node exits, then the vdev->release()
 callback is called and you can do the final cleanup there.
-ºñµğ¿À ÀåÄ¡ ³ëµåÀÇ ¸¶Áö¸· »ç¿ëÀÚ°¡ Á¾·áµÇ¸é vdev-> release () Äİ¹éÀÌ È£ÃâµÇ°í ¿©±â¼­ ÃÖÁ¾ Á¤¸®¸¦ ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ë¹„ë””ì˜¤ ì¥ì¹˜ ë…¸ë“œì˜ ë§ˆì§€ë§‰ ì‚¬ìš©ìê°€ ì¢…ë£Œë˜ë©´ vdev-> release () ì½œë°±ì´ í˜¸ì¶œë˜ê³  ì—¬ê¸°ì„œ ìµœì¢… ì •ë¦¬ë¥¼ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 Don't forget to cleanup the media entity associated with the video device if
 it has been initialized:
-ºñµğ¿À ÀåÄ¡°¡ ÃÊ±âÈ­ µÈ °æ¿ì ÇØ´ç ºñµğ¿À ÀåÄ¡¿Í °ü·ÃµÈ ¹Ìµğ¾î ¿£ÅÍÆ¼¸¦ Á¤¸®ÇÏ´Â °ÍÀ» ÀØÁö ¸¶½Ê½Ã¿À.
+ë¹„ë””ì˜¤ ì¥ì¹˜ê°€ ì´ˆê¸°í™” ëœ ê²½ìš° í•´ë‹¹ ë¹„ë””ì˜¤ ì¥ì¹˜ì™€ ê´€ë ¨ëœ ë¯¸ë””ì–´ ì—”í„°í‹°ë¥¼ ì •ë¦¬í•˜ëŠ” ê²ƒì„ ìŠì§€ ë§ˆì‹­ì‹œì˜¤.
 
 	media_entity_cleanup(&vdev->entity);
 
 This can be done from the release callback.
-ÀÌ´Â ¸±¸®½º Äİ¹é¿¡¼­ ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ëŠ” ë¦´ë¦¬ìŠ¤ ì½œë°±ì—ì„œ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 
 video_device helper functions
 -----------------------------
 
 There are a few useful helper functions:
-´ÙÀ½°ú °°Àº ¸î °¡Áö À¯¿ëÇÑ µµ¿ì¹Ì ±â´ÉÀÌ ÀÖ½À´Ï´Ù.
+ë‹¤ìŒê³¼ ê°™ì€ ëª‡ ê°€ì§€ ìœ ìš©í•œ ë„ìš°ë¯¸ ê¸°ëŠ¥ì´ ìˆìŠµë‹ˆë‹¤.
 
 - file/video_device private data
 
 You can set/get driver private data in the video_device struct using:
-´ÙÀ½À» »ç¿ëÇÏ¿© video_device ±¸Á¶Ã¼¿¡¼­ µå¶óÀÌ¹ö °³ÀÎ µ¥ÀÌÅÍ¸¦ ¼³Á¤ÇÏ°Å³ª °¡Á®¿Ã ¼ö ÀÖ½À´Ï´Ù.
+ë‹¤ìŒì„ ì‚¬ìš©í•˜ì—¬ video_device êµ¬ì¡°ì²´ì—ì„œ ë“œë¼ì´ë²„ ê°œì¸ ë°ì´í„°ë¥¼ ì„¤ì •í•˜ê±°ë‚˜ ê°€ì ¸ì˜¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 void *video_get_drvdata(struct video_device *vdev);
 void video_set_drvdata(struct video_device *vdev, void *data);
 
 Note that you can safely call video_set_drvdata() before calling
 video_register_device().
-video_register_device ()¸¦ È£ÃâÇÏ±â Àü¿¡ ¾ÈÀüÇÏ°Ô video_set_drvdata ()¸¦ È£Ãâ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+video_register_device ()ë¥¼ í˜¸ì¶œí•˜ê¸° ì „ì— ì•ˆì „í•˜ê²Œ video_set_drvdata ()ë¥¼ í˜¸ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 And this function:
 
 struct video_device *video_devdata(struct file *file);
 
 returns the video_device belonging to the file struct.
-±×¸®°íÀÌ ÇÔ¼ö´Â ÆÄÀÏ ±¸Á¶Ã¼¿¡ ¼ÓÇÑ video_device¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+ê·¸ë¦¬ê³ ì´ í•¨ìˆ˜ëŠ” íŒŒì¼ êµ¬ì¡°ì²´ì— ì†í•œ video_deviceë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 
 The video_drvdata function combines video_get_drvdata with video_devdata:
-video_drvdata ÇÔ¼ö´Â video_get_drvdata¿Í video_devdata¸¦ °áÇÕÇÕ´Ï´Ù.
+video_drvdata í•¨ìˆ˜ëŠ” video_get_drvdataì™€ video_devdataë¥¼ ê²°í•©í•©ë‹ˆë‹¤.
 
 void *video_drvdata(struct file *file);
 
 You can go from a video_device struct to the v4l2_device struct using:
-´ÙÀ½À» »ç¿ëÇÏ¿© video_device ±¸Á¶Ã¼¿¡¼­ v4l2_device ±¸Á¶Ã¼·Î ÀÌµ¿ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ë‹¤ìŒì„ ì‚¬ìš©í•˜ì—¬ video_device êµ¬ì¡°ì²´ì—ì„œ v4l2_device êµ¬ì¡°ì²´ë¡œ ì´ë™í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
 
 - Device node name
 
 The video_device node kernel name can be retrieved using
-video_device ³ëµå Ä¿³Î ÀÌ¸§Àº ´ÙÀ½À» »ç¿ëÇÏ¿© °Ë»ö ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+video_device ë…¸ë“œ ì»¤ë„ ì´ë¦„ì€ ë‹¤ìŒì„ ì‚¬ìš©í•˜ì—¬ ê²€ìƒ‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 const char *video_device_node_name(struct video_device *vdev);
 
 The name is used as a hint by userspace tools such as udev. The function
 should be used where possible instead of accessing the video_device::num and
 video_device::minor fields.
-ÀÌ ÀÌ¸§Àº udev¿Í °°Àº »ç¿ëÀÚ °ø°£ µµ±¸ÀÇ ÈùÆ®·Î »ç¿ëµË´Ï´Ù. video_device :: num ¹× video_device :: minor ÇÊµå¿¡ ¾×¼¼½ºÇÏ´Â ´ë½Å °¡´ÉÇÏ¸é ÇÔ¼ö¸¦ »ç¿ëÇØ¾ßÇÕ´Ï´Ù.
+ì´ ì´ë¦„ì€ udevì™€ ê°™ì€ ì‚¬ìš©ì ê³µê°„ ë„êµ¬ì˜ íŒíŠ¸ë¡œ ì‚¬ìš©ë©ë‹ˆë‹¤. video_device :: num ë° video_device :: minor í•„ë“œì— ì•¡ì„¸ìŠ¤í•˜ëŠ” ëŒ€ì‹  ê°€ëŠ¥í•˜ë©´ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•´ì•¼í•©ë‹ˆë‹¤.
 
 
 video buffer helper functions
@@ -1177,13 +1177,13 @@ methods for using video buffers on devices that supports DMA with
 scatter/gather method (videobuf-dma-sg), DMA with linear access
 (videobuf-dma-contig), and vmalloced buffers, mostly used on USB drivers
 (videobuf-vmalloc).
-v4l2 ÄÚ¾î API´Â ºñµğ¿À ¹öÆÛ Ã³¸®¸¦À§ÇÑ ÀÏ·ÃÀÇ Ç¥ÁØ ¸Ş¼Òµå ( "videobuf"¶ó°í ÇÔ)¸¦ Á¦°øÇÕ´Ï´Ù. 
-ÀÌ·¯ÇÑ ¸Ş¼­µå¸¦ »ç¿ëÇÏ¸é µå¶óÀÌ¹ö°¡ ÀÏ°üµÈ ¹æ½ÄÀ¸·Î read (), mmap () ¹× overlay ()¸¦ ±¸ÇöÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÇöÀç ºĞ»ê / ¼öÁı ¹æ¹ı (videobuf-dma-sg), ¼±Çü ¾×¼¼½º (videobuf-dma-contig)°¡ÀÖ´Â DMA ¹× USB µå¶óÀÌ¹ö (videobuf-vmalloc)¸¦ ÁÖ·Î »ç¿ëÇÏ´Â vmalloced ¹öÆÛ¸¦ Áö¿øÇÏ´Â ÀåÄ¡¿¡¼­ ºñµğ¿À ¹öÆÛ¸¦ »ç¿ëÇÏ´Â ¹æ¹ıÀÌ ÀÖ½À´Ï´Ù. 
+v4l2 ì½”ì–´ APIëŠ” ë¹„ë””ì˜¤ ë²„í¼ ì²˜ë¦¬ë¥¼ìœ„í•œ ì¼ë ¨ì˜ í‘œì¤€ ë©”ì†Œë“œ ( "videobuf"ë¼ê³  í•¨)ë¥¼ ì œê³µí•©ë‹ˆë‹¤. 
+ì´ëŸ¬í•œ ë©”ì„œë“œë¥¼ ì‚¬ìš©í•˜ë©´ ë“œë¼ì´ë²„ê°€ ì¼ê´€ëœ ë°©ì‹ìœ¼ë¡œ read (), mmap () ë° overlay ()ë¥¼ êµ¬í˜„í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+í˜„ì¬ ë¶„ì‚° / ìˆ˜ì§‘ ë°©ë²• (videobuf-dma-sg), ì„ í˜• ì•¡ì„¸ìŠ¤ (videobuf-dma-contig)ê°€ìˆëŠ” DMA ë° USB ë“œë¼ì´ë²„ (videobuf-vmalloc)ë¥¼ ì£¼ë¡œ ì‚¬ìš©í•˜ëŠ” vmalloced ë²„í¼ë¥¼ ì§€ì›í•˜ëŠ” ì¥ì¹˜ì—ì„œ ë¹„ë””ì˜¤ ë²„í¼ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì´ ìˆìŠµë‹ˆë‹¤. 
 
 Please see Documentation/video4linux/videobuf for more information on how
 to use the videobuf layer.
-videobuf ·¹ÀÌ¾î¸¦ »ç¿ëÇÏ´Â ¹æ¹ı¿¡ ´ëÇÑ ÀÚ¼¼ÇÑ ³»¿ëÀº Documentation / video4linux / videobuf¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À.
+videobuf ë ˆì´ì–´ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì— ëŒ€í•œ ìì„¸í•œ ë‚´ìš©ì€ Documentation / video4linux / videobufë¥¼ ì°¸ì¡°í•˜ì‹­ì‹œì˜¤.
 
 struct v4l2_fh
 --------------
@@ -1191,30 +1191,30 @@ struct v4l2_fh
 struct v4l2_fh provides a way to easily keep file handle specific data
 that is used by the V4L2 framework. New drivers must use struct v4l2_fh
 since it is also used to implement priority handling (VIDIOC_G/S_PRIORITY).
-struct v4l2_fh´Â V4L2 ÇÁ·¹ÀÓ ¿öÅ©¿¡¼­ »ç¿ëµÇ´Â Æ¯Á¤ µ¥ÀÌÅÍ¸¦ ÆÄÀÏ ÇÚµé¸µÀ» ½±°Ô À¯ÁöÇÒ ¼öÀÖ´Â ¹æ¹ıÀ» Á¦°øÇÕ´Ï´Ù. 
-»õ µå¶óÀÌ¹ö´Â ±¸Á¶Ã¼ v4l2_fh¸¦ »ç¿ëÇØ¾ßÇÕ´Ï´Ù.ÀÌ µå¶óÀÌ¹ö´Â ¿ì¼± ¼øÀ§ Ã³¸® (VIDIOC_G / S_PRIORITY)¸¦ ±¸ÇöÇÏ´Âµ¥µµ »ç¿ëµÇ±â ¶§¹®ÀÔ´Ï´Ù.
+struct v4l2_fhëŠ” V4L2 í”„ë ˆì„ ì›Œí¬ì—ì„œ ì‚¬ìš©ë˜ëŠ” íŠ¹ì • ë°ì´í„°ë¥¼ íŒŒì¼ í•¸ë“¤ë§ì„ ì‰½ê²Œ ìœ ì§€í•  ìˆ˜ìˆëŠ” ë°©ë²•ì„ ì œê³µí•©ë‹ˆë‹¤. 
+ìƒˆ ë“œë¼ì´ë²„ëŠ” êµ¬ì¡°ì²´ v4l2_fhë¥¼ ì‚¬ìš©í•´ì•¼í•©ë‹ˆë‹¤.ì´ ë“œë¼ì´ë²„ëŠ” ìš°ì„  ìˆœìœ„ ì²˜ë¦¬ (VIDIOC_G / S_PRIORITY)ë¥¼ êµ¬í˜„í•˜ëŠ”ë°ë„ ì‚¬ìš©ë˜ê¸° ë•Œë¬¸ì…ë‹ˆë‹¤.
 
 The users of v4l2_fh (in the V4L2 framework, not the driver) know
 whether a driver uses v4l2_fh as its file->private_data pointer by
 testing the V4L2_FL_USES_V4L2_FH bit in video_device->flags. This bit is
 set whenever v4l2_fh_init() is called.
-v4l2_fh »ç¿ëÀÚ (µå¶óÀÌ¹ö°¡ ¾Æ´Ñ V4L2 ÇÁ·¹ÀÓ ¿öÅ©¿¡¼­)´Â video_device-> ÇÃ·¡±×¿¡¼­ V4L2_FL_USES_V4L2_FH ºñÆ®¸¦ Å×½ºÆ®ÇÏ¿© µå¶óÀÌ¹ö°¡ ÆÄÀÏ -> °³ÀÎ µ¥ÀÌÅÍ Æ÷ÀÎÅÍ·Î v4l2_fh¸¦ »ç¿ëÇÏ´ÂÁö ¿©ºÎ¸¦ ¾Ë ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ ºñÆ®´Â v4l2_fh_init ()°¡ È£Ãâ µÉ ¶§¸¶´Ù ¼³Á¤µË´Ï´Ù.
+v4l2_fh ì‚¬ìš©ì (ë“œë¼ì´ë²„ê°€ ì•„ë‹Œ V4L2 í”„ë ˆì„ ì›Œí¬ì—ì„œ)ëŠ” video_device-> í”Œë˜ê·¸ì—ì„œ V4L2_FL_USES_V4L2_FH ë¹„íŠ¸ë¥¼ í…ŒìŠ¤íŠ¸í•˜ì—¬ ë“œë¼ì´ë²„ê°€ íŒŒì¼ -> ê°œì¸ ë°ì´í„° í¬ì¸í„°ë¡œ v4l2_fhë¥¼ ì‚¬ìš©í•˜ëŠ”ì§€ ì—¬ë¶€ë¥¼ ì•Œ ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ ë¹„íŠ¸ëŠ” v4l2_fh_init ()ê°€ í˜¸ì¶œ ë  ë•Œë§ˆë‹¤ ì„¤ì •ë©ë‹ˆë‹¤.
 
 struct v4l2_fh is allocated as a part of the driver's own file handle
 structure and file->private_data is set to it in the driver's open
 function by the driver.
-struct v4l2_fh´Â µå¶óÀÌ¹ö ÀÚ½ÅÀÇ ÆÄÀÏ ÇÚµé ±¸Á¶ÀÇ ÀÏºÎ·Î ÇÒ´çµÇ¸ç file-> private_data´Â µå¶óÀÌ¹ö¿¡ ÀÇÇØ µå¶óÀÌ¹öÀÇ ¿­¸° ÇÔ¼ö¿¡¼­ ¼³Á¤µË´Ï´Ù.
+struct v4l2_fhëŠ” ë“œë¼ì´ë²„ ìì‹ ì˜ íŒŒì¼ í•¸ë“¤ êµ¬ì¡°ì˜ ì¼ë¶€ë¡œ í• ë‹¹ë˜ë©° file-> private_dataëŠ” ë“œë¼ì´ë²„ì— ì˜í•´ ë“œë¼ì´ë²„ì˜ ì—´ë¦° í•¨ìˆ˜ì—ì„œ ì„¤ì •ë©ë‹ˆë‹¤.
 
 In many cases the struct v4l2_fh will be embedded in a larger structure.
 In that case you should call v4l2_fh_init+v4l2_fh_add in open() and
 v4l2_fh_del+v4l2_fh_exit in release().
-´ëºÎºĞÀÇ °æ¿ì ±¸Á¶Ã¼ v4l2_fh´Â ´õ Å« ±¸Á¶¿¡ Æ÷ÇÔµË´Ï´Ù.
-ÀÌ °æ¿ì open ()¿¡¼­´Â v4l2_fh_init + v4l2_fh_add¸¦ È£ÃâÇÏ°í release ()¿¡¼­´Â v4l2_fh_del + v4l2_fh_exitÀ» È£ÃâÇØ¾ßÇÕ´Ï´Ù.
+ëŒ€ë¶€ë¶„ì˜ ê²½ìš° êµ¬ì¡°ì²´ v4l2_fhëŠ” ë” í° êµ¬ì¡°ì— í¬í•¨ë©ë‹ˆë‹¤.
+ì´ ê²½ìš° open ()ì—ì„œëŠ” v4l2_fh_init + v4l2_fh_addë¥¼ í˜¸ì¶œí•˜ê³  release ()ì—ì„œëŠ” v4l2_fh_del + v4l2_fh_exitì„ í˜¸ì¶œí•´ì•¼í•©ë‹ˆë‹¤.
 
 Drivers can extract their own file handle structure by using the container_of
 macro. Example:
-µå¶óÀÌ¹ö´Â ¸ÅÅ©·ÎÀÇ container_of¸¦ »ç¿ëÇÏ¿© ÀÚ½ÅÀÇ ÆÄÀÏ ÇÚµé ±¸Á¶¸¦ ÃßÃâ ÇÒ ¼ö ÀÖ½À´Ï´Ù. ¿¹:
+ë“œë¼ì´ë²„ëŠ” ë§¤í¬ë¡œì˜ container_ofë¥¼ ì‚¬ìš©í•˜ì—¬ ìì‹ ì˜ íŒŒì¼ í•¸ë“¤ êµ¬ì¡°ë¥¼ ì¶”ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì˜ˆ:
 
 struct my_fh {
 	int blah;
@@ -1257,69 +1257,69 @@ int my_release(struct file *file)
 }
 
 Below is a short description of the v4l2_fh functions used:
-´ÙÀ½Àº »ç¿ë µÈ v4l2_fh ±â´É¿¡ ´ëÇÑ °£·«ÇÑ ¼³¸íÀÔ´Ï´Ù.
+ë‹¤ìŒì€ ì‚¬ìš© ëœ v4l2_fh ê¸°ëŠ¥ì— ëŒ€í•œ ê°„ëµí•œ ì„¤ëª…ì…ë‹ˆë‹¤.
 
 void v4l2_fh_init(struct v4l2_fh *fh, struct video_device *vdev)
 
   Initialise the file handle. This *MUST* be performed in the driver's
   v4l2_file_operations->open() handler.
-ÆÄÀÏ ÇÚµéÀ» ÃÊ±âÈ­ÇÏ½Ê½Ã¿À. ÀÌ°ÍÀº * µå¶óÀÌ¹öÀÇ v4l2_file_operations-> open () ÇÚµé·¯¿¡¼­ ¼öÇàµÇ¾î¾ßÇÕ´Ï´Ù.
+íŒŒì¼ í•¸ë“¤ì„ ì´ˆê¸°í™”í•˜ì‹­ì‹œì˜¤. ì´ê²ƒì€ * ë“œë¼ì´ë²„ì˜ v4l2_file_operations-> open () í•¸ë“¤ëŸ¬ì—ì„œ ìˆ˜í–‰ë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 
 void v4l2_fh_add(struct v4l2_fh *fh)
 
   Add a v4l2_fh to video_device file handle list. Must be called once the
   file handle is completely initialized.
-video_device ÆÄÀÏ ÇÚµé ¸ñ·Ï¿¡ v4l2_fh¸¦ Ãß°¡ÇÏ½Ê½Ã¿À. ÆÄÀÏ ÇÚµéÀÌ ¿ÏÀüÈ÷ ÃÊ±âÈ­µÇ¸é È£ÃâµÇ¾î¾ßÇÕ´Ï´Ù.
+video_device íŒŒì¼ í•¸ë“¤ ëª©ë¡ì— v4l2_fhë¥¼ ì¶”ê°€í•˜ì‹­ì‹œì˜¤. íŒŒì¼ í•¸ë“¤ì´ ì™„ì „íˆ ì´ˆê¸°í™”ë˜ë©´ í˜¸ì¶œë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 
 void v4l2_fh_del(struct v4l2_fh *fh)
 
   Unassociate the file handle from video_device(). The file handle
   exit function may now be called.
-video_device ()¿¡¼­ ÆÄÀÏ ÇÚµéÀÇ ¿¬°áÀ» ²÷½À´Ï´Ù. ÀÌÁ¦ ÆÄÀÏ ÇÚµé Á¾·á ÇÔ¼ö¸¦ È£Ãâ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+video_device ()ì—ì„œ íŒŒì¼ í•¸ë“¤ì˜ ì—°ê²°ì„ ëŠìŠµë‹ˆë‹¤. ì´ì œ íŒŒì¼ í•¸ë“¤ ì¢…ë£Œ í•¨ìˆ˜ë¥¼ í˜¸ì¶œ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 void v4l2_fh_exit(struct v4l2_fh *fh)
 
   Uninitialise the file handle. After uninitialisation the v4l2_fh
   memory can be freed.
-ÆÄÀÏ ÇÚµéÀ» ÃÊ±âÈ­ ÇØÁ¦ÇÏ½Ê½Ã¿À. ÃÊ±âÈ­µÇÁö ¾ÊÀ¸¸é v4l2_fh ¸Ş¸ğ¸®¸¦ ºñ¿ï ¼ö ÀÖ½À´Ï´Ù.
+íŒŒì¼ í•¸ë“¤ì„ ì´ˆê¸°í™” í•´ì œí•˜ì‹­ì‹œì˜¤. ì´ˆê¸°í™”ë˜ì§€ ì•Šìœ¼ë©´ v4l2_fh ë©”ëª¨ë¦¬ë¥¼ ë¹„ìš¸ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 
 If struct v4l2_fh is not embedded, then you can use these helper functions:
-struct v4l2_fh°¡ ³»ÀåµÇ¾î ÀÖÁö ¾ÊÀ¸¸é ´ÙÀ½°ú °°Àº µµ¿ì¹Ì ÇÔ¼ö¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+struct v4l2_fhê°€ ë‚´ì¥ë˜ì–´ ìˆì§€ ì•Šìœ¼ë©´ ë‹¤ìŒê³¼ ê°™ì€ ë„ìš°ë¯¸ í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 int v4l2_fh_open(struct file *filp)
 
   This allocates a struct v4l2_fh, initializes it and adds it to the struct
   video_device associated with the file struct.
-ÀÌ ±¸Á¶Ã¼´Â v4l2_fh ±¸Á¶Ã¼¸¦ ÇÒ´çÇÏ°íÀÌ¸¦ ÃÊ±âÈ­ÇÏ°í ÆÄÀÏ ±¸Á¶Ã¼¿Í ¿¬°üµÈ struct video_device¿¡ Ãß°¡ÇÕ´Ï´Ù.
+ì´ êµ¬ì¡°ì²´ëŠ” v4l2_fh êµ¬ì¡°ì²´ë¥¼ í• ë‹¹í•˜ê³ ì´ë¥¼ ì´ˆê¸°í™”í•˜ê³  íŒŒì¼ êµ¬ì¡°ì²´ì™€ ì—°ê´€ëœ struct video_deviceì— ì¶”ê°€í•©ë‹ˆë‹¤.
 
 int v4l2_fh_release(struct file *filp)
 
   This deletes it from the struct video_device associated with the file
   struct, uninitialised the v4l2_fh and frees it.
-ÀÌ·¸°ÔÇÏ¸é ÆÄÀÏ ±¸Á¶Ã¼¿Í ¿¬°üµÈ struct video_device¿¡¼­ »èÁ¦µÇ°í v4l2_fh°¡ ÃÊ±âÈ­µÇÁö ¾Ê°í ÇØÁ¦µË´Ï´Ù.
+ì´ë ‡ê²Œí•˜ë©´ íŒŒì¼ êµ¬ì¡°ì²´ì™€ ì—°ê´€ëœ struct video_deviceì—ì„œ ì‚­ì œë˜ê³  v4l2_fhê°€ ì´ˆê¸°í™”ë˜ì§€ ì•Šê³  í•´ì œë©ë‹ˆë‹¤.
 
 These two functions can be plugged into the v4l2_file_operation's open() and
 release() ops.
-ÀÌ µÎ ÇÔ¼ö´Â v4l2_file_operationÀÇ open () ¹× release () ÀÛ¾÷¿¡ ¿¬°áÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ ë‘ í•¨ìˆ˜ëŠ” v4l2_file_operationì˜ open () ë° release () ì‘ì—…ì— ì—°ê²°í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 
 Several drivers need to do something when the first file handle is opened and
 when the last file handle closes. Two helper functions were added to check
 whether the v4l2_fh struct is the only open filehandle of the associated
 device node:
-¿©·¯ µå¶óÀÌ¹ö°¡ Ã¹ ¹øÂ° ÆÄÀÏ ÇÚµéÀ» ¿­ ¶§ ¹× ¸¶Áö¸· ÆÄÀÏ ÇÚµéÀ» ´İÀ» ¶§ ¹º°¡¸¦ÇØ¾ßÇÕ´Ï´Ù. 
-v4l2_fh ±¸Á¶Ã¼°¡ °ü·Ã ÀåÄ¡ ³ëµåÀÇ À¯ÀÏÇÑ ¿­¸° ÆÄÀÏ ÇÚµéÀÎÁö È®ÀÎÇÏ±â À§ÇØ µÎ °¡Áö µµ¿ì¹Ì ÇÔ¼ö°¡ Ãß°¡µÇ¾ú½À´Ï´Ù.
+ì—¬ëŸ¬ ë“œë¼ì´ë²„ê°€ ì²« ë²ˆì§¸ íŒŒì¼ í•¸ë“¤ì„ ì—´ ë•Œ ë° ë§ˆì§€ë§‰ íŒŒì¼ í•¸ë“¤ì„ ë‹«ì„ ë•Œ ë­”ê°€ë¥¼í•´ì•¼í•©ë‹ˆë‹¤. 
+v4l2_fh êµ¬ì¡°ì²´ê°€ ê´€ë ¨ ì¥ì¹˜ ë…¸ë“œì˜ ìœ ì¼í•œ ì—´ë¦° íŒŒì¼ í•¸ë“¤ì¸ì§€ í™•ì¸í•˜ê¸° ìœ„í•´ ë‘ ê°€ì§€ ë„ìš°ë¯¸ í•¨ìˆ˜ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.
 
 int v4l2_fh_is_singular(struct v4l2_fh *fh)
 
   Returns 1 if the file handle is the only open file handle, else 0.
-ÆÄÀÏ ÇÚµéÀÌ ¿­·ÁÀÖ´Â ÆÄÀÏ ÇÚµé ¸¸ÀÌ¸é 1À» ¹İÈ¯ÇÏ°í ±×·¸Áö ¾ÊÀ¸¸é 0À» ¹İÈ¯ÇÕ´Ï´Ù.
+íŒŒì¼ í•¸ë“¤ì´ ì—´ë ¤ìˆëŠ” íŒŒì¼ í•¸ë“¤ ë§Œì´ë©´ 1ì„ ë°˜í™˜í•˜ê³  ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ 0ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 
 int v4l2_fh_is_singular_file(struct file *filp)
 
   Same, but it calls v4l2_fh_is_singular with filp->private_data.
-µ¿ÀÏÇÏÁö¸¸, filp-> private_data·Î v4l2_fh_is_singular¸¦ È£ÃâÇÕ´Ï´Ù.
+ë™ì¼í•˜ì§€ë§Œ, filp-> private_dataë¡œ v4l2_fh_is_singularë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
 
 
 V4L2 events
@@ -1327,24 +1327,24 @@ V4L2 events
 
 The V4L2 events provide a generic way to pass events to user space.
 The driver must use v4l2_fh to be able to support V4L2 events.
-V4L2 ÀÌº¥Æ®´Â ÀÌº¥Æ®¸¦ »ç¿ëÀÚ °ø°£¿¡ Àü´ŞÇÏ´Â ÀÏ¹İÀûÀÎ ¹æ¹ıÀ» Á¦°øÇÕ´Ï´Ù.
-µå¶óÀÌ¹ö´Â V4L2 ÀÌº¥Æ®¸¦ Áö¿øÇÒ ¼ö ÀÖµµ·Ï v4l2_fh¸¦ »ç¿ëÇØ¾ßÇÕ´Ï´Ù.
+V4L2 ì´ë²¤íŠ¸ëŠ” ì´ë²¤íŠ¸ë¥¼ ì‚¬ìš©ì ê³µê°„ì— ì „ë‹¬í•˜ëŠ” ì¼ë°˜ì ì¸ ë°©ë²•ì„ ì œê³µí•©ë‹ˆë‹¤.
+ë“œë¼ì´ë²„ëŠ” V4L2 ì´ë²¤íŠ¸ë¥¼ ì§€ì›í•  ìˆ˜ ìˆë„ë¡ v4l2_fhë¥¼ ì‚¬ìš©í•´ì•¼í•©ë‹ˆë‹¤.
 
 Events are defined by a type and an optional ID. The ID may refer to a V4L2
 object such as a control ID. If unused, then the ID is 0.
-ÀÌº¥Æ®´Â À¯Çü ¹× ¼±ÅÃÀû ID·Î Á¤ÀÇµË´Ï´Ù. ID´Â Á¦¾î ID¿Í °°Àº V4L2 ¿ÀºêÁ§Æ®¸¦ ÂüÁ¶ ÇÒ ¼ö ÀÖ½À´Ï´Ù. »ç¿ëÇÏÁö ¾ÊÀ¸¸é ID´Â 0ÀÔ´Ï´Ù.
+ì´ë²¤íŠ¸ëŠ” ìœ í˜• ë° ì„ íƒì  IDë¡œ ì •ì˜ë©ë‹ˆë‹¤. IDëŠ” ì œì–´ IDì™€ ê°™ì€ V4L2 ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¸ì¡° í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì‚¬ìš©í•˜ì§€ ì•Šìœ¼ë©´ IDëŠ” 0ì…ë‹ˆë‹¤.
 
 When the user subscribes to an event the driver will allocate a number of
 kevent structs for that event. So every (type, ID) event tuple will have
 its own set of kevent structs. This guarantees that if a driver is generating
 lots of events of one type in a short time, then that will not overwrite
 events of another type.
-»ç¿ëÀÚ°¡ ÀÌº¥Æ®¿¡ °¡ÀÔÇÏ¸é µå¶óÀÌ¹ö´Â ÇØ´ç ÀÌº¥Æ®¿¡ ´ëÇÑ ¿©·¯ kevent ±¸Á¶Ã¼¸¦ ÇÒ´çÇÕ´Ï´Ù. µû¶ó¼­ ¸ğµç (type, ID) ÀÌº¥Æ® Æ©ÇÃ¿¡´Â ÀÚÃ¼ kevent ±¸Á¶Ã¼ ÁıÇÕÀÌ ÀÖ½À´Ï´Ù. 
-ÀÌ·¸°ÔÇÏ¸é µå¶óÀÌ¹ö°¡ ÂªÀº ½Ã°£¿¡ ÇÑ °¡Áö À¯ÇüÀÇ ÀÌº¥Æ®¸¦ ¸¹ÀÌ »ı¼ºÇÏ´Â °æ¿ì ´Ù¸¥ À¯ÇüÀÇ ÀÌº¥Æ®¸¦ µ¤¾î ¾²Áö ¾Ê½À´Ï´Ù.
+ì‚¬ìš©ìê°€ ì´ë²¤íŠ¸ì— ê°€ì…í•˜ë©´ ë“œë¼ì´ë²„ëŠ” í•´ë‹¹ ì´ë²¤íŠ¸ì— ëŒ€í•œ ì—¬ëŸ¬ kevent êµ¬ì¡°ì²´ë¥¼ í• ë‹¹í•©ë‹ˆë‹¤. ë”°ë¼ì„œ ëª¨ë“  (type, ID) ì´ë²¤íŠ¸ íŠœí”Œì—ëŠ” ìì²´ kevent êµ¬ì¡°ì²´ ì§‘í•©ì´ ìˆìŠµë‹ˆë‹¤. 
+ì´ë ‡ê²Œí•˜ë©´ ë“œë¼ì´ë²„ê°€ ì§§ì€ ì‹œê°„ì— í•œ ê°€ì§€ ìœ í˜•ì˜ ì´ë²¤íŠ¸ë¥¼ ë§ì´ ìƒì„±í•˜ëŠ” ê²½ìš° ë‹¤ë¥¸ ìœ í˜•ì˜ ì´ë²¤íŠ¸ë¥¼ ë®ì–´ ì“°ì§€ ì•ŠìŠµë‹ˆë‹¤.
 
 But if you get more events of one type than the number of kevents that were
 reserved, then the oldest event will be dropped and the new one added.
-±×·¯³ª ¿¹¾à µÈ ÀÌº¥Æ® ¼öº¸´Ù ÇÑ °¡Áö À¯ÇüÀÇ ÀÌº¥Æ®°¡ ´õ ¸¹ÀÌ ¹ß»ıÇÏ¸é °¡Àå ¿À·¡µÈ ÀÌº¥Æ®°¡ »èÁ¦µÇ°í »õ ÀÌº¥Æ®°¡ Ãß°¡µË´Ï´Ù.
+ê·¸ëŸ¬ë‚˜ ì˜ˆì•½ ëœ ì´ë²¤íŠ¸ ìˆ˜ë³´ë‹¤ í•œ ê°€ì§€ ìœ í˜•ì˜ ì´ë²¤íŠ¸ê°€ ë” ë§ì´ ë°œìƒí•˜ë©´ ê°€ì¥ ì˜¤ë˜ëœ ì´ë²¤íŠ¸ê°€ ì‚­ì œë˜ê³  ìƒˆ ì´ë²¤íŠ¸ê°€ ì¶”ê°€ë©ë‹ˆë‹¤.
 
 Furthermore, the internal struct v4l2_subscribed_event has merge() and
 replace() callbacks which drivers can set. These callbacks are called when
@@ -1355,22 +1355,22 @@ replaces it. It is called when this event type has only one kevent struct
 allocated. The merge() callback allows you to merge the oldest event payload
 into that of the second-oldest event payload. It is called when there are two
 or more kevent structs allocated.
-¶ÇÇÑ ³»ºÎ ±¸Á¶Ã¼ ÀÎ v4l2_subscribed_event´Â µå¶óÀÌ¹ö°¡ ¼³Á¤ÇÒ ¼öÀÖ´Â Äİ¹éÀ» merge () ¹× replace ()ÇÕ´Ï´Ù. 
-ÀÌ·¯ÇÑ Äİ¹éÀº »õ ÀÌº¥Æ®°¡ ¹ß»ıÇÏ°í ´õ ÀÌ»ó °ø°£ÀÌ ¾øÀ» ¶§ È£ÃâµË´Ï´Ù. replace () Äİ¹éÀ» »ç¿ëÇÏ¸é ÀÌÀü ÀÌº¥Æ®ÀÇ ÆäÀÌ·Îµå¸¦ »õ ÀÌº¥Æ®ÀÇ ÆäÀÌ·Îµå·Î ´ëÃ¼ÇÏ°í ÀÌÀü ÆäÀÌ·ÎµåÀÇ °ü·Ã µ¥ÀÌÅÍ¸¦ÀÌ¸¦ ´ëÃ¼ÇÏ´Â »õ ÆäÀÌ·Îµå·Î º´ÇÕ ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ ÀÌº¥Æ® Å¸ÀÔÀÌ ÇÏ³ªÀÇ kevent ±¸Á¶Ã¼ ¸¸ ÇÒ´çµÇ¾úÀ» ¶§ È£ÃâµË´Ï´Ù. merge () Äİ¹éÀ» »ç¿ëÇÏ¸é °¡Àå ¿À·¡µÈ ÀÌº¥Æ® ÆäÀÌ·Îµå¸¦ µÎ ¹øÂ° °¡Àå ¿À·¡µÈ ÀÌº¥Æ® ÆäÀÌ·ÎµåÀÇ º´ÇÕ ÀÌº¥Æ®·Î º´ÇÕ ÇÒ ¼ö ÀÖ½À´Ï´Ù. µÎ °³ ÀÌ»óÀÇ kevent ±¸Á¶Ã¼°¡ ÇÒ´ç µÉ ¶§ È£ÃâµË´Ï´Ù.
+ë˜í•œ ë‚´ë¶€ êµ¬ì¡°ì²´ ì¸ v4l2_subscribed_eventëŠ” ë“œë¼ì´ë²„ê°€ ì„¤ì •í•  ìˆ˜ìˆëŠ” ì½œë°±ì„ merge () ë° replace ()í•©ë‹ˆë‹¤. 
+ì´ëŸ¬í•œ ì½œë°±ì€ ìƒˆ ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ê³  ë” ì´ìƒ ê³µê°„ì´ ì—†ì„ ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤. replace () ì½œë°±ì„ ì‚¬ìš©í•˜ë©´ ì´ì „ ì´ë²¤íŠ¸ì˜ í˜ì´ë¡œë“œë¥¼ ìƒˆ ì´ë²¤íŠ¸ì˜ í˜ì´ë¡œë“œë¡œ ëŒ€ì²´í•˜ê³  ì´ì „ í˜ì´ë¡œë“œì˜ ê´€ë ¨ ë°ì´í„°ë¥¼ì´ë¥¼ ëŒ€ì²´í•˜ëŠ” ìƒˆ í˜ì´ë¡œë“œë¡œ ë³‘í•© í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì´ ì´ë²¤íŠ¸ íƒ€ì…ì´ í•˜ë‚˜ì˜ kevent êµ¬ì¡°ì²´ ë§Œ í• ë‹¹ë˜ì—ˆì„ ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤. merge () ì½œë°±ì„ ì‚¬ìš©í•˜ë©´ ê°€ì¥ ì˜¤ë˜ëœ ì´ë²¤íŠ¸ í˜ì´ë¡œë“œë¥¼ ë‘ ë²ˆì§¸ ê°€ì¥ ì˜¤ë˜ëœ ì´ë²¤íŠ¸ í˜ì´ë¡œë“œì˜ ë³‘í•© ì´ë²¤íŠ¸ë¡œ ë³‘í•© í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë‘ ê°œ ì´ìƒì˜ kevent êµ¬ì¡°ì²´ê°€ í• ë‹¹ ë  ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
 
 This way no status information is lost, just the intermediate steps leading
 up to that state.
-ÀÌ·¸°ÔÇÏ¸é »óÅÂ Á¤º¸°¡ ¼Õ½ÇµÇÁö ¾Ê°í ±× »óÅÂ·Î ÀÌ¾îÁö´Â Áß°£ ´Ü°è ¸¸ ¼Õ½ÇµË´Ï´Ù.
+ì´ë ‡ê²Œí•˜ë©´ ìƒíƒœ ì •ë³´ê°€ ì†ì‹¤ë˜ì§€ ì•Šê³  ê·¸ ìƒíƒœë¡œ ì´ì–´ì§€ëŠ” ì¤‘ê°„ ë‹¨ê³„ ë§Œ ì†ì‹¤ë©ë‹ˆë‹¤.
 
 A good example of these replace/merge callbacks is in v4l2-event.c:
 ctrls_replace() and ctrls_merge() callbacks for the control event.
-ÀÌ·¯ÇÑ ´ëÃ¼ / º´ÇÕ Äİ¹éÀÇ ÁÁÀº ¿¹´Â v4l2-event.c¿¡ ÀÖ½À´Ï´Ù.
-ÄÁÆ®·Ñ ÀÌº¥Æ®¿¡ ´ëÇÑ ctrls_replace () ¹× ctrls_merge () Äİ¹é
+ì´ëŸ¬í•œ ëŒ€ì²´ / ë³‘í•© ì½œë°±ì˜ ì¢‹ì€ ì˜ˆëŠ” v4l2-event.cì— ìˆìŠµë‹ˆë‹¤.
+ì»¨íŠ¸ë¡¤ ì´ë²¤íŠ¸ì— ëŒ€í•œ ctrls_replace () ë° ctrls_merge () ì½œë°±
 
 Note: these callbacks can be called from interrupt context, so they must be
 fast.
-Âü°í : ÀÌ·¯ÇÑ Äİ¹éÀº ÀÎÅÍ·´Æ® ÄÁÅØ½ºÆ®¿¡¼­ È£Ãâ µÉ ¼ö ÀÖÀ¸¹Ç·Î »¡¶ó¾ß ÇÕ´Ï´Ù.
+ì°¸ê³  : ì´ëŸ¬í•œ ì½œë°±ì€ ì¸í„°ëŸ½íŠ¸ ì»¨í…ìŠ¤íŠ¸ì—ì„œ í˜¸ì¶œ ë  ìˆ˜ ìˆìœ¼ë¯€ë¡œ ë¹¨ë¼ì•¼ í•©ë‹ˆë‹¤.
 
 Useful functions:
 
@@ -1379,7 +1379,7 @@ void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev)
   Queue events to video device. The driver's only responsibility is to fill
   in the type and the data fields. The other fields will be filled in by
   V4L2.
-ÀÌº¥Æ®¸¦ ºñµğ¿À ÀåÄ¡¿¡ ´ë±â½ÃÅµ´Ï´Ù. µå¶óÀÌ¹öÀÇ À¯ÀÏÇÑ Ã¥ÀÓÀº À¯Çü ¹× µ¥ÀÌÅÍ ÇÊµå¸¦ Ã¤¿ì´Â °ÍÀÔ´Ï´Ù. ´Ù¸¥ ÇÊµå´Â V4L2·Î Ã¤¿öÁı´Ï´Ù.
+ì´ë²¤íŠ¸ë¥¼ ë¹„ë””ì˜¤ ì¥ì¹˜ì— ëŒ€ê¸°ì‹œí‚µë‹ˆë‹¤. ë“œë¼ì´ë²„ì˜ ìœ ì¼í•œ ì±…ì„ì€ ìœ í˜• ë° ë°ì´í„° í•„ë“œë¥¼ ì±„ìš°ëŠ” ê²ƒì…ë‹ˆë‹¤. ë‹¤ë¥¸ í•„ë“œëŠ” V4L2ë¡œ ì±„ì›Œì§‘ë‹ˆë‹¤.
 
 int v4l2_event_subscribe(struct v4l2_fh *fh,
 			 struct v4l2_event_subscription *sub, unsigned elems,
@@ -1388,28 +1388,28 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
   The video_device->ioctl_ops->vidioc_subscribe_event must check the driver
   is able to produce events with specified event id. Then it calls
   v4l2_event_subscribe() to subscribe the event.
-video_device-> ioctl_ops-> vidioc_subscribe_event´Â µå¶óÀÌ¹ö°¡ ÁöÁ¤µÈ ÀÌº¥Æ® ID·Î ÀÌº¥Æ®¸¦ »ı¼º ÇÒ ¼ö ÀÖ´ÂÁö È®ÀÎÇØ¾ßÇÕ´Ï´Ù. 
-±×·± ´ÙÀ½ v4l2_event_subscribe ()¸¦ È£ÃâÇÏ¿© ÀÌº¥Æ®¸¦ ±¸µ¶ÇÕ´Ï´Ù.
+video_device-> ioctl_ops-> vidioc_subscribe_eventëŠ” ë“œë¼ì´ë²„ê°€ ì§€ì •ëœ ì´ë²¤íŠ¸ IDë¡œ ì´ë²¤íŠ¸ë¥¼ ìƒì„± í•  ìˆ˜ ìˆëŠ”ì§€ í™•ì¸í•´ì•¼í•©ë‹ˆë‹¤. 
+ê·¸ëŸ° ë‹¤ìŒ v4l2_event_subscribe ()ë¥¼ í˜¸ì¶œí•˜ì—¬ ì´ë²¤íŠ¸ë¥¼ êµ¬ë…í•©ë‹ˆë‹¤.
 
   The elems argument is the size of the event queue for this event. If it is 0,
   then the framework will fill in a default value (this depends on the event
   type).
-elems ÀÎ¼ö´ÂÀÌ ÀÌº¥Æ®¿¡ ´ëÇÑ ÀÌº¥Æ® ´ë±â¿­ÀÇ Å©±âÀÔ´Ï´Ù. °ªÀÌ 0ÀÌ¸é ÇÁ·¹ÀÓ ¿öÅ©°¡ ±âº»°ª (ÀÌº¥Æ® À¯Çü¿¡ µû¶ó ´Ù¸§)À» Ã¤ ¿ó´Ï´Ù.
+elems ì¸ìˆ˜ëŠ”ì´ ì´ë²¤íŠ¸ì— ëŒ€í•œ ì´ë²¤íŠ¸ ëŒ€ê¸°ì—´ì˜ í¬ê¸°ì…ë‹ˆë‹¤. ê°’ì´ 0ì´ë©´ í”„ë ˆì„ ì›Œí¬ê°€ ê¸°ë³¸ê°’ (ì´ë²¤íŠ¸ ìœ í˜•ì— ë”°ë¼ ë‹¤ë¦„)ì„ ì±„ ì›ë‹ˆë‹¤.
 
   The ops argument allows the driver to specify a number of callbacks:
-ops ÀÎ¼ö¸¦ »ç¿ëÇÏ¸é µå¶óÀÌ¹ö°¡ ¿©·¯ Äİ¹éÀ» ÁöÁ¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ops ì¸ìˆ˜ë¥¼ ì‚¬ìš©í•˜ë©´ ë“œë¼ì´ë²„ê°€ ì—¬ëŸ¬ ì½œë°±ì„ ì§€ì •í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
   * add:     called when a new listener gets added (subscribing to the same
              event twice will only cause this callback to get called once)
-* add : »õ ¸®½º³Ê°¡ Ãß°¡µÇ¸é È£ÃâµË´Ï´Ù (µ¿ÀÏÇÑ ÀÌº¥Æ®¸¦ µÎ ¹ø ±¸µ¶ÇÏ¸éÀÌ Äİ¹éÀÌ ÇÑ ¹ø È£ÃâµË´Ï´Ù)
+* add : ìƒˆ ë¦¬ìŠ¤ë„ˆê°€ ì¶”ê°€ë˜ë©´ í˜¸ì¶œë©ë‹ˆë‹¤ (ë™ì¼í•œ ì´ë²¤íŠ¸ë¥¼ ë‘ ë²ˆ êµ¬ë…í•˜ë©´ì´ ì½œë°±ì´ í•œ ë²ˆ í˜¸ì¶œë©ë‹ˆë‹¤)
 
   * del:     called when a listener stops listening
-* del : ¸®½º³Ê°¡ Ã»Ãë¸¦ Áß´Ü ÇÒ ¶§ È£ÃâµË´Ï´Ù.
+* del : ë¦¬ìŠ¤ë„ˆê°€ ì²­ì·¨ë¥¼ ì¤‘ë‹¨ í•  ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
 
   * replace: replace event 'old' with event 'new'.
   * merge:   merge event 'old' into event 'new'.
   All 4 callbacks are optional, if you don't want to specify any callbacks
   the ops argument itself maybe NULL.
-¸ğµç Äİ¹éÀº ¼±ÅÃÀûÀÔ´Ï´Ù. Äİ¹éÀ» ÁöÁ¤ÇÏÁö ¾ÊÀ¸·Á¸é ops ÀÎ¼ö ÀÚÃ¼°¡ NULL ÀÏ ¼ö ÀÖ½À´Ï´Ù.
+ëª¨ë“  ì½œë°±ì€ ì„ íƒì ì…ë‹ˆë‹¤. ì½œë°±ì„ ì§€ì •í•˜ì§€ ì•Šìœ¼ë ¤ë©´ ops ì¸ìˆ˜ ìì²´ê°€ NULL ì¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 int v4l2_event_unsubscribe(struct v4l2_fh *fh,
 			   struct v4l2_event_subscription *sub)
@@ -1417,20 +1417,20 @@ int v4l2_event_unsubscribe(struct v4l2_fh *fh,
   vidioc_unsubscribe_event in struct v4l2_ioctl_ops. A driver may use
   v4l2_event_unsubscribe() directly unless it wants to be involved in
   unsubscription process.
-struct v4l2_ioctl_opsÀÇ vidioc_unsubscribe_event. µå¶óÀÌ¹ö´Â °¡ÀÔ Ãë¼Ò ÇÁ·Î¼¼½º¿¡ Âü¿©ÇÏ±â¸¦ ¿øÄ¡ ¾Ê´Â ÇÑ v4l2_event_unsubscribe ()¸¦ Á÷Á¢ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+struct v4l2_ioctl_opsì˜ vidioc_unsubscribe_event. ë“œë¼ì´ë²„ëŠ” ê°€ì… ì·¨ì†Œ í”„ë¡œì„¸ìŠ¤ì— ì°¸ì—¬í•˜ê¸°ë¥¼ ì›ì¹˜ ì•ŠëŠ” í•œ v4l2_event_unsubscribe ()ë¥¼ ì§ì ‘ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
   The special type V4L2_EVENT_ALL may be used to unsubscribe all events. The
   drivers may want to handle this in a special way.
-Æ¯¼ö À¯Çü V4L2_EVENT_ALLÀº ¸ğµç ÀÌº¥Æ®ÀÇ µî·ÏÀ» Ãë¼ÒÇÏ´Â µ¥ »ç¿ëµÉ ¼ö ÀÖ½À´Ï´Ù. µå¶óÀÌ¹ö´Â Æ¯º°ÇÑ ¹æ¹ıÀ¸·ÎÀÌ¸¦ Ã³¸®ÇÏ±â¸¦ ¿øÇÒ ¼ö ÀÖ½À´Ï´Ù.
+íŠ¹ìˆ˜ ìœ í˜• V4L2_EVENT_ALLì€ ëª¨ë“  ì´ë²¤íŠ¸ì˜ ë“±ë¡ì„ ì·¨ì†Œí•˜ëŠ” ë° ì‚¬ìš©ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë“œë¼ì´ë²„ëŠ” íŠ¹ë³„í•œ ë°©ë²•ìœ¼ë¡œì´ë¥¼ ì²˜ë¦¬í•˜ê¸°ë¥¼ ì›í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 int v4l2_event_pending(struct v4l2_fh *fh)
 
   Returns the number of pending events. Useful when implementing poll.
-º¸·ù ÁßÀÇ ÀÌº¥Æ®ÀÇ ¼ö¸¦ µ¹·ÁÁİ´Ï´Ù. poll(¼³¹® Á¶»ç)¸¦ ½ÃÇà ÇÒ ¶§ À¯¿ëÇÕ´Ï´Ù.
+ë³´ë¥˜ ì¤‘ì˜ ì´ë²¤íŠ¸ì˜ ìˆ˜ë¥¼ ëŒë ¤ì¤ë‹ˆë‹¤. poll(ì„¤ë¬¸ ì¡°ì‚¬)ë¥¼ ì‹œí–‰ í•  ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
 
 Events are delivered to user space through the poll system call. The driver
 can use v4l2_fh->wait (a wait_queue_head_t) as the argument for poll_wait().
-ÀÌº¥Æ®´Â Æú¸µ ½Ã½ºÅÛ È£ÃâÀ» ÅëÇØ »ç¿ëÀÚ °ø°£¿¡ Àü´ŞµË´Ï´Ù. µå¶óÀÌ¹ö´Â poll_wait ()¿¡ ´ëÇÑ ÀÎ¼ö·Î v4l2_fh-> wait (wait_queue_head_t)¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì´ë²¤íŠ¸ëŠ” í´ë§ ì‹œìŠ¤í…œ í˜¸ì¶œì„ í†µí•´ ì‚¬ìš©ì ê³µê°„ì— ì „ë‹¬ë©ë‹ˆë‹¤. ë“œë¼ì´ë²„ëŠ” poll_wait ()ì— ëŒ€í•œ ì¸ìˆ˜ë¡œ v4l2_fh-> wait (wait_queue_head_t)ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 There are standard and private events. New standard events must use the
 smallest available event type. The drivers must allocate their events from
@@ -1438,18 +1438,18 @@ their own class starting from class base. Class base is
 V4L2_EVENT_PRIVATE_START + n * 1000 where n is the lowest available number.
 The first event type in the class is reserved for future use, so the first
 available event type is 'class base + 1'.
-Ç¥ÁØ ¹× »çÀûÀÎ ÀÌº¥Æ®°¡ ÀÖ½À´Ï´Ù. »õ Ç¥ÁØ ÀÌº¥Æ®´Â »ç¿ë °¡´ÉÇÑ °¡Àå ÀÛÀº ÀÌº¥Æ® À¯ÇüÀ» »ç¿ëÇØ¾ßÇÕ´Ï´Ù. µå¶óÀÌ¹ö´Â Å¬·¡½ºº£ÀÌ½º¿¡¼­ ½ÃÀÛÇÏ¿© ÀÚ½ÅÀÇ Å¬·¡½º¿¡¼­ ÀÌº¥Æ®¸¦ ÇÒ´çÇØ¾ßÇÕ´Ï´Ù. 
-Å¬·¡½º ±âº»Àº V4L2_EVENT_PRIVATE_START + n * 1000ÀÔ´Ï´Ù. ¿©±â¼­ nÀº »ç¿ë °¡´ÉÇÑ °¡Àå ³·Àº ¹øÈ£ÀÔ´Ï´Ù. Å¬·¡½ºÀÇ Ã¹ ¹øÂ° ÀÌº¥Æ® À¯ÇüÀº ³ªÁß¿¡ »ç¿ëÇÏµµ·Ï ¿¹¾àµÇ¾î ÀÖÀ¸¹Ç·Î »ç¿ë °¡´ÉÇÑ Ã¹ ¹øÂ° ÀÌº¥Æ® À¯ÇüÀº 'class base + 1'ÀÔ´Ï´Ù.
+í‘œì¤€ ë° ì‚¬ì ì¸ ì´ë²¤íŠ¸ê°€ ìˆìŠµë‹ˆë‹¤. ìƒˆ í‘œì¤€ ì´ë²¤íŠ¸ëŠ” ì‚¬ìš© ê°€ëŠ¥í•œ ê°€ì¥ ì‘ì€ ì´ë²¤íŠ¸ ìœ í˜•ì„ ì‚¬ìš©í•´ì•¼í•©ë‹ˆë‹¤. ë“œë¼ì´ë²„ëŠ” í´ë˜ìŠ¤ë² ì´ìŠ¤ì—ì„œ ì‹œì‘í•˜ì—¬ ìì‹ ì˜ í´ë˜ìŠ¤ì—ì„œ ì´ë²¤íŠ¸ë¥¼ í• ë‹¹í•´ì•¼í•©ë‹ˆë‹¤. 
+í´ë˜ìŠ¤ ê¸°ë³¸ì€ V4L2_EVENT_PRIVATE_START + n * 1000ì…ë‹ˆë‹¤. ì—¬ê¸°ì„œ nì€ ì‚¬ìš© ê°€ëŠ¥í•œ ê°€ì¥ ë‚®ì€ ë²ˆí˜¸ì…ë‹ˆë‹¤. í´ë˜ìŠ¤ì˜ ì²« ë²ˆì§¸ ì´ë²¤íŠ¸ ìœ í˜•ì€ ë‚˜ì¤‘ì— ì‚¬ìš©í•˜ë„ë¡ ì˜ˆì•½ë˜ì–´ ìˆìœ¼ë¯€ë¡œ ì‚¬ìš© ê°€ëŠ¥í•œ ì²« ë²ˆì§¸ ì´ë²¤íŠ¸ ìœ í˜•ì€ 'class base + 1'ì…ë‹ˆë‹¤.
 
 An example on how the V4L2 events may be used can be found in the OMAP
 3 ISP driver (drivers/media/platform/omap3isp).
-V4L2 ÀÌº¥Æ®¸¦ »ç¿ëÇÏ´Â ¹æ¹ı¿¡ ´ëÇÑ ¿¹Á¦´Â OMAP 3 ISP µå¶óÀÌ¹ö (drivers / media / platform / omap3isp)¿¡¼­ Ã£À» ¼ö ÀÖ½À´Ï´Ù.
+V4L2 ì´ë²¤íŠ¸ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì— ëŒ€í•œ ì˜ˆì œëŠ” OMAP 3 ISP ë“œë¼ì´ë²„ (drivers / media / platform / omap3isp)ì—ì„œ ì°¾ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 A subdev can directly send an event to the v4l2_device notify function with
 V4L2_DEVICE_NOTIFY_EVENT. This allows the bridge to map the subdev that sends
 the event to the video node(s) associated with the subdev that need to be
 informed about such an event.
-ÇÏÀ§ ³ëµå´Â V4L2_DEVICE_NOTIFY_EVENT¸¦ »ç¿ëÇÏ¿© ÀÌº¥Æ®¸¦ v4l2_device ÅëÁö ÇÔ¼ö¿¡ Á÷Á¢ º¸³¾ ¼ö ÀÖ½À´Ï´Ù. ÀÌ¸¦ ÅëÇØ ºê¸®Áö´Â ÀÌº¥Æ®¸¦ º¸³»´Â ÇÏÀ§ ³ëµå¸¦ ÇÏÀ§ ÀÌº¥Æ®¿Í °ü·ÃµÈ ºñµğ¿À ³ëµå¿¡ ¸ÅÇÎ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+í•˜ìœ„ ë…¸ë“œëŠ” V4L2_DEVICE_NOTIFY_EVENTë¥¼ ì‚¬ìš©í•˜ì—¬ ì´ë²¤íŠ¸ë¥¼ v4l2_device í†µì§€ í•¨ìˆ˜ì— ì§ì ‘ ë³´ë‚¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì´ë¥¼ í†µí•´ ë¸Œë¦¬ì§€ëŠ” ì´ë²¤íŠ¸ë¥¼ ë³´ë‚´ëŠ” í•˜ìœ„ ë…¸ë“œë¥¼ í•˜ìœ„ ì´ë²¤íŠ¸ì™€ ê´€ë ¨ëœ ë¹„ë””ì˜¤ ë…¸ë“œì— ë§¤í•‘ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
 V4L2 clocks
 -----------
@@ -1464,10 +1464,10 @@ clock API usage. E.g. V4L2 has to support clock provider driver unregistration
 while a subdevice driver is holding a reference to the clock. For these reasons
 a V4L2 clock helper API has been developed and is provided to bridge and
 subdevice drivers.
-Ä«¸Ş¶ó ¼¾¼­, TV µğÄÚ´õ ¹× ÀÎÄÚ´õ¿Í °°Àº ¸¹Àº ÇÏÀ§ ÀåÄ¡´Â ½Ã½ºÅÛ¿¡¼­ Á¦°øÇÏ´Â Å¬·° ½ÅÈ£°¡ ÇÊ¿äÇÕ´Ï´Ù. 
-Á¾Á¾ÀÌ Å¬·ÏÀº °¢ ºê¸®Áö ÀåÄ¡¿¡ ÀÇÇØ °ø±ŞµË´Ï´Ù. Linux Ä¿³ÎÀº ÀÌ·¯ÇÑ ¸ñÀûÀ» À§ÇØ Common Clock Framework¸¦ Á¦°øÇÕ´Ï´Ù. 
-±×·¯³ª ¸ğµç ¾ÆÅ°ÅØÃ³¿¡¼­ »ç¿ëÇÒ ¼öÀÖ´Â °ÍÀº ¾Æ´Õ´Ï´Ù. °Ô´Ù°¡, ½Ã½ºÅÛ¿¡ ´ëÇÑ ÇÏÀ§ ÀåÄ¡ÀÇ ´Ù±â´É (Å¬·Ï, µ¥ÀÌÅÍ + µ¿±âÈ­, I2C Á¦¾î) ¿¬°á Æ¯¼ºÀº Å¬·° API »ç¿ë¿¡ Æ¯º°ÇÑ ¿ä±¸ »çÇ×À» ºÎ°ú ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-¿¹ : ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö°¡ Å¬·°¿¡ ´ëÇÑ ÂüÁ¶¸¦ º¸À¯ÇÏ°íÀÖ´Â µ¿¾È V4L2´Â Å¬·° °ø±ŞÀÚ µå¶óÀÌ¹ö µî·Ï ÇØÁ¦¸¦ Áö¿øÇØ¾ßÇÕ´Ï´Ù. ÀÌ·¯ÇÑ ÀÌÀ¯·Î V4L2 Å¬·° µµ¿ì¹Ì API°¡ °³¹ßµÇ¾î ºê¸®Áö ¹× ÇÏÀ§ ÀåÄ¡ µå¶óÀÌ¹ö¿¡ Á¦°øµË´Ï´Ù.
+ì¹´ë©”ë¼ ì„¼ì„œ, TV ë””ì½”ë” ë° ì¸ì½”ë”ì™€ ê°™ì€ ë§ì€ í•˜ìœ„ ì¥ì¹˜ëŠ” ì‹œìŠ¤í…œì—ì„œ ì œê³µí•˜ëŠ” í´ëŸ­ ì‹ í˜¸ê°€ í•„ìš”í•©ë‹ˆë‹¤. 
+ì¢…ì¢…ì´ í´ë¡ì€ ê° ë¸Œë¦¬ì§€ ì¥ì¹˜ì— ì˜í•´ ê³µê¸‰ë©ë‹ˆë‹¤. Linux ì»¤ë„ì€ ì´ëŸ¬í•œ ëª©ì ì„ ìœ„í•´ Common Clock Frameworkë¥¼ ì œê³µí•©ë‹ˆë‹¤. 
+ê·¸ëŸ¬ë‚˜ ëª¨ë“  ì•„í‚¤í…ì²˜ì—ì„œ ì‚¬ìš©í•  ìˆ˜ìˆëŠ” ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤. ê²Œë‹¤ê°€, ì‹œìŠ¤í…œì— ëŒ€í•œ í•˜ìœ„ ì¥ì¹˜ì˜ ë‹¤ê¸°ëŠ¥ (í´ë¡, ë°ì´í„° + ë™ê¸°í™”, I2C ì œì–´) ì—°ê²° íŠ¹ì„±ì€ í´ëŸ­ API ì‚¬ìš©ì— íŠ¹ë³„í•œ ìš”êµ¬ ì‚¬í•­ì„ ë¶€ê³¼ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
+ì˜ˆ : í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ê°€ í´ëŸ­ì— ëŒ€í•œ ì°¸ì¡°ë¥¼ ë³´ìœ í•˜ê³ ìˆëŠ” ë™ì•ˆ V4L2ëŠ” í´ëŸ­ ê³µê¸‰ì ë“œë¼ì´ë²„ ë“±ë¡ í•´ì œë¥¼ ì§€ì›í•´ì•¼í•©ë‹ˆë‹¤. ì´ëŸ¬í•œ ì´ìœ ë¡œ V4L2 í´ëŸ­ ë„ìš°ë¯¸ APIê°€ ê°œë°œë˜ì–´ ë¸Œë¦¬ì§€ ë° í•˜ìœ„ ì¥ì¹˜ ë“œë¼ì´ë²„ì— ì œê³µë©ë‹ˆë‹¤.
 
 The API consists of two parts: two functions to register and unregister a V4L2
 clock source: v4l2_clk_register() and v4l2_clk_unregister() and calls to control
@@ -1476,9 +1476,9 @@ v4l2_clk_get(), v4l2_clk_put(), v4l2_clk_enable(), v4l2_clk_disable(),
 v4l2_clk_get_rate(), and v4l2_clk_set_rate(). Clock suppliers have to provide
 clock operations that will be called when clock users invoke respective API
 methods.
-API´Â µÎ ºÎºĞÀ¸·Î ±¸¼ºµË´Ï´Ù. v4l2_clk_register () ¹× v4l2_clk_unregister () ¹× °¢°¢ÀÇ ÀÏ¹İ Å¬·Ï API È£Ãâ°ú À¯»çÇÑ ½Ã°è °´Ã¼¸¦ Á¦¾îÇÏ±âÀ§ÇÑ È£Ãâ : v4l2_clk_get (), v4l2_clk_put (), v4l2_clk_enable (), v4l2_clk_disable (), v4l2_clk_get_rate () ¹× v4l2_clk_set_rate (). 
-Å¬·Ï °ø±ŞÀÚ´Â Å¬·Ï »ç¿ëÀÚ°¡ °¢ API ¸Ş¼Òµå¸¦ È£Ãâ ÇÒ ¶§ È£ÃâµÇ´Â Å¬·Ï µ¿ÀÛÀ» Á¦°øÇØ¾ßÇÕ´Ï´Ù.
+APIëŠ” ë‘ ë¶€ë¶„ìœ¼ë¡œ êµ¬ì„±ë©ë‹ˆë‹¤. v4l2_clk_register () ë° v4l2_clk_unregister () ë° ê°ê°ì˜ ì¼ë°˜ í´ë¡ API í˜¸ì¶œê³¼ ìœ ì‚¬í•œ ì‹œê³„ ê°ì²´ë¥¼ ì œì–´í•˜ê¸°ìœ„í•œ í˜¸ì¶œ : v4l2_clk_get (), v4l2_clk_put (), v4l2_clk_enable (), v4l2_clk_disable (), v4l2_clk_get_rate () ë° v4l2_clk_set_rate (). 
+í´ë¡ ê³µê¸‰ìëŠ” í´ë¡ ì‚¬ìš©ìê°€ ê° API ë©”ì†Œë“œë¥¼ í˜¸ì¶œ í•  ë•Œ í˜¸ì¶œë˜ëŠ” í´ë¡ ë™ì‘ì„ ì œê³µí•´ì•¼í•©ë‹ˆë‹¤.
 
 It is expected that once the CCF becomes available on all relevant
 architectures this API will be removed.
-¸ğµç °ü·Ã ¾ÆÅ°ÅØÃ³¿¡¼­ CCF¸¦ »ç¿ëÇÒ ¼öÀÖ°ÔµÇ¸éÀÌ API°¡ Á¦°Å µÉ °ÍÀ¸·Î ¿¹»óµË´Ï´Ù.
+ëª¨ë“  ê´€ë ¨ ì•„í‚¤í…ì²˜ì—ì„œ CCFë¥¼ ì‚¬ìš©í•  ìˆ˜ìˆê²Œë˜ë©´ì´ APIê°€ ì œê±° ë  ê²ƒìœ¼ë¡œ ì˜ˆìƒë©ë‹ˆë‹¤.
