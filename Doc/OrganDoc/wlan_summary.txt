@@ -79,3 +79,18 @@ struct ieee80211_qos_hdr {
 우리가 일반적으로 사용하는 구조 Station 혹은 AP 에서는 주소 3 개를 사용한다.
 MAC 헤더의 맨 앞 frame_control(프레임 제어)는 16 비트(2 바이트)다.
 이 필드의 내부에 대해서 상세히 까보자면 아래와 같다.
+
+Protocol Version(2 bit)
+Type(2 bit)
+Sub Type(4 bit)
+ToDS(1 bit)
+FromDS(1 bit)
+More Frag(1 bit)
+Retry(1 bit)
+Power Management(1 bit)
+More Data(1 bit)
+WEP(1 bit)
+Order(1 bit)
+
+위의 모든 비트를 합치면 16 비트(2 바이트)가 나온다.
+각각의 비트에 대해 알아보자면 아래와 같다.
