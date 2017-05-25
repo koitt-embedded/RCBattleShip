@@ -121,121 +121,121 @@ Board Specific portion:
 
 
 /*
-Exynos µð½ºÇÃ·¹ÀÌ Æ÷Æ® ÀÎÅÍÆäÀÌ½º´Â ¿¬°áµÈ µð½ºÇÃ·¹ÀÌ À¯Çü¿¡ µû¶ó ±¸¼ºµÇ¾î¾ßÇÕ´Ï´Ù.
+Exynos ë””ìŠ¤í”Œë ˆì´ í¬íŠ¸ ì¸í„°íŽ˜ì´ìŠ¤ëŠ” ì—°ê²°ëœ ë””ìŠ¤í”Œë ˆì´ ìœ í˜•ì— ë”°ë¼ êµ¬ì„±ë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 
-µÎ °³ÀÇ ³ëµå¸¦ »ç¿ëÇÕ´Ï´Ù.
--dp-controller ³ëµå
--dptx-phy ³ëµå (dp-controller ³ëµå ³»ºÎ¿¡ Á¤ÀÇ µÊ)
+ë‘ ê°œì˜ ë…¸ë“œë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+-dp-controller ë…¸ë“œ
+-dptx-phy ë…¸ë“œ (dp-controller ë…¸ë“œ ë‚´ë¶€ì— ì •ì˜ ë¨)
 
-DP-PHY ÃÊ±âÈ­ÀÇ °æ¿ì dptx-phy ³ëµå¸¦ »ç¿ëÇÕ´Ï´Ù.
+DP-PHY ì´ˆê¸°í™”ì˜ ê²½ìš° dptx-phy ë…¸ë“œë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
 
-dptx-phyÀÇ ÇÊ¼ö ¼Ó¼º : deprecated, phys ¹× phy-names »ç¿ë
--reg : ´õ ÀÌ»ó »ç¿ëµÇÁö ¾ÊÀ½
+dptx-phyì˜ í•„ìˆ˜ ì†ì„± : deprecated, phys ë° phy-names ì‚¬ìš©
+-reg : ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•ŠìŒ
 
-DP PHY ·¹Áö½ºÅÍÀÇ ±âº» ÁÖ¼Ò.
+DP PHY ë ˆì§€ìŠ¤í„°ì˜ ê¸°ë³¸ ì£¼ì†Œ.
 
--samsung, enable-mask : ´õ ÀÌ»ó »ç¿ëµÇÁö ¾ÊÀ½
+-samsung, enable-mask : ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•ŠìŒ
 
-DP PHY¸¦ È°¼ºÈ­ / ºñÈ°¼ºÈ­ÇÏ´Â µ¥ »ç¿ëµÇ´Â ºñÆ® ¸¶½ºÅ©ÀÔ´Ï´Ù.
+DP PHYë¥¼ í™œì„±í™” / ë¹„í™œì„±í™”í•˜ëŠ” ë° ì‚¬ìš©ë˜ëŠ” ë¹„íŠ¸ ë§ˆìŠ¤í¬ìž…ë‹ˆë‹¤.
 
-Panel ÃÊ±âÈ­¸¦ À§ÇØ dp-controller ³ëµå¿¡¼­ µ¥ÀÌÅÍ¸¦ ÀÐ½À´Ï´Ù.
+Panel ì´ˆê¸°í™”ë¥¼ ìœ„í•´ dp-controller ë…¸ë“œì—ì„œ ë°ì´í„°ë¥¼ ì½ìŠµë‹ˆë‹¤.
 
-dp-controllerÀÇ ÇÊ¼ö µî·Ï Á¤º¸ :
+dp-controllerì˜ í•„ìˆ˜ ë“±ë¡ ì •ë³´ :
 
-È£È¯ :
+í˜¸í™˜ :
 
-"samsung, exynos5-dp"¿©¾ßÇÕ´Ï´Ù.
+"samsung, exynos5-dp"ì—¬ì•¼í•©ë‹ˆë‹¤.
 
 -reg :
 
-ÄÁÆ®·Ñ·¯ÀÇ ¹°¸®Àû ±âº» ÁÖ¼Ò ¹× ¸Þ¸ð¸® ¸ÊÇÎ ¿µ¿ªÀÇ ±æÀÌ
+ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ë¬¼ë¦¬ì  ê¸°ë³¸ ì£¼ì†Œ ë° ë©”ëª¨ë¦¬ ë§µí•‘ ì˜ì—­ì˜ ê¸¸ì´
 
-ÀÎÅÍ·´Æ® :
+ì¸í„°ëŸ½íŠ¸ :
 
-ÀÎÅÍ·´Æ® °áÇÕ±â °ª.
+ì¸í„°ëŸ½íŠ¸ ê²°í•©ê¸° ê°’.
 -clocks :
-±âº» Å¬·° ¹ÙÀÎµù¿¡¼­ : dp Å¬·°À¸·Î Ã³¸®ÇÏ½Ê½Ã¿À.
+ê¸°ë³¸ í´ëŸ­ ë°”ì¸ë”©ì—ì„œ : dp í´ëŸ­ìœ¼ë¡œ ì²˜ë¦¬í•˜ì‹­ì‹œì˜¤.
 -clock-names :
-±âº» Å¬·° ¹ÙÀÎµù¿¡¼­ : "dp"°¡µÇ¾î¾ßÇÕ´Ï´Ù.
+ê¸°ë³¸ í´ëŸ­ ë°”ì¸ë”©ì—ì„œ : "dp"ê°€ë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 -interrupt-parent :
-pÇÚµé ÀÎÅÍ·´Æ® °áÇÕ±â ³ëµå.
+pí•¸ë“¤ ì¸í„°ëŸ½íŠ¸ ê²°í•©ê¸° ë…¸ë“œ.
 
 -phys :
 
-ÀÏ¹Ý PHY ¹ÙÀÎµù¿¡¼­ : PHY ÀåÄ¡ÀÇ pÇÚµé.
+ì¼ë°˜ PHY ë°”ì¸ë”©ì—ì„œ : PHY ìž¥ì¹˜ì˜ pí•¸ë“¤.
 
 -phy-names :
 
-ÀÏ¹Ý PHY ¹ÙÀÎµù¿¡¼­ : "dp"¿©¾ßÇÕ´Ï´Ù.
+ì¼ë°˜ PHY ë°”ì¸ë”©ì—ì„œ : "dp"ì—¬ì•¼í•©ë‹ˆë‹¤.
 
-»ï¼º, »ö °ø°£ :
+ì‚¼ì„±, ìƒ‰ ê³µê°„ :
 
-ÀÔ·Â ºñµð¿À µ¥ÀÌÅÍ Çü½Ä.
+ìž…ë ¥ ë¹„ë””ì˜¤ ë°ì´í„° í˜•ì‹.
 
 COLOR_RGB = 0, COLOR_YCBCR422 = 1, COLOR_YCBCR444 = 2
 
 -samsung, dynamic-range :
 
-ÀÔ·Â ºñµð¿À µ¥ÀÌÅÍÀÇ µ¿Àû ¹üÀ§.
+ìž…ë ¥ ë¹„ë””ì˜¤ ë°ì´í„°ì˜ ë™ì  ë²”ìœ„.
 
 VESA = 0, CEA = 1
 
 -samsung, ycbcr-coeff :
 
-ÀÔ·Â ºñµð¿À¿¡ ´ëÇÑ YCbCr µ¿½Ã È¿¿ë
+ìž…ë ¥ ë¹„ë””ì˜¤ì— ëŒ€í•œ YCbCr ë™ì‹œ íš¨ìš©
 
 COLOR_YCBCR601 = 0, COLOR_YCBCR709 = 1
 
-»ï¼º, »ö ³óµµ :
+ì‚¼ì„±, ìƒ‰ ë†ë„ :
 
-»ö¼ººÐ ´ç ºñÆ® ¼ö.
+ìƒ‰ì„±ë¶„ ë‹¹ ë¹„íŠ¸ ìˆ˜.
 
 COLOR_6 = 0, COLOR_8 = 1, COLOR_10 = 2, COLOR_12 = 3
 
-- »ï¼º, ¸µÅ© ¼Óµµ :
+- ì‚¼ì„±, ë§í¬ ì†ë„ :
 
-¸µÅ© ¼Óµµ´Â ÆÐ³Î¿¡¼­ Áö¿øÇÕ´Ï´Ù.
+ë§í¬ ì†ë„ëŠ” íŒ¨ë„ì—ì„œ ì§€ì›í•©ë‹ˆë‹¤.
 
 LINK_RATE_1_62GBPS = 0x6, LINK_RATE_2_70GBPS = 0x0A
 
-- »ï¼º, ·¹ÀÎ ¼ö :
+- ì‚¼ì„±, ë ˆì¸ ìˆ˜ :
 
-ÆÐ³ÎÀÌ Áö¿øÇÏ´Â ·¹ÀÎ ¼öÀÔ´Ï´Ù.
+íŒ¨ë„ì´ ì§€ì›í•˜ëŠ” ë ˆì¸ ìˆ˜ìž…ë‹ˆë‹¤.
 
 LANE_COUNT1 = 1, LANE_COUNT2 = 2, LANE_COUNT4 = 4
 
-- µð½ºÇÃ·¹ÀÌ Å¸ÀÌ¹Ö :¿¡ ÀÇÇØ ¼³¸í µÈ ¹Ù¿Í °°ÀÌ ¿¬°áµÈ ÆÐ³ÎÀÇ Å¸ÀÌ¹Ö
+- ë””ìŠ¤í”Œë ˆì´ íƒ€ì´ë° :ì— ì˜í•´ ì„¤ëª… ëœ ë°”ì™€ ê°™ì´ ì—°ê²°ëœ íŒ¨ë„ì˜ íƒ€ì´ë°
 
 Documentation/devicetree/bindings/display/display-timing.txt
 
 
-dp-controllerÀÇ ¼±ÅÃÀû ¼Ó¼º :
+dp-controllerì˜ ì„ íƒì  ì†ì„± :
 
 -interlaced :
 
-ÀÎÅÍ·¹ÀÌ½º ½ºÄµ ¸ðµå.
+ì¸í„°ë ˆì´ìŠ¤ ìŠ¤ìº” ëª¨ë“œ.
 
-ÇÁ·Î±×·¹½Ãºê (Á¤ÀÇ µÈ °æ¿ì), ÀÎÅÍ·¹ÀÌ½º (Á¤ÀÇµÇÁö ¾ÊÀº °æ¿ì)
+í”„ë¡œê·¸ë ˆì‹œë¸Œ (ì •ì˜ ëœ ê²½ìš°), ì¸í„°ë ˆì´ìŠ¤ (ì •ì˜ë˜ì§€ ì•Šì€ ê²½ìš°)
 
 -vsync-active-high :
 
-VSYNC ±Ø¼º ±¸¼º.
+VSYNC ê·¹ì„± êµ¬ì„±.
 
-Á¤ÀÇ µÈ °æ¿ì ³ôÀ½, Á¤ÀÇµÇÁö ¾ÊÀº °æ¿ì ³·À½
+ì •ì˜ ëœ ê²½ìš° ë†’ìŒ, ì •ì˜ë˜ì§€ ì•Šì€ ê²½ìš° ë‚®ìŒ
 
 -hsync-active-high :
 
-HSYNC ±Ø¼º ±¸¼º.
+HSYNC ê·¹ì„± êµ¬ì„±.
 
-Á¤ÀÇ µÈ °æ¿ì ³ôÀ½, Á¤ÀÇµÇÁö ¾ÊÀº °æ¿ì ³·À½
+ì •ì˜ ëœ ê²½ìš° ë†’ìŒ, ì •ì˜ë˜ì§€ ì•Šì€ ê²½ìš° ë‚®ìŒ
 
 -samsung, hpd-gpio :
 
-ÇÖ ÇÃ·¯±× ??GPIO¸¦ °¨ÁöÇÕ´Ï´Ù.
+í•« í”ŒëŸ¬ê·¸ ??GPIOë¥¼ ê°ì§€í•©ë‹ˆë‹¤.
 
-ÇÖ ÇÃ·¯±× ??°¨Áö¿¡ »ç¿ëÇÒ GPIO¸¦ ³ªÅ¸³À´Ï´Ù.
+í•« í”ŒëŸ¬ê·¸ ??ê°ì§€ì— ì‚¬ìš©í•  GPIOë¥¼ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.
 
-- ºñµð¿À ÀÎÅÍÆäÀÌ½º : ÀåÄ¡ ³ëµå´Â [1]¿¡ µû¶ó ºñµð¿À ÀÎÅÍÆäÀÌ½º Æ÷Æ® ³ëµå¸¦ Æ÷ÇÔ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+- ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ : ìž¥ì¹˜ ë…¸ë“œëŠ” [1]ì— ë”°ë¼ ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ í¬íŠ¸ ë…¸ë“œë¥¼ í¬í•¨ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
 [1] : Documentation / devicetree / bindings / media / video-interfaces.txt
 

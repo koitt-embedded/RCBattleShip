@@ -40,27 +40,27 @@ Example:
 
 
 /*
-ptn3460 ºê¸®Áö ¹ÙÀÎµù
+ptn3460 ë¸Œë¦¬ì§€ ë°”ì¸ë”©
 
-ÇÊ¼ö ¼Ó¼º :
-- È£È¯ : "nxp, ptn3460"
-- reg : ºê¸®ÁöÀÇ i2c ÁÖ¼Ò
-- powerdown-gpio : OF PD_N ÇÉÀ»À§ÇÑ µð¹ÙÀÌ½º Æ®¸® gpio ½ºÆå.
-- reset-gpio : RST_N ÇÉÀ»À§ÇÑ OF µð¹ÙÀÌ½º Æ®¸® gpio »ç¾ç.
-- edid-emulation : »ç¿ëÇÒ EDID ¿¡¹Ä·¹ÀÌ¼Ç Ç×¸ñ
+í•„ìˆ˜ ì†ì„± :
+- í˜¸í™˜ : "nxp, ptn3460"
+- reg : ë¸Œë¦¬ì§€ì˜ i2c ì£¼ì†Œ
+- powerdown-gpio : OF PD_N í•€ì„ìœ„í•œ ë””ë°”ì´ìŠ¤ íŠ¸ë¦¬ gpio ìŠ¤íŽ™.
+- reset-gpio : RST_N í•€ì„ìœ„í•œ OF ë””ë°”ì´ìŠ¤ íŠ¸ë¦¬ gpio ì‚¬ì–‘.
+- edid-emulation : ì‚¬ìš©í•  EDID ì—ë®¬ë ˆì´ì…˜ í•­ëª©
 + ------- + ------------ + ------------------ +
-| °¡Ä¡ | ÇØ»óµµ | ¼³¸í |
-| 0 | 1024x768 | NXP ÀÏ¹Ý |
-| 1 | 1920x1080 | NXP ÀÏ¹Ý |
-| 2 | 1920x1080 | NXP ÀÏ¹Ý |
-| 3 | 1600x900 | »ï¼º LTM200KT |
-| 4 | 1920x1080 | »ï¼º LTM230HT |
-| 5 | 1366x768 | NXP ÀÏ¹Ý |
+| ê°€ì¹˜ | í•´ìƒë„ | ì„¤ëª… |
+| 0 | 1024x768 | NXP ì¼ë°˜ |
+| 1 | 1920x1080 | NXP ì¼ë°˜ |
+| 2 | 1920x1080 | NXP ì¼ë°˜ |
+| 3 | 1600x900 | ì‚¼ì„± LTM200KT |
+| 4 | 1920x1080 | ì‚¼ì„± LTM230HT |
+| 5 | 1366x768 | NXP ì¼ë°˜ |
 | 6 | 1600x900 | ChiMei M215HGE |
 + ------- + ------------ + ------------------ +
 
-- ºñµð¿À ÀÎÅÍÆäÀÌ½º : ÀåÄ¡ ³ëµå´Â ºñµð¿À ÀÎÅÍÆäÀÌ½º Æ÷Æ®¸¦ Æ÷ÇÔ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-[1]¿¡ µû¸¥ ÆÐ³Î ¿ë ³ëµå.
+- ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ : ìž¥ì¹˜ ë…¸ë“œëŠ” ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ í¬íŠ¸ë¥¼ í¬í•¨ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+[1]ì— ë”°ë¥¸ íŒ¨ë„ ìš© ë…¸ë“œ.
 
 [1] : Documentation / devicetree / bindings / media / video-interfaces.txt
 

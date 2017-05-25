@@ -35,18 +35,18 @@ Example:
 /*
 ps8622-bridge bindings
 
-ÇÊ¿äÇÑ ¼Ó¼º :
- - È£È¯¼º : "parade, ps8622"¶Ç´Â "parade, ps8625"
- - reg : ºê¸®ÁöÀÇ Ã¹ ¹øÂ° i2c ÁÖ¼Ò
- - sleep-gpios : PD_ ÇÉ OF ÀåÄ¡ Æ®¸® gpio ÁöÁ¤.
- - reset-gpios : RST_ ÇÉ ÀåÄ¡ Æ®¸® gpio ÁöÁ¤.
+í•„ìš”í•œ ì†ì„± :
+ - í˜¸í™˜ì„± : "parade, ps8622"ë˜ëŠ” "parade, ps8625"
+ - reg : ë¸Œë¦¬ì§€ì˜ ì²« ë²ˆì§¸ i2c ì£¼ì†Œ
+ - sleep-gpios : PD_ í•€ OF ìž¥ì¹˜ íŠ¸ë¦¬ gpio ì§€ì •.
+ - reset-gpios : RST_ í•€ ìž¥ì¹˜ íŠ¸ë¦¬ gpio ì§€ì •.
 
-¼±ÅÃÀû ¼Ó¼º :
+ì„ íƒì  ì†ì„± :
 
-¿É¼Ç ¼Ó¼º :
- - ·¹ÀÎ ¼ö : »ç¿ëÇÒ DP ·¹ÀÎ ¼ö
- - use-external-pwm : ¹é¶óÀÌÆ®´Â ¿ÜºÎ PWM¿¡ ÀÇÇØ Á¦¾îµË´Ï´Ù
- - ºñµð¿À ÀÎÅÍÆäÀÌ½º : ÀåÄ¡ ³ëµå´Â [1]¿¡ µû¶ó ÆÐ³ÎÀÇ ºñµð¿À ÀÎÅÍÆäÀÌ½º Æ÷Æ® ³ëµå¸¦ Æ÷ÇÔ ÇÒ ¼öÀÖ´Ù.
+ì˜µì…˜ ì†ì„± :
+ - ë ˆì¸ ìˆ˜ : ì‚¬ìš©í•  DP ë ˆì¸ ìˆ˜
+ - use-external-pwm : ë°±ë¼ì´íŠ¸ëŠ” ì™¸ë¶€ PWMì— ì˜í•´ ì œì–´ë©ë‹ˆë‹¤
+ - ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ : ìž¥ì¹˜ ë…¸ë“œëŠ” [1]ì— ë”°ë¼ íŒ¨ë„ì˜ ë¹„ë””ì˜¤ ì¸í„°íŽ˜ì´ìŠ¤ í¬íŠ¸ ë…¸ë“œë¥¼ í¬í•¨ í•  ìˆ˜ìžˆë‹¤.
 
 [1] : Documentation / devicetree / bindings / media / video-interfaces.txt
 

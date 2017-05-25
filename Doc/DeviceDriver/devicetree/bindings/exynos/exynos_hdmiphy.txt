@@ -14,14 +14,14 @@ Example:
 		reg = <0x38>;
 	};
 /*
-hdmiphy µå¶óÀÌ¹ö¿¡ ´ëÇÑ ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+hdmiphy ë“œë¼ì´ë²„ì— ëŒ€í•œ ì¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
-ÇÊ¼ö ¼Ó¼º :
-- compatible : value´Â ´ÙÀ½ Áß ÇÏ³ª ¿©¾ßÇÕ´Ï´Ù.
-1) "samsung, exynos5-hdmiphy"<»ç¿ëÀ» ±ÇÀåÇÏÁö ¾ÊÀ½>
+í•„ìˆ˜ ì†ì„± :
+- compatible : valueëŠ” ë‹¤ìŒ ì¤‘ í•˜ë‚˜ ì—¬ì•¼í•©ë‹ˆë‹¤.
+1) "samsung, exynos5-hdmiphy"<ì‚¬ìš©ì„ ê¶Œì¥í•˜ì§€ ì•ŠìŒ>
 2) "samsung, exynos4210-hdmiphy".
 3) "samsung, exynos4212-hdmiphy".
-- reg : hdmiphy ÀåÄ¡ÀÇ I2C ÁÖ¼ÒÀÔ´Ï´Ù.
+- reg : hdmiphy ì¥ì¹˜ì˜ I2C ì£¼ì†Œì…ë‹ˆë‹¤.
 
 Example:
 

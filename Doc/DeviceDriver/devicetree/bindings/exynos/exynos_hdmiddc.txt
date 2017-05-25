@@ -15,14 +15,14 @@ Example:
 	};
 
 /*
-hdmiddc µå¶óÀÌ¹ö¿¡ ´ëÇÑ ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+hdmiddc ë“œë¼ì´ë²„ì— ëŒ€í•œ ì¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
-ÇÊ¼ö ¼Ó¼º :
-- compatible : value´Â ´ÙÀ½ Áß ÇÏ³ª ¿©¾ßÇÕ´Ï´Ù.
+í•„ìˆ˜ ì†ì„± :
+- compatible : valueëŠ” ë‹¤ìŒ ì¤‘ í•˜ë‚˜ ì—¬ì•¼í•©ë‹ˆë‹¤.
 1) "samsung, exynos5-hdmiddc"<DEPRECATED>
 2) "samsung, exynos4210-hdmiddc"
 
-- reg : hdmiddc ÀåÄ¡ÀÇ I2C ÁÖ¼ÒÀÔ´Ï´Ù.
+- reg : hdmiddc ì¥ì¹˜ì˜ I2C ì£¼ì†Œì…ë‹ˆë‹¤.
 
 Example:
 

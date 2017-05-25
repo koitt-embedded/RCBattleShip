@@ -142,20 +142,44 @@ side, based on camera capabilities.
 센서 드라이버는 플랫폼에 의해 공급되어져서 어느 카메라 호스트 버스에 그 센서가 연결되는지 지정하기 위해 사용되어지는,
 struct soc_camera_link를 사용할 수 있고 옵션으로 플랫폼에 그 카메라를 위한 .power 그리고 .reset 방식을 공급할 수 있다.
 이 struct는 I2C 클라이언트 디바이스 플랫폼 데이터를 경유해서 카메라 드라이버에 공급되어지고, soc_camera_i2c_to_link() macro를
-사용해서 취득되어진다.
+
+사용해서 취득되어진다. v4l2_get_subdev_hostdata()를 사용해, soc_camera_vdev_to_subdev()를 사용할 때와 struct soc_camera_device에 접근할 때에는
+
+주의해야 합니다 : an soc-camera host 위에서 동작할 때, 양쪽 모두 움직인다. V4L2 subdev API를 사용해서 실제 카메라 드라이버 동작은 구현된다.
+
+추가적으로 soc-camera camera drivers는 soc_camera_power_on()과 soc_camera_power_off()와 같은 보조 soc-camera helper 기능을 사용할 수 있는데, 
+
+그것들은 레귤레이터를 스위치하고, 플렛폼에 의해 공급되어져 board-specific power switching methods(보드-지정 전원 스위칭 방식)을 호출한다.
+
+soc_camera_apply_board_flags()는 camera bus configuration capability flags(카메라 버스 구성 기능 플래그)를 취해서 
+
+signal polarity inversion(신호 극성 반전)과 같은 board transformations(보드 변환)를 적용합니다. 특정 media-bus pixel format code(미디어-버스 픽셀 포맷 코드)에
+
+상응해서, soc_mbus_get_fmtdesc()는 pixel format descriptor(픽셀 포맷 설명자)를 구하기 위해서 사용될 수 있다. 
+
+카메라 기능에 기반해, soc_camera_limit_side()는 frame side의 시작과 길이를 제한하는데 사용될 수 있다.
+
 
 VIDIOC_S_CROP and VIDIOC_S_FMT behaviour
 ----------------------------------------
+VIDIOC_S_CROP and VIDIOC_S_FMT 동작
 
 Above user ioctls modify image geometry as follows:
+상기 사용자 ioctls는 다음과 같은 image geometry(이미지 기하학)를 수정한다 :
+
 
 VIDIOC_S_CROP: sets location and sizes of the sensor window. Unit is one sensor
 pixel. Changing sensor window sizes preserves any scaling factors, therefore
 user window sizes change as well.
+VIDIOC_S_CROP: sensor window의 위치와 크기를 설정한다. 단위는 one sensor pixel이다.
+sensor window 크기 변경은 scaling factor(스케일링 계수)를 보호(저장)하므로, user window sizes(사용자 윈도우 크기) 역시 변한다.
 
 VIDIOC_S_FMT: sets user window. Should preserve previously set sensor window as
 much as possible by modifying scaling factors. If the sensor window cannot be
 preserved precisely, it may be changed too.
+VIDIOC_S_FMT: user window(사용자 윈도우)를 설정한다. scaling factor(스케일링 계수)를 수정함으로써 가능한 많이 이전에 설정된 sensor window(센서 윈도우)를 
+
+보호(저장)해야 한다. 만약 센서 윈도우가 정확하게 보호(저장)될 수 없다면, 그것 역시 변경될 수 있다.
 
 In soc-camera there are two locations, where scaling and cropping can take
 place: in the camera driver and in the host driver. User ioctls are first passed
@@ -165,6 +189,13 @@ save camera bus bandwidth and maximise the framerate. However, if the camera
 driver failed to set the required parameters with sufficient precision, the host
 driver may decide to also use its own scaling and cropping to fulfill the user's
 request.
+soc-camera에는 두 개 위치가 있는데, 그 위치에서 scaling과 cropping이 일어날 수 있다 : 카메라 드라이버와 호스트 드라이버 안에서.
+
+User ioctls들은 처음 호스트 드라이버로 전달되고, 그리고 나서 일반적으로 카메라 드라이버로 그것들을 아래로 전달한다.
+
+camera bus bandwidth( 카메라 버스 대역폭 )을 절약하고 프레임 레이트를 최대화 하기 위해서는 카메라 드라이버 안에서 scaling과 cropping을
+
+수행하는 것이 더욱 효과적이다.
 
 Camera drivers are interfaced to the soc-camera core and to host drivers over
 the v4l2-subdev API, which is completely functional, it doesn't pass any data.
@@ -177,6 +208,17 @@ rely on camera drivers implementing .cropcap(). If the camera driver does not
 support cropping, it may choose to not implement .s_crop(), but to enable
 cropping support by the camera host driver at least the .g_crop method must be
 implemented.
+카메라 드라이버는 v4l2-subdev API를 가로질러 soc-camera core와 host drivers로 인터페이스되어지는데,
+
+그 API는 완전히 기능적이고, 어떤 데이터도 전달하지 않는다. 따라서, 모든 카메라 드라이버들은 그들의 현재 output geometry로 .g_fmt() requests(요청)에 응답할 것이다.
+
+이것은 카메라 버스를 정확하게 설정하는데 필요하다. .s_fmt() 와 .try_fmt() 역시 구현되어야 한다. 센서 윈도우와 스케일링 계수는 내부적으로 카메라 드라이버에 의해 유지되어야 한다.
+
+V4L2 API에 따라서 모드 capture drivers는 VIDIOC_CROPCAP ioctl를 지원해야만 하고, 그래서 우리는 카메라 드라이버가 .cropcap()를 구현하는 것을 신뢰할 수 있다.  
+
+만약 카메라 드라이버가 cropping을 지원하지 않는다면, .s_crop()을 구현하지 않는 것을 선택할 수 있지만, 카메라 호스트 드라이버에 의해 cropping 지원을 활성화하기 위해서는 적어도
+
+.g_crop 방식을 구현해야 한다.
 
 User window geometry is kept in .user_width and .user_height fields in struct
 soc_camera_device and used by the soc-camera core and host drivers. The core
@@ -184,8 +226,13 @@ updates these fields upon successful completion of a .s_fmt() call, but if these
 fields change elsewhere, e.g. during .s_crop() processing, the host driver is
 responsible for updating them.
 
+struct soc_camera_device 안에 .user_width와 .user_height fields 안에 User window geometry가 담겨져 있으며 soc-camera 코어와 호스트 드라이버에 의해 사용된다.
+
+.s_fmt() 호출이 성공적으로 완료되면 커어는 이 필드들을 업데이트하지만, 만약 다른 곳 예를 들면 .s_crop() 프로세싱 동안에 이 필드들이 변하면, 호스트 드라이버는 그것을 업데이트하는 책임이 있다.
+
 Format conversion
 -----------------
+포맷 변환
 
 V4L2 distinguishes between pixel formats, as they are stored in memory, and as
 they are transferred over a media bus. Soc-camera provides support to
@@ -200,6 +247,23 @@ configure camera drivers to produce the FOURCC format, requested by the user,
 using the VIDIOC_S_FMT ioctl(). Apart from those standard format conversions,
 host drivers can also provide their own conversion rules by implementing a
 .get_formats and, if required, a .put_formats methods.
+
+V4L2는 픽셀 포맷이 메모리에 저장되면서, 그리고 그것들이 미디어 버스를 통해 전송되면서, 픽셀 포맷 사이를 구분한다.
+
+Soc-camera는 이런 포맷을 편리하게 관리하기 위한 지원을 한다. 표준 변환 테이블은 soc-camera 코어에 의해 유지되는데, 
+
+만약 미디어 버스 픽셀 포맷이 특정 규칙에 따라서 메모리에 저장된다면, 무슨 FOURCC(4CC) 픽셀 포맷이 구해지는지를 기술한다.
+
+예를 들자면, 만약 MEDIA_BUS_FMT_YUYV8_2X8 data가 샘플 당 8 비트로 샘플링되서 바이트 사이에 gap(빈 곳) 없이 
+
+little-endian order(작은 단위가 앞에 나오는 순서)로 메모리에 저장된다면, 메모리 안 데이터는 V4L2_PIX_FMT_YUYV FOURCC format를
+
+표현한다. 이 표준 변환은 사용자 요청에 의해, VIDIOC_S_FMT ioctl()을 사용해서, FOURCC(4CC) 포맷을 생산하는 카메라 드라이버를 설정하기 위해
+
+카메라 호스트 드라이버에 의해 soc-camera에 의해 사용될 것이다. 그런 표준 포맷 변환과는 별개로, 호스트 드라이버는 .get_formats 그리고, 요구가 있다면,
+
+.put_formats 방식을 구현함으로써 그들 자신의 변환 규칙을 제공할 수도 있다.
+
 
 --
 Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
