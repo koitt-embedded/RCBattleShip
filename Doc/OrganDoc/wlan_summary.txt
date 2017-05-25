@@ -1,0 +1,81 @@
+1990 년대 말에 IEEE 에서 무선 로컬 영역 네트워크(WLANS) 에 대한
+Protocol 과 관련된 토론이 있었다.
+IEEE 802.11 규격은 지속적으로 개정되어
+2012 년도에 2793 쪽짜리 규격이 배포되었다.
+
+IEEE 802.11 의 첫 승인 이후 Wi-Fi 인터페이스를 가진 노트북이 인기를 얻었다.
+이러한 이유로 OS 들도 Wireless System 을 갖춰 경쟁사들과 경쟁해야만 했다.
+이로 인해 Linux 진영에서 Wireless Network Interface 를 제공하는 것과
+Wireless SW Stack 을 제공하는 것이 중요했다.
+
+처음 무선 드라이버를 개발하게 되었을때 누구도 설계를 생각하지 않았다.
+왜냐하면 디바이스 드라이버의 난이도 중
+가장 어려운 것이 무선 드라이버이기 때문이다.
+그래서 현재의 우리와 같이 "제발 씨x 좀 돌아갔으면 좋겠다" 라는 생각을 하며
+"씨x 제발 이번엔 성공" 을 마음속으로 외치며 드라이버를 만들고 삽질을 해댔다.
+이로 인해 초창기에 Wireless Driver 의 코드는 지저분하기 짝이 없었다.
+중복된 코드들이 난무하며 개판에 시장바닥이 판을 쳤다.
+
+이렇게 수년이 지난 후 MAC80211 이라고 하는
+새로운 802.11 Wireless Stack 이 개발됐다.
+2007 년 7 월에 Linux Kernel 2.6.22 에 통합됐다.
+(당시에 삼성 노트북을 사용하면서 무선이 되서 굉장히 좋아했던 기억이 난다)
+
+MAC80211 Stack 은 D80211 Stack 을 기반으로 하며
+D80211 Stack 은 Devicescape 라고 하는 회사에서 만든
+GPL License 가 적용된 Open Source Stack 이다.
+
+802.11 과 802.3 즉 유선과 무선의 차이점은 CSMA/CD 와 CSMA/CA 이다.
+CSMA/CA 는 반송파 감지 다중 접근/충돌 회피
+(Carrier Sense Multiple Access/Collision Avoidance) 를 의미하고
+CSMA/CD 는 반송파 감지 다중 접근/충돌 탐지
+(Carrier Sense Multiple Access/Collision Detection) 를 의미한다.
+
+Ethernet 은 Cisco 사의 Switch 를 공부하면서도 학습하겠지만
+전송하는 동안 충돌을 탐지할 수 있어 충돌이 탐지되면 전송을 멈추고
+더 이상 충돌이 탐지되지 않으면 다시 전송을 시작하는 구조를 가진다.
+반면 무선 시스템은 충돌을 탐지할 수 없기에
+802.11 규격에서 Broadcast 와 Multicast 를 제외한
+모든 Frame 이 수신되면 확인응답한다.
+
+
+
+* 802.11 MAC Header
+
+MAC Frame 은 MAC Header, Variable-Length Frame Body, 32 bit FCS 등으로 구성된다.
+802.11 Header 는 mac80211 에서 ieee80211_hdr 구조체로 표현된다.
+현재 우리가 사용하는 Kernel Version 4.4.32 에서
+include/linux/ieee80211.h 에서 아래 내용을 확인해볼 수 있다.
+
+struct ieee80211_hdr {
+        __le16 frame_control;
+        __le16 duration_id;
+        u8 addr1[ETH_ALEN];
+        u8 addr2[ETH_ALEN];
+        u8 addr3[ETH_ALEN];
+        __le16 seq_ctrl;
+        u8 addr4[ETH_ALEN];
+} __packed __aligned(2);
+
+struct ieee80211_hdr_3addr {
+        __le16 frame_control;
+        __le16 duration_id;
+        u8 addr1[ETH_ALEN];
+        u8 addr2[ETH_ALEN];
+        u8 addr3[ETH_ALEN];
+        __le16 seq_ctrl;
+} __packed __aligned(2);
+
+struct ieee80211_qos_hdr {
+        __le16 frame_control;
+        __le16 duration_id;
+        u8 addr1[ETH_ALEN];
+        u8 addr2[ETH_ALEN];
+        u8 addr3[ETH_ALEN];
+        __le16 seq_ctrl;
+        __le16 qos_ctrl;
+} __packed __aligned(2);
+
+우리가 일반적으로 사용하는 구조 Station 혹은 AP 에서는 주소 3 개를 사용한다.
+MAC 헤더의 맨 앞 frame_control(프레임 제어)는 16 비트(2 바이트)다.
+이 필드의 내부에 대해서 상세히 까보자면 아래와 같다.
