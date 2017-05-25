@@ -53,37 +53,37 @@ mic: mic@13930000 {
 
 /*
 /*
-»ï¼º Exynos SoC ¸ð¹ÙÀÏ ÀÌ¹ÌÁö ¾ÐÃà±â (MIC)ÀÇ ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+ì‚¼ì„± Exynos SoC ëª¨ë°”ì¼ ì´ë¯¸ì§€ ì••ì¶•ê¸° (MIC)ì˜ ìž¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
-MIC (¸ð¹ÙÀÏ ÀÌ¹ÌÁö ¾ÐÃà±â)´Â decon°ú mipi dsi »çÀÌ¿¡ ÀÖ½À´Ï´Ù. 
+MIC (ëª¨ë°”ì¼ ì´ë¯¸ì§€ ì••ì¶•ê¸°)ëŠ” deconê³¼ mipi dsi ì‚¬ì´ì— ìžˆìŠµë‹ˆë‹¤. 
 
-Mipi dsi´Â µ¥ÄÜÀÌ º¸³¾ ¼öÀÖ´Â °íºÐÇØ´É ÇÁ·¹ÀÓ µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÒ ¼ö ¾ø½À´Ï´Ù.
+Mipi dsiëŠ” ë°ì½˜ì´ ë³´ë‚¼ ìˆ˜ìžˆëŠ” ê³ ë¶„í•´ëŠ¥ í”„ë ˆìž„ ë°ì´í„°ë¥¼ ì „ì†¡í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 
- MIC´Â mipi dsi¸¦ ÅëÇØ Àü¼ÛµÇ±â Àü¿¡ ÇÁ·¹ÀÓ µ¥ÀÌÅÍ¸¦ 1/2·Î ¾ÐÃàÇÏ¿©ÀÌ ¹®Á¦¸¦ ÇØ°áÇÕ´Ï´Ù. 
+ MICëŠ” mipi dsië¥¼ í†µí•´ ì „ì†¡ë˜ê¸° ì „ì— í”„ë ˆìž„ ë°ì´í„°ë¥¼ 1/2ë¡œ ì••ì¶•í•˜ì—¬ì´ ë¬¸ì œë¥¼ í•´ê²°í•©ë‹ˆë‹¤. 
 
-¾ÐÃà µÈ ÇÁ·¹ÀÓ µ¥ÀÌÅÍ´Â ÆÐ³Î PCB¿¡¼­ ¾ÐÃà ÇØÁ¦µÇ¾î¾ßÇÕ´Ï´Ù.
+ì••ì¶• ëœ í”„ë ˆìž„ ë°ì´í„°ëŠ” íŒ¨ë„ PCBì—ì„œ ì••ì¶• í•´ì œë˜ì–´ì•¼í•©ë‹ˆë‹¤.
 
-ÇÊ¼ö ¼Ó¼º :
+í•„ìˆ˜ ì†ì„± :
 
-- È£È¯ : °ªÀº "samsung, exynos5433-mic"¿©¾ßÇÕ´Ï´Ù.
+- í˜¸í™˜ : ê°’ì€ "samsung, exynos5433-mic"ì—¬ì•¼í•©ë‹ˆë‹¤.
 
-- reg : mic ·¹Áö½ºÅÍ ¼¼Æ®ÀÇ ¹°¸®Àû ±âº» ÁÖ¼Ò¿Í ±æÀÌ ¹× micÀÇ ½Ã½ºÅÛ ·¹Áö½ºÅÍ.
+- reg : mic ë ˆì§€ìŠ¤í„° ì„¸íŠ¸ì˜ ë¬¼ë¦¬ì  ê¸°ë³¸ ì£¼ì†Œì™€ ê¸¸ì´ ë° micì˜ ì‹œìŠ¤í…œ ë ˆì§€ìŠ¤í„°.
 
-- clocks : clock-names ¼Ó¼ºÀÇ Ç×¸ñ¿¡ ÇØ´çÇÏ´Â Å¬·° ÁöÁ¤ÀÚ¸¦ Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+- clocks : clock-names ì†ì„±ì˜ í•­ëª©ì— í•´ë‹¹í•˜ëŠ” í´ëŸ­ ì§€ì •ìžë¥¼ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- clock-names : Å¬·° ÀÌ¸§°ú °°Àº ¼ø¼­·Î Á¤·Ä µÈ Å¬·° ÀÌ¸§ ¸ñ·Ï. 
+- clock-names : í´ëŸ­ ì´ë¦„ê³¼ ê°™ì€ ìˆœì„œë¡œ ì •ë ¬ ëœ í´ëŸ­ ì´ë¦„ ëª©ë¡. 
 
-"pclk_mic0", "sclk_rgb_vclk_to_mic0"À» Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+"pclk_mic0", "sclk_rgb_vclk_to_mic0"ì„ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- samsung, disp-syscon : DISP ºí·ÏÀ»À§ÇÑ sysconÀÇ ÂüÁ¶ ³ëµå.
+- samsung, disp-syscon : DISP ë¸”ë¡ì„ìœ„í•œ sysconì˜ ì°¸ì¡° ë…¸ë“œ.
 
-- ports : µ¥ÄÜ ³ëµå¿Í dsi ³ëµå¿¡ ¿¬°áµÈ Æ÷Æ®¸¦ Æ÷ÇÔÇÕ´Ï´Ù.
+- ports : ë°ì½˜ ë…¸ë“œì™€ dsi ë…¸ë“œì— ì—°ê²°ëœ í¬íŠ¸ë¥¼ í¬í•¨í•©ë‹ˆë‹¤.
 
-ÁÖ¼Ò ¼¿°ú Å©±â ¼¿Àº °¢°¢ 1°ú 0ÀÌ¾î¾ßÇÕ´Ï´Ù.
+ì£¼ì†Œ ì…€ê³¼ í¬ê¸° ì…€ì€ ê°ê° 1ê³¼ 0ì´ì–´ì•¼í•©ë‹ˆë‹¤.
 
-- Æ÷Æ® : decon ³ëµå ¶Ç´Â dsi ³ëµåÀÇ ³¡Á¡¿¡ ¿¬°áµÈ ³¡Á¡ ³ëµå¸¦ Æ÷ÇÔÇÕ´Ï´Ù.
+- í¬íŠ¸ : decon ë…¸ë“œ ë˜ëŠ” dsi ë…¸ë“œì˜ ëì ì— ì—°ê²°ëœ ëì  ë…¸ë“œë¥¼ í¬í•¨í•©ë‹ˆë‹¤.
 
- reg °ªÀº °¢°¢ 0°ú 1ÀÌ¾î¾ßÇÕ´Ï´Ù.
+ reg ê°’ì€ ê°ê° 0ê³¼ 1ì´ì–´ì•¼í•©ë‹ˆë‹¤.
 
 Example:
 SoC specific DT entry:

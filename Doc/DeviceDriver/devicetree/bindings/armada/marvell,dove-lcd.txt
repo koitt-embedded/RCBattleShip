@@ -31,24 +31,24 @@ Example:
 
 
 /*
-Armada DRM CRTC ����̹��� ��ġ Ʈ�� ���ε�
+Armada DRM CRTC 드라이버의 장치 트리 바인딩
 
-�ʿ��� �Ӽ� :
-- ȣȯ�� : ���� "marvell, dove-lcd"���ؾ��մϴ�.
-- reg : LCD ��Ʈ�ѷ��� �⺻ �ּҿ� ũ��
-- ���ͷ�Ʈ : LCD ��Ʈ�ѷ� ���� ���ͷ�Ʈ ��ȣ
-- port : graph.txt���� ���� �� ���� ����Ʈ�� ���� ��� ��Ʈ
+필요한 속성 :
+- 호환성 : 값은 "marvell, dove-lcd"로해야합니다.
+- reg : LCD 컨트롤러의 기본 주소와 크기
+- 인터럽트 : LCD 컨트롤러 단일 인터럽트 번호
+- port : graph.txt에서 설명 된 엔드 포인트의 비디오 출력 포트
 
-�ɼ� �Ӽ� :
+옵션 속성 :
 
-- clocks : clock-bindings.txt�� ���� �ȴ��
-- clock-names : clock-bindings.txt�� ���� �ȴ��
-"axiclk"- �ȼ� Ŭ�� axi ���� Ŭ��
-"plldivider"- �ȼ� Ŭ�� �� PLL ���ұ� �ð�
-"ext_ref_clk0"- �ȼ� Ŭ�������� �ܺ� Ŭ�� 0
-"ext_ref_clk1"- �ȼ� Ŭ�������� �ܺ� Ŭ�� 1
+- clocks : clock-bindings.txt에 설명 된대로
+- clock-names : clock-bindings.txt에 설명 된대로
+"axiclk"- 픽셀 클럭 axi 버스 클럭
+"plldivider"- 픽셀 클럭 용 PLL 분할기 시계
+"ext_ref_clk0"- 픽셀 클럭을위한 외부 클럭 0
+"ext_ref_clk1"- 픽셀 클럭을위한 외부 클럭 1
 
-���� : ��� Ŭ���� ���� ���������� ��� �ϳ��� �����ؾ��մϴ�.
+참고 : 모든 클럭은 선택 사항이지만 적어도 하나를 지정해야합니다.
 
-�ٸ� SoC�� �䱸���׿� ���� ���߿� Ŭ���� �߰��� ���� �ִ�.
+다른 SoC의 요구사항에 따라 나중에 클록을 추가할 수도 있다.
 */

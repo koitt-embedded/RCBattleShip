@@ -8,6 +8,6 @@ Required root node properties:
     - compatible = "snps,axs103", "snps,arc-sdp";
 
 /*
-´Ù¾çÇÑ ±â´ÉÀ» ´ãÀ» ¼öÀÖ´Â AXC003 FPGA Ä«µå°¡ ÀåÂø µÈ SDP ¸ÞÀÎ º¸µå
-HS38x ÄÚ¾î
+ë‹¤ì–‘í•œ ê¸°ëŠ¥ì„ ë‹´ì„ ìˆ˜ìžˆëŠ” AXC003 FPGA ì¹´ë“œê°€ ìž¥ì°© ëœ SDP ë©”ì¸ ë³´ë“œ
+HS38x ì½”ì–´
 */

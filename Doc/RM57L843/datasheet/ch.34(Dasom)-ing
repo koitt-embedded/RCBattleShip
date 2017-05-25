@@ -3,8 +3,7 @@ Chapter 34
 -1712p
 향상된 펄스 폭 변조기 (ePWM) 모듈
 
-향상된 펄스 폭 변조기 (ePWM) 주변 장치는 상업 및 산업 장비에서 발견되는 많은 전력 전자 시스템을 제어하는 핵심 요소입니다. 
-ePWM이 지원하는 기능은 특히 디지털 모터 제어에 적합합니다.
+향상된 펄스 폭 변조기 (ePWM) 주변 장치는 상업 및 산업 장비에서 발견되는 많은 전력 전자 시스템을 제어하는 핵심 요소입니다. ePWM이 지원하는 기능은 특히 디지털 모터 제어에 적합합니다.
 
 34.1 Introduction ................................................................................................... 1713
       소개 
@@ -223,12 +222,12 @@ Figure 34-3. Time-Base Submodule Block Diagram 타임 베이스 서브 모듈 �
     34.2.2.1 Purpose of the Time-Base Submodule 타임 베이스 서브 모듈의 목적
 다음을 위해 타임 베이스 하위 모듈을 구성 할 수 있습니다.
 
-- ePWM 시간-기반 카운터 (TBCTR) 빈도 또는 기간을 지정하여 이벤트 발생 빈도를 제어하십시오.
+- ePWM 시간-기반 카운터 (TBCTR) 빈도 또는 주기을 지정하여 이벤트 발생 빈도를 제어하십시오.
 - 다른 ePWM 모듈과의 시간 기반 동기화를 관리합니다.
 - 다른 ePWM 모듈과의 위상 관계 유지
 - 타임베이스 카운터를 카운트 업, 카운트 다운 또는 카운트 업 및 다운 모드로 설정하십시오.
 - 다음 이벤트를 생성하십시오 : 
-  CTR = PRD: 지정된 기간과 동일한 타임 베이스 카운터 (TBCTR = TBPRD)
+  CTR = PRD: 지정된 주기과 동일한 타임 베이스 카운터 (TBCTR = TBPRD)
   CTR = Zero: 0과 동일한 시간축 카운터 (TBCTR = 0x0000)
 
 타임 베이스 클록의 속도를 구성하십시오. (디바이스 주변 장치 클록 도메인 (VCLK3)의 프리 스케일 버전) 이렇게 하면 타임 베이스 카운터가 느린 속도로 증가 / 감소 할 수 있습니다.
@@ -256,7 +255,7 @@ EPWMxSYNCO : 타임 베이스 동기화 출력.
                   2. CTR = Zero: 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
                   3. CTR = CMPB: 타임베이스 카운터는 counter-compare B 레지스터(TBCTR = CMPB)와 같습니다. 
 
-CTR = PRD : 지정된 기간과 동일한 타임 베이스 카운터.
+CTR = PRD : 지정된 주기과 동일한 타임 베이스 카운터.
                : 이 신호는 counter 값이 active period 레지스터 값과 같을 때마다 생성됩니다. TBCTR = TBPRD 일 때 입니다.
 
 CTR = Zero : 제로와 동일한 타임 베이스 카운터
@@ -280,9 +279,9 @@ PWM 이벤트의 빈도는 time-base period (TBPRD) 레지스터와 타임베이
 
 - 업 - 다운 카운트 모드 : 업 - 다운 카운트 모드에서 타임베이스 카운터는 0부터 시작하여 주기 (TBPRD) 값에 도달 할 때까지 증가합니다. 마침표 값에 도달하면 타임베이스 카운터는 0에 도달 할 때까지 감소합니다. 이 시점에서 카운터는 패턴을 반복하고 증가하기 시작합니다.
 
-- 업 카운트 모드 : 이 모드에서 타임 베이스 카운터는 0부터 시작하여 주기 레지스터 (TBPRD)의 값에 도달 할 때까지 증가합니다. 기간 값에 도달하면 시간축 카운터가 0으로 재설정되고 다시 한 번 증가하기 시작합니다.
+- 업 카운트 모드 : 이 모드에서 타임 베이스 카운터는 0부터 시작하여 주기 레지스터 (TBPRD)의 값에 도달 할 때까지 증가합니다. 주기 값에 도달하면 시간축 카운터가 0으로 재설정되고 다시 한 번 증가하기 시작합니다.
 
-- 다운 카운트 모드 : 다운 카운트 모드에서 타임베이스 카운터는 주기 (TBPRD) 값에서 시작하여 0에 도달 할 때까지 감소합니다. 0에 도달하면 시간축 카운터가 기간 값으로 재설정되고 다시 한 번 감소하기 시작합니다.
+- 다운 카운트 모드 : 다운 카운트 모드에서 타임베이스 카운터는 주기 (TBPRD) 값에서 시작하여 0에 도달 할 때까지 감소합니다. 0에 도달하면 시간축 카운터가 주기 값으로 재설정되고 다시 한 번 감소하기 시작합니다.
 
      34.2.2.3.1 Time-Base Period Shadow Register 
 time-base period 레지스터 (TBPRD)에는 음영 레지스터가 있습니다. 음영 처리를 사용하면 레지스터 업데이트를 하드웨어와 동기화 할 수 있습니다. 다음 정의는 ePWM 모듈의 모든 섀도우 레지스터를 설명하는 데 사용됩니다.
@@ -290,7 +289,7 @@ time-base period 레지스터 (TBPRD)에는 음영 레지스터가 있습니다.
 Active Register : Active Register는 하드웨어를 제어하며 하드웨어가 유발하거나 호출하는 동작을 담당합니다
 Shadow Register : Shadow Register는 Active Register의 버퍼를 일시적으로 유지하거나 버퍼링합니다. 모든 제어 하드웨어에 직접적인 영향을 미치지 않습니다. 전략적 시점에서 Shadow Register의 내용은 Active Register로 전송됩니다. 이렇게 하면 레지스터가 소프트웨어에 의해 비동기 적으로 수정되기 때문에 손상이나 잘못된 동작을 방지 할 수 있습니다.
 
-Figure 34-5. Time-Base Frequency and Period 타임베이스 주파수 및 기간 
+Figure 34-5. Time-Base Frequency and Period 타임베이스 주파수 및 주기 
 
 shadow period 레지스터의 메모리 주소는 active 레지스터와 동일합니다. 어떤 레지스터가 쓰여지거나 읽히는지는 TBCTL [PRDLD] 비트에 의해 결정됩니다. 이 비트는 다음과 같이 TBPRD shadow 레지스터를 활성화 및 비활성화합니다.
 
@@ -298,7 +297,7 @@ shadow period 레지스터의 메모리 주소는 active 레지스터와 동일�
 TBPRD Shadow 레지스터는 TBCTL [PRDLD] = 0 일 때 활성화됩니다. TBPRD 메모리 주소에 대한 읽기 및 쓰기는 Shadow 레지스터로 이동합니다. 타임베이스 카운터가 0 인 경우 (TBCTR = 0x0000) Shadow 레지스터 내용이 활성 레지스터 (TBPRD (활성) ← TBPRD (섀도우))로 전송됩니다. 기본적으로 TBPRD Shadow 레지스터가 활성화 됩니다.
 
 - Time-Base Period Immediate Load Mode:
-즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
+​즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
 
      34.2.2.3.2 Time-Base Clock Synchronization 타임베이스 클록 동기화
 장치 레벨 멀티플렉싱 제어 모듈 (IOMM) 레지스터의 비트 1 PINMMR166은 TBCLKSYNC 비트로 정의됩니다. TBCLKSYNC 비트를 사용하면 사용 가능한 모든 ePWM 모듈을 TBCLK (Time-Base Clock)에 전역적으로 동기화 할 수 있습니다. 설정되면 활성화 된 모든 ePWM 모듈 클럭이 TBCLK의 첫 번째 상승 에지와 정렬되어 시작됩니다. 완벽하게 동기화 된 TBCLK의 경우 각 ePWM 모듈의 프리스케일러가 동일하게 설정되어야합니다.
@@ -387,7 +386,7 @@ Table 34-6. Counter-Compare Submodule Key Signals
 Signal : Description of Event : Registers Compared
 CTR = CMPA : 활성 카운터-비교 A 값과 동일한 시간 기준 카운터 : TBCTR = CMPA
 CTR = CMPB : 활성 카운터-비교 B 값과 동일한 시간 기준 카운터 : TBCTR = CMPB
-CTR = PRD : 활성 기간과 동일한 타임베이스 카운터.
+CTR = PRD : 활성 주기과 동일한 타임베이스 카운터.
                 shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?) : TBCTR = TBPRD
 ( Time-base counter equal to the active period. Used to load active counter-compare A and B registers from the shadow register )
 CTR = ZERO : 0과 동일한 타임베이스 카운터. shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?)
@@ -410,7 +409,7 @@ Shadow Mode:
 CMPA의 shadow 모드는 CMPCTL [SHDWAMODE] 비트를 지우고 CMPB의 shadow 레지스터를 CMPCTL [SHDWBMODE] 비트를 지우면 활성화됩니다. shadow 모드는 CMPA 및 CMPB 모두에 기본적으로 사용됩니다.
 shadow 레지스터가 활성화되면 shadow 레지스터의 내용은 CMPCTL [LOADAMODE] 및 CMPCTL [LOADBMODE] 레지스터 비트에 지정된 다음 이벤트 중 하나에서 active 레지스터로 전송됩니다.
 
-- CTR = PRD : 기간과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
+- CTR = PRD : 주기과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
 - CTR = Zero : 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
 - Both CTR = PRD and CTR = Zero
 
@@ -446,7 +445,7 @@ Figure 34-17. Action-Qualifier Submodule
 action-qualifier 하위 모듈은 다음을 담당합니다 : 
 
 - 다음 이벤트를 기반으로 작업을 검증 및 생성 (설정, 지우기, 전환)합니다.
-  CTR = PRD: 기간과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
+  CTR = PRD: 주기과 동일한 타임베이스 카운터 (TBCTR = TBPRD)
   CTR = Zero: 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
   CTR = CMPA: 카운터-비교 A 레지스터와 동일한 타임베이스 카운터 (TBCTR = CMPA)
   CTR = CMPB: 카운터-비교 B 레지스터와 동일한 타임베이스 카운터 (TBCTR = CMPB)
@@ -461,8 +460,8 @@ Table 34-7. Action-Qualifier Submodule Registers
 
 action-qualifier 하위 모듈은 이벤트 기반 논리를 기반으로합니다. 이것은 입력시 이벤트 및 출력시 조치가 있는 프로그래밍 가능한 교차 스위치로 생각할 수 있습니다. 이 스위치는 모두 표 34-7에 나와있는 레지스터 세트를 통해 소프트웨어로 제어됩니다.
 
-Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
-
+​Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
+​
 가능한 입력 이벤트는 표 34-8에 다시 요약되어 있습니다.
 
 Table 34-8. Action-Qualifier Submodule Possible Input Events 동작 한정자 서브 모듈 가능한 입력 이벤트
@@ -505,7 +504,7 @@ Priority Level : 이벤트가 TBCTR이 증가하는 경우 TBCTR = 0부터 TBCTR
 1 (Highest) : 소프트웨어 강제 이벤트 : 소프트웨어 강제 이벤트
 2 : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다. : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다.
 3 : 카운터는 업 카운트 (CAU)시 CMPA와 같습니다. : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다.
-4 : 카운터는 0입니다. : 카운터는 기간과 동등합니다. (TBPRD)
+4 : 카운터는 0입니다. : 카운터는 주기과 동등합니다. (TBPRD)
 5 : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다.
 6 (Lowest) : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPA와 같습니다.
 
@@ -535,3 +534,171 @@ Priority Level : Event
 
 비교 값을 주기보다 크게 설정할 수 있습니다. 이 경우 작업은 표 34-12와 같이 수행됩니다.
 Table 34-12. Behavior if CMPA/CMPB is Greater than the Period
+              CMPA/CMPB가 주기보다 컸을때의 동작
+
+Counter Mode : Compare on Up-Count Event CAD/CBD : Compare on Down-Count Event CAD/CBD
+Up-Count Mode : CMPA / CMPB ≤ TBPRD 주기 인 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)시 발생합니다. 
+                     CMPA / CMPB > TBPRD이면 이벤트가 발생하지 않습니다.
+                   : 발생하지 않음
+Down-Count Mode : 발생하지 않음 
+                      : CMPA / CMPB < TBPRD 인 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)시 발생합니다.  
+                       CMPA / CMPB ≥ TBPRD 인 경우, 이벤트는 주기와 일치 (TBCTR = TBPRD)시 발생합니다.
+Up-Down-Count : CMPA / CMPB < TBPRD 이고 카운터가 증가하는 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)에서 
+                     발생합니다. 
+                     CMPA / CMPB가 TBPRD 이상인 경우 해당 주기 동안 이벤트가 발생합니다 (TBCTR = TBPRD).
+                   : CMPA / CMPB < TBPRD이고 카운터가 감소하는 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)에서 
+                     발생합니다.
+                     CMPA / CMPB ≥ TBPRD 인 경우, 해당 주기 동안 이벤트가 발생합니다 (TBCTR = TBPRD)
+
+   34.2.4.4 Waveforms for Common Configurations 공통 구성에 대한 파형 
+
+NOTE: 이 문서의 파형은 정적 비교 레지스터 값에 대한 ePWM 동작을 보여줍니다. 실행중인 시스템에서 활성 비교 레지스터 (CMPA 및 CMPB)는 대개 매 주기마다 해당 shadow 레지스터에서 업데이트됩니다. 사용자는 업데이트가 발생할 시기를 지정합니다. 타임베이스 카운터가 0에 도달하거나 타임베이스 카운터가 주기에 도달 할 때, 새 값을 기반으로하는 작업이 한 주기 지연되거나 이전 값을 기반으로 한 작업이 추가 주기 동안 적용될 수 있는 경우가 있습니다. 일부 PWM 구성은 이러한 상황을 피합니다. 여기에는 다음 사항이 포함되나 이에 국한되지는 않습니다 :
+
+업-다운 카운트 모드를 사용하여 대칭 PWM 생성 : 
+- CMPA / CMPB를 0으로 로드하는 경우 1보다 크거나 같은 CMPA / CMPB 값을 사용하세요.
+- CMPA / CMPB를 주기로 로드하는 경우 TBPRD-1보다 작거나 같은 CMPA / CMPB 값을 사용하세요.
+
+이것은 PWM주기에서 적어도 하나의 TBCLK주기의 펄스가 항상 존재함을 의미하며, 매우 짧은 경우 시스템에 의해 무시되는 경향이 있습니다
+
+업-다운 카운트 모드를 사용하여 비대칭 PWM 생성 :
+- 50 % ~ 0 % 비대칭 PWM을 달성하려면 다음 구성을 사용하세요. 
+CMPA / CMPB를 주기에 로드하고 주기 동작을 사용하여 PWM을 지우고 비교 동작을 통해 PWM을 설정합니다. 비교 값을 0에서 TBPRD로 변조하여 50 % ~ 0 % PWM 듀티를 달성합니다. 
+
+업 카운트 모드를 사용하여 비대칭 PWM을 생성 할 때 :
+- ​0 ~ 100% 비대칭 PWM을 얻으려면 다음 구성을 사용하세요. 
+TBPRD에 CMPA / CMPB를 로드하십시오. Zero 동작을 사용하여 PWM을 설정하고 비교 작업을 수행하여 PWM을 지웁니다. 
+비교 값을 0에서 TBPRD + 1로 변조하여 0~100 % PWM 듀티를 달성합니다.
+
+0~100% 듀티 사이클 제어 애플리케이션 보고서를 위해 향상된 펄스 폭 모듈레이터 (ePWM) 모듈 사용 (문서 번호 SPRAAI1)
+
+그림 34-20은 TBCTR의 업 / 다운 카운트 모드를 사용하여 대칭 PWM 파형을 생성하는 방법을 보여줍니다. 이 모드에서는 파형의 업 카운트 및 다운 카운트 부분에서 동일한 비교 일치를 사용하여 0 ~100 % DC 변조가 수행됩니다. 예에서 볼 수 있듯, CMPA가 비교를 위해 사용된다. 카운터가 증가하면 CMPA 일치는 PWM 출력을 하이로 끌어 올립니다. 마찬가지로 카운터가 감소 할 때 비교 일치는 PWM 신호를 로우로 끌어 올 것입니다. 
+CMPA = 0 일 때, PWM 로우 신호는 전체주기 동안 0 % 듀티 파형을 제공합니다. (?)
+CMPA = TBPRD 일 때, PWM 하이 신호는 100 % 듀티를 달성합니다. (?)
+( When CMPA = 0, the PWM signal is low for the entire period giving the 0% duty waveform. When CMPA = TBPRD, the PWM signal is high achieving 100% duty. ) 
+
+실제로 이 구성을 사용할 때 CMPA / CMPB를 0으로 로드하면 1보다 크거나 같은 CMPA / CMPB 값을 사용하세요.
+CMPA / CMPB를 주기에 로드하는 경우 TBPRD-1보다 작거나 같은 CMPA / CMPB 값을 사용하세요.
+
+Figure 34-20. Up-Down-Count Mode Symmetrical Waveform 업-다운 카운트 모드 대칭 파형
+
+그림 34-21에서 그림 34-26의 PWM 파형은 일반적인 action-qualifier 구성을 보여줍니다. 예제 34-1에서 예제 34-6의 C 코드 샘플은 각 경우에 대해 ePWM 모듈을 구성하는 방법을 보여줍니다. 
+
+그림 및 예제에 사용 된 일부 규칙은 다음과 같습니다.
+- TBPRD, CMPA 및 CMPB는 각각의 레지스터에 기록 된 값을 참조합니다. shadow 레지스터가 아닌 active 레지스터는 하드웨어에서 사용됩니다.
+- CMPx는 CMPA 또는 CMPB를 나타냅니다.
+- EPWMxA 및 EPWMxB는 ePWMx의 출력 신호를 나타냅니다
+- 업 - 다운은 카운트 업 및 다운 모드를 의미하고, 업은 업 카운트 모드를 의미하고 다운은 다운 카운트 모드를 의미합니다
+- Sym = Symmetric, Asym = Asymmetric
+
+예제 34-1은 그림 34-21의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플입니다.
+
+Figure 34-21. Up, Single Edge Asymmetric Waveform, With Independent Modulation on EPWMxA and EPWMxB—Active High 
+업, 단일 에지 비대칭 파형, EPWMxA 및 EPWMxB에서 독립적인 변조 - 액티브 하이
+
+A. PWM 주기 = (TBPRD + 1 ) × TTBCLK
+B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고 active 하이 (즉, CMPA에 비례하여 높은 듀티 비)이다.
+C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고 active 하이 (즉, CMPB에 비례하는 높은 듀티 비)이다.
+D. 완료를 위해 "아무 것도하지 않음" 동작 (X)이 표시되지만 후속 다이어그램에는 표시되지 않습니다.
+E. 0과 주기의 작업은 동시에 발생하는 것처럼 보이지만 실제로는 하나의 TBCLK 주기으로 구분됩니다. 
+    TBCTR은 주기를 0000으로 바꿉니다.
+
+Example 34-1. Code Sample for Figure 34-21
+
+
+Figure 34-22. Up, Single Edge Asymmetric Waveform With Independent Modulation on EPWMxA and EPWMxB—Active Low 
+EPWMxA 및 EPWMxB에서 개별 변조를 사용하는 단일, 엣지 비대칭 파형 - 액티브 로우
+
+A. PWM 주기 = (TBPRD + 1 ) × TTBCLK
+B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고 active 로우이다 (즉, 로우 타임 듀티는 CMPA에 비례 함).
+C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고 active 로우이다 (즉, 로우 타임 듀티는 CMPB에 비례 함).
+D. 0과 주기의 작업은 동시에 발생하는 것처럼 보이지만 실제로는 하나의 TBCLK 주기로 구분됩니다. 
+    TBCTR은 주기를 0000으로 바꿉니다.
+
+예제 34-2는 그림 34-22의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플입니다.
+
+Example 34-2. Code Sample for Figure 34-22
+
+
+Figure 34-23. Up-Count, Pulse Placement Asymmetric Waveform With Independent Modulation on EPWMxA
+업 카운트, 펄스 배치 EPWMxA에서 독립적인 변조를 갖는 비대칭 파형
+
+A. PWM 주파수 = 1/( (TBPRD + 1 ) × TTBCLK )
+B. 펄스는 어디서든 PWM 사이클 안에 위치한다. (0000 - TBPRD)
+C. CMPB - CMPA 에 비례하는 높은 시간 듀티
+D. EPWMxB는 주파수 = 1/2 × ((TBPRD + 1) × TBCLK)로 50 % 듀티 사각파를 생성하는 데 사용할 수 있습니다.
+
+예제 34-3은 그림 34-23 파형의 초기화 및 런타임을 보여주는 코드 샘플을 포함합니다. 
+
+Example 34-3. Code Sample for Figure 34-23
+
+
+Figure 34-24. Up-Down-Count, Dual Edge Symmetric Waveform, With Independent Modulation on EPWMxA and EPWMxB — Active Low 
+업 - 다운 카운트, 듀얼 에지 대칭 파형, EPWMxA 및 EPWMxB에서 독립적인 변조 - 액티브 로우
+
+A. PWM 주기 = 2 x TBPRD × TTBCLK
+B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고 액티브 로우이다 (즉, 로우 타임 듀티는 CMPA에 비례 함).
+C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고 액티브 로우이다 (즉, 로우 타임 듀티는 CMPB에 비례 함).
+D. 출력 EPWMxA 및 EPWMxB는 독립적인 전원 스위치를 구동 할 수 있습니다.
+
+예제 34-4는 그림 34-24의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플입니다.
+
+Example 34-4. Code Sample for Figure 34-24
+
+
+
+Figure 34-25. Up-Down-Count, Dual Edge Symmetric Waveform, With Independent Modulation on EPWMxA and EPWMxB — Complementary
+업 - 다운 카운트, 듀얼 에지 대칭 파형, EPWMxA 및 EPWMxB에서 독립적인 변조 - 보완형
+
+A. PWM 주기 = 2 × TBPRD × TTBCLK
+B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고, 액티브 로우, i.e. , 낮은 시간 듀티는 CMPA에 비례한다.
+C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고, 액티브 하이, i.e. , 높은 시간 듀티는 CMPB에 비례한다.
+D. 출력 EPWMx는 상 / 하 (보완) 전원 스위치를 구동 할 수 있습니다
+E. 데드 밴드 = CMPB - CMPA (소프트웨어로 완전히 프로그램 가능한 에지 배치). 
+    보다 고전적인 에지 지연 방법이 필요한 경우 데드 밴드 모듈도 사용할 수 있습니다.
+
+예제 34-5는 그림 34-25의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플을 포함합니다.
+
+Example 34-5. Code Sample for Figure 34-25
+
+
+Figure 34-26. Up-Down-Count, Dual Edge Asymmetric Waveform, With Independent Modulation on EPWMxA—Active Low
+업 - 다운 카운트, 듀얼 에지 비대칭 파형, EPWMxA에서 독립 변조 -액티브 로우
+
+A. PWM 주기 = 2 × TBPRD × TBCLK
+B. 상승 에지와 하강 에지는 PWM 사이클 내에서 비대칭 적으로 배치 될 수 있습니다. 이것은 펄스 배치 기술을 허용합니다.
+C. EPWMxA의 Duty 변조는 CMPA와 CMPB에 의해 설정됩니다.
+D. EPWMxA의 낮은 시간 듀티는 (CMPA + CMPB)에 비례합니다.
+E. 이 예를 액티브 하이로 변경하려면, CMPA 및 CMPB 동작이 반전 될 필요가있다 (즉, set ! 클리어 및 set 클리어 ).
+F. EPWMxB의 듀티 모듈레이션은 50 %로 고정되어 있습니다 (EPWMxB의 예비 동작 리소스 활용)
+
+예제 34-6은 그림 34-26의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플을 포함합니다.
+
+Example 34-6. Code Sample for Figure 34-26
+
+
+34.2.5 Dead-Band Generator (DB) Submodule
+그림 34-27은 ePWM 모듈 내의 데드 밴드 서브 모듈을 보여줍니다.
+
+Figure 34-27. Dead_Band Submodule
+
+   34.2.5.1 Purpose of the Dead-Band Submodule 데드 밴드 서브 모듈의 목적
+"Action-qualifier (AQ) 모듈" 절에서는 ePWM 모듈의 CMPA 및 CMPB 리소스를 모두 사용하여 에지 배치를 완벽하게 제어함으로써 필수 데드 밴드를 생성하는 방법에 대해 설명했습니다. 그러나 보다 고전적인 에지 지연 기반 dead-band 제어가 필요한 경우 여기에 설명된 dead-band 서브 모듈을 사용해야합니다. 
+
+데드 밴드 모듈의 핵심 기능은 다음과 같습니다 : 
+- 단일 EPWMxA 입력에서 데드 밴드 관계가 있는 적절한 신호 쌍 생성 (EPWMxA 및 EPWMxB)
+- 프로그래밍 신호 쌍 :
+   Active high (AH)
+   Active low (AL)
+   Active high complementary (AHC)
+   Active low complementary (ALC)
+- 상승 에지에 프로그램 가능한 지연 추가 ( RED )
+- 하강 에지에 프로그램 가능한 지연 추가 ( FED ) 
+- 신호 경로에서 완전히 우회 할 수 있음 ( 다이어그램에서 점선 참고 )
+
+   34.2.5.2 Controlling and Monitoring the Dead-Band Submodule 데드 밴드 서브 모듈 제어 및 모니터링
+데드 밴드 서브 모듈 작동은 다음 레지스터를 통해 제어 및 모니터링됩니다.
+
+Table 34-13. Dead-Band Generator Submodule Registers 데드 밴드 생성기 서브 모듈 레지스터
+
+   34.2.5.3 Operational Highlights for the Dead-Band Submodule 데드 밴드 서브 모듈의 주요 특징
+ 
