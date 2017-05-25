@@ -11,17 +11,17 @@ static unsigned long onesec;
 static void
 mykmod_work_handler(struct work_struct *w)
 {
-        pr_info("mykmod work %u jiffies\n", (unsigned)onesec);
+        pr_info("Work %u jiffies\n", (unsigned)onesec);
 }
 
 int init_module(void)
 {
 	printk("Init\n");
         onesec = msecs_to_jiffies(1000);
-        pr_info("mykmod loaded %u jiffies\n", (unsigned)onesec);
+        pr_info("Loaded %u jiffies\n", (unsigned)onesec);
 
         if (!wq)
-                wq = create_singlethread_workqueue("mykmod");
+                wq = create_singlethread_workqueue("Thread");
         if (wq)
                 queue_delayed_work(wq, &mykmod_work, onesec);
 
@@ -32,7 +32,7 @@ void cleanup_module(void)
 {
 	cancel_work_sync(&mykmod_work);
         destroy_workqueue(wq);
-        pr_info("mykmod exit\n");
+        pr_info("Exit\n");
 }
 
 MODULE_LICENSE("GPL");
