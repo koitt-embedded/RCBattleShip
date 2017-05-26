@@ -115,15 +115,16 @@ ePWM 모듈은 필요한 경우 단일 시스템으로 작동 할 수 있는 클
 각 ePWM 모듈은 8 개의 서브 모듈로 구성되며 그림 34-2에 표시된 신호를 통해 시스템 내에서 연결됩니다.
 
 Figure 34-1. Multiple ePWM Modules
-Figure 34-2. Submodules and Signal Connections for an ePWM Module
-Time-base (TB) module
-Counter-compare (CC) module
-Action-qualifier (AQ) module
+Figure 34-2. Submodules and Signal Connections for an ePWM Module 
+( 아래 해석에 직역되있는 부분이 있습니다. 유의해주세용... = 뒤는 직역되서 나온 단어로 적습니다.  )
+Time-base (TB) module :: = 시간 기반
+Counter-compare (CC) module :: = 카운터 비교
+Action-qualifier (AQ) module :: = 액션 한정자
 Dead-band (DB) module
-PWM-chopper (PC) module
-Event-trigger (ET) module
-Trip-zone (TZ) module
-Digital Compare (DC) module
+PWM-chopper (PC) module :: = PWM 쵸퍼
+Event-trigger (ET) module :: = 이벤트 트리거
+Trip-zone (TZ) module :: = 트립 존
+Digital Compare (DC) module :: = 디지털 비교
 
 ePWM 모듈에서 사용되는 주요 신호는 다음과 같습니다.
 
