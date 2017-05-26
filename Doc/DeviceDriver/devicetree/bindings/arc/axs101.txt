@@ -1,7 +1,7 @@
 Synopsys DesignWare ARC Software Development Platforms Device Tree Bindings
 
 
-//Synopsys DesignWare ARC ¼ÒÇÁÆ®¿ş¾î °³¹ß ÇÃ·§Æû ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+//Synopsys DesignWare ARC ì†Œí”„íŠ¸ì›¨ì–´ ê°œë°œ í”Œë«í¼ ì¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
 ---------------------------------------------------------------------------
 
@@ -12,8 +12,8 @@ Required root node properties:
 
 
 /*
-½Ç¸®ÄÜ¿¡ ARC700 ÄÚ¾î¸¦ Å¾Àç ÇÑ AXC001 CPU Ä«µå°¡ÀÖ´Â SDP ¸ŞÀÎ º¸µå
+ì‹¤ë¦¬ì½˜ì— ARC700 ì½”ì–´ë¥¼ íƒ‘ì¬ í•œ AXC001 CPU ì¹´ë“œê°€ìˆëŠ” SDP ë©”ì¸ ë³´ë“œ
 
-ÇÊ¼ö ·çÆ® ³ëµå ¼Ó¼º
+í•„ìˆ˜ ë£¨íŠ¸ ë…¸ë“œ ì†ì„±
  - compatible = "snps,axs101", "snps,arc-sdp";
 */

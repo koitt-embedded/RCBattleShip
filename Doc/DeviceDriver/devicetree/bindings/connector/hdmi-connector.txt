@@ -29,19 +29,19 @@ hdmi0: connector@1 {
 };
 
 /*
-HDMI Ŀ����
+HDMI 커넥터
 ==============
 
-�ʼ� �Ӽ� :
-- ȣȯ : "hdmi-connector"
-- ���� : HDMI Ŀ���� ���� : "a", "b", "c", "d"�Ǵ� "e"
+필수 속성 :
+- 호환 : "hdmi-connector"
+- 유형 : HDMI 커넥터 유형 : "a", "b", "c", "d"또는 "e"
 
-������ �Ӽ� :
-- label : Ŀ������ ��ȣ �̸�
-- hpd-gpios : HPD GPIO ��ȣ
+선택적 속성 :
+- label : 커넥터의 기호 이름
+- hpd-gpios : HPD GPIO 번호
 
-�ʼ� ��� :
-- HDMI �Է� �� ���� ��Ʈ
+필수 노드 :
+- HDMI 입력 용 비디오 포트
 
 
 Example

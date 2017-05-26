@@ -68,47 +68,47 @@ Board specific DT entry:
 	};
 
 /*
-»ï¼º Exynos7 SoC µð½ºÇÃ·¹ÀÌ ÄÁÆ®·Ñ·¯ (DECON) ¿ë ÀåÄ¡ Æ®¸® ¹ÙÀÎµù
+ì‚¼ì„± Exynos7 SoC ë””ìŠ¤í”Œë ˆì´ ì»¨íŠ¸ë¡¤ëŸ¬ (DECON) ìš© ìž¥ì¹˜ íŠ¸ë¦¬ ë°”ì¸ë”©
 
-DECON (µð½ºÇÃ·¹ÀÌ ¹× Çâ»ó ÄÁÆ®·Ñ·¯)Àº
-ºñµð¿À ¸Þ¸ð¸®¿¡¼­ ÀÌ¹ÌÁö µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÏ´Â SoCÀÇ Exynos7 ½Ã¸®Áî
-¹öÆÛ¸¦ ¿ÜºÎ LCD ÀÎÅÍÆäÀÌ½º¿¡ ¿¬°áÇÕ´Ï´Ù.
+DECON (ë””ìŠ¤í”Œë ˆì´ ë° í–¥ìƒ ì»¨íŠ¸ë¡¤ëŸ¬)ì€
+ë¹„ë””ì˜¤ ë©”ëª¨ë¦¬ì—ì„œ ì´ë¯¸ì§€ ë°ì´í„°ë¥¼ ì „ì†¡í•˜ëŠ” SoCì˜ Exynos7 ì‹œë¦¬ì¦ˆ
+ë²„í¼ë¥¼ ì™¸ë¶€ LCD ì¸í„°íŽ˜ì´ìŠ¤ì— ì—°ê²°í•©ë‹ˆë‹¤.
 
-ÇÊ¼ö ¼Ó¼º :
-- compatible : °ªÀº "samsung, exynos7-decon"ÀÌ¾î¾ßÇÕ´Ï´Ù.
+í•„ìˆ˜ ì†ì„± :
+- compatible : ê°’ì€ "samsung, exynos7-decon"ì´ì–´ì•¼í•©ë‹ˆë‹¤.
 
-- reg : ¹°¸®Àû ÀÎ ±âº» ÁÖ¼Ò¿Í DECON ·¹Áö½ºÅÍ ¼¼Æ®ÀÇ ±æÀÌ.
+- reg : ë¬¼ë¦¬ì  ì¸ ê¸°ë³¸ ì£¼ì†Œì™€ DECON ë ˆì§€ìŠ¤í„° ì„¸íŠ¸ì˜ ê¸¸ì´.
 
-- interrupt-parent : µðÄÜ ÄÁÆ®·Ñ·¯ÀÇ phandleÀÌ¾î¾ßÇÕ´Ï´Ù.
-ºÎ¸ð ÀÎÅÍ·´Æ® ÄÁÆ®·Ñ·¯.
+- interrupt-parent : ë””ì½˜ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ phandleì´ì–´ì•¼í•©ë‹ˆë‹¤.
+ë¶€ëª¨ ì¸í„°ëŸ½íŠ¸ ì»¨íŠ¸ë¡¤ëŸ¬.
 
-- ÀÎÅÍ·´Æ® : ¸ðµç DECON IP ºí·Ï ÀÎÅÍ·´Æ® ¸ñ·ÏÀ» FIFO ·¹º§, VSYNC, LCD_SYSTEM ¼ø¼­·Î Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù. 
+- ì¸í„°ëŸ½íŠ¸ : ëª¨ë“  DECON IP ë¸”ë¡ ì¸í„°ëŸ½íŠ¸ ëª©ë¡ì„ FIFO ë ˆë²¨, VSYNC, LCD_SYSTEM ìˆœì„œë¡œ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤. 
 
-ÀÎÅÍ·´Æ® ÁöÁ¤ÀÚ Çü½ÄÀº »ç¿ë µÈ ÀÎÅÍ·´Æ® ÄÁÆ®·Ñ·¯¿¡ µû¶ó ´Ù¸¨´Ï´Ù.
+ì¸í„°ëŸ½íŠ¸ ì§€ì •ìž í˜•ì‹ì€ ì‚¬ìš© ëœ ì¸í„°ëŸ½íŠ¸ ì»¨íŠ¸ë¡¤ëŸ¬ì— ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤.
 
-- interrupt-names : interrupts ¼Ó¼º¿¡ ³ª¿­µÈ ¼ø¼­´ë·Î "fifo", "vsync", "lcd_sys"¿Í °°Àº 
+- interrupt-names : interrupts ì†ì„±ì— ë‚˜ì—´ëœ ìˆœì„œëŒ€ë¡œ "fifo", "vsync", "lcd_sys"ì™€ ê°™ì€ 
 
-ÀÎÅÍ·´Æ® ÀÌ¸§À» Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+ì¸í„°ëŸ½íŠ¸ ì´ë¦„ì„ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- pinctrl-0 :ÀÌ ÄÁÆ®·Ñ·¯¿¡ »ç¿ëÇÒ ÇÉ ÄÁÆ®·Ñ ±×·ì.
+- pinctrl-0 :ì´ ì»¨íŠ¸ë¡¤ëŸ¬ì— ì‚¬ìš©í•  í•€ ì»¨íŠ¸ë¡¤ ê·¸ë£¹.
 
-- pinctrl-names : "±âº»"Ç×¸ñÀ» Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+- pinctrl-names : "ê¸°ë³¸"í•­ëª©ì„ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- clocks : clock-names ¼Ó¼ºÀÇ Ç×¸ñ¿¡ ÇØ´çÇÏ´Â clock ÁöÁ¤ÀÚ¸¦ Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+- clocks : clock-names ì†ì„±ì˜ í•­ëª©ì— í•´ë‹¹í•˜ëŠ” clock ì§€ì •ìžë¥¼ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- clock-names : Å¬·° ÀÌ¸§°ú °°Àº ¼ø¼­·Î Á¤·Ä µÈ Å¬·° ÀÌ¸§ ¸ñ·Ï.
+- clock-names : í´ëŸ­ ì´ë¦„ê³¼ ê°™ì€ ìˆœì„œë¡œ ì •ë ¬ ëœ í´ëŸ­ ì´ë¦„ ëª©ë¡.
 
- "pclk_decon0", "aclk_decon0", "decon0_eclk", "decon0_vclk"À» Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù.
+ "pclk_decon0", "aclk_decon0", "decon0_eclk", "decon0_vclk"ì„ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤.
 
-- i80-if-timing : lcd i80 ÀÎÅÍÆäÀÌ½º Áö¿øÀ»À§ÇÑ Å¸ÀÌ¹Ö ±¸¼º.
+- i80-if-timing : lcd i80 ì¸í„°íŽ˜ì´ìŠ¤ ì§€ì›ì„ìœ„í•œ íƒ€ì´ë° êµ¬ì„±.
 
-¼±ÅÃÀû ¼Ó¼º :
-- samsung, power-domain : DECON Àü·Â µµ¸ÞÀÎ ³ëµå¿¡ ´ëÇÑ phandle.
-- µð½ºÇÃ·¹ÀÌ Å¸ÀÌ¹Ö : DECON¿¡ ´ëÇÑ Å¸ÀÌ¹Ö ¼³Á¤. ¹®¼­ [1]¿¡ ¼³¸íµÇ¾î ÀÖ½À´Ï´Ù.
-Å¸ÀÌ¹ÖÀ» ´Þ¸® Á¦°ø ÇÒ ¼ö¾ø´Â °æ¿ì »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¶Ç´Â ÆÐ³ÎÀÌ Á¦°ø ÇÑ Å¸ÀÌ¹ÖÀ» ¹«½ÃÇÒ ¼ö ÀÖ½À´Ï´Ù.
+ì„ íƒì  ì†ì„± :
+- samsung, power-domain : DECON ì „ë ¥ ë„ë©”ì¸ ë…¸ë“œì— ëŒ€í•œ phandle.
+- ë””ìŠ¤í”Œë ˆì´ íƒ€ì´ë° : DECONì— ëŒ€í•œ íƒ€ì´ë° ì„¤ì •. ë¬¸ì„œ [1]ì— ì„¤ëª…ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+íƒ€ì´ë°ì„ ë‹¬ë¦¬ ì œê³µ í•  ìˆ˜ì—†ëŠ” ê²½ìš° ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ë˜ëŠ” íŒ¨ë„ì´ ì œê³µ í•œ íƒ€ì´ë°ì„ ë¬´ì‹œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-[1] : ¹®¼­ / devicetree / bindings / display / display-timing.txt
+[1] : ë¬¸ì„œ / devicetree / bindings / display / display-timing.txt
 
 Example:
 
