@@ -94,3 +94,45 @@ Order(1 bit)
 
 위의 모든 비트를 합치면 16 비트(2 바이트)가 나온다.
 각각의 비트에 대해 알아보자면 아래와 같다.
+
+Protocol Version
+사용하는 MAC 802.11 의 버전으로 현재 하나의 MAC 버전이 있고 0 이다.
+
+Type
+802.11 에는 3 가지 패킷 타입으로 관리, 제어, 데이터가 있다.
+
+- 관리 패킷(IEEE80211_FTYPE_MGMT)은 연관, 인증, 검사(Scanning) 등과 같은
+  관리 동작을 위한 패킷이다.
+- 제어 패킷(IEEE80211_FTYPE_CTL)은 보통 데이터 패킷과 일부 관련성을 가진다.
+  예로 PS-Poll 패킷은 AP Buffer 에서 Packet 을 검색한다.
+  다른 예로 전송하려는 Station 이
+  RTS(Request to Send: 송신 요청) 제어 패킷을 먼저 보낸다.
+  매체가 여유가 있다면 목적지 Station 은
+  CTS(Clear to Send: 송신 확인) 라는 제어 패킷을 회신할 것이다.
+- 데이터 패킷(IEEE80211_FTYPE_DATA)은 원시 데이터 패킷이다.
+  NULL 패킷은 원시 패킷의 특수한 경우로서 데이터를 운반하지 않으며
+  대부분 전원 관리 제어 목적으로 사용된다.
+
+Subtype
+위의 3 가지 패킷 타입(관리, 제어, 데이터)의 경우
+패킷이 사용되는 특징을 구별하는 Subtype 필드가 있다.
+
+- 관리 프레임에서 Subtype Field 값 0100 은
+  패킷이 탐지 요청(Probe Request) 관리 패킷(IEEE80211_STYPE_PROBE_REQ)을
+  의미하며 이 패킷은 검사 동작에 사용된다.
+- 제어 패킷에서 Subtype 필드 값 1011 은
+  제어 패킷 송신 요청(IEEE80211_STYPE_RTS) 하는 것을 의미한다.
+  데이터 패킷의 Subtype 값 0100 은 전원 관리 제어에 사용되는
+  NULL 데이터(IEEE80211_STYPE_NULLFUNC) 패킷을 의미한다.
+- 데이터 패킷의 Subtype 값 1000(IEEE80211_STYPE_QOS_DATA)은
+  QoS 데이터 패킷을 의미한다.
+  Subtype 은 QoS 강화를 다룬 IEEE802.11e 개정이 추가됐다.
+
+ToDS
+이 bit 가 설정된 경우 분배 시스템으로 가는 패킷을 의미한다.
+
+FromDs
+이 bit 가 설정된 경우 분배 시스템에서 온 패킷을 의미한다.
+
+More Frag
+
