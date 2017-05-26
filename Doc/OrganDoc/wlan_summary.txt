@@ -77,7 +77,19 @@ struct ieee80211_qos_hdr {
 } __packed __aligned(2);
 
 우리가 일반적으로 사용하는 구조 Station 혹은 AP 에서는 주소 3 개를 사용한다.
-MAC 헤더의 맨 앞 frame_control(프레임 제어)는 16 비트(2 바이트)다.
+802.11 MAC Header 의 구조를 보자면 아래와 같은 것들로 구성된다.
+
+Frame Control
+Duration/ID
+Address1
+Address2
+Address3
+Order Control
+Address4
+QoS Control
+HT Control
+
+MAC 헤더의 맨 앞 Frame Control(프레임 제어)는 16 비트(2 바이트)다.
 이 필드의 내부에 대해서 상세히 까보자면 아래와 같다.
 
 Protocol Version(2 bit)
@@ -135,4 +147,50 @@ FromDs
 이 bit 가 설정된 경우 분배 시스템에서 온 패킷을 의미한다.
 
 More Frag
+단편화(Fragmentation)을 사용하면 이 bit 는 1 로 설정된다.
 
+Retry
+패킷이 재전송되면 이 bit 는 1 로 설정된다.
+재전송이 이뤄지는 가장 일반적인 경우는
+패킷이 정해진 시간에 확인 응답을 수신하지 못할 때다.
+확인 응답은 보통 Wireless Driver 의 FW 가 보낸다.
+
+Power Management
+전원 관리 bit 가 설정되면 Station 이 절전 기능으로 들어갈 것임을 의미한다.
+
+More Data
+AP 가 절전 상태의 Station 으로 향하는 Buffered Packet 을 전송할 때
+AP 의 Buffer 가 비어있지 않으면 이 bit 를 1 로 설정한다.
+그러므로 Station 은 검색할 Packet 이 더 있음을 알게 된다.
+Buffer 가 비어 있으면 이 bit 는 0 으로 설정된다.
+
+WEP
+이 bit 는 Frame 이 암호화 되어 있으면 1 로 설정된다.
+Data Frame 과 Authentication Frame 만 암호화 될 수 있다.
+
+Order
+엄격한 순서라 불리는 MAC Service 가 사용중이면 순서 비트는 1 로 설정된다.
+거의 사용되지 않음
+
+다음으로 남아 있는 부분들을 살펴보도록 하자!
+
+
+
+Duration/ID
+Microsecond 단위의 NAV(Network Allocation Vector)에 대한 값을 보관하고
+Duration/ID 필드의 15 bit 로 구성되며 16 번째 bit 는 0 이다.
+절전 모드로 동작할 경우 PS-Poll Frame 에 대한 Station 의 AID(Association ID)가 된다.
+NAV 는 가상 반송파 감지 메커니즘이며 이 알고리즘은 논문등을 참조하는 것이 좋다.
+
+Order Control
+이 녀석은 2 byte 를 차지하며
+802.11 에서는 패킷이 한 번 이상 수신될 가능성이 있다.
+주로 특정한 이유로 확인 응답이 수신되지 않는 경우가 여기에 해당한다.
+순서 제어 필드는 Fragmentation Number(4 bit) 와 Order Number(12 bit) 로 구성된다.
+Order Number 는 전송 Station 에서 생성하며 ieee80211_tx_h_sequence() 에서 생성된다.
+재전송에서 중복 프레임의 경우 폐기되고 폐기된 중복 프레임 카운터는 1 씩 증가한다.
+이를 제어하는 함수는 ieee80211_rx_h_check() 에서 이뤄진다.
+
+Address 1 ~ 4
+주소가 4 개 있지만 항상 모두 사용하는 것은 아니다.
+주소 1 은 수신 주소(RA: Receive Address)이며 모든 패킷에서 사용된다.
