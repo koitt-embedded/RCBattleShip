@@ -4,8 +4,12 @@ C6X PLL Clock Controllers
 This is a first-cut support for the SoC clock controllers. This is still
 under development and will probably change as the common device tree
 clock support is added to the kernel.
+/*
+이것은 SoC 클럭 컨트롤러에 대한 첫 번째 support입니다. 
+이것은 아직 개발 중이며 공통 디바이스 트리 클럭 지원이 커널에 추가되면서 변경 될 것입니다.
 
-Required properties:
+*/
+Required properties: //필수 속성
 
 - compatible: "ti,c64x+pll"
     May also have SoC-specific value to support SoC-specific initialization
@@ -14,18 +18,27 @@ Required properties:
         "ti,c6457-pll"
         "ti,c6472-pll"
         "ti,c6474-pll"
+/*
+드라이버의 SoC 특정 초기화를 지원하는 SoC 고유 값을 가질 수도 있습니다.
+*/
 
-- reg: base address and size of register area
-- clock-frequency: input clock frequency in hz
+- reg: base address and size of register area  //등록 영역의 기본 주소 및 크기
+- clock-frequency: input clock frequency in hz  //입력 클럭 주파수(Hz)
 
 
-Optional properties:
+Optional properties:  //선택적 속성
 
-- ti,c64x+pll-bypass-delay: CPU cycles to delay when entering bypass mode
+- ti,c64x+pll-bypass-delay: CPU cycles to delay when entering bypass mode 
+
+//바이 패스 모드로 들어갈 때 지연되는 CPU주기
 
 - ti,c64x+pll-reset-delay:  CPU cycles to delay after PLL reset
 
+//PLL 재설정 후 지연되는 CPU주기
+
 - ti,c64x+pll-lock-delay:   CPU cycles to delay after PLL frequency change
+
+//PLL 주파수가 변경된 후 지연되는 CPU 사이클
 
 Example:
 

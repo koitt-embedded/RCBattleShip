@@ -5,6 +5,11 @@ TI C6X SoCs contain a region of miscellaneous registers which provide various
 function for SoC control or status. Details vary considerably among from SoC
 to SoC with no two being alike.
 
+/*
+TI C6X SoC에는 SoC 제어 또는 상태를위한 다양한 기능을 제공하는 기타 레지스터 영역이있다.
+세부 사항은 SoC에서 SoC 사이에서 상당히 다르며 두 개가 동일하지 않습니다.
+*/
+
 In general, the Device State Configuration Registers (DSCR) will provide one or
 more configuration registers often protected by a lock register where one or
 more key values must be written to a lock register in order to unlock the
@@ -16,13 +21,22 @@ the DSCR block may provide registers which are used to reset peripherals,
 provide device ID information, provide ethernet MAC addresses, as well as other
 miscellaneous functions.
 
+/*
+일반적으로 장치 상태 구성 레지스터 (DSCR)는 쓰기 용 구성 레지스터의 락을 해제하기 위해 하나 이상의 키 값을 락 레지스터에 기록해야하는 락 레지스터로 보호되는 하나 이상의 구성 레지스터를 제공합니다. 이러한 구성 레지스터는 SoC 핀 드라이버를 활성화하고 (일부 경우에는 비활성화), 주변 클럭 소스 (내부 또는 핀)를 선택하는 데 사용될 수있다. 경우에 따라, 하나의 구성 레지스터가 한번 기록되거나 개별 비트가 1 회 기록된다. 
+장치 구성 외에 DSCR 블록은 주변 장치를 재설정하고, 장치 ID 정보를 제공하고, 이더넷 MAC 주소를 제공하고, 기타 기타 기능을 제공하는 데 사용되는 레지스터를 제공 할 수 있습니다.
+*/
+
 For device state control (enable/disable), each device control is assigned an
 id which is used by individual device drivers to control the state as needed.
+
+/*
+장치 상태 제어 (활성화 / 비활성화)의 경우 각 장치 제어에는 개별 장치 드라이버가 필요에 따라 상태를 제어하는 데 사용하는 ID가 할당됩니다.
+*/
 
 Required properties:
 
 - compatible: must be "ti,c64x+dscr"
-- reg: register area base and size
+- reg: register area base and size  //등록 영역 기본 및 크기
 
 Optional properties:
 
@@ -30,27 +44,37 @@ Optional properties:
         SoCs which do support a given property, leaving the property out of the
         device tree will result in reduced functionality or possibly driver
         failure.
-
+/*
+이는 모든 SoC가 모든 속성을 가지는 것은 아니라는 점에서 선택 사항입니다. 주어진 속성을 지원하는 SoC의 경우, 
+속성을 장치 트리 밖으로 두면 기능이 저하되거나 드라이버가 실패 할 수 있습니다.
+*/
 - ti,dscr-devstat
-    offset of the devstat register
+    offset of the devstat register //devstat 레지스터의 오프셋
 
 - ti,dscr-silicon-rev
-    offset, start bit, and bitsize of silicon revision field
+    offset, start bit, and bitsize of silicon revision field  //오프셋, 시작 비트 및 실리콘 개정 필드의 비트 크기
 
 - ti,dscr-rmii-resets
     offset and bitmask of RMII reset field. May have multiple tuples if more
     than one ethernet port is available.
+//RMII 리셋 필드의 오프셋 및 비트 마스크. 두 개 이상의 이더넷 포트를 사용할 수있는 경우 여러 개의 튜플을 가질 수 있습니다.
 
 - ti,dscr-locked-regs
     possibly multiple tuples describing registers which are write protected by
     a lock register. Each tuple consists of the register offset, lock register
     offsset, and the key value used to unlock the register.
+/*
+lock 레지스터로 쓰기 금지 된 레지스터를 설명하는 다중 튜플. 각 튜플은 레지스터 오프셋, 잠금 레지스터 오프셋 및 레지스터 잠금을 해제하는 데 사용되는 키 값으로 구성됩니다.
+*/
 
 - ti,dscr-kick-regs
     offset and key values of two "kick" registers used to write protect other
     registers in DSCR. On SoCs using kick registers, the first key must be
     written to the first kick register and the second key must be written to
     the second register before other registers in the area are write-enabled.
+/*
+DSCR의 다른 레지스터를 쓰기 위해 사용되는 두 개의 "킥"레지스터의 오프셋 및 키 값. 킥 레지스터를 사용하는 SoC에서는 영역의 다른 레지스터가 쓰기 가능하도록 설정되기 전에 첫 번째 키가 첫 번째 킥 레지스터에 쓰여지고 두 번째 키가 두 번째 레지스터에 기록되어야합니다.
+*/
 
 - ti,dscr-mac-fuse-regs
     MAC addresses are contained in two registers. Each element of a MAC address
@@ -59,6 +83,9 @@ Optional properties:
     most significant to least. The value of these four cells is the MAC byte
     index (1-6) of the byte within the register. A value of 0 means the byte
     is unused in the MAC address.
+/*
+MAC 주소는 두 개의 레지스터에 포함됩니다. MAC 주소의 각 요소는 단일 바이트에 포함됩니다. 이 속성에는 두 개의 튜플이 있습니다. 각 튜플은 레지스터 오프셋과 가장 중요한 것부터 작은 것까지의 레지스터의 바이트를 나타내는 4 개의 셀을 갖습니다. 이 4 개의 셀의 값은 레지스터 내의 바이트의 MAC 바이트 인덱스 (1-6)입니다. 0 값은 MAC 주소에서 바이트가 사용되지 않음을 의미합니다.
+*/
 
 - ti,dscr-devstate-ctl-regs
     This property describes the bitfields used to control the state of devices.
