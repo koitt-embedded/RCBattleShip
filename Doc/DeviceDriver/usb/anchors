@@ -46,6 +46,10 @@ is automatic. A function is provided to forcibly finish (kill)
 all URBs associated with an anchor.
 Furthermore, disassociation can be made with usb_unanchor_urb()
 anchor에 대한 URB의 연관은 usb_anchor_urb()에 대한 명시적 호출에 의해 만들어집니다.
+연계는 URB가 (성공적으로)완료 됨으로써 끝날 때까지 유지된다.
+따라서 분리는 자동적이다.
+앵커와 관련된 모든 URB를 강제로 종료(kill)하는 기능이 제공됩니다.
+또한 disassociation(연관 해제)은 usb_unanchor_urb()를 사용하여 수행할 수 있습니다.
 
 
 Operations on multitudes of URBs
