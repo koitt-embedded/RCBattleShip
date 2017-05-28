@@ -141,16 +141,16 @@ mem_flags 값은 표준 메모리 할당 플래그를 가지고 있고
 
 
 To free an URB, use
-URB를 자유롭게 사용하려면 밑의 코드를 써라
+URB를 해제하려면 밑의 코드를 써라
 
 	void usb_free_urb(struct urb *urb)
 
 You may free an urb that you've submitted, but which hasn't yet been
 returned to you in a completion callback.  It will automatically be
 deallocated when it is no longer in use.
-너는 니가 제출한 urb를 자유롭게 사용할 수 있다.
-그러나 아직 완료 콜백안에서 너에게 되돌아가지 않았다.
-그것은 그것이 더이상 사용되지 않을 때 자동적으로 할당되지 않는다.
+너는 니가 제출한 urb를 해제할 수 있다.
+그러나 아직 완료 콜백 안에서 너에게 되돌아가지 않았다.
+그것(해제하는 것?)이 더이상 사용되지 않을 때 자동적으로 할당되지 않는다(해제된다).
 
 
 1.4. What has to be filled in?
