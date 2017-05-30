@@ -1,57 +1,51 @@
-#include <sys/stat.h> 
-#include <arpa/inet.h> 
-#include <stdio.h> 
-#include <string.h> 
-#include <stdlib.h> 
-#include <unistd.h> 
- 
-#define MAXBUF    1024 
- 
-int main(int argc, char **argv) 
-{ 
-    struct sockaddr_in serveraddr; 
-    int server_sockfd; 
-    int client_len; 
-    char buf[MAXBUF]; 
-    char rbuf[MAXBUF]; 
- 
- 
-    if ((server_sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) 
-    { 
-        perror("error :"); 
-        exit(0); 
-    } 
- 
-    server_sockfd = socket(AF_INET, SOCK_STREAM, 0); 
-    serveraddr.sin_family = AF_INET; 
-    serveraddr.sin_addr.s_addr = inet_addr("192.168.0.26"); 
-    serveraddr.sin_port = htons(atoi(argv[1])); 
- 
-    client_len = sizeof(serveraddr); 
- 
-    if (connect(server_sockfd, (struct sockaddr *)&serveraddr, client_len) < 0) 
-    { 
-        perror("connect error :"); 
-        exit(0); 
-    } 
- 
-    while(1)
-    {
-        memset(buf, 0x00, MAXBUF); 
-        read(0, buf, MAXBUF); 
-        if (write(server_sockfd, buf, MAXBUF) <= 0) 
-        { 
-            perror("write error : "); 
-            break;
-        } 
-        memset(buf, 0x00, MAXBUF); 
-        if (read(server_sockfd, buf, MAXBUF) <= 0) 
-       { 
-           perror("read error : "); 
-           break;
-        }
-        printf("read : %s", buf); 
-    } 
-    close(server_sockfd); 
-    return 0;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+
+void error_handler(char *msg);
+
+int main(int argc, char *argv[])
+{
+	int sock;
+	struct sockaddr_in serv_addr;
+	char msg[30];
+	int str_len;
+
+	if(argc != 3)
+	{
+		printf("Usage: %s IP port\n", argv[0]);
+		exit(1);
+	}
+
+	sock = socket(PF_INET, SOCK_STREAM, 0);
+
+	if(sock == -1)
+		error_handler("socket() error");
+
+	memset(&serv_addr, 0, sizeof(serv_addr));
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
+	serv_addr.sin_port = htons(atoi(argv[2]));
+
+	if(connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1)
+		error_handler("connect() error");
+
+	str_len = read(sock, msg, sizeof(msg) - 1);
+	if(str_len == -1)
+		error_handler("read() error");
+
+	printf("msg from server: %s\n", msg);
+	close(sock);
+
+	return 0;
+}
+
+void error_handler(char *msg)
+{
+	fputs(msg, stderr);
+	fputc('\n', stderr);
+	exit(1);
 }
