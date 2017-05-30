@@ -1,7 +1,5 @@
-Deadline Task Scheduling
-
-¸¶°¨ÀÏ ÀÛ¾÷ ¿¹¾à
-------------------------
+			  Deadline Task Scheduling
+			  ------------------------
 
 CONTENTS
 ========
@@ -24,24 +22,6 @@ CONTENTS
  A. Test suite
  B. Minimal main()
 
-0. °æ°í
-  1. °³¿ä
-  2. ½ºÄÉÁÙ¸µ ¾Ë°í¸®Áò
-  3. ½Ç½Ã°£ ÀÛ¾÷ ½ºÄÉÁÙ¸µ
-    3.1 Á¤ÀÇ
-    3.2 ´ÜÀÏ ÇÁ·Î¼¼¼­ ½Ã½ºÅÛÀ»À§ÇÑ ½ºÄÉÁÙ¸µ °¡´É¼º ºĞ¼®
-    3.3 ´ÙÁß ÇÁ·Î¼¼¼­ ½Ã½ºÅÛÀ»À§ÇÑ ½ºÄÉÁÙ¸µ °¡´É¼º ºĞ¼®
-    3.4 SCHED_DEADLINE ¸Å°³ º¯¼ö¿ÍÀÇ °ü°è
-  4. ´ë¿ªÆø °ü¸®
-    4.1 ½Ã½ºÅÛ ÀüÃ¼ ¼³Á¤
-    4.2 ÀÛ¾÷ ÀÎÅÍÆäÀÌ½º
-    4.3 ±âº» µ¿ÀÛ
-  5. ÀÛ¾÷ CPU Ä£È­·Â
-    5.1 SCHED_DEADLINE°ú cpusets HOWTO
-  6. ÇâÈÄ °èÈ¹
-    A. Å×½ºÆ® ½ºÀ§Æ®
-    B. ÃÖ¼Ò ÁÖ ()
-
 
 0. WARNING
 ==========
@@ -50,8 +30,6 @@ CONTENTS
  system behavior. As for -rt (group) scheduling, it is assumed that root users
  know what they're doing.
 
-ÀÌ·¯ÇÑ ¼³Á¤À» »ç¿ëÇÏ¸é ¿¹ÃøÇÒ ¼ö ¾ø°Å³ª ºÒ¾ÈÁ¤ÇÑ ½Ã½ºÅÛ µ¿ÀÛÀÌ ¹ß»ıÇÒ ¼ö ÀÖ½À´Ï´Ù. 
--rt (±×·ì) ½ºÄÉÁÙ¸µ°ú °ü·ÃÇÏ¿© ·çÆ® »ç¿ëÀÚ´Â ÀÚ½ÅÀÌÇÏ´Â ÀÏÀ» ¾Ë°í ÀÖ´Ù°í °¡Á¤ÇÕ´Ï´Ù.
 
 1. Overview
 ===========
@@ -60,9 +38,6 @@ CONTENTS
  basically an implementation of the Earliest Deadline First (EDF) scheduling
  algorithm, augmented with a mechanism (called Constant Bandwidth Server, CBS)
  that makes it possible to isolate the behavior of tasks between each other.
-
-sched_dl ½ºÄÉÁì¸µ Å¬·¡½º¿¡ Æ÷ÇÔ µÈ SCHED_DEADLINE Á¤Ã¥Àº ±âº»ÀûÀ¸·Î EDF (Earliest Deadline First) ½ºÄÉÁì¸µ ¾Ë°í¸®ÁòÀ» ±¸Çö ÇÑ °ÍÀ¸·Î 
-¼­·Î °£ÀÇ ÀÛ¾÷ µ¿ÀÛÀ» °İ¸® ÇÒ ¼öÀÖ´Â ¸ŞÄ¿´ÏÁò (Constant Bandwidth Server, CBS)ÀÌ Ãß°¡µÇ¾ú½À´Ï´Ù.
 
 
 2. Scheduling algorithm
@@ -81,14 +56,6 @@ sched_dl ½ºÄÉÁì¸µ Å¬·¡½º¿¡ Æ÷ÇÔ µÈ SCHED_DEADLINE Á¤Ã¥Àº ±âº»ÀûÀ¸·Î EDF (Earlies
  "admission control" strategy (see Section "4. Bandwidth management") is used
  (clearly, if the system is overloaded this guarantee cannot be respected).
 
-SCHED_DEADLINEÀº "runtime", "period"¹× "deadline"ÀÌ¶ó´Â ¼¼ °¡Áö ¸Å°³ º¯¼ö¸¦ »ç¿ëÇÏ¿© ÀÛ¾÷À» ¿¹¾àÇÕ´Ï´Ù. 
-SCHED_DEADLINE ÅÂ½ºÅ©´Â "±â°£"¸¶ÀÌÅ©·Î ÃÊ¸¶´Ù ½ÇÇà ½Ã°£ÀÇ "·±Å¸ÀÓ"¸¶ÀÌÅ©·Î ÃÊ¸¦ ¼ö½ÅÇØ¾ßÇÏ¸ç, 
-ÀÌ·¯ÇÑ "·±Å¸ÀÓ"¸¶ÀÌÅ©·Î ÃÊ´Â ±â°£ ½ÃÀÛºÎÅÍ "±âÇÑ"¸¶ÀÌÅ©·Î ÃÊ ³»¿¡ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ µ¿ÀÛÀ» ±¸ÇöÇÏ±â À§ÇØ ÅÂ½ºÅ©°¡ ±ú¾î³¯ ¶§¸¶´Ù ½ºÄÉÁÙ·¯´Â (CBS [2,3] ¾Ë°í¸®ÁòÀ» »ç¿ëÇÏ¿©) º¸Áõ°ú ÀÏÄ¡ÇÏ´Â "½ºÄÉÁÙ¸µ ¸¶°¨"À» °è»êÇÕ´Ï´Ù. 
-±×·± ´ÙÀ½ ÀÛ¾÷Àº ÀÌ·¯ÇÑ ½ºÄÉÁÙ¸µ ±âÇÑ¿¡ ´ëÇØ EDF [1]¸¦ »ç¿ëÇÏ¿© ½ºÄÉÁÙµË´Ï´Ù (°¡Àå ºü¸¥ ½ºÄÉÁÙ¸µ ±âÇÑÀÌ ¼³Á¤µÈ ÀÛ¾÷ÀÌ ½ÇÇàµÇµµ·Ï ¼±ÅÃµÊ). 
-ÀûÀıÇÑ "½ÂÀÎ Á¦¾î"Àü·« ( "4. ´ë¿ªÆø °ü¸®"Àı ÂüÁ¶)ÀÌ »ç¿ëµÇ¸é (½ÇÁ¦·Î ½Ã½ºÅÛ¿¡ °úºÎÇÏ°¡ °É¸®¸éÀÌ º¸ÀåÀ» Á¸ÁßÇÒ ¼ö ¾øÀ½) 
-ÀÛ¾÷¿¡ ½ÇÁ¦·Î "ÃÖÁ¾ ±âÇÑ"³»¿¡ "·±Å¸ÀÓ"½Ã°£ ´ÜÀ§°¡ ÁÖ¾îÁı´Ï´Ù.
-
  Summing up, the CBS[2,3] algorithm assigns scheduling deadlines to tasks so
  that each task runs for at most its runtime every period, avoiding any
  interference between different tasks (bandwidth isolation), while the EDF[1]
@@ -97,25 +64,14 @@ SCHED_DEADLINE ÅÂ½ºÅ©´Â "±â°£"¸¶ÀÌÅ©·Î ÃÊ¸¶´Ù ½ÇÇà ½Ã°£ÀÇ "·±Å¸ÀÓ"¸¶ÀÌÅ©·Î ÃÊ¸¦ 
  with the "traditional" real-time task model (see Section 3) can effectively
  use the new policy.
 
-¿ä¾àÇÏÀÚ¸é, CBS [2,3] ¾Ë°í¸®ÁòÀº °¢ ÀÛ¾÷ÀÌ ¸ÅÁÖ±â¸¶´Ù ½ÇÇàµÉ ¼ö ÀÖµµ·Ï ÀÏÁ¤ ¸¶°¨ ½Ã°£À» ÇÒ´çÇÏ¿© 
-EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇÇÏ¿© ¸ÅÁÖ±â¸¶´Ù ½ÇÇàÇÕ´Ï´Ù. 
-°¡Àå ºü¸¥ ½ºÄÉÁÙ¸µ ¸¶°¨ÀÏÀº ´ÙÀ½¿¡ ½ÇÇàµÉ ¿¹Á¤ÀÔ´Ï´Ù. 
-ÀÌ ±â´É ´öºĞ¿¡ "±âÁ¸"½Ç½Ã°£ ÀÛ¾÷ ¸ğµ¨ (3 Àı ÂüÁ¶)À» ¾ö°İÇÏ°Ô ÁØ¼öÇÏÁö ¾Ê´Â ÀÛ¾÷Àº »õ Á¤Ã¥À» È¿°úÀûÀ¸·Î »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù
-
  In more details, the CBS algorithm assigns scheduling deadlines to
  tasks in the following way:
-
-º¸´Ù »ó¼¼ÇÏ°Ô, CBS ¾Ë°í¸®ÁòÀº ½ºÄÉÁÙ¸µ ¸¶°¨ ½Ã°£À» ´ÙÀ½°ú °°Àº ¹æ½ÄÀ¸·Î ÅÂ½ºÅ©¿¡ ÇÒ´çÇÑ´Ù :
 
   - Each SCHED_DEADLINE task is characterized by the "runtime",
     "deadline", and "period" parameters;
 
-  - °¢ SCHED_DEADLINE ÅÂ½ºÅ©´Â "runtime", "deadline"¹× "period"¸Å°³ º¯¼ö·Î Æ¯Â¡ Áö¾îÁı´Ï´Ù.
-
   - The state of the task is described by a "scheduling deadline", and
     a "remaining runtime". These two parameters are initially set to 0;
-
-  - ÀÛ¾÷ÀÇ »óÅÂ´Â "½ºÄÉÁÙ¸µ ¸¶°¨"¹× "³ª¸ÓÁö ·±Å¸ÀÓ"À¸·Î ¼³¸íµË´Ï´Ù. ÀÌ µÎ ¸Å°³ º¯¼ö´Â Ã³À½¿¡ 0À¸·Î ¼³Á¤µË´Ï´Ù.
 
   - When a SCHED_DEADLINE task wakes up (becomes ready for execution),
     the scheduler checks if
@@ -134,18 +90,6 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
     otherwise, the scheduling deadline and the remaining runtime are
     left unchanged;
 
-  - SCHED_DEADLINE ÅÂ½ºÅ©°¡ ±ú¾î ³ª¸é (½ÇÇà ÁØºñ°¡ µÊ), ½ºÄÉÁÙ·¯´Â
-
-		³ª¸ÓÁö ·±Å¸ÀÓ ·±Å¸ÀÓ			½ÇÇà½Ã°£
-	 ----------------------------------    >     -------------
-	       ÀÏÁ¤ ¸¶°¨ - ÇöÀç ½Ã°£			  ±â°£
-
-    ½ºÄÉÁÙ¸µ µ¥µå ¶óÀÎÀÌ ÇöÀç ½Ã°£º¸´Ù ÀÛÀº °æ¿ì ¶Ç´ÂÀÌ Á¶°ÇÀÌ È®ÀÎµÇ¸é ½ºÄÉÁÙ¸µ µ¥µå ¶óÀÎ ¹× ³ª¸ÓÁö ·±Å¸ÀÓÀº ´ÙÀ½°ú °°ÀÌ ´Ù½Ã ÃÊ±âÈ­µË´Ï´Ù.
-
-	 ¿¹Á¤ ±âÇÑ = ÇöÀç ½Ã°£ + ±âÇÑ ³ª¸ÓÁö ·±Å¸ÀÓ = ·±Å¸ÀÓ
-
-	 ±×·¸Áö ¾ÊÀ¸¸é ½ºÄÉÁì¸µ ±âÇÑ°ú ³ª¸ÓÁö ·±Å¸ÀÓÀº º¯°æµÇÁö ¾Ê½À´Ï´Ù.
-
   - When a SCHED_DEADLINE task executes for an amount of time t, its
     remaining runtime is decreased as
 
@@ -154,20 +98,11 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
     (technically, the runtime is decreased at every tick, or when the
     task is descheduled / preempted);
 
-  - SCHED_DEADLINE ÅÂ½ºÅ©°¡ ÀÏÁ¤ ½Ã°£ t µ¿¾È ½ÇÇàµÇ¸é ³ª¸ÓÁö ·±Å¸ÀÓÀº ´ÙÀ½°ú °°ÀÌ °¨¼ÒÇÕ´Ï´Ù.
-
-	 ³ª¸ÓÁö ·±Å¸ÀÓ = ³ª¸ÓÁö ·±Å¸ÀÓ - t
-
-	 (±â¼úÀûÀ¸·Î ·±Å¸ÀÓÀº ¸Å Æ½¸¶´Ù ¶Ç´Â ÀÛ¾÷ÀÌ ¿¹Á¤ / ¼±Á¡ µÉ ¶§¸¶´Ù °¨¼ÒÇÕ´Ï´Ù).
-
   - When the remaining runtime becomes less or equal than 0, the task is
     said to be "throttled" (also known as "depleted" in real-time literature)
     and cannot be scheduled until its scheduling deadline. The "replenishment
     time" for this task (see next item) is set to be equal to the current
     value of the scheduling deadline;
-
-  -³ª¸ÓÁö ·±Å¸ÀÓÀÌ 0º¸´Ù ÀÛ°Å³ª °°À¸¸é ÀÛ¾÷À» "Á¦ÇÑ"(½Ç½Ã°£ ¹®Çå¿¡¼­ "°í°¥ µÊ"ÀÌ¶ó°íµµ ÇÔ)ÀÌ¶ó°íÇÏ¸ç ÀÏÁ¤ÀÌ ³¡³¯ ¶§±îÁö ¿¹¾à ÇÒ ¼ö ¾ø½À´Ï´Ù. 
-   ÀÌ ÀÛ¾÷¿¡ ´ëÇÑ "º¸Ãæ ½Ã°£"(´ÙÀ½ Ç×¸ñ ÂüÁ¶)Àº ÀÏÁ¤ ¸¶°¨ ±âÇÑÀÇ ÇöÀç °ª°ú µ¿ÀÏÇÏ°Ô ¼³Á¤µË´Ï´Ù.
 
   - When the current time is equal to the replenishment time of a
     throttled task, the scheduling deadline and the remaining runtime are
@@ -175,11 +110,6 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
 
          scheduling deadline = scheduling deadline + period
          remaining runtime = remaining runtime + runtime
-
-  - ÇöÀç ½Ã°£ÀÌ ½º·ÎÆ² µÈ ÀÛ¾÷ÀÇ º¸Ãæ ½Ã°£°ú °°À¸¸é ½ºÄÉÁÙ¸µ ±âÇÑ ¹× ³ª¸ÓÁö ·±Å¸ÀÓÀÌ ´ÙÀ½°ú °°ÀÌ ¾÷µ¥ÀÌÆ®µË´Ï´Ù.
-
-	 ÀÏÁ¤ ¸¶°¨ = ÀÏÁ¤ ¸¶°¨ ±âÇÑ + ±â°£
-	 ³ª¸ÓÁö ·±Å¸ÀÓ = ³ª¸ÓÁö ·±Å¸ÀÓ + ·±Å¸ÀÓ
 
 
 3. Scheduling Real-Time Tasks
@@ -195,21 +125,10 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
  * satisfied :P) to be sure of fully understanding all technical details.
  ************************************************************************
 
- *ÀÌ ¼½¼Ç¿¡´Â Å¬·¡½Ä ¸¶°¨ÀÏ¿¡ ´ëÇÑ (Ã¶ÀúÇÏÁö ¾ÊÀº) ¿ä¾àÀÌ Æ÷ÇÔµÇ¾î ÀÖ½À´Ï´Ù.
- * ½ºÄÉÁÙ¸µ ÀÌ·Ğ ¹× SCHED_DEADLINE¿¡ Àû¿ëµÇ´Â ¹æ¹ı
- * µ¶ÀÚ´Â ¼½¼Ç 4·Î °Ç³Ê ¶Û ¼ö ÀÖ½À´Ï´Ù.
- * ½ºÄÉÁÙ¸µ Á¤Ã¥ÀÌ ¾î¶»°Ô »ç¿ëµÉ ¼ö ÀÖ´ÂÁö. ¾îÂ·µç, ¿ì¸®´Â °­·ÂÇÏ°Ô ÃßÃµÇÑ´Ù.
- * ¿©±â·Î µ¹¾Æ¿Í °è¼Ó ÀĞ±â (Å×½ºÆ®¸¦À§ÇÑ Ãæµ¿ÀÌ »ı±â¸é
- * ¸¸Á· : P) ¸ğµç ±â¼ú ¼¼ºÎ »çÇ×À» ¿ÏÀüÈ÷ ÀÌÇØÇØ¾ßÇÕ´Ï´Ù.
-
  There are no limitations on what kind of task can exploit this new
  scheduling discipline, even if it must be said that it is particularly
  suited for periodic or sporadic real-time tasks that need guarantees on their
  timing behavior, e.g., multimedia, streaming, control applications, etc.
-
-ÀÌ »õ·Î¿î ½ºÄÉÁì¸µ ºĞ¾ß¸¦ È°¿ëÇÒ ¼öÀÖ´Â ÅÂ½ºÅ©ÀÇ Á¾·ù¿¡´Â Á¦ÇÑÀÌ ¾ø½À´Ï´Ù. 
-ºñ·Ï ±×°ÍÀÌ ¸ÖÆ¼¹Ìµğ¾î, ½ºÆ®¸®¹Ö, Á¦¾î¿Í °°Àº Å¸ÀÌ¹Ö µ¿ÀÛ¿¡ ´ëÇÑ º¸ÀåÀÌ ÇÊ¿äÇÑÁÖ±âÀûÀÎ 
-¶Ç´Â »ê¹ßÀû ÀÎ ½Ç½Ã°£ ÅÂ½ºÅ©¿¡ Æ¯È÷ ÀûÇÕÇÏ´Ù°íÇÏ´õ¶óµµ ¹İµå½Ã ÇÊ¿äÇÕ´Ï´Ù. ÀÀ¿ë ÇÁ·Î±×·¥ µî
 
 3.1 Definitions
 ------------------------
@@ -228,19 +147,9 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
  Summing up, a real-time task can be described as
 	Task = (WCET, D, P)
 
-ÀÏ¹İÀûÀÎ ½Ç½Ã°£ ÀÛ¾÷Àº ÁÖ±âÀû ¶Ç´Â »ê¹ßÀû ¹æ½ÄÀ¸·Î È°¼ºÈ­µÇ´Â °è»ê ´Ü°è (ÀÛ¾÷ ÀÎ½ºÅÏ½º ¶Ç´Â ÀÛ¾÷)ÀÇ ¹İº¹À¸·Î ±¸¼ºµË´Ï´Ù.
-°¢ ÀÛ¾÷ J_j (¿©±â¼­ J_j´Â ÀÛ¾÷ÀÇ j ¹øÂ° ÀÛ¾÷ ÀÓ)´Â µµÂø ½Ã°£ r_j (ÀÛ¾÷ÀÌ ½ÃÀÛµÇ´Â ½Ã°£), ÀÛ¾÷À» ¿Ï·áÇÏ´Â µ¥ ÇÊ¿äÇÑ °è»ê ½Ã°£ c_j ¹× 
-ÀÛ¾÷ Àı´ë ¸¶°¨ ½Ã°£ d_j , ÀÌ´Â ÀÛ¾÷ÀÌ ¿Ï·áµÇ¾î¾ßÇÏ´Â ½Ã°£ÀÔ´Ï´Ù. ÃÖ´ë ½ÇÇà ½Ã°£ max {c_j}´Â ÀÛ¾÷¿¡ ´ëÇÑ WCET (Worst Case Execution Time)¶ó°íÇÕ´Ï´Ù.
-½Ç½Ã°£ ÀÛ¾÷Àº r_ {j + 1} = r_j + PÀÌ°Å³ª ÃÖ¼Ò »óÈ£ µµÂø ½Ã°£ P°¡ »ê¹ßÀû ÀÎ °æ¿ì ÁÖ±â P·Î r_ {j + 1}> = r_j + P ÀÏ ¼ö ÀÖ½À´Ï´Ù. 
-¸¶Áö¸·À¸·Î d_j = r_j + D, ¿©±â¼­ D´Â ÀÛ¾÷ÀÇ »ó´ëÀûÀÎ ÃÖÁ¾ ±âÇÑÀÔ´Ï´Ù.
-¿ä¾àÇÏ¸é ½Ç½Ã°£ ÀÛ¾÷Àº ´ÙÀ½°ú °°ÀÌ ¼³¸í ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-ÀÛ¾÷ = (WCET, D, P)
-
  The utilization of a real-time task is defined as the ratio between its
  WCET and its period (or minimum inter-arrival time), and represents
  the fraction of CPU time needed to execute the task.
-
-½Ç½Ã°£ ÀÛ¾÷ÀÇ È°¿ëÀº WCET°ú ±× ±â°£ (¶Ç´Â ÃÖ¼Ò µµÂø ½Ã°£) °£ÀÇ ºñÀ²·Î Á¤ÀÇµÇ¸ç ÀÛ¾÷À» ½ÇÇàÇÏ´Â µ¥ ÇÊ¿äÇÑ CPU ½Ã°£ÀÇ ºñÀ²À» ³ªÅ¸³À´Ï´Ù.
 
  If the total utilization U=sum(WCET_i/P_i) is larger than M (with M equal
  to the number of CPUs), then the scheduler is unable to respect all the
@@ -259,18 +168,10 @@ EDF [1] ¾Ë°í¸®ÁòÀÌ ÀÛ¾÷À» ¼±ÅÃÇÏ´Â µ¿¾È ´Ù¸¥ ÀÛ¾÷ (´ë¿ªÆø °İ¸®) »çÀÌÀÇ °£¼·À» ÇÇ
  between the finishing time of a job and its absolute deadline).
  More precisely, it can be proven that using a global EDF scheduler the
  maximum tardiness of each task is smaller or equal than
-	((M ? 1) ¡¤ WCET_max ? WCET_min)/(M ? (M ? 2) ¡¤ U_max) + WCET_max
+	((M âˆ’ 1) Â· WCET_max âˆ’ WCET_min)/(M âˆ’ (M âˆ’ 2) Â· U_max) + WCET_max
  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
  utilization[12].
-
-ÃÑ »ç¿ë·® U = sum (WCET_i / P_i)ÀÌ M (CPU ¼ö¿Í µ¿ÀÏÇÑ M)º¸´Ù Å« °æ¿ì, ½ºÄÉÁÙ·¯´Â ¸ğµç ÃÖÁ¾ ±âÇÑÀ» ÁØ¼ö ÇÒ ¼ö ¾ø½À´Ï´Ù.
-ÃÑ »ç¿ë·üÀº ½Ã½ºÅÛÀÇ ¸ğµç ½Ç½Ã°£ ÀÛ¾÷¿¡ ´ëÇÑ »ç¿ë·® WCET_i / P_iÀÇ ÇÕÀ¸·Î Á¤ÀÇµË´Ï´Ù. ´ÙÁß ½Ç½Ã°£ ÀÛ¾÷À» °í·ÁÇÒ ¶§ i ¹øÂ° ÀÛ¾÷ÀÇ ¸Å°³ º¯¼ö´Â "_i"Á¢¹Ì»ç·Î Ç¥½ÃµË´Ï´Ù.
-¶ÇÇÑ ÃÑ »ç¿ë·üÀÌ Mº¸´Ù Å©¸é ½Ç½Ã°£ ÀÛ¾÷À¸·Î ºñ ½Ç½Ã°£ ÀÛ¾÷À» ±¾±â °ÔµË´Ï´Ù.
-´ë½Å ÃÑ »ç¿ë·üÀÌ Mº¸´Ù ÀÛ À¸¸é ºñ ½Ç½Ã°£ ÀÛ¾÷ÀÌ ±¾ÁÖ ¸®Áö ¾Ê°í ½Ã½ºÅÛÀÌ ¸ğµç ¸¶°¨ ½Ã°£À» ÁØ¼ö ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-»ç½ÇÀÌ °æ¿ì, Áö°¢¿¡ ´ëÇÑ »óÇÑÀ» Á¦°øÇÏ´Â °ÍÀÌ °¡´ÉÇÕ´Ï´Ù (0°ú ÀÛ¾÷ÀÇ ¿Ï·á ½Ã°£°ú Àı´ë ±âÇÑ °£ÀÇ Â÷ÀÌ·Î Á¤ÀÇ).
-º¸´Ù Á¤È®ÇÏ°Ô, ±Û·Î¹ú EDF ½ºÄÉÁÙ·¯¸¦ »ç¿ëÇÏ¸é °¢ ÀÛ¾÷ÀÇ ÃÖ´ë Áö°¢ÀÌº¸´Ù ÀÛ°Å³ª °°À½ÀÌ ÀÔÁõ µÉ ¼ö ÀÖ½À´Ï´Ù.
-WCET_max = max {WCET_i}°¡ ÃÖ´ë WCETÀÌ°í, WCET_min = min {WCET_i}°¡ ÃÖ¼Ò WCETÀÌ°í, U_max (WCET_i)°¡ WCET_maxÀÌ°í, = max {WCET_i / P_i}´Â ÃÖ´ë ÀÌ¿ë·ü [12]ÀÌ´Ù.
 
 3.2 Schedulability Analysis for Uniprocessor Systems
 ------------------------
@@ -313,36 +214,6 @@ WCET_max = max {WCET_i}°¡ ÃÖ´ë WCETÀÌ°í, WCET_min = min {WCET_i}°¡ ÃÖ¼Ò WCETÀÌ°í
  time-consuming to be performed on-line. Hence, as explained in Section
  4 Linux uses an admission test based on the tasks' utilizations.
 
-M = 1 (´ÜÀÏ ÇÁ·Î¼¼¼­ ½Ã½ºÅÛ) ¶Ç´Â ºĞÇÒ ½ºÄÉÁÙ¸µÀÇ °æ¿ì (°¢ ½Ç½Ã°£ ÀÛ¾÷ÀÌ ÇÏ³ªÀÇ CPU¿¡¸¸ Á¤ÀûÀ¸·Î ÇÒ´ç µÊ) 
-¸ğµç ¸¶°¨ ½Ã°£À» ÁØ¼öÇÏ´ÂÁö °ø½ÄÀûÀ¸·Î È®ÀÎÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¸ğµç ÀÛ¾÷¿¡ ´ëÇØ D_i = P_iÀÌ¸é EDF´Â ÇØ´ç CPU¿¡¼­ ½ÇÇàµÇ´Â ÀÛ¾÷ÀÇ ÃÑ »ç¿ë·üÀÌ 1º¸´Ù ÀÛ°Å³ª °°Àº °æ¿ì¿¡¸¸ CPU¿¡¼­ ½ÇÇàµÇ´Â ¸ğµç ÀÛ¾÷ÀÇ ¸ğµç ¸¶°¨ ½Ã°£À» ÁØ¼ö ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¾î¶² ÀÛ¾÷¿¡ ´ëÇØ D_i! = P_iÀÌ¸é ÀÛ¾÷ ¹Ğµµ¸¦ WCET_i / min {D_i, P_i}·Î Á¤ÀÇ ÇÒ ¼ö ÀÖÀ¸¸ç EDF´Â CPU¿¡¼­ ½ÇÇàµÇ´Â ¸ğµç ÀÛ¾÷ÀÇ ??
-ÃÖÁ¾ ±âÇÑÀ» ¸ğµÎ °í·ÁÇÒ ¼ö ÀÖ½À´Ï´Ù. ÀÌ·¯ÇÑ CPU¿¡¼­ ½ÇÇàµÇ´Â ÀÛ¾÷ÀÇ ¹Ğµµ´Â 1º¸´Ù ÀÛ°Å³ª °°½À´Ï´Ù.
-	ÇÕ°è (WCET_i / min {D_i, P_i}) <= 1
-ÀÌ Á¶°ÇÀº ´ÜÁö ÃæºĞÇÏ´Ù´Â °ÍÀ» ¾Ë¾Æ¾ßÇÕ´Ï´Ù.
-ÇÊ¿äÇÑ : ½ºÄÉÁÙ °¡´ÉÇÑ ÀÛ¾÷ ÁıÇÕÀÌ ÀÖÁö¸¸ Á¶°ÇÀ» Á¸ÁßÇÏÁö ¾Ê½À´Ï´Ù. 
-¿¹¸¦ µé¾î Task_1 = (50ms, 50ms, 100ms) ¹× Task_2 = (10ms, 100ms, 100ms)·Î ±¸¼ºµÈ {Task_1, Task_2} ÀÛ¾÷ ¼¼Æ®¸¦ »ı°¢ÇØº¸½Ê½Ã¿À.
-EDF´Â µ¥µå ¶óÀÎÀ» ³õÄ¡Áö ¾Ê°í µÎ °³ÀÇ ÀÛ¾÷À» ¸íÈ®ÇÏ°Ô ½ºÄÉÁÙ ÇÒ ¼ö ÀÖ½À´Ï´Ù 
-(Task_1Àº Ãâ½ÃµÇ´Â Áï½Ã ½ºÄÉÁÙµÇ°í ÃÖÁ¾ ±âÇÑÀ» ÁöÅ°±â À§ÇØ ³¡³ª°í Task_2´Â Task_1 Á÷ÈÄ¿¡ °èÈ¹µÇ¹Ç·Î ÀÀ´ä ½Ã°£Àº 50msº¸´Ù Å¬ ¼ö ¾øÀ½) + 10ms = 60ms)
-	50 / min {50,100} + 10 / min {100, 100} = 50 / 50 + 10 / 100 = 1.1
-¹°·Ğ ÀÛ¾÷ÀÇ Á¤È®ÇÑ ½ºÄÉÁÙ °¡´É¼ºÀ» Å×½ºÆ® ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-D_i! = P_i (ÃæºĞÇÏ°í ÇÊ¿äÇÑ Á¶°ÇÀ» °Ë»ç),
-±×·¯³ª ÀÌ°ÍÀº ÀüÃ¼ ÀÌ¿ëµµ ¶Ç´Â ¹Ğµµ¸¦ ´ÙÀ½°ú ºñ±³ÇÏ¿© ¼öÇà ÇÒ ¼ö ¾ø½À´Ï´Ù.
-»ó¼ö. ´ë½Å, ¼ÒÀ§ "ÇÁ·Î¼¼¼­ ¼ö¿ä"Á¢±Ù ¹æ½ÄÀ» »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
-¸ğµç ÅÂ½ºÅ©°¡ ÇÊ¿ä·ÎÇÏ´Â CPU ½Ã°£ h (t)ÀÇ ÃÑ·®À»
-Å©±â tÀÇ ½Ã°£ °£°İ¿¡¼­ ¸ğµç µ¥µå ¶óÀÎÀ» Á¸ÁßÇÏ°í,
-°£°İ ½Ã°£ t¿Í °°Àº ½Ã°£. h (t)°¡ tº¸´Ù ÀÛÀº °æ¿ì (Áï,
-Å©±â tÀÇ ½Ã°£ °£°İ¿¡¼­ ÀÛ¾÷¿¡ ÇÊ¿äÇÑ ½Ã°£ÀÇ ¾çÀº
-tÀÇ ¸ğµç °¡´ÉÇÑ °ª¿¡ ´ëÇØ °£°İÀÇ Å©±âº¸´Ù ÀÛÀ½)
-EDF´Â ¸¶°¨ÀÏÀ» ¸ğµÎ ÁØ¼öÇÏ´Â ÀÛ¾÷À» ¿¹¾à ÇÒ ¼ö ÀÖ½À´Ï´Ù. ÀÌÈÄ
-°¡´ÉÇÑ ¸ğµç °ª t¿¡ ´ëÇØÀÌ °Ë»ç¸¦ ¼öÇàÇÏ´Â °ÍÀº ºÒ°¡´ÉÇÕ´Ï´Ù.
-tÀÇ °ª¿¡ ´ëÇÑ Å×½ºÆ®¸¦ ¼öÇàÇÏ´Â °ÍÀ¸·Î ÃæºĞÇÏ´Ù´Â °ÍÀ» Áõ¸í [4,5,6]
-0°ú ÃÖ´ë °ª L »çÀÌÀÇ °ªÀÔ´Ï´Ù. ÀÎ¿ë µÈ ³í¹®¿¡´Â
-¼öÇĞÀû ¼¼ºÎ »çÇ× ¹× h (t)¿Í LÀ» °è»êÇÏ´Â ¹æ¹ıÀ» ¼³¸íÇÏ½Ê½Ã¿À.
-¾îÂ·µç ÀÌ·± Á¾·ùÀÇ ºĞ¼®Àº º¹Àâ ÇÒ»Ó¸¸ ¾Æ´Ï¶ó ³Ê¹« º¹ÀâÇÕ´Ï´Ù.
-½Ã°£ÀÌ ¸¹ÀÌ °É¸®´Â ¿Â¶óÀÎ ÀÛ¾÷ÀÌ ÇÊ¿äÇÕ´Ï´Ù. µû¶ó¼­ ¼½¼Ç¿¡¼­ ¼³¸íÇßµíÀÌ
-Linux´Â ÀÛ¾÷ÀÇ »ç¿ë·ü¿¡ ±â¹İÇÑ ½ÂÀÎ Å×½ºÆ®¸¦ »ç¿ëÇÕ´Ï´Ù.
-
 3.3 Schedulability Analysis for Multiprocessor Systems
 ------------------------
 
@@ -351,10 +222,6 @@ Linux´Â ÀÛ¾÷ÀÇ »ç¿ë·ü¿¡ ±â¹İÇÑ ½ÂÀÎ Å×½ºÆ®¸¦ »ç¿ëÇÕ´Ï´Ù.
  utilizations or densities: it can be shown that even if D_i = P_i task
  sets with utilizations slightly larger than 1 can miss deadlines regardless
  of the number of CPUs.
-
-Àü¿ª EDF ½ºÄÉÁÙ¸µ (ºĞÇÒµÇÁö ¾ÊÀº ½Ã½ºÅÛ)À» °®Ãá ´ÙÁß ÇÁ·Î¼¼¼­ ½Ã½ºÅÛ¿¡¼­ 
-½ºÄÉÁÙ¸µ °¡´É¼º¿¡ ´ëÇÑ ÃæºĞÇÑ Å×½ºÆ®´Â È°¿ëµµ ¶Ç´Â ¹Ğµµ¸¦ ±â¹İÀ¸·Î ÇÒ ¼ö ¾ø½À´Ï´Ù. 
-D_i = P_i ÀÏÁö¶óµµ 1º¸´Ù ¾à°£ Å« È°¿ëµµ¸¦ °¡Áø ÅÂ½ºÅ© ¼¼Æ®°¡ ÀÇ CPU ¼ö¸¦ ³ªÅ¸³À´Ï´Ù.
 
  Consider a set {Task_1,...Task_{M+1}} of M+1 tasks on a system with M
  CPUs, with the first task Task_1=(P,P,P) having period, relative deadline
@@ -366,40 +233,23 @@ D_i = P_i ÀÏÁö¶óµµ 1º¸´Ù ¾à°£ Å« È°¿ëµµ¸¦ °¡Áø ÅÂ½ºÅ© ¼¼Æ®°¡ ÀÇ CPU ¼ö¸¦ ³ªÅ¸³À´
  smaller than the absolute deadline of Task_1, which is t + P). As a
  result, Task_1 can be scheduled only at time t + e, and will finish at
  time t + e + P, after its absolute deadline. The total utilization of the
- task set is U = M ¡¤ e / (P - 1) + P / P = M ¡¤ e / (P - 1) + 1, and for small
+ task set is U = M Â· e / (P - 1) + P / P = M Â· e / (P - 1) + 1, and for small
  values of e this can become very close to 1. This is known as "Dhall's
  effect"[7]. Note: the example in the original paper by Dhall has been
  slightly simplified here (for example, Dhall more correctly computed
  lim_{e->0}U).
-
-Ã¹ ¹øÂ° ÀÛ¾÷ Task_1 = (P, P, P)°¡ ¸¶Ä§Ç¥, »ó´ë µ¥µå ¶óÀÎ ¹× WCET¿Í µ¿ÀÏÇÑ M °³ÀÇ CPU°¡ÀÖ´Â ½Ã½ºÅÛ¿¡¼­ 
-M + 1 ÀÛ¾÷ÀÇ ÁıÇÕ {Task_1, ... Task_ {M + 1} ³ª¸ÓÁö M °³ÀÇ ÀÛ¾÷ Task_i = (e, P-1, P-1)Àº 
-ÀÓÀÇ·Î ÀÛÀº ÃÖ¾ÇÀÇ ½ÇÇà ½Ã°£ (¿©±â¼­´Â "e"·Î Ç¥½Ã)°ú Ã¹ ¹øÂ° ÀÛ¾÷º¸´Ù ÀÛÀºÁÖ±â¸¦ °®´Â´Ù. 
-µû¶ó¼­ ¸ğµç ÀÛ¾÷ÀÌ °°Àº ½Ã°£ t¿¡ È°¼ºÈ­µÇ¸é ±Û·Î¹ú EDF´Â ÀÌ·¯ÇÑ M ÀÛ¾÷À» ¸ÕÀú ¿¹¾àÇÕ´Ï´Ù 
-(Àı´ë ¸¶°¨ ±âÇÑÀÌ t + P - 1ÀÌ±â ¶§¹®¿¡ Task_1ÀÇ Àı´ë ±âÇÑ ÀÎ t + Pº¸´Ù ÀÛ±â ¶§¹®¿¡) ). 
-°á°úÀûÀ¸·Î, Task_1Àº t + e ½Ã°£¿¡¸¸ ½ºÄÉÁÙ µÉ ¼ö ÀÖ°í Àı´ë ¸¶°¨ ½Ã°£ ÀÌÈÄ¿¡ t + e + P ½Ã°£¿¡ Á¾·áµË´Ï´Ù. 
-ÀÛ¾÷ ÁıÇÕÀÇ ÃÑ ÀÌ¿ë·üÀº U = M ¡¤ e / (P-1) + P / P = M ¡¤ e / (P-1) + 1ÀÌ¸ç, eÀÇ °ªÀÌ ÀÛ À¸¸é 1¿¡ °¡±õ°Ô µÉ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ°ÍÀº "DhallÀÇ È¿°ú"[7]·Î ¾Ë·ÁÁ® ÀÖ½À´Ï´Ù. Âü°í : DhallÀÇ ¿øº» ³í¹®ÀÇ ¿¹Á¦´Â ¿©±â¿¡¼­ ¾à°£ ´Ü¼øÈ­µÇ¾ú½À´Ï´Ù 
-(¿¹ : DhallÀº lim_ {e -> 0} U¸¦º¸´Ù Á¤È®ÇÏ°Ô °è»êÇß½À´Ï´Ù).
 
  More complex schedulability tests for global EDF have been developed in
  real-time literature[8,9], but they are not based on a simple comparison
  between total utilization (or density) and a fixed constant. If all tasks
  have D_i = P_i, a sufficient schedulability condition can be expressed in
  a simple way:
-	sum(WCET_i / P_i) <= M - (M - 1) ¡¤ U_max
+	sum(WCET_i / P_i) <= M - (M - 1) Â· U_max
  where U_max = max{WCET_i / P_i}[10]. Notice that for U_max = 1,
- M - (M - 1) ¡¤ U_max becomes M - M + 1 = 1 and this schedulability condition
+ M - (M - 1) Â· U_max becomes M - M + 1 = 1 and this schedulability condition
  just confirms the Dhall's effect. A more complete survey of the literature
  about schedulability tests for multi-processor real-time scheduling can be
  found in [11].
-
-Àü¿ª EDF¿¡ ´ëÇÑº¸´Ù º¹ÀâÇÑ ½ºÄÉÁÙ ¼º Å×½ºÆ®´Â ½Ç½Ã°£ ¹®Çå [8,9]¿¡¼­ °³¹ßµÇ¾úÁö¸¸ ÃÑ »ç¿ë·ü (¶Ç´Â ¹Ğµµ)°ú °íÁ¤ »ó¼ö °£ÀÇ ´Ü¼øÇÑ ºñ±³¸¦ ±â¹İÀ¸·ÎÇÏÁö´Â ¾Ê½À´Ï´Ù. 
-¸ğµç ÀÛ¾÷¿¡ D_i = P_i°¡ ÀÖÀ¸¸é ÃæºĞÇÑ ½ºÄÉÁÙ °¡´É¼º Á¶°ÇÀ» °£´ÜÇÑ ¹æ¹ıÀ¸·Î Ç¥ÇöÇÒ ¼ö ÀÖ½À´Ï´Ù.
-	ÇÕ (WCET_i / P_i) <= M- (M-1) ¡¤ U_max
-¿©±â¼­, U_max = max {WCET_i / P_i} [10]. U_max = 1 ÀÏ ¶§,
-M - (M - 1) ¡¤ U_max´Â M - M + 1 = 1ÀÌµÇ°íÀÌ ½ºÄÉÁÙ °¡´É¼º Á¶°ÇÀº DhallÀÇ È¿°ú¸¦ È®ÀÎÇÕ´Ï´Ù. 
-¸ÖÆ¼ ÇÁ·Î¼¼¼­ ½Ç½Ã°£ ½ºÄÉÁÙ¸µÀ»À§ÇÑ ½ºÄÉÁÙ °¡´É¼º Å×½ºÆ®¿¡ °üÇÑ ¹®Çå¿¡ ´ëÇÑº¸´Ù ¿Ïº®ÇÑ Á¶»ç´Â [11]¿¡¼­ Ã£À» ¼ö ÀÖ½À´Ï´Ù.
 
  As seen, enforcing that the total utilization is smaller than M does not
  guarantee that global EDF schedules the tasks without missing any deadline
@@ -411,12 +261,6 @@ M - (M - 1) ¡¤ U_max´Â M - M + 1 = 1ÀÌµÇ°íÀÌ ½ºÄÉÁÙ °¡´É¼º Á¶°ÇÀº DhallÀÇ È¿°ú¸¦
  but the theoretical result that is important for SCHED_DEADLINE is that if
  the total utilization is smaller or equal than M then the response times of
  the tasks are limited.
-
-¾Ë ¼ö ÀÖµíÀÌ ÃÑ »ç¿ë·®ÀÌ Mº¸´Ù ÀÛ´Ù°íÇØ¼­ ±Û·Î¹ú EDF°¡ ÃÖÁ¾ ±âÇÑÀ» ³õÄ¡Áö ¾Ê°í ÀÛ¾÷À» ¿¹¾àÇÑ´Ù´Â º¸ÀåÀº ¾ø½À´Ï´Ù 
-(Áï, ±Û·Î¹ú EDF´Â ÃÖÀûÀÇ ½ºÄÉÁÙ¸µ ¾Ë°í¸®ÁòÀÌ ¾Æ´Õ´Ï´Ù). 
-±×·¯³ª, Mº¸´Ù ÀÛÀº ÀüÃ¼ È°¿ëµµ´Â ºñ ½Ç½Ã°£ ÀÛ¾÷ÀÌ ±¾¾îÁöÁö ¾Ê°í ½Ç½Ã°£ ÀÛ¾÷ÀÇ Áö°¢ÀÌ »óÇÑÀ» °®µµ·Ï º¸ÀåÇÏ±â¿¡ ÃæºĞÇÏ´Ù. 
-½Ç½Ã°£ ÀÛ¾÷¿¡ ÀÇÇØ °æÇèµÇ´Â ÃÖ´ë Áö°¢¿¡ ´ëÇÑ ´Ù¾çÇÑ ¹üÀ§°¡ ´Ù¾çÇÑ ³í¹®¿¡¼­ °³¹ßµÇ¾úÁö¸¸ [13,14], 
-SCHED_DEADLINE¿¡¼­ Áß¿äÇÑ ÀÌ·ĞÀû ÀÎ °á°ú´Â ÃÑ »ç¿ë·üÀÌ Mº¸´Ù ÀÛ°Å³ª °°À¸¸é ÀÛ¾÷ÀÌ Á¦ÇÑµË´Ï´Ù.
 
 3.4 Relationship with SCHED_DEADLINE Parameters
 ------------------------
@@ -433,12 +277,6 @@ SCHED_DEADLINE¿¡¼­ Áß¿äÇÑ ÀÌ·ĞÀû ÀÎ °á°ú´Â ÃÑ »ç¿ë·üÀÌ Mº¸´Ù ÀÛ°Å³ª °°À¸¸é ÀÛ¾÷À
  guaranteeing that all the jobs' deadlines of a task are respected.
  In order to do this, a task must be scheduled by setting:
 
-¸¶Áö¸·À¸·Î, ±× »çÀÌÀÇ °ü°è¸¦ ÀÌÇØÇÏ´Â °ÍÀÌ Áß¿äÇÕ´Ï´Ù.
-SCHED_DEADLINE ¼½¼Ç 2 (·±Å¸ÀÓ, ÃÖÁ¾ ±âÇÑ ¹× ±â°£) ¹× ½Ç½Ã°£ ÅÂ½ºÅ© ¸Å°³ º¯¼ö (WCET, D, P)¿¡ ¼³¸í µÈ ½ºÄÉÁÙ ¸Å°³ º¯¼ö. ÀÛ¾÷ÀÇ ½Ã°£Àû Á¦¾à Á¶°ÇÀº ´ÙÀ½°ú °°½À´Ï´Ù.
-SCHED_DEADLINEÀº ½ºÄÉÁì¸µ ¸¶°¨ ½Ã°£ (2 Àı ÂüÁ¶)¿¡ µû¶ó ÀÛ¾÷À» ½ºÄÉÁìÇÏ´Â ¹İ¸é, Àı´ë ¸¶°¨ ½ÃÇÑ d_j = r_j + D·Î Ç¥ÇöµÈ´Ù.
-SCHED_DEADLINEÀ» »ç¿ëÇÏ¿© ½Ç½Ã°£ ÀÛ¾÷À» ¿¹¾àÇÏ¸é ¸ğµç ÀÛ¾÷ÀÇ ÀÛ¾÷ ¸¶°¨ ½Ã°£À» ÁØ¼öÇÏµµ·Ï ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-ÀÌ¸¦ ¼öÇàÇÏ·Á¸é ÀÛ¾÷À» ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
-
   - runtime >= WCET
   - deadline = D
   - period <= P
@@ -449,10 +287,6 @@ SCHED_DEADLINEÀ» »ç¿ëÇÏ¿© ½Ç½Ã°£ ÀÛ¾÷À» ¿¹¾àÇÏ¸é ¸ğµç ÀÛ¾÷ÀÇ ÀÛ¾÷ ¸¶°¨ ½Ã°£À» ÁØ
  called "hard schedulability property" and is an extension of Lemma 1 of [2]).
  Notice that if runtime > deadline the admission control will surely reject
  this task, as it is not possible to respect its temporal constraints.
-
-IOW, ·±Å¸ÀÓ> = WCETÀÌ°í ±â°£ÀÌ <= PÀÌ¸é ½ºÄÉÁÙ¸µ ¸¶°¨ ½Ã°£°ú Àı´ë ¸¶°¨ ½Ã°£ (d_j)ÀÌ ÀÏÄ¡ÇÏ¹Ç·Î 
-ÀûÀıÇÑ ½ÂÀÎ Á¦¾î°¡ÀÌ ÀÛ¾÷¿¡ ´ëÇÑ ÀÛ¾÷ÀÇ Àı´ë ±âÇÑÀ» ÁØ¼ö ÇÒ ¼ö ÀÖ½À´Ï´Ù. "hard schedulability property"ÀÌ¸ç [2]ÀÇ º¸Á¶ Á¤¸® 1ÀÇ È®ÀåÀÌ´Ù).
-runtime> deadline ÀÎ °æ¿ì ½ÂÀÎ Á¦¾î´Â ÀÓ½Ã ÀÛ¾÷À» Á¸ÁßÇÒ ¼ö ¾øÀ¸¹Ç·ÎÀÌ ÀÛ¾÷À» °ÅºÎÇÕ´Ï´Ù.
 
  References:
   1 - C. L. Liu and J. W. Layland. Scheduling algorithms for multiprogram-
@@ -482,7 +316,7 @@ runtime> deadline ÀÎ °æ¿ì ½ÂÀÎ Á¦¾î´Â ÀÓ½Ã ÀÛ¾÷À» Á¸ÁßÇÒ ¼ö ¾øÀ¸¹Ç·ÎÀÌ ÀÛ¾÷À» °Å
       pp 760-768, 2005.
   10 - J. Goossens, S. Funk and S. Baruah, Priority-Driven Scheduling of
        Periodic Task Systems on Multiprocessors. Real-Time Systems Journal,
-       vol. 25, no. 2?3, pp. 187?205, 2003.
+       vol. 25, no. 2â€“3, pp. 187â€“205, 2003.
   11 - R. Davis and A. Burns. A Survey of Hard Real-Time Scheduling for
        Multiprocessor Systems. ACM Computing Surveys, vol. 43, no. 4, 2011.
        http://www-users.cs.york.ac.uk/~robdavis/papers/MPSurveyv5.0.pdf
@@ -496,44 +330,6 @@ runtime> deadline ÀÎ °æ¿ì ½ÂÀÎ Á¦¾î´Â ÀÓ½Ã ÀÛ¾÷À» Á¸ÁßÇÒ ¼ö ¾øÀ¸¹Ç·ÎÀÌ ÀÛ¾÷À» °Å
        Global EDF. Proceedings of the 22nd Euromicro Conference on
        Real-Time Systems, 2010.
 
-Âü°í ¹®Çå :
-  1 - C. L. Liu and J. W. Layland. ¸ÖÆ¼ ÇÁ·Î±×·¥ -
-      ÇÏµå ½Ç½Ã°£ È¯°æ¿¡¼­ ÀÛµ¿ÇÕ´Ï´Ù. ÇùÈ¸ Àú³Î
-      Computing Machinery, 20 (1), 1973 ³â
-  2 - L. Abeni, G. Buttazzo. ÇÏµå µğ½ºÅ©¿¡ ¸ÖÆ¼¹Ìµğ¾î ÀÀ¿ë ÇÁ·Î±×·¥ ÅëÇÕ
-      ½Ç½Ã°£ ½Ã½ºÅÛ. Á¦ 19 È¸ IEEE ½Ç½Ã°£ ½Ã½ºÅÛ ÇĞÈ¸ ³í¹®Áö
-      Symposium, 1998. http://retis.sssup.it/~giorgio/paps/1998/rtss98-cbs.pdf
-  3 - L. Abeni. ¸ÖÆ¼¹Ìµğ¾î ÀÀ¿ë ÇÁ·Î±×·¥À»À§ÇÑ ¼­¹ö ¸ŞÄ¿´ÏÁò. ReTiS Lab
-      ±â¼ú º¸°í¼­. http://disi.unitn.it/~abeni/tr-98-01.pdf
-  4 - J.Y. Leung and M.L. ¸Ş¸±. ¼±Á¦ Àû ½ºÄÉÁì¸µ¿¡ ´ëÇÑ Âü°í »çÇ×
-      Á¤±âÀû ÀÎ ½Ç½Ã°£ ÀÛ¾÷. Á¤º¸ Ã³¸® Letters, vol. µµ 11¿¡ µµ½Ã µÈ ¹Ù¿Í °°ÀÌ,
-      ¾Æ´Ï. 3, pp.115-118, 1980]¿¡ ±âÀçµÇ¾îÀÖ´Ù.
-  5 - S. K. Baruah, A. K. Mok ¹× L. E. Rosier. »çÀü ¿¹¾à
-      ÇÏ³ªÀÇ ÇÁ·Î¼¼¼­¿¡¼­ ÇÏµå ½Ç½Ã°£ »ê¹ßÀû ÅÂ½ºÅ©. ÀÇ ÁøÇà
-      Á¦ 11 È¸ IEEE ½Ç½Ã°£ ½Ã½ºÅÛ ½ÉÆ÷Áö¾ö, 1990.
-  6 - S. K. Baruah, L. E. Rosier ¹× R. R. Howell. ¾Ë°í¸®Áò°ú º¹Àâ¼º
-      ¿¡ ´ëÇÑ ÁÖ±âÀû ½Ç½Ã°£ ÀÛ¾÷ÀÇ ¼±Á¡ ¿¹¾à¿¡ °üÇÑ
-      ÇÏ³ªÀÇ ÇÁ·Î¼¼¼­. ½Ç½Ã°£ ½Ã½ºÅÛ Àú³Î, vol. 4, ¾Æ´Ï¿À. 2, pp 301-324, 1990.
-  7 - S. J. Dhall ¹× C. L. Liu. ½Ç½Ã°£ ½ºÄÉÁÙ¸µ ¹®Á¦. ¿î¿µ
-      ¿¬±¸, vol. 26, no. 1, pp127-140, 1978]¿¡ ±âÀçµÇ¾îÀÖ´Ù.
-  8 - T. º£ÀÌÄ¿. ´ÙÁß ÇÁ·Î¼¼¼­ EDF ¹× ¸¶°¨ÀÏ ´ÜÁ¶ ÀÏÁ¤ ¼º
-      ºĞ¼®. Á¦ 24 È¸ IEEE ½Ç½Ã°£ ½Ã½ºÅÛ ½ÉÆ÷Áö¾ö, 2003 ³â ³í¹®Áı.
-  9 - T. Baker. ´ÙÁß ÇÁ·Î¼¼¼­¿¡¼­ÀÇ EDF ½ºÄÉÁÙ¸µ °¡´É¼º ºĞ¼®
-      º´·Ä ¹× ºĞ»ê ½Ã½ºÅÛ¿¡ °üÇÑ IEEE Æ®·£Àè¼Ç, vol. 16, no. µµ 8¿¡ µµ½Ã µÈ ¹Ù¿Í °°ÀÌ, pp 760-768, 2005.
-  10 - J. Goossens, S. Funk ¹× S. Baruah, ¿ì¼± ¼øÀ§ ±â¹İ ½ºÄÉÁÙ¸µ
-      ´ÙÁß ÇÁ·Î¼¼¼­ÀÇ ÁÖ±âÀû ÅÂ½ºÅ© ½Ã½ºÅÛ. ½Ç½Ã°£ ½Ã½ºÅÛ Àú³Î, vol. 25, no. 2-3, pp. 187-205, 2003.
-  11 - R. Davis¿Í A. Burns. ÇÏµå ½Ç½Ã°£ ½ºÄÉÁÙ¸µ¿¡ ´ëÇÑ Á¶»ç
-       ´ÙÁß ÇÁ·Î¼¼¼­ ½Ã½ºÅÛ. ACM Computing Surveys, vol. 43, no. 2011 ³â 4 ¿ù 4 ÀÏ
-       http://www-users.cs.york.ac.uk/~robdavis/papers/MPSurveyv5.0.pdf
-  12 - U. C. Devi and J. H. Anderson. ±Û·Î¹ú EDF ÇÏ¿¡¼­ÀÇ Áö°¢ °æ°è
-       ´ÙÁß ÇÁ·Î¼¼¼­¿¡¼­ ½ºÄÉÁÙ¸µ. ½Ç½Ã°£ ½Ã½ºÅÛ Àú³Î, vol. 32,
-       ¾Æ´Ï. 2, pp 133-189, 2008.
-  13 - P. Valente and G. Lipari. ¿¬¾àÇÑ Áö°¢ÀÇ »ó ÇÑ°è
-       ´ÙÁß ÇÁ·Î¼¼¼­¿¡¼­ EDF°¡ ¿¹¾àÇÏ´Â ½Ç½Ã°£ ÀÛ¾÷. ÀÇ ÁøÇà
-       Á¦ 26 È¸ IEEE Real-Time Systems Symposium, 2005.
-  14 - J. Erickson, U. Devi and S. Baruah. Áö°¢ ÇÑ°è °³¼±
-       ±Û·Î¹ú EDF. Á¦ 22 È¸ Euromicro ÄÁÆÛ·±½ºÀÇ ÁøÇà ½Ç½Ã°£ ½Ã½ºÅÛ, 2010.
-
 
 4. Bandwidth management
 =======================
@@ -544,12 +340,6 @@ runtime> deadline ÀÎ °æ¿ì ½ÂÀÎ Á¦¾î´Â ÀÓ½Ã ÀÛ¾÷À» Á¸ÁßÇÒ ¼ö ¾øÀ¸¹Ç·ÎÀÌ ÀÛ¾÷À» °Å
  of the available fractions of CPU time to the various tasks under control.
  This is usually called "admission control" and if it is not performed, then
  no guarantee can be given on the actual scheduling of the -deadline tasks.
-
-¾Õ¿¡¼­ ¾ğ±ŞÇßµíÀÌ, - ¸¶°¨ ½Ã°£ °èÈ¹ÀÌ È¿°úÀûÀÌ°í À¯¿ëÇÏ±â ¶§¹®¿¡ (Áï, "¸¶°¨ ½ÃÇÑ"¿¡¼­ "·±Å¸ÀÓ"½Ã°£ ´ÜÀ§¸¦ Á¦°ø ÇÒ ¼ö ÀÖµµ·Ï) 
-ÇÒ´çÀ» À¯ÁöÇÒ ¼öÀÖ´Â ¹æ¹ıÀÌ ÀÖ¾î¾ßÇÕ´Ï´Ù
-»ç¿ë °¡´ÉÇÑ CPU ½Ã°£ÀÇ ÀÏºÎ¸¦ Á¦¾îÁßÀÎ ´Ù¾çÇÑ ÀÛ¾÷¿¡ ÇÒ´çÇÕ´Ï´Ù.
-ÀÌ°ÍÀº ÀÏ¹İÀûÀ¸·Î "½ÂÀÎ Á¦¾î"¶ó°íÇÏ¸ç ¼öÇàµÇÁö ¾ÊÀ¸¸é ½ÇÁ¦ ÀÛ¾÷ ÀÏÁ¤¿¡ ´ëÇÑ º¸ÀåÀÌ Á¦°øµÇÁö ¾Ê½À´Ï´Ù.
-
 
  As already stated in Section 3, a necessary condition to be respected to
  correctly schedule a set of real-time tasks is that the total utilization
@@ -568,15 +358,6 @@ runtime> deadline ÀÎ °æ¿ì ½ÂÀÎ Á¦¾î´Â ÀÓ½Ã ÀÛ¾÷À» Á¸ÁßÇÒ ¼ö ¾øÀ¸¹Ç·ÎÀÌ ÀÛ¾÷À» °Å
  figure out how we want to manage SCHED_DEADLINE bandwidth at the task group
  level.
 
-3 Àı¿¡¼­ ÀÌ¹Ì ¾ğ±ŞÇßµíÀÌ, ½Ç½Ã°£ ÀÛ¾÷ ¼¼Æ®¸¦ ¿Ã¹Ù¸£°Ô ½ºÄÉÁÙ¸µÇÏ±â À§ÇØ ÇÊ¿äÇÑ Á¶°ÇÀº ÃÑ »ç¿ë·üÀÌ Mº¸´Ù ÀÛ¾Æ¾ßÇÑ´Ù´Â °ÍÀÔ´Ï´Ù. 
--deadline ÀÛ¾÷¿¡ ´ëÇØ ÀÌ¾ß±â ÇÒ ¶§, ÀÌ°ÍÀº ·±Å¸ÀÓ°ú ·±Å¸ÀÓ »çÀÌÀÇ ºñÀ² ¸ğµç ÀÛ¾÷ÀÇ ??±â°£Àº Mº¸´Ù ÀÛ½À´Ï´Ù. 
-·±Å¸ÀÓ / ±â°£ ºñÀ²Àº "±âÁ¸"½Ç½Ã°£ ÀÛ¾÷ÀÇ »ç¿ë·ü°ú µ¿ÀÏÇÏ¸ç "´ë¿ªÆø"ÀÌ¶ó°íµµÇÕ´Ï´Ù.
--deadline ÀÛ¾÷¿¡ ÇÒ´ç ÇÒ ¼öÀÖ´Â CPU ´ë¿ªÆøÀ» Á¦¾îÇÏ´Â ??µ¥ »ç¿ëµÇ´Â ÀÎÅÍÆäÀÌ½º´Â ½Ç½Ã°£ ±×·ì ¿¹¾à 
-(ÀÏ¸í RT ½º·ÎÆ² ¸µ - Documentation / scheduler / sched-rt-group ÂüÁ¶)°ú ÇÔ²² -rt ÀÛ¾÷¿¡ ÀÌ¹Ì »ç¿ë µÈ ÀÎÅÍÆäÀÌ½º¿Í À¯»çÇÕ´Ï´Ù. 
-txt)ÀÌ¸ç procfs¿¡ÀÖ´Â ÀĞ±â / ¾²±â °¡´ÉÇÑ Á¦¾î ÆÄÀÏÀ» ±â¹İÀ¸·ÎÇÕ´Ï´Ù (½Ã½ºÅÛ ÀüÃ¼ ¼³Á¤ÀÇ °æ¿ì).
-ÀÛ¾÷ ±×·ì ¼öÁØ¿¡¼­ SCHED_DEADLINE ´ë¿ªÆøÀ» °ü¸®ÇÏ´Â ¹æ¹ıÀ» ÆÄ¾ÇÇÏ·Á¸é ´õ ¸¹Àº ³íÀÇ°¡ ÇÊ¿äÇÏ±â ¶§¹®¿¡ 
-cgroupfs¸¦ ÅëÇØ Á¦¾îµÇ´Â ±×·ì º° ¼³Á¤Àº ¿©ÀüÈ÷ ??-deadline ÀÛ¾÷¿¡ Á¤ÀÇµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù
-
  A main difference between deadline bandwidth management and RT-throttling
  is that -deadline tasks have bandwidth on their own (while -rt ones don't!),
  and thus we don't need a higher level throttling mechanism to enforce the
@@ -588,18 +369,10 @@ cgroupfs¸¦ ÅëÇØ Á¦¾îµÇ´Â ±×·ì º° ¼³Á¤Àº ¿©ÀüÈ÷ ??-deadline ÀÛ¾÷¿¡ Á¤ÀÇµÇ¾î ÀÖÁö 
  interface we can put a cap on total utilization of -deadline tasks (i.e.,
  \Sum (runtime_i / period_i) < global_dl_utilization_cap).
 
-µ¥µå ¶óÀÎ ´ë¿ªÆø °ü¸®¿Í RT ½º·ÎÆ² ¸µÀÇ ÁÖµÈ Â÷ÀÌÁ¡Àº - µ¥µå ¶óÀÎ ÀÛ¾÷Àº ÀÚÃ¼ÀûÀ¸·Î ´ë¿ªÆøÀ» °¡Áö¹Ç·Î (ÇÊ¿äÇÏÁö´Â ¾ÊÁö¸¸!) 
-¿øÇÏ´Â ´ë¿ªÆøÀ» Àû¿ëÇÏ±â À§ÇØ ´õ ³ôÀº ¼öÁØÀÇ ½º·ÎÆ² ¸µ ¸ŞÄ¿´ÏÁòÀÌ ÇÊ¿äÇÏÁö ¾Ê´Ù´Â °ÍÀÔ´Ï´Ù. 
-Áï, ÀÎÅÍÆäÀÌ½º ¸Å°³ º¯¼ö´Â ½ÂÀÎ Á¦¾î ½Ã°£ (Áï, »ç¿ëÀÚ°¡ sched_setattr ()À» È£Ãâ ÇÒ ¶§¸¸ »ç¿ëµÊÀ» ÀÇ¹ÌÇÕ´Ï´Ù. 
-±×·± ´ÙÀ½ ½ÇÁ¦ ÀÛ¾÷ÀÇ ¸Å°³ º¯¼ö¸¦ °í·ÁÇÏ¿© ¿¹¾àÀÌ ¼öÇàµÇ¹Ç·Î CPU ´ë¿ªÆøÀÌ ÇÊ¿ä¿¡ µû¶ó ¼¼ºĞÈ­ µÈ SCHED_DEADLINE ÀÛ¾÷¿¡ ÇÒ´çµË´Ï´Ù. 
-µû¶ó¼­ÀÌ °£´ÜÇÑ ÀÎÅÍÆäÀÌ½º¸¦ »ç¿ëÇÏ¿© -deadline ÀÛ¾÷ (Áï, \ Sum (runtime_i / period_i) <global_dl_utilization_cap)ÀÇ ÃÑ »ç¿ë·®À» Á¦ÇÑ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
 4.1 System wide settings
 ------------------------
 
  The system wide settings are configured under the /proc virtual file system.
-
-½Ã½ºÅÛ ÀüÃ¼ ¼³Á¤Àº / proc °¡»ó ÆÄÀÏ ½Ã½ºÅÛ ¾Æ·¡¿¡ ±¸¼ºµË´Ï´Ù.
 
  For now the -rt knobs are used for -deadline admission control and the
  -deadline runtime is accounted against the -rt runtime. We realize that this
@@ -607,10 +380,6 @@ cgroupfs¸¦ ÅëÇØ Á¦¾îµÇ´Â ±×·ì º° ¼³Á¤Àº ¿©ÀüÈ÷ ??-deadline ÀÛ¾÷¿¡ Á¤ÀÇµÇ¾î ÀÖÁö 
  now, and be able to change it easily later. The ideal situation (see 5.) is to
  run -rt tasks from a -deadline server; in which case the -rt bandwidth is a
  direct subset of dl_bw.
-
-Áö±İÀº -rt ³ëºê°¡ -deadline ½ÂÀÎ Á¦¾î¿¡ »ç¿ëµÇ¸ç -deadline ·±Å¸ÀÓÀº -rt ·±Å¸ÀÓ¿¡ ´ëÇØ ¼³¸íµË´Ï´Ù. 
-¿ì¸®´Â ÀÌ°ÍÀÌ ÀüÀûÀ¸·Î ¹Ù¶÷Á÷ÇÏÁö ¾Ê´Ù´Â °ÍÀ» ¾Ë°í ÀÖ½À´Ï´Ù. ±×·¯³ª Áö±İÀº ÀÛÀº ÀÎÅÍÆäÀÌ½º¸¦ °¡Áö°í ³ªÁß¿¡ ½±°Ô º¯°æÇÒ ¼ö ÀÖ¾î¾ßÇÕ´Ï´Ù. 
-ÀÌ»óÀûÀÎ »óÈ² (5 ÂüÁ¶)Àº -deadline ¼­¹ö¿¡¼­ -rt ÀÛ¾÷À» ½ÇÇàÇÏ´Â °ÍÀÔ´Ï´Ù. ÀÌ °æ¿ì -rt ´ë¿ªÆøÀº dl_bwÀÇ Á÷Á¢ÀûÀÎ ºÎºĞ ÁıÇÕÀÔ´Ï´Ù
 
  This means that, for a root_domain comprising M CPUs, -deadline tasks
  can be created while the sum of their bandwidths stays below:
@@ -620,13 +389,6 @@ cgroupfs¸¦ ÅëÇØ Á¦¾îµÇ´Â ±×·ì º° ¼³Á¤Àº ¿©ÀüÈ÷ ??-deadline ÀÛ¾÷¿¡ Á¤ÀÇµÇ¾î ÀÖÁö 
  It is also possible to disable this bandwidth management logic, and
  be thus free of oversubscribing the system up to any arbitrary level.
  This is done by writing -1 in /proc/sys/kernel/sched_rt_runtime_us.
-
-Áï, M CPU·Î ±¸¼ºµÈ root_domainÀÇ °æ¿ì - µ¥µå ¶óÀÎ ÀÛ¾÷À» ¸¸µé ¼ö ÀÖÀ¸¸ç ´ë¿ªÆøÀÇ ÇÕ°è´Â ´ÙÀ½°ú °°ÀÌ À¯ÁöµË´Ï´Ù.
-
-M * (sched_rt_runtime_us / sched_rt_period_us)
-
-¶ÇÇÑÀÌ ´ë¿ªÆø °ü¸® ³í¸®¸¦ ºñÈ°¼ºÈ­ÇÏ¿© ½Ã½ºÅÛÀ» ÀÓÀÇÀÇ ¼öÁØ±îÁö ÃÊ°ú ÇÒ´ç ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù.
-ÀÌ°ÍÀº / proc / sys / kernel / sched_rt_runtime_us¿¡ -1À» ¾²¸éµË´Ï´Ù.
 
 
 4.2 Task interface
@@ -639,22 +401,11 @@ M * (sched_rt_runtime_us / sched_rt_period_us)
   - a minimum interval between consecutive instances,
   - a time constraint by which each instance must be completed.
 
-°¢ ÀÎ½ºÅÏ½º¿¡¼­ ÁÖ¾îÁø ¾çÀÇ ·±Å¸ÀÓ¿¡ ´ëÇØ ½ÇÇàµÇ°í ÀÚÃ¼ Å¸ÀÌ¹Ö Á¦¾à Á¶°ÇÀÇ ±ä±Ş¼º¿¡ µû¶ó ½ºÄÉÁÙµÇ´Â 
-ÁÖ±âÀû / »ê¹ßÀû ÅÂ½ºÅ©¸¦ ÁöÁ¤ÇÏ´Â °ÍÀº ÀÏ¹İÀûÀ¸·Î ´ÙÀ½À» ¼±¾ğÇÏ´Â ¹æ¹ıÀÔ´Ï´Ù.
-
-   - (ÃÖ´ë / Ç¥ÁØ) ÀÎ½ºÅÏ½º ½ÇÇà ½Ã°£,
-   - ¿¬¼ÓµÇ´Â ÀÎ½ºÅÏ½º °£ÀÇ ÃÖ¼Ò °£°İ
-   - °¢ ÀÎ½ºÅÏ½º¸¦ ¿Ï·áÇØ¾ßÇÏ´Â ½Ã°£ Á¦¾à Á¶°Ç.
-
  Therefore:
   * a new struct sched_attr, containing all the necessary fields is
     provided;
   * the new scheduling related syscalls that manipulate it, i.e.,
     sched_setattr() and sched_getattr() are implemented.
-
-µû¶ó¼­:
-   * ¸ğµç ÇÊ¼ö ÇÊµå¸¦ Æ÷ÇÔÇÏ´Â »õ·Î¿î ±¸Á¶Ã¼ sched_attrÀÌ Á¦°øµË´Ï´Ù.
-   * sched_setattr () ¹× sched_getattr ()¿Í °°Àº »õ·Î¿î ½ºÄÉÁÙ °ü·Ã syscallsÀÌ ±¸ÇöµË´Ï´Ù.
 
 
 4.3 Default behavior
@@ -672,16 +423,8 @@ M * (sched_rt_runtime_us / sched_rt_period_us)
  deterministically guarantee that -deadline tasks will receive their runtime
  in a period.
 
-SCHED_DEADLINE ´ë¿ªÆøÀÇ ±âº»°ªÀº rt_runtimeÀÌ 950000°ú °°½À´Ï´Ù. ±âº»ÀûÀ¸·Î rt_period°¡ 1000000ÀÌ¸é 
-¸¶°¨ÀÏ ¹¯±â´Â °¢ root_domain¿¡ ´ëÇØ root_domainÀ» ±¸¼ºÇÏ´Â CPU ¼ö¸¦ °öÇÑ ÃÖ´ë 95 %¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.
-Áï, ºñ ±âº» ÀÛ¾÷Àº CPU ½Ã°£ÀÇ 5 % ÀÌ»óÀ»¹ŞÀ¸¸ç "¸¶°¨ ½ÃÇÑ"¸Å°³ º¯¼ö¿¡ ´ëÇÑ ÃÖ¾ÇÀÇ °æ¿ì Áö¿¬À» º¸ÀåÇÏ¿© ·±Å¸ÀÓÀ» ¼ö½ÅÇÕ´Ï´Ù.
-"deadline"= "period"ÀÌ°í cpuset ¸ŞÄ¿´ÏÁòÀÌ ºĞÇÒ ½ºÄÉÁÙ¸µ (5 Àı ÂüÁ¶)À» ±¸ÇöÇÏ´Â µ¥ »ç¿ëµÇ´Â °æ¿ì ´ë¿ªÆø °ü¸®ÀÇ °£´ÜÇÑ ¼³Á¤À» ÅëÇØ 
--deadline ÀÛ¾÷ÀÌ ÇØ´ç ±â°£ µ¿¾È ·±Å¸ÀÓÀ» ¼ö½ÅÇÏµµ·Ï °áÁ¤ÀûÀ¸·Î º¸Àå ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
  Finally, notice that in order not to jeopardize the admission control a
  -deadline task cannot fork.
-
-¸¶Áö¸·À¸·Î ½ÂÀÎ Á¦¾î¸¦ À§Çè¿¡ ºü¶ß¸®Áö ¾Êµµ·Ï ¸¶°¨ ½Ã°£ ÀÛ¾÷À» Æ÷Å© ÇÒ ¼ö ¾ø½À´Ï´Ù.
 
 5. Tasks CPU affinity
 =====================
@@ -690,16 +433,11 @@ SCHED_DEADLINE ´ë¿ªÆøÀÇ ±âº»°ªÀº rt_runtimeÀÌ 950000°ú °°½À´Ï´Ù. ±âº»ÀûÀ¸·Î rt_p
  root_domain they are created on. However, affinities can be specified
  through the cpuset facility (Documentation/cgroups/cpusets.txt).
 
-µ¥µå ¶óÀÎ ÀÛ¾÷Àº »ı¼º µÈ ÀüÃ¼ root_domainº¸´Ù ÀÛÀº ¼±È£µµ ¸¶½ºÅ©¸¦ °¡Áú ¼ö ¾ø½À´Ï´Ù. 
-±×·¯³ª cpuset ±â´ÉÀ» ÅëÇØ µ¿Áú¼ºÀ» ÁöÁ¤ÇÒ ¼ö ÀÖ½À´Ï´Ù (Documentation / cgroups / cpusets.txt).
-
 5.1 SCHED_DEADLINE and cpusets HOWTO
 ------------------------------------
 
  An example of a simple configuration (pin a -deadline task to CPU0)
  follows (rt-app is used to create a -deadline task).
-
-°£´ÜÇÑ ±¸¼º (¿¹ : CPU0¿¡ ´ëÇÑ µ¥µå ¶óÀÎ ÀÛ¾÷À» ÇÉ)Àº ´ÙÀ½°ú °°½À´Ï´Ù (rt-app´Â -deadline ÀÛ¾÷À» ¸¸µå´Â µ¥ »ç¿ëµË´Ï´Ù).
 
  mkdir /dev/cpuset
  mount -t cgroup -o cpuset cpuset /dev/cpuset
@@ -729,21 +467,10 @@ SCHED_DEADLINE ´ë¿ªÆøÀÇ ±âº»°ªÀº rt_runtimeÀÌ 950000°ú °°½À´Ï´Ù. ±âº»ÀûÀ¸·Î rt_p
     address), which is the best way to allow unprivileged use of the mechanisms
     and how to prevent non-root users "cheat" the system?
 
-¾ÆÁ÷ ½ÇÁ¾ :
-
-Æ¯È÷ »óÈ£ ÀÛ¿ëÀÌ¾ø´Â ÀÛ¾÷¿¡¼­ ´ë¿ªÆø °İ¸®¸¦ À¯ÁöÇÒ °¡´É¼º¿¡ °üÇÑ ¸¶°¨ ½Ã°£ »ó¼ÓÀ» °³¼±ÇÕ´Ï´Ù. 
-ÀÌ°ÍÀº ÀÌ·ĞÀû °üÁ¡°ú ½Ç¿ëÀûÀÎ °üÁ¡¿¡¼­ ¿¬±¸µÇ°í ÀÖÀ¸¸ç, °ğ ¿ì¸®´Â ½Ã¹üÀûÀÎ ÄÚµå¸¦ Á¶¸¸°£ »ı»êÇÒ ¼ö ÀÖ¾î¾ßÇÕ´Ï´Ù.
-- (c) ±×·ì ±â¹İ ´ë¿ªÆø °ü¸® ¹× ¾Æ¸¶µµ ½ºÄÉÁÙ¸µ;
-- ºñ ·çÆ® »ç¿ëÀÚ (¹× °ü·Ã º¸¾È ¹®Á¦¸¦ ÇØ°áÇÏ±âÀ§ÇÑ ¾×¼¼½º Á¦¾î)´Â ¸ŞÄ¿´ÏÁòÀÇ ºñ µ¶Á¡Àû »ç¿ëÀ» Çã¿ëÇÏ´Â °¡Àå ÁÁÀº ¹æ¹ıÀÌ¸ç 
-  ºñ ·çÆ® »ç¿ëÀÚ°¡ ½Ã½ºÅÛÀ» "¼ÓÀÌ·Á´Â"°ÍÀ» ¹æÁöÇÏ´Â ¹æ¹ıÀº ¹«¾ùÀÔ´Ï±î?
-
  As already discussed, we are planning also to merge this work with the EDF
  throttling patches [https://lkml.org/lkml/2010/2/23/239] but we still are in
  the preliminary phases of the merge and we really seek feedback that would
  help us decide on the direction it should take.
-
-ÀÌ¹Ì ¼³¸íÇÑ ¹Ù¿Í °°ÀÌÀÌ ÀÛ¾÷À» EDF Á¶Àı ÆĞÄ¡ [https://lkml.org/lkml/2010/2/23/239]¿Í º´ÇÕ ÇÒ °èÈ¹µµ ÀÖÁö¸¸ º´ÇÕÀÇ ¿¹ºñ ´Ü°è¿¡ ÀÖ½À´Ï´Ù. 
-¿ì¸®°¡ ÃëÇØ¾ß ÇÒ ¹æÇâÀ» °áÁ¤ÇÏ´Â µ¥ µµ¿òÀÌ µÉ ÀÇ°ßÀ» ±¸ÇÏ½Ê½Ã¿À.
 
 Appendix A. Test suite
 ======================
@@ -751,9 +478,6 @@ Appendix A. Test suite
  The SCHED_DEADLINE policy can be easily tested using two applications that
  are part of a wider Linux Scheduler validation suite. The suite is
  available as a GitHub repository: https://github.com/scheduler-tools.
-
-SCHED_DEADLINE Á¤Ã¥Àºº¸´Ù ±¤¹üÀ§ÇÑ Linux Scheduler À¯È¿¼º °Ë»ç Á¦Ç°±ºÀÇ ÀÏºÎÀÎ µÎ ÀÀ¿ë ÇÁ·Î±×·¥À» »ç¿ëÇÏ¿© ½±°Ô Å×½ºÆ® ÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-ÀÌ Á¦Ç°±ºÀº GitHub ÀúÀå¼Ò (https://github.com/scheduler-tools)·Î Á¦°øµË´Ï´Ù.
 
  The first testing application is called rt-app and can be used to
  start multiple threads with specific parameters. rt-app supports
@@ -764,16 +488,8 @@ SCHED_DEADLINE Á¤Ã¥Àºº¸´Ù ±¤¹üÀ§ÇÑ Linux Scheduler À¯È¿¼º °Ë»ç Á¦Ç°±ºÀÇ ÀÏºÎÀÎ µ
  behaves under such workloads. In this way, results are easily reproducible.
  rt-app is available at: https://github.com/scheduler-tools/rt-app.
 
-Ã¹ ¹øÂ° Å×½ºÆ® ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀº rt-appÀÌ¸ç Æ¯Á¤ ¸Å°³ º¯¼ö·Î ¿©·¯ ½º·¹µå¸¦ ½ÃÀÛÇÏ´Â µ¥ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-rt-app´Â SCHED_ {OTHER, FIFO, RR, DEADLINE} ¿¹¾à Á¤Ã¥ ¹× °ü·Ã ¸Å°³ º¯¼ö (¿¹ : ¸ÚÁö´Ù, ¿ì¼± ¼øÀ§, ½ÇÇà ½Ã°£ / ±âÇÑ / ¸¶Ä§Ç¥)¸¦ Áö¿øÇÕ´Ï´Ù. 
-rt-app´Â Æ¯Á¤ ¿öÅ©·Îµå¸¦ Á¾ÇÕÀûÀ¸·Î ÀçÇöÇÏ°í (½ÇÁ¦ »ç¿ë »ç·Ê¸¦ ¸ğ¹æ ÇÑ °ÍÀÏ ¼öµµ ÀÖÀ½) »ç¿ëÇÏ°í ½ºÄÉÁÙ·¯°¡ ±×·¯ÇÑ ÀÛ¾÷ ºÎÇÏ¿¡¼­ ¾î¶»°Ô ÀÛµ¿ÇÏ´ÂÁö Æò°¡ÇÒ ¼ö ÀÖÀ¸¹Ç·Î À¯¿ëÇÑ µµ±¸ÀÔ´Ï´Ù. 
-ÀÌ ¹æ¹ıÀ¸·Î °á°ú¸¦ ½±°Ô ÀçÇö ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-rt-app´Â https://github.com/scheduler-tools/rt-app¿¡¼­ ´Ù¿î·Îµå ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
  Thread parameters can be specified from the command line, with something like
  this:
-
-½º·¹µå ¸Å°³ º¯¼ö´Â ´ÙÀ½°ú °°ÀÌ ¸í·É ÁÙ¿¡¼­ ÁöÁ¤ÇÒ ¼ö ÀÖ½À´Ï´Ù.
 
   # rt-app -t 100000:10000:d -t 150000:20000:f:10 -D5
 
@@ -782,13 +498,8 @@ rt-app´Â https://github.com/scheduler-tools/rt-app¿¡¼­ ´Ù¿î·Îµå ÇÒ ¼ö ÀÖ½À´Ï´Ù.
  priority 10, executes for 20ms every 150ms. The test will run for a total
  of 5 seconds.
 
-À§ÀÇ µÎ ½º·¹µå¸¦ ¸¸µì´Ï´Ù. SCHED_DEADLINE¿¡ ÀÇÇØ ½ºÄÉÁì µÈ Ã¹ ¹øÂ° °ÍÀº 100ms¸¶´Ù 10ms µ¿¾È ½ÇÇàµË´Ï´Ù. 
-SCHED_FIFO ¿ì¼± ¼øÀ§ 10¿¡¼­ ¿¹¾à µÈ µÎ ¹øÂ° °ÍÀº 150ms¸¶´Ù 20ms µ¿¾È ½ÇÇàµË´Ï´Ù. Å×½ºÆ®´Â ÃÑ 5 ÃÊ µ¿¾È ½ÇÇàµË´Ï´Ù.
-
  More interestingly, configurations can be described with a json file that
  can be passed as input to rt-app with something like this:
-
-Á» ´õ Èï¹Ì·Ó°Ôµµ, rt-app¿¡ ÀÔ·ÂÀ¸·Î Àü´ŞÇÒ ¼öÀÖ´Â json ÆÄÀÏÀ» »ç¿ëÇÏ¿© ´ÙÀ½°ú °°ÀÌ ±¸¼º ÇÒ ¼ö ÀÖ½À´Ï´Ù.
 
   # rt-app my_config.json
 
@@ -796,20 +507,12 @@ SCHED_FIFO ¿ì¼± ¼øÀ§ 10¿¡¼­ ¿¹¾à µÈ µÎ ¹øÂ° °ÍÀº 150ms¸¶´Ù 20ms µ¿¾È ½ÇÇàµË´Ï´Ù.
  of the command line options. Please refer to rt-app documentation for more
  details (<rt-app-sources>/doc/*.json).
 
-µÎ ¹øÂ° ¹æ¹ıÀ¸·Î ÁöÁ¤ÇÒ ¼öÀÖ´Â ¸Å°³ º¯¼ö´Â ¸í·É ÁÙ ¿É¼ÇÀÇ ¼öÆÛ ÁıÇÕÀÔ´Ï´Ù. 
-ÀÚ¼¼ÇÑ ³»¿ëÀº rt-app ¼³¸í¼­¸¦ ÂüÁ¶ÇÏ½Ê½Ã¿À (<rt-app-sources> / doc / *. json).
-
  The second testing application is a modification of schedtool, called
  schedtool-dl, which can be used to setup SCHED_DEADLINE parameters for a
  certain pid/application. schedtool-dl is available at:
  https://github.com/scheduler-tools/schedtool-dl.git.
 
-µÎ ¹øÂ° Å×½ºÆ® ÀÀ¿ë ÇÁ·Î±×·¥Àº schedtool-dlÀÌ¶ó´Â schedtoolÀ» ¼öÁ¤ ÇÑ °ÍÀ¸·Î, Æ¯Á¤ PID / ÀÀ¿ë ÇÁ·Î±×·¥¿¡ ´ëÇÑ SCHED_DEADLINE ¸Å°³ º¯¼ö¸¦ ¼³Á¤ÇÏ´Â µ¥ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. 
-schedtool-dlÀº https://github.com/scheduler-tools/schedtool-dl.git¿¡¼­ ´Ù¿î·Îµå ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
  The usage is straightforward:
-
-»ç¿ë¹ıÀº °£´ÜÇÕ´Ï´Ù.
 
   # schedtool -E -t 10000000:100000000 -e ./my_cpuhog_app
 
@@ -817,9 +520,6 @@ schedtool-dlÀº https://github.com/scheduler-tools/schedtool-dl.git¿¡¼­ ´Ù¿î·Îµå 
  of 10ms every 100ms (note that parameters are expressed in microseconds).
  You can also use schedtool to create a reservation for an already running
  application, given that you know its pid:
-
-ÀÌ¸¦ ÅëÇØ my_cpuhog_app´Â 100ms¸¶´Ù 10msÀÇ SCHED_DEADLINE ¿¹¾à ³»¿¡¼­ ½ÇÇàµË´Ï´Ù (¸Å°³ º¯¼ö´Â ¸¶ÀÌÅ©·Î ÃÊ·Î Ç¥½ÃµÊ).
-¶ÇÇÑ schedtoolÀ» »ç¿ëÇÏ¿© ÀÌ¹Ì ½ÇÇàÁßÀÎ ÀÀ¿ë ÇÁ·Î±×·¥¿¡ ´ëÇÑ ¿¹¾àÀ» ¸¸µé ¼ö ÀÖ½À´Ï´Ù (pid¸¦ ¾Ë°íÀÖ´Â °æ¿ì).
 
   # schedtool -E -t 10000000:100000000 my_app_pid
 
@@ -829,8 +529,6 @@ Appendix B. Minimal main()
  We provide in what follows a simple (ugly) self-contained code snippet
  showing how SCHED_DEADLINE reservations can be created by a real-time
  application developer.
-
-¿ì¸®´Â ½Ç½Ã°£ ¾ÖÇÃ¸®ÄÉÀÌ¼Ç °³¹ßÀÚ°¡ SCHED_DEADLINE ¿¹¾àÀ» »ı¼ºÇÏ´Â ¹æ¹ıÀ» º¸¿©ÁÖ´Â °£´ÜÇÑ (¸ø»ı±ä) ÀÚÃ¼ ÄÚµå ½º ´ÏÆêÀ» Á¦°øÇÕ´Ï´Ù.
 
  #define _GNU_SOURCE
  #include <unistd.h>
@@ -848,9 +546,7 @@ Appendix B. Minimal main()
 
  #define SCHED_DEADLINE	6
 
- /* XXX use the proper syscall numbers 
-XXX´Â ÀûÀıÇÑ ½Ã½ºÅÛ È£Ãâ ¹øÈ£¸¦ »ç¿ëÇÕ´Ï´Ù.*/
-
+ /* XXX use the proper syscall numbers */
  #ifdef __x86_64__
  #define __NR_sched_setattr		314
  #define __NR_sched_getattr		315
@@ -915,9 +611,7 @@ XXX´Â ÀûÀıÇÑ ½Ã½ºÅÛ È£Ãâ ¹øÈ£¸¦ »ç¿ëÇÕ´Ï´Ù.*/
 	attr.sched_nice = 0;
 	attr.sched_priority = 0;
 
-	/* This creates a 10ms/30ms reservation
-	ÀÌ·Î ÀÎÇØ 10ms / 30ms ¿¹¾àÀÌ »ı¼ºµË´Ï´Ù. */
-
+	/* This creates a 10ms/30ms reservation */
 	attr.sched_policy = SCHED_DEADLINE;
 	attr.sched_runtime = 10 * 1000 * 1000;
 	attr.sched_period = attr.sched_deadline = 30 * 1000 * 1000;
