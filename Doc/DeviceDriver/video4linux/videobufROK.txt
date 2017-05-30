@@ -1,7 +1,7 @@
 An introduction to the videobuf layer
 Jonathan Corbet <corbet@lwn.net>
 Current as of 2.6.33
-
+ 
 The videobuf layer functions as a sort of glue layer between a V4L2 driver
 and user space.  It handles the allocation and management of buffers for
 the storage of video frames.  There is a set of functions which can be used
@@ -12,39 +12,39 @@ including buffer allocation, queueing and dequeueing, and streaming
 control.  Using videobuf imposes a few design decisions on the driver
 author, but the payback comes in the form of reduced code in the driver and
 a consistent implementation of the V4L2 user-space API.
-videobuf ·¹ÀÌ¾î´Â V4L2 µå¶óÀÌ¹ö¿Í »ç¿ëÀÚ °ø°£ »çÀÌÀÇ ÀÏÁ¾ÀÇ Á¢ÂøÁ¦ ·¹ÀÌ¾î ¿ªÇÒÀ»ÇÕ´Ï´Ù. ºñµğ¿À ÇÁ·¹ÀÓÀÇ ÀúÀåÀ»À§ÇÑ ¹öÆÛ ÇÒ´ç ¹× °ü¸®¸¦ Ã³¸®ÇÕ´Ï´Ù. read (), poll (), ±×¸®°í Çàº¹ÇÏ°Ô mmap ()À» Æ÷ÇÔÇÏ¿© Ç¥ÁØ POSIX I / O ½Ã½ºÅÛ È£ÃâÀ» ±¸ÇöÇÏ´Â µ¥ »ç¿ëÇÒ ¼öÀÖ´Â ÇÔ¼ö ÁıÇÕÀÌ ÀÖ½À´Ï´Ù. ¹öÆÛ ÇÒ´ç, Å¥ ¹× Å¥ Á¦°Å ¹× ½ºÆ®¸®¹Ö Á¦¾î¸¦ Æ÷ÇÔÇÑ ½ºÆ®¸®¹Ö I / O¿Í °ü·ÃµÈ V4L2 ioctl () È£ÃâÀÇ ´ë·® ±¸ÇöÀ» À§ÇØ ¶Ç ´Ù¸¥ ±â´É ¼¼Æ®¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. videobuf¸¦ »ç¿ëÇÏ¸é µå¶óÀÌ¹ö ÀÛ¼ºÀÚ¿¡ ´ëÇØ ¸î °¡Áö µğÀÚÀÎ °áÁ¤À» ³» ¸®Áö ¸¸ µå¶óÀÌ¹öÀÇ ÄÚµå °¨¼Ò¿Í V4L2 »ç¿ëÀÚ °ø°£ APIÀÇ ÀÏ°üµÈ ±¸ÇöÀÇ ÇüÅÂ·Î ºñ¿ë È¸¼ö°¡ ÀÌ·ç¾îÁı´Ï´Ù.
-
+videobuf ë ˆì´ì–´ëŠ” V4L2 ë“œë¼ì´ë²„ì™€ ì‚¬ìš©ì ê³µê°„ ì‚¬ì´ì˜ ì¼ì¢…ì˜ ì ‘ì°©ì œ ë ˆì´ì–´ ì—­í• ì„í•©ë‹ˆë‹¤. ë¹„ë””ì˜¤ í”„ë ˆì„ì˜ ì €ì¥ì„ìœ„í•œ ë²„í¼ í• ë‹¹ ë° ê´€ë¦¬ë¥¼ ì²˜ë¦¬í•©ë‹ˆë‹¤. read (), poll (), ê·¸ë¦¬ê³  í–‰ë³µí•˜ê²Œ mmap ()ì„ í¬í•¨í•˜ì—¬ í‘œì¤€ POSIX I / O ì‹œìŠ¤í…œ í˜¸ì¶œì„ êµ¬í˜„í•˜ëŠ” ë° ì‚¬ìš©í•  ìˆ˜ìˆëŠ” í•¨ìˆ˜ ì§‘í•©ì´ ìˆìŠµë‹ˆë‹¤. ë²„í¼ í• ë‹¹, í ë° í ì œê±° ë° ìŠ¤íŠ¸ë¦¬ë° ì œì–´ë¥¼ í¬í•¨í•œ ìŠ¤íŠ¸ë¦¬ë° I / Oì™€ ê´€ë ¨ëœ V4L2 ioctl () í˜¸ì¶œì˜ ëŒ€ëŸ‰ êµ¬í˜„ì„ ìœ„í•´ ë˜ ë‹¤ë¥¸ ê¸°ëŠ¥ ì„¸íŠ¸ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. videobufë¥¼ ì‚¬ìš©í•˜ë©´ ë“œë¼ì´ë²„ ì‘ì„±ìì— ëŒ€í•´ ëª‡ ê°€ì§€ ë””ìì¸ ê²°ì •ì„ ë‚´ ë¦¬ì§€ ë§Œ ë“œë¼ì´ë²„ì˜ ì½”ë“œ ê°ì†Œì™€ V4L2 ì‚¬ìš©ì ê³µê°„ APIì˜ ì¼ê´€ëœ êµ¬í˜„ì˜ í˜•íƒœë¡œ ë¹„ìš© íšŒìˆ˜ê°€ ì´ë£¨ì–´ì§‘ë‹ˆë‹¤.
+ 
 Buffer types
-
+ 
 Not all video devices use the same kind of buffers.  In fact, there are (at
 least) three common variations:
-¸ğµç ºñµğ¿À ÀåÄ¡°¡ °°Àº Á¾·ùÀÇ ¹öÆÛ¸¦ »ç¿ëÇÏ´Â °ÍÀº ¾Æ´Õ´Ï´Ù. ½ÇÁ¦·Î Àû¾îµµ ¼¼ °¡Áö °øÅëÀû ÀÎ º¯ÇüÀÌ ÀÖ½À´Ï´Ù.
-
+ëª¨ë“  ë¹„ë””ì˜¤ ì¥ì¹˜ê°€ ê°™ì€ ì¢…ë¥˜ì˜ ë²„í¼ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤. ì‹¤ì œë¡œ ì ì–´ë„ ì„¸ ê°€ì§€ ê³µí†µì  ì¸ ë³€í˜•ì´ ìˆìŠµë‹ˆë‹¤.
+ 
  - Buffers which are scattered in both the physical and (kernel) virtual
    address spaces.  (Almost) all user-space buffers are like this, but it
    makes great sense to allocate kernel-space buffers this way as well when
    it is possible.  Unfortunately, it is not always possible; working with
    this kind of buffer normally requires hardware which can do
    scatter/gather DMA operations.
-- ¹°¸®Àû ¹× (Ä¿³Î) °¡»ó ÁÖ¼Ò °ø°£¿¡ ºĞ»êµÇ¾îÀÖ´Â ¹öÆÛ. (°ÅÀÇ ¸ğµç) »ç¿ëÀÚ °ø°£ ¹öÆÛ´Â ÀÌ¿Í °°Áö¸¸ °¡´ÉÇÒ ¶§ Ä¿³Î °ø°£ ¹öÆÛ¸¦ÀÌ ¹æ¹ıÀ¸·Î ÇÒ´çÇÏ´Â °ÍÀÌ ÁÁ½À´Ï´Ù. ºÒÇàÇÏ°Ôµµ Ç×»ó °¡´ÉÇÑ °ÍÀº ¾Æ´Õ´Ï´Ù. ÀÌ·¯ÇÑ Á¾·ùÀÇ ¹öÆÛ·Î ÀÛ¾÷ÇÏ´Â °ÍÀº ÀÏ¹İÀûÀ¸·Î ºĞ»ê / ¼öÁı DMA ÀÛ¾÷À» ¼öÇà ÇÒ ¼öÀÖ´Â ÇÏµå¿ş¾î°¡ ÇÊ¿äÇÕ´Ï´Ù.
-
+- ë¬¼ë¦¬ì  ë° (ì»¤ë„) ê°€ìƒ ì£¼ì†Œ ê³µê°„ì— ë¶„ì‚°ë˜ì–´ìˆëŠ” ë²„í¼. (ê±°ì˜ ëª¨ë“ ) ì‚¬ìš©ì ê³µê°„ ë²„í¼ëŠ” ì´ì™€ ê°™ì§€ë§Œ ê°€ëŠ¥í•  ë•Œ ì»¤ë„ ê³µê°„ ë²„í¼ë¥¼ì´ ë°©ë²•ìœ¼ë¡œ í• ë‹¹í•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤. ë¶ˆí–‰í•˜ê²Œë„ í•­ìƒ ê°€ëŠ¥í•œ ê²ƒì€ ì•„ë‹™ë‹ˆë‹¤. ì´ëŸ¬í•œ ì¢…ë¥˜ì˜ ë²„í¼ë¡œ ì‘ì—…í•˜ëŠ” ê²ƒì€ ì¼ë°˜ì ìœ¼ë¡œ ë¶„ì‚° / ìˆ˜ì§‘ DMA ì‘ì—…ì„ ìˆ˜í–‰ í•  ìˆ˜ìˆëŠ” í•˜ë“œì›¨ì–´ê°€ í•„ìš”í•©ë‹ˆë‹¤.
+ 
  - Buffers which are physically scattered, but which are virtually
    contiguous; buffers allocated with vmalloc(), in other words.  These
    buffers are just as hard to use for DMA operations, but they can be
    useful in situations where DMA is not available but virtually-contiguous
    buffers are convenient.
-- ¹°¸®ÀûÀ¸·Î ºĞ»êµÇ¾î ÀÖÁö¸¸ »ç½Ç»ó ÀÎÁ¢ÇÑ ¹öÆÛ; vmalloc ()À¸·Î ÇÒ´ç µÈ ¹öÆÛ, ´Ù¸¥ ¸»·ÎÇÏ¸é. ÀÌ·¯ÇÑ ¹öÆÛ´Â DMA ÀÛ¾÷°ú ¸¶Âù°¡Áö·Î »ç¿ëÇÏ±â°¡ ¾î·ÆÁö¸¸ DMA¸¦ »ç¿ëÇÒ ¼ö ¾øÁö¸¸ »ç½Ç»ó ÀÎÁ¢ÇÑ ¹öÆÛ°¡ Æí¸®ÇÑ »óÈ²¿¡¼­ À¯¿ë ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
-
+- ë¬¼ë¦¬ì ìœ¼ë¡œ ë¶„ì‚°ë˜ì–´ ìˆì§€ë§Œ ì‚¬ì‹¤ìƒ ì¸ì ‘í•œ ë²„í¼; vmalloc ()ìœ¼ë¡œ í• ë‹¹ ëœ ë²„í¼, ë‹¤ë¥¸ ë§ë¡œí•˜ë©´. ì´ëŸ¬í•œ ë²„í¼ëŠ” DMA ì‘ì—…ê³¼ ë§ˆì°¬ê°€ì§€ë¡œ ì‚¬ìš©í•˜ê¸°ê°€ ì–´ë µì§€ë§Œ DMAë¥¼ ì‚¬ìš©í•  ìˆ˜ ì—†ì§€ë§Œ ì‚¬ì‹¤ìƒ ì¸ì ‘í•œ ë²„í¼ê°€ í¸ë¦¬í•œ ìƒí™©ì—ì„œ ìœ ìš© í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ 
+ 
  - Buffers which are physically contiguous.  Allocation of this kind of
    buffer can be unreliable on fragmented systems, but simpler DMA
    controllers cannot deal with anything else.
-- ¹°¸®ÀûÀ¸·Î ÀÎÁ¢ÇÑ ¹öÆÛ. ÀÌ·¯ÇÑ Á¾·ùÀÇ ¹öÆÛ ÇÒ´çÀº Á¶°¢È­ µÈ ½Ã½ºÅÛ¿¡¼­´Â ½Å·ÚÇÒ ¼ö ¾øÁö¸¸ ´õ °£´ÜÇÑ DMA ÄÁÆ®·Ñ·¯´Â ´Ù¸¥ °ÍÀ» Ã³¸® ÇÒ ¼ö ¾ø½À´Ï´Ù.
-
+- ë¬¼ë¦¬ì ìœ¼ë¡œ ì¸ì ‘í•œ ë²„í¼. ì´ëŸ¬í•œ ì¢…ë¥˜ì˜ ë²„í¼ í• ë‹¹ì€ ì¡°ê°í™” ëœ ì‹œìŠ¤í…œì—ì„œëŠ” ì‹ ë¢°í•  ìˆ˜ ì—†ì§€ë§Œ ë” ê°„ë‹¨í•œ DMA ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ë‹¤ë¥¸ ê²ƒì„ ì²˜ë¦¬ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+ 
 Videobuf can work with all three types of buffers, but the driver author
 must pick one at the outset and design the driver around that decision.
-Videobuf´Â ¼¼ °¡Áö À¯ÇüÀÇ ¹öÆÛ ¸ğµÎ¸¦ »ç¿ëÇÒ ¼ö ÀÖÁö¸¸ µå¶óÀÌ¹ö ÀÛ¼ºÀÚ´Â Ã³À½¿¡ ÇÏ³ª¸¦ ¼±ÅÃÇÏ¿© ÇØ´ç °áÁ¤À» ¹ÙÅÁÀ¸·Î µå¶óÀÌ¹ö¸¦ ¼³°èÇØ¾ßÇÕ´Ï´Ù.
-
+VideobufëŠ” ì„¸ ê°€ì§€ ìœ í˜•ì˜ ë²„í¼ ëª¨ë‘ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆì§€ë§Œ ë“œë¼ì´ë²„ ì‘ì„±ìëŠ” ì²˜ìŒì— í•˜ë‚˜ë¥¼ ì„ íƒí•˜ì—¬ í•´ë‹¹ ê²°ì •ì„ ë°”íƒ•ìœ¼ë¡œ ë“œë¼ì´ë²„ë¥¼ ì„¤ê³„í•´ì•¼í•©ë‹ˆë‹¤.
+ 
 [It's worth noting that there's a fourth kind of buffer: "overlay" buffers
 which are located within the system's video memory.  The overlay
 functionality is considered to be deprecated for most use, but it still
@@ -52,31 +52,31 @@ shows up occasionally in system-on-chip drivers where the performance
 benefits merit the use of this technique.  Overlay buffers can be handled
 as a form of scattered buffer, but there are very few implementations in
 the kernel and a description of this technique is currently beyond the
-scope of this document.][³× ¹øÂ° Á¾·ùÀÇ ¹öÆÛ : ½Ã½ºÅÛÀÇ ºñµğ¿À ¸Ş¸ğ¸® ³»¿¡ À§Ä¡ÇÏ´Â "¿À¹ö·¹ÀÌ"¹öÆÛ°¡ ÀÖÀ½À» ÁÖ¸ñÇÒ ÇÊ¿ä°¡ ÀÖ½À´Ï´Ù. ¿À¹ö·¹ÀÌ ±â´ÉÀº ´ëºÎºĞÀÇ »ç¿ë¿¡¼­ ´õ ÀÌ»ó »ç¿ëµÇÁö ¾Ê´Â °ÍÀ¸·Î °£ÁÖµÇÁö¸¸, ¼º´É»óÀÇ ÀÌÁ¡ÀÌÀÌ ±â¼úÀÇ »ç¿ë¿¡ À¯¸®ÇÑ ½Ã½ºÅÛ ¿ÂÄ¨ µå¶óÀÌ¹ö¿¡´Â ¿©ÀüÈ÷ °¡²û ³ªÅ¸³³´Ï´Ù. ¿À¹ö·¹ÀÌ ¹öÆÛ´Â Èğ¾îÁ®ÀÖ´Â ¹öÆÛ ÇüÅÂ·Î Ã³¸® µÉ ¼ö ÀÖÁö¸¸, Ä¿³Î¿¡´Â ±¸ÇöÀÌ °ÅÀÇ¾ø°íÀÌ ±â¼ú¿¡ ´ëÇÑ ¼³¸íÀº ÇöÀçÀÌ ¹®¼­ÀÇ ¹üÀ§¸¦ ¹ş¾î³³´Ï´Ù.]
-
-
+scope of this document.][ë„¤ ë²ˆì§¸ ì¢…ë¥˜ì˜ ë²„í¼ : ì‹œìŠ¤í…œì˜ ë¹„ë””ì˜¤ ë©”ëª¨ë¦¬ ë‚´ì— ìœ„ì¹˜í•˜ëŠ” "ì˜¤ë²„ë ˆì´"ë²„í¼ê°€ ìˆìŒì„ ì£¼ëª©í•  í•„ìš”ê°€ ìˆìŠµë‹ˆë‹¤. ì˜¤ë²„ë ˆì´ ê¸°ëŠ¥ì€ ëŒ€ë¶€ë¶„ì˜ ì‚¬ìš©ì—ì„œ ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” ê²ƒìœ¼ë¡œ ê°„ì£¼ë˜ì§€ë§Œ, ì„±ëŠ¥ìƒì˜ ì´ì ì´ì´ ê¸°ìˆ ì˜ ì‚¬ìš©ì— ìœ ë¦¬í•œ ì‹œìŠ¤í…œ ì˜¨ì¹© ë“œë¼ì´ë²„ì—ëŠ” ì—¬ì „íˆ ê°€ë” ë‚˜íƒ€ë‚©ë‹ˆë‹¤. ì˜¤ë²„ë ˆì´ ë²„í¼ëŠ” í©ì–´ì ¸ìˆëŠ” ë²„í¼ í˜•íƒœë¡œ ì²˜ë¦¬ ë  ìˆ˜ ìˆì§€ë§Œ, ì»¤ë„ì—ëŠ” êµ¬í˜„ì´ ê±°ì˜ì—†ê³ ì´ ê¸°ìˆ ì— ëŒ€í•œ ì„¤ëª…ì€ í˜„ì¬ì´ ë¬¸ì„œì˜ ë²”ìœ„ë¥¼ ë²—ì–´ë‚©ë‹ˆë‹¤.]
+ 
+ 
 Data structures, callbacks, and initialization
-
+ 
 Depending on which type of buffers are being used, the driver should
 include one of the following files:
-¾î¶² Á¾·ùÀÇ ¹öÆÛ°¡ »ç¿ëµÇ´ÂÁö¿¡ µû¶ó µå¶óÀÌ¹ö´Â ´ÙÀ½ ÆÄÀÏ Áß ÇÏ³ª¸¦ Æ÷ÇÔÇØ¾ßÇÕ´Ï´Ù :
-
+ì–´ë–¤ ì¢…ë¥˜ì˜ ë²„í¼ê°€ ì‚¬ìš©ë˜ëŠ”ì§€ì— ë”°ë¼ ë“œë¼ì´ë²„ëŠ” ë‹¤ìŒ íŒŒì¼ ì¤‘ í•˜ë‚˜ë¥¼ í¬í•¨í•´ì•¼í•©ë‹ˆë‹¤ :
+ 
     <media/videobuf-dma-sg.h>		/* Physically scattered */
     <media/videobuf-vmalloc.h>		/* vmalloc() buffers	*/
     <media/videobuf-dma-contig.h>	/* Physically contiguous */
-
+ 
 The driver's data structure describing a V4L2 device should include a
 struct videobuf_queue instance for the management of the buffer queue,
 along with a list_head for the queue of available buffers.  There will also
 need to be an interrupt-safe spinlock which is used to protect (at least)
 the queue.
-V4L2 ÀåÄ¡¸¦ ¼³¸íÇÏ´Â µå¶óÀÌ¹öÀÇ µ¥ÀÌÅÍ ±¸Á¶¿¡´Â »ç¿ë °¡´ÉÇÑ ¹öÆÛ ´ë±â¿­¿¡ ´ëÇÑ list_head¿Í ÇÔ²² ¹öÆÛ ´ë±â¿­À» °ü¸®ÇÏ±âÀ§ÇÑ struct videobuf_queue ÀÎ½ºÅÏ½º°¡ Æ÷ÇÔµÇ¾î¾ßÇÕ´Ï´Ù. Å¥¸¦ (Àû¾îµµ) º¸È£ÇÏ±â À§ÇØ »ç¿ëµÇ´Â ÀÎÅÍ·´Æ® ¾ÈÀü ½ºÇÉ ·ÏÀÌ ÇÊ¿äÇÕ´Ï´Ù.
-
-
+V4L2 ì¥ì¹˜ë¥¼ ì„¤ëª…í•˜ëŠ” ë“œë¼ì´ë²„ì˜ ë°ì´í„° êµ¬ì¡°ì—ëŠ” ì‚¬ìš© ê°€ëŠ¥í•œ ë²„í¼ ëŒ€ê¸°ì—´ì— ëŒ€í•œ list_headì™€ í•¨ê»˜ ë²„í¼ ëŒ€ê¸°ì—´ì„ ê´€ë¦¬í•˜ê¸°ìœ„í•œ struct videobuf_queue ì¸ìŠ¤í„´ìŠ¤ê°€ í¬í•¨ë˜ì–´ì•¼í•©ë‹ˆë‹¤. íë¥¼ (ì ì–´ë„) ë³´í˜¸í•˜ê¸° ìœ„í•´ ì‚¬ìš©ë˜ëŠ” ì¸í„°ëŸ½íŠ¸ ì•ˆì „ ìŠ¤í•€ ë¡ì´ í•„ìš”í•©ë‹ˆë‹¤.
+ 
+ 
 The next step is to write four simple callbacks to help videobuf deal with
 the management of buffers:
-´ÙÀ½ ´Ü°è´Â videobuf°¡ ¹öÆÛ °ü¸®¸¦ Ã³¸® ÇÒ ¼ö ÀÖµµ·Ï ³× °¡Áö °£´ÜÇÑ Äİ¹éÀ» ÀÛ¼ºÇÏ´Â °ÍÀÔ´Ï´Ù.
-
+ë‹¤ìŒ ë‹¨ê³„ëŠ” videobufê°€ ë²„í¼ ê´€ë¦¬ë¥¼ ì²˜ë¦¬ í•  ìˆ˜ ìˆë„ë¡ ë„¤ ê°€ì§€ ê°„ë‹¨í•œ ì½œë°±ì„ ì‘ì„±í•˜ëŠ” ê²ƒì…ë‹ˆë‹¤.
+ 
     struct videobuf_queue_ops {
 	int (*buf_setup)(struct videobuf_queue *q,
 			 unsigned int *count, unsigned int *size);
@@ -88,7 +88,7 @@ the management of buffers:
 	void (*buf_release)(struct videobuf_queue *q,
 			    struct videobuf_buffer *vb);
     };
-
+ 
 buf_setup() is called early in the I/O process, when streaming is being
 initiated; its purpose is to tell videobuf about the I/O stream.  The count
 parameter will be a suggested number of buffers to use; the driver should
@@ -97,21 +97,21 @@ minimum of two buffers are needed for proper streaming, and there is
 usually a maximum (which cannot exceed 32) which makes sense for each
 device.  The size parameter should be set to the expected (maximum) size
 for each frame of data.
-buf_setup ()Àº ½ºÆ®¸®¹ÖÀÌ ½ÃÀÛµÉ ¶§ I / O ÇÁ·Î¼¼½º ÃÊ±â¿¡ È£ÃâµË´Ï´Ù. ±× ¸ñÀûÀº videobuf¿¡°Ô I / O ½ºÆ®¸²¿¡ ´ëÇØ ¾Ë·ÁÁÖ´Â °ÍÀÔ´Ï´Ù. count ¸Å°³ º¯¼ö´Â »ç¿ëÇÒ ¹öÆÛ ¼ö·Î Á¦¾ÈµË´Ï´Ù. µå¶óÀÌ¹ö´Â ÇÕ¸®¼ºÀ» Á¡°ËÇÏ°í ÇÊ¿äÇÑ °æ¿ì Á¶Á¤ÇØ¾ßÇÕ´Ï´Ù. ½ÇÁ¦·Î ½ºÆ®¸®¹ÖÀ» À§ÇØ¼­´Â ÃÖ¼ÒÇÑ µÎ °³ÀÇ ¹öÆÛ°¡ ÇÊ¿äÇÏ¸ç ÀÏ¹İÀûÀ¸·Î °¢ ÀåÄ¡¿¡ ÀûÇÕÇÑ ÃÖ´ë °ª (32¸¦ ÃÊ°ú ÇÒ ¼ö ¾øÀ½)ÀÌ ÀÖ½À´Ï´Ù. size ¸Å°³ º¯¼ö´Â µ¥ÀÌÅÍÀÇ °¢ ÇÁ·¹ÀÓ¿¡ ´ëÇØ ¿¹»ó µÈ (ÃÖ´ë) Å©±â·Î ¼³Á¤µÇ¾î¾ßÇÕ´Ï´Ù.
-
+buf_setup ()ì€ ìŠ¤íŠ¸ë¦¬ë°ì´ ì‹œì‘ë  ë•Œ I / O í”„ë¡œì„¸ìŠ¤ ì´ˆê¸°ì— í˜¸ì¶œë©ë‹ˆë‹¤. ê·¸ ëª©ì ì€ videobufì—ê²Œ I / O ìŠ¤íŠ¸ë¦¼ì— ëŒ€í•´ ì•Œë ¤ì£¼ëŠ” ê²ƒì…ë‹ˆë‹¤. count ë§¤ê°œ ë³€ìˆ˜ëŠ” ì‚¬ìš©í•  ë²„í¼ ìˆ˜ë¡œ ì œì•ˆë©ë‹ˆë‹¤. ë“œë¼ì´ë²„ëŠ” í•©ë¦¬ì„±ì„ ì ê²€í•˜ê³  í•„ìš”í•œ ê²½ìš° ì¡°ì •í•´ì•¼í•©ë‹ˆë‹¤. ì‹¤ì œë¡œ ìŠ¤íŠ¸ë¦¬ë°ì„ ìœ„í•´ì„œëŠ” ìµœì†Œí•œ ë‘ ê°œì˜ ë²„í¼ê°€ í•„ìš”í•˜ë©° ì¼ë°˜ì ìœ¼ë¡œ ê° ì¥ì¹˜ì— ì í•©í•œ ìµœëŒ€ ê°’ (32ë¥¼ ì´ˆê³¼ í•  ìˆ˜ ì—†ìŒ)ì´ ìˆìŠµë‹ˆë‹¤. size ë§¤ê°œ ë³€ìˆ˜ëŠ” ë°ì´í„°ì˜ ê° í”„ë ˆì„ì— ëŒ€í•´ ì˜ˆìƒ ëœ (ìµœëŒ€) í¬ê¸°ë¡œ ì„¤ì •ë˜ì–´ì•¼í•©ë‹ˆë‹¤.
+ 
 Each buffer (in the form of a struct videobuf_buffer pointer) will be
 passed to buf_prepare(), which should set the buffer's size, width, height,
 and field fields properly.  If the buffer's state field is
 VIDEOBUF_NEEDS_INIT, the driver should pass it to:
-struct videobuf_buffer Æ÷ÀÎÅÍ ÇüÅÂÀÇ °¢ ¹öÆÛ´Â ¹öÆÛÀÇ Å©±â, ³Êºñ, ³ôÀÌ ¹× ÇÊµå ÇÊµå¸¦ ¿Ã¹Ù¸£°Ô ¼³Á¤ÇØ¾ßÇÏ´Â buf_prepare ()·Î Àü´ŞµË´Ï´Ù. ¹öÆÛÀÇ »óÅÂ ÇÊµå°¡ VIDEOBUF_NEEDS_INITÀÇ °æ¿ì, µå¶óÀÌ¹ö´Â ´ÙÀ½¿¡ °Ç³× ÁÙ ÇÊ¿ä°¡ ÀÖ½À´Ï´Ù.
+struct videobuf_buffer í¬ì¸í„° í˜•íƒœì˜ ê° ë²„í¼ëŠ” ë²„í¼ì˜ í¬ê¸°, ë„ˆë¹„, ë†’ì´ ë° í•„ë“œ í•„ë“œë¥¼ ì˜¬ë°”ë¥´ê²Œ ì„¤ì •í•´ì•¼í•˜ëŠ” buf_prepare ()ë¡œ ì „ë‹¬ë©ë‹ˆë‹¤. ë²„í¼ì˜ ìƒíƒœ í•„ë“œê°€ VIDEOBUF_NEEDS_INITì˜ ê²½ìš°, ë“œë¼ì´ë²„ëŠ” ë‹¤ìŒì— ê±´ë„¤ ì¤„ í•„ìš”ê°€ ìˆìŠµë‹ˆë‹¤.
     int videobuf_iolock(struct videobuf_queue* q, struct videobuf_buffer *vb,
 			struct v4l2_framebuffer *fbuf);
-
+ 
 Among other things, this call will usually allocate memory for the buffer.
 Finally, the buf_prepare() function should set the buffer's state to
 VIDEOBUF_PREPARED.
-¹«¾ùº¸´ÙµµÀÌ È£ÃâÀº ÀÏ¹İÀûÀ¸·Î ¹öÆÛ¿¡ ¸Ş¸ğ¸®¸¦ ÇÒ´çÇÕ´Ï´Ù. ¸¶Áö¸·À¸·Î buf_prepare () ÇÔ¼ö´Â ¹öÆÛÀÇ »óÅÂ¸¦ VIDEOBUF_PREPARED·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
-
+ë¬´ì—‡ë³´ë‹¤ë„ì´ í˜¸ì¶œì€ ì¼ë°˜ì ìœ¼ë¡œ ë²„í¼ì— ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹í•©ë‹ˆë‹¤. ë§ˆì§€ë§‰ìœ¼ë¡œ buf_prepare () í•¨ìˆ˜ëŠ” ë²„í¼ì˜ ìƒíƒœë¥¼ VIDEOBUF_PREPAREDë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
+ 
 When a buffer is queued for I/O, it is passed to buf_queue(), which should
 put it onto the driver's list of available buffers and set its state to
 VIDEOBUF_QUEUED.  Note that this function is called with the queue spinlock
@@ -119,44 +119,44 @@ held; if it tries to acquire it as well things will come to a screeching
 halt.  Yes, this is the voice of experience.  Note also that videobuf may
 wait on the first buffer in the queue; placing other buffers in front of it
 could again gum up the works.  So use list_add_tail() to enqueue buffers.
-¹öÆÛ°¡ ÀÔÃâ·ÂÀ» À§ÇØ ´ë±âÇÏ¸é buf_queue ()°¡ Àü´ŞµÇ¾î µå¶óÀÌ¹öÀÇ »ç¿ë °¡´ÉÇÑ ¹öÆÛ ¸ñ·Ï¿¡ ³õ°í »óÅÂ¸¦ VIDEOBUF_QUEUED·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù. ÀÌ ÇÔ¼ö´Â ´ë±â¿­ ½ºÇÉ ·ÏÀ» º¸À¯ÇÑ »óÅÂ¿¡¼­ È£ÃâµË´Ï´Ù. ±×°Íµµ ¾òÀ¸·Á°íÇÏ¸é ÀÏµéÀÌ ¸·È÷°Ô µÉ °ÍÀÔ´Ï´Ù. ¿¹, ÀÌ°ÍÀº °æÇèÀÇ ¸ñ¼Ò¸®ÀÔ´Ï´Ù. videobuf´Â ´ë±â¿­ÀÇ Ã¹ ¹øÂ° ¹öÆÛ¿¡¼­ ´ë±â ÇÒ ¼ö ÀÖ½À´Ï´Ù. ´Ù¸¥ ¹öÆÛ¸¦ ¾Õ¿¡ ³õÀ¸¸é ´Ù½Ã ÀÛ¾÷À» ÇÒ ¼ö ÀÖ½À´Ï´Ù. µû¶ó¼­ list_add_tail ()À» »ç¿ëÇÏ¿© ¹öÆÛ¸¦ Å¥¿¡ ³ÖÀ¸½Ê½Ã¿À.
-
-
+ë²„í¼ê°€ ì…ì¶œë ¥ì„ ìœ„í•´ ëŒ€ê¸°í•˜ë©´ buf_queue ()ê°€ ì „ë‹¬ë˜ì–´ ë“œë¼ì´ë²„ì˜ ì‚¬ìš© ê°€ëŠ¥í•œ ë²„í¼ ëª©ë¡ì— ë†“ê³  ìƒíƒœë¥¼ VIDEOBUF_QUEUEDë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤. ì´ í•¨ìˆ˜ëŠ” ëŒ€ê¸°ì—´ ìŠ¤í•€ ë¡ì„ ë³´ìœ í•œ ìƒíƒœì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤. ê·¸ê²ƒë„ ì–»ìœ¼ë ¤ê³ í•˜ë©´ ì¼ë“¤ì´ ë§‰íˆê²Œ ë  ê²ƒì…ë‹ˆë‹¤. ì˜ˆ, ì´ê²ƒì€ ê²½í—˜ì˜ ëª©ì†Œë¦¬ì…ë‹ˆë‹¤. videobufëŠ” ëŒ€ê¸°ì—´ì˜ ì²« ë²ˆì§¸ ë²„í¼ì—ì„œ ëŒ€ê¸° í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë‹¤ë¥¸ ë²„í¼ë¥¼ ì•ì— ë†“ìœ¼ë©´ ë‹¤ì‹œ ì‘ì—…ì„ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë”°ë¼ì„œ list_add_tail ()ì„ ì‚¬ìš©í•˜ì—¬ ë²„í¼ë¥¼ íì— ë„£ìœ¼ì‹­ì‹œì˜¤.
+ 
+ 
 Finally, buf_release() is called when a buffer is no longer intended to be
 used.  The driver should ensure that there is no I/O active on the buffer,
 then pass it to the appropriate free routine(s):
-¸¶Áö¸·À¸·Î ¹öÆÛ°¡ ´õ ÀÌ»ó »ç¿ëµÇÁö ¾ÊÀ» ¶§ buf_release ()°¡ È£ÃâµË´Ï´Ù. µå¶óÀÌ¹ö´Â ¹öÆÛ¿¡ I / O°¡ È°¼ºÈ­µÇ¾î ÀÖÁö ¾ÊÀºÁö È®ÀÎÇÑ ´ÙÀ½ ÀûÀıÇÑ ÀÚÀ¯ ·çÆ¾¿¡ Àü´ŞÇØ¾ßÇÕ´Ï´Ù.
-
+ë§ˆì§€ë§‰ìœ¼ë¡œ ë²„í¼ê°€ ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•Šì„ ë•Œ buf_release ()ê°€ í˜¸ì¶œë©ë‹ˆë‹¤. ë“œë¼ì´ë²„ëŠ” ë²„í¼ì— I / Oê°€ í™œì„±í™”ë˜ì–´ ìˆì§€ ì•Šì€ì§€ í™•ì¸í•œ ë‹¤ìŒ ì ì ˆí•œ ììœ  ë£¨í‹´ì— ì „ë‹¬í•´ì•¼í•©ë‹ˆë‹¤.
+ 
     /* Scatter/gather drivers */
     int videobuf_dma_unmap(struct videobuf_queue *q,
 			   struct videobuf_dmabuf *dma);
     int videobuf_dma_free(struct videobuf_dmabuf *dma);
-
+ 
     /* vmalloc drivers */
     void videobuf_vmalloc_free (struct videobuf_buffer *buf);
-
+ 
     /* Contiguous drivers */
     void videobuf_dma_contig_free(struct videobuf_queue *q,
 				  struct videobuf_buffer *buf);
-
+ 
 One way to ensure that a buffer is no longer under I/O is to pass it to:
-¹öÆÛ°¡ I / O ¾Æ·¡¿¡ ÀÖÁö ¾Ê°ÔÇÏ´Â ÇÑ °¡Áö ¹æ¹ıÀº ´ÙÀ½°ú °°ÀÌ Àü´ŞÇÏ´Â °ÍÀÔ´Ï´Ù.
-
+ë²„í¼ê°€ I / O ì•„ë˜ì— ìˆì§€ ì•Šê²Œí•˜ëŠ” í•œ ê°€ì§€ ë°©ë²•ì€ ë‹¤ìŒê³¼ ê°™ì´ ì „ë‹¬í•˜ëŠ” ê²ƒì…ë‹ˆë‹¤.
+ 
     int videobuf_waiton(struct videobuf_buffer *vb, int non_blocking, int intr);
-
+ 
 Here, vb is the buffer, non_blocking indicates whether non-blocking I/O
 should be used (it should be zero in the buf_release() case), and intr
 controls whether an interruptible wait is used.
-¿©±â¿¡¼­ vb´Â ¹öÆÛÀÌ°í non_blockingÀº ºñ ºí·ÎÅ· I / O°¡ »ç¿ëµÇ¾î¾ßÇÏ´ÂÁö (buf_release ()ÀÇ °æ¿ì 0ÀÌ¾î¾ß ÇÔ) ³ªÅ¸³À´Ï´Ù. intrÀº ÀÎÅÍ·´Æ® °¡´ÉÇÑ ´ë±â°¡ »ç¿ëµÇ´ÂÁö ¿©ºÎ¸¦ Á¦¾îÇÕ´Ï´Ù.
-
+ì—¬ê¸°ì—ì„œ vbëŠ” ë²„í¼ì´ê³  non_blockingì€ ë¹„ ë¸”ë¡œí‚¹ I / Oê°€ ì‚¬ìš©ë˜ì–´ì•¼í•˜ëŠ”ì§€ (buf_release ()ì˜ ê²½ìš° 0ì´ì–´ì•¼ í•¨) ë‚˜íƒ€ëƒ…ë‹ˆë‹¤. intrì€ ì¸í„°ëŸ½íŠ¸ ê°€ëŠ¥í•œ ëŒ€ê¸°ê°€ ì‚¬ìš©ë˜ëŠ”ì§€ ì—¬ë¶€ë¥¼ ì œì–´í•©ë‹ˆë‹¤.
+ 
 File operations
-
+ 
 At this point, much of the work is done; much of the rest is slipping
 videobuf calls into the implementation of the other driver callbacks.  The
 first step is in the open() function, which must initialize the
 videobuf queue.  The function to use depends on the type of buffer used:
-ÀÌ ½ÃÁ¡¿¡¼­ ¸¹Àº ÀÛ¾÷ÀÌ ¿Ï·áµË´Ï´Ù. ³ª¸ÓÁö ´ëºÎºĞÀº videobuf È£ÃâÀ» ´Ù¸¥ µå¶óÀÌ¹ö Äİ¹é ±¸ÇöÀ¸·Î ¹Ğ¾î ³Ö´Â °ÍÀÔ´Ï´Ù. Ã¹ ¹øÂ° ´Ü°è´Â videobuf ´ë±â¿­À» ÃÊ±âÈ­ÇØ¾ßÇÏ´Â open () ÇÔ¼ö¿¡ ÀÖ½À´Ï´Ù. »ç¿ëÇÒ ÇÔ¼ö´Â »ç¿ë µÈ ¹öÆÛ À¯Çü¿¡ µû¶ó ´Ù¸¨´Ï´Ù.
-
+ì´ ì‹œì ì—ì„œ ë§ì€ ì‘ì—…ì´ ì™„ë£Œë©ë‹ˆë‹¤. ë‚˜ë¨¸ì§€ ëŒ€ë¶€ë¶„ì€ videobuf í˜¸ì¶œì„ ë‹¤ë¥¸ ë“œë¼ì´ë²„ ì½œë°± êµ¬í˜„ìœ¼ë¡œ ë°€ì–´ ë„£ëŠ” ê²ƒì…ë‹ˆë‹¤. ì²« ë²ˆì§¸ ë‹¨ê³„ëŠ” videobuf ëŒ€ê¸°ì—´ì„ ì´ˆê¸°í™”í•´ì•¼í•˜ëŠ” open () í•¨ìˆ˜ì— ìˆìŠµë‹ˆë‹¤. ì‚¬ìš©í•  í•¨ìˆ˜ëŠ” ì‚¬ìš© ëœ ë²„í¼ ìœ í˜•ì— ë”°ë¼ ë‹¤ë¦…ë‹ˆë‹¤.
+ 
     void videobuf_queue_sg_init(struct videobuf_queue *q,
 				struct videobuf_queue_ops *ops,
 				struct device *dev,
@@ -165,7 +165,7 @@ videobuf queue.  The function to use depends on the type of buffer used:
 				enum v4l2_field field,
 				unsigned int msize,
 				void *priv);
-
+ 
     void videobuf_queue_vmalloc_init(struct videobuf_queue *q,
 				struct videobuf_queue_ops *ops,
 				struct device *dev,
@@ -174,7 +174,7 @@ videobuf queue.  The function to use depends on the type of buffer used:
 				enum v4l2_field field,
 				unsigned int msize,
 				void *priv);
-
+ 
     void videobuf_queue_dma_contig_init(struct videobuf_queue *q,
 				       struct videobuf_queue_ops *ops,
 				       struct device *dev,
@@ -183,7 +183,7 @@ videobuf queue.  The function to use depends on the type of buffer used:
 				       enum v4l2_field field,
 				       unsigned int msize,
 				       void *priv);
-
+ 
 In each case, the parameters are the same: q is the queue structure for the
 device, ops is the set of callbacks as described above, dev is the device
 structure for this video device, irqlock is an interrupt-safe spinlock to
@@ -194,25 +194,25 @@ progressive devices), msize is the size of any containing structure used
 around struct videobuf_buffer, and priv is a private data pointer which
 shows up in the priv_data field of struct videobuf_queue.  Note that these
 are void functions which, evidently, are immune to failure.
-°¢°¢ÀÇ °æ¿ì ¸Å°³ º¯¼ö´Â µ¿ÀÏÇÕ´Ï´Ù. q´Â ÀåÄ¡ÀÇ ´ë±â¿­ ±¸Á¶ÀÌ°í, ops´Â À§¿¡¼­ ¼³¸íÇÑ Äİ¹é ¼¼Æ®ÀÌ°í, dev´ÂÀÌ ºñµğ¿À ÀåÄ¡ÀÇ ÀåÄ¡ ±¸Á¶ÀÌ¸ç, irqlockÀº µ¥ÀÌÅÍ ±¸Á¶ Á¢±Ù¹æÁö¸¦ À§ÇÑ ÀÎÅÍ·´Æ® ¹æÁö ½ºÇÉ ·ÏÀÔ´Ï´Ù. typeÀº µğ¹ÙÀÌ½º¿¡¼­ »ç¿ëÇÏ´Â ¹öÆÛ À¯Çü (Ä«¸Ş¶ó´Â V4L2_BUF_TYPE_VIDEO_CAPTURE¸¦ »ç¿ëÇÕ´Ï´Ù), ÇÊµå´Â Ä¸Ã³µÇ´Â ÇÊµå (ÇÁ·Î±×·¹½Ãºê µğ¹ÙÀÌ½ºÀÇ °æ¿ì V4L2_FIELD_NONE), msize´Â struct videobuf_buffer °ü·Ã »ç¿ëµÇ´Â ÇÔÀ¯µÈ ±¸Á¶ÀÇ Å©±â, priv´Â struct videobuf_queueÀÇ priv_data ÇÊµå¿¡ ³ªÅ¸³ª´Â private µ¥ÀÌÅÍ Æ÷ÀÎÅÍÀÔ´Ï´Ù. ÀÌ°ÍÀº ºĞ¸íÈ÷ ½ÇÆĞ¿¡ ¸é¿ªÀÌµÇ´Â void ÇÔ¼öÀÔ´Ï´Ù.
-
-
+ê°ê°ì˜ ê²½ìš° ë§¤ê°œ ë³€ìˆ˜ëŠ” ë™ì¼í•©ë‹ˆë‹¤. qëŠ” ì¥ì¹˜ì˜ ëŒ€ê¸°ì—´ êµ¬ì¡°ì´ê³ , opsëŠ” ìœ„ì—ì„œ ì„¤ëª…í•œ ì½œë°± ì„¸íŠ¸ì´ê³ , devëŠ”ì´ ë¹„ë””ì˜¤ ì¥ì¹˜ì˜ ì¥ì¹˜ êµ¬ì¡°ì´ë©°, irqlockì€ ë°ì´í„° êµ¬ì¡° ì ‘ê·¼ë°©ì§€ë¥¼ ìœ„í•œ ì¸í„°ëŸ½íŠ¸ ë°©ì§€ ìŠ¤í•€ ë¡ì…ë‹ˆë‹¤. typeì€ ë””ë°”ì´ìŠ¤ì—ì„œ ì‚¬ìš©í•˜ëŠ” ë²„í¼ ìœ í˜• (ì¹´ë©”ë¼ëŠ” V4L2_BUF_TYPE_VIDEO_CAPTUREë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤), í•„ë“œëŠ” ìº¡ì²˜ë˜ëŠ” í•„ë“œ (í”„ë¡œê·¸ë ˆì‹œë¸Œ ë””ë°”ì´ìŠ¤ì˜ ê²½ìš° V4L2_FIELD_NONE), msizeëŠ” struct videobuf_buffer ê´€ë ¨ ì‚¬ìš©ë˜ëŠ” í•¨ìœ ëœ êµ¬ì¡°ì˜ í¬ê¸°, privëŠ” struct videobuf_queueì˜ priv_data í•„ë“œì— ë‚˜íƒ€ë‚˜ëŠ” private ë°ì´í„° í¬ì¸í„°ì…ë‹ˆë‹¤. ì´ê²ƒì€ ë¶„ëª…íˆ ì‹¤íŒ¨ì— ë©´ì—­ì´ë˜ëŠ” void í•¨ìˆ˜ì…ë‹ˆë‹¤.
+ 
+ 
 V4L2 capture drivers can be written to support either of two APIs: the
 read() system call and the rather more complicated streaming mechanism.  As
 a general rule, it is necessary to support both to ensure that all
 applications have a chance of working with the device.  Videobuf makes it
 easy to do that with the same code.  To implement read(), the driver need
 only make a call to one of:
-V4L2 Ä¸Ã³ µå¶óÀÌ¹ö´Â read () ½Ã½ºÅÛ È£Ãâ°ú ´Ù¼Ò º¹ÀâÇÑ ½ºÆ®¸®¹Ö ¸ŞÄ¿´ÏÁòÀÇ µÎ °¡Áö API Áß ÇÏ³ª¸¦ Áö¿øÇÏµµ·Ï ÀÛ¼º µÉ ¼ö ÀÖ½À´Ï´Ù. ÀÏ¹İÀûÀ¸·Î ¸ğµç ÀÀ¿ë ÇÁ·Î±×·¥ÀÌ ÀåÄ¡·Î ÀÛ¾÷ ÇÒ ¼öÀÖ´Â ±âÈ¸¸¦ º¸ÀåÇÏ·Á¸é µÎ °¡Áö¸¦ ¸ğµÎ Áö¿øÇØ¾ßÇÕ´Ï´Ù. Videobuf¸¦ »ç¿ëÇÏ¸é µ¿ÀÏÇÑ ÄÚµå·Î ½±°Ô Ã³¸® ÇÒ ¼ö ÀÖ½À´Ï´Ù. read ()¸¦ ±¸ÇöÇÏ·Á¸é µå¶óÀÌ¹ö´Â ´ÙÀ½ Áß ÇÏ³ª¸¸ È£ÃâÇÏ¸éµË´Ï´Ù.
-
+V4L2 ìº¡ì²˜ ë“œë¼ì´ë²„ëŠ” read () ì‹œìŠ¤í…œ í˜¸ì¶œê³¼ ë‹¤ì†Œ ë³µì¡í•œ ìŠ¤íŠ¸ë¦¬ë° ë©”ì»¤ë‹ˆì¦˜ì˜ ë‘ ê°€ì§€ API ì¤‘ í•˜ë‚˜ë¥¼ ì§€ì›í•˜ë„ë¡ ì‘ì„± ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ ëª¨ë“  ì‘ìš© í”„ë¡œê·¸ë¨ì´ ì¥ì¹˜ë¡œ ì‘ì—… í•  ìˆ˜ìˆëŠ” ê¸°íšŒë¥¼ ë³´ì¥í•˜ë ¤ë©´ ë‘ ê°€ì§€ë¥¼ ëª¨ë‘ ì§€ì›í•´ì•¼í•©ë‹ˆë‹¤. Videobufë¥¼ ì‚¬ìš©í•˜ë©´ ë™ì¼í•œ ì½”ë“œë¡œ ì‰½ê²Œ ì²˜ë¦¬ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. read ()ë¥¼ êµ¬í˜„í•˜ë ¤ë©´ ë“œë¼ì´ë²„ëŠ” ë‹¤ìŒ ì¤‘ í•˜ë‚˜ë§Œ í˜¸ì¶œí•˜ë©´ë©ë‹ˆë‹¤.
+ 
     ssize_t videobuf_read_one(struct videobuf_queue *q,
 			      char __user *data, size_t count,
 			      loff_t *ppos, int nonblocking);
-
+ 
     ssize_t videobuf_read_stream(struct videobuf_queue *q,
 				 char __user *data, size_t count,
 				 loff_t *ppos, int vbihack, int nonblocking);
-
+ 
 Either one of these functions will read frame data into data, returning the
 amount actually read; the difference is that videobuf_read_one() will only
 read a single frame, while videobuf_read_stream() will read multiple frames
@@ -221,37 +221,37 @@ typical driver read() implementation will start the capture engine, call
 one of the above functions, then stop the engine before returning (though a
 smarter implementation might leave the engine running for a little while in
 anticipation of another read() call happening in the near future).
-ÀÌ ÇÔ¼ö Áß ÇÏ³ª´Â ÇÁ·¹ÀÓ µ¥ÀÌÅÍ¸¦ µ¥ÀÌÅÍ·Î ÀĞ¾î µé¿© ½ÇÁ¦·Î ÀĞÀº ¾çÀ» ¹İÈ¯ÇÕ´Ï´Ù. Â÷ÀÌÁ¡Àº videobuf_read_one ()Àº ´ÜÀÏ ÇÁ·¹ÀÓ ¸¸ ÀĞ´Â ¹İ¸é videobuf_read_stream ()Àº ÀÀ¿ë ÇÁ·Î±×·¥¿¡¼­ ¿äÃ»ÇÑ ¼ö¸¦ ÃæÁ·½ÃÅ°´Â µ¥ ÇÊ¿äÇÑ °æ¿ì ¿©·¯ ÇÁ·¹ÀÓÀ» ÀĞ½À´Ï´Ù. ÀÏ¹İÀûÀÎ µå¶óÀÌ¹ö read () ±¸ÇöÀº Ä¸Ã³ ¿£ÁøÀ» ½ÃÀÛÇÏ°í À§ÀÇ ÇÔ¼ö Áß ÇÏ³ª¸¦ È£Ãâ ÇÑ ´ÙÀ½ ¹İÈ¯ÇÏ±â Àü¿¡ ¿£ÁøÀ» ÁßÁöÇÕ´Ï´Ù. (¶È¶ÈÇÑ ±¸ÇöÀ¸·Î ÀÎÇØ °¡±î¿î Àå·¡¿¡´Â ´Ù¸¥ read () È£ÃâÀÌ ¹ß»ıÇÒ ¶§ ¿£ÁøÀÌ Àá½Ã µ¿¾È ½ÇÇàµÉ ¼ö ÀÖ½À´Ï´Ù).
-
+ì´ í•¨ìˆ˜ ì¤‘ í•˜ë‚˜ëŠ” í”„ë ˆì„ ë°ì´í„°ë¥¼ ë°ì´í„°ë¡œ ì½ì–´ ë“¤ì—¬ ì‹¤ì œë¡œ ì½ì€ ì–‘ì„ ë°˜í™˜í•©ë‹ˆë‹¤. ì°¨ì´ì ì€ videobuf_read_one ()ì€ ë‹¨ì¼ í”„ë ˆì„ ë§Œ ì½ëŠ” ë°˜ë©´ videobuf_read_stream ()ì€ ì‘ìš© í”„ë¡œê·¸ë¨ì—ì„œ ìš”ì²­í•œ ìˆ˜ë¥¼ ì¶©ì¡±ì‹œí‚¤ëŠ” ë° í•„ìš”í•œ ê²½ìš° ì—¬ëŸ¬ í”„ë ˆì„ì„ ì½ìŠµë‹ˆë‹¤. ì¼ë°˜ì ì¸ ë“œë¼ì´ë²„ read () êµ¬í˜„ì€ ìº¡ì²˜ ì—”ì§„ì„ ì‹œì‘í•˜ê³  ìœ„ì˜ í•¨ìˆ˜ ì¤‘ í•˜ë‚˜ë¥¼ í˜¸ì¶œ í•œ ë‹¤ìŒ ë°˜í™˜í•˜ê¸° ì „ì— ì—”ì§„ì„ ì¤‘ì§€í•©ë‹ˆë‹¤. (ë˜‘ë˜‘í•œ êµ¬í˜„ìœ¼ë¡œ ì¸í•´ ê°€ê¹Œìš´ ì¥ë˜ì—ëŠ” ë‹¤ë¥¸ read () í˜¸ì¶œì´ ë°œìƒí•  ë•Œ ì—”ì§„ì´ ì ì‹œ ë™ì•ˆ ì‹¤í–‰ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤).
+ 
 The poll() function can usually be implemented with a direct call to:
-poll () ÇÔ¼ö´Â ´ë°³ ´ÙÀ½À» Á÷Á¢ È£ÃâÇÏ¿© ±¸ÇöÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
+poll () í•¨ìˆ˜ëŠ” ëŒ€ê°œ ë‹¤ìŒì„ ì§ì ‘ í˜¸ì¶œí•˜ì—¬ êµ¬í˜„í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ 
     unsigned int videobuf_poll_stream(struct file *file,
 				      struct videobuf_queue *q,
 				      poll_table *wait);
-
+ 
 Note that the actual wait queue eventually used will be the one associated
 with the first available buffer.
-°á±¹ ½ÇÁ¦·Î »ç¿ëµÇ´Â ´ë±â ´ë±â¿­Àº Ã¹ ¹øÂ° »ç¿ë °¡´ÉÇÑ ¹öÆÛ¿Í °ü·ÃµÈ ´ë±â¿­ÀÌµË´Ï´Ù.
-
+ê²°êµ­ ì‹¤ì œë¡œ ì‚¬ìš©ë˜ëŠ” ëŒ€ê¸° ëŒ€ê¸°ì—´ì€ ì²« ë²ˆì§¸ ì‚¬ìš© ê°€ëŠ¥í•œ ë²„í¼ì™€ ê´€ë ¨ëœ ëŒ€ê¸°ì—´ì´ë©ë‹ˆë‹¤.
+ 
 When streaming I/O is done to kernel-space buffers, the driver must support
 the mmap() system call to enable user space to access the data.  In many
 V4L2 drivers, the often-complex mmap() implementation simplifies to a
 single call to:
-Ä¿³Î °ø°£ ¹öÆÛ·Î ½ºÆ®¸®¹Ö I / O¸¦ ¼öÇà ÇÒ ¶§ µå¶óÀÌ¹ö´Â »ç¿ëÀÚ °ø°£¿¡¼­ µ¥ÀÌÅÍ¿¡ ¾×¼¼½º ÇÒ ¼ö ÀÖµµ·Ï mmap () ½Ã½ºÅÛ È£ÃâÀ» Áö¿øÇØ¾ßÇÕ´Ï´Ù. ¸¹Àº V4L2 µå¶óÀÌ¹ö¿¡¼­ Á¾Á¾ º¹ÀâÇÑ mmap () ±¸ÇöÀº ´ÙÀ½°ú °°Àº ´ÜÀÏ È£ÃâÀ» ´Ü¼øÈ­ÇÕ´Ï´Ù.
-
+ì»¤ë„ ê³µê°„ ë²„í¼ë¡œ ìŠ¤íŠ¸ë¦¬ë° I / Oë¥¼ ìˆ˜í–‰ í•  ë•Œ ë“œë¼ì´ë²„ëŠ” ì‚¬ìš©ì ê³µê°„ì—ì„œ ë°ì´í„°ì— ì•¡ì„¸ìŠ¤ í•  ìˆ˜ ìˆë„ë¡ mmap () ì‹œìŠ¤í…œ í˜¸ì¶œì„ ì§€ì›í•´ì•¼í•©ë‹ˆë‹¤. ë§ì€ V4L2 ë“œë¼ì´ë²„ì—ì„œ ì¢…ì¢… ë³µì¡í•œ mmap () êµ¬í˜„ì€ ë‹¤ìŒê³¼ ê°™ì€ ë‹¨ì¼ í˜¸ì¶œì„ ë‹¨ìˆœí™”í•©ë‹ˆë‹¤.
+ 
     int videobuf_mmap_mapper(struct videobuf_queue *q,
 			     struct vm_area_struct *vma);
-
+ 
 Everything else is handled by the videobuf code.
-´Ù¸¥ ¸ğµç °ÍÀº videobuf ÄÚµå¿¡ ÀÇÇØ Ã³¸®µË´Ï´Ù.
-
+ë‹¤ë¥¸ ëª¨ë“  ê²ƒì€ videobuf ì½”ë“œì— ì˜í•´ ì²˜ë¦¬ë©ë‹ˆë‹¤.
+ 
 The release() function requires two separate videobuf calls:
-release () ÇÔ¼ö´Â µÎ °³ÀÇ °³º° videobuf È£ÃâÀ» ÇÊ¿ä·ÎÇÕ´Ï´Ù.
-
+release () í•¨ìˆ˜ëŠ” ë‘ ê°œì˜ ê°œë³„ videobuf í˜¸ì¶œì„ í•„ìš”ë¡œí•©ë‹ˆë‹¤.
+ 
     void videobuf_stop(struct videobuf_queue *q);
     int videobuf_mmap_free(struct videobuf_queue *q);
-
+ 
 The call to videobuf_stop() terminates any I/O in progress - though it is
 still up to the driver to stop the capture engine.  The call to
 videobuf_mmap_free() will ensure that all buffers have been unmapped; if
@@ -260,16 +260,16 @@ remain mapped, videobuf_mmap_free() returns an error code instead.  The
 purpose is clearly to cause the closing of the file descriptor to fail if
 buffers are still mapped, but every driver in the 2.6.32 kernel cheerfully
 ignores its return value.
-videobuf_stop ()¿¡ ´ëÇÑ È£ÃâÀº ÁøÇàÁßÀÎ ¸ğµç I / O¸¦ Á¾·áÇÕ´Ï´Ù. Ä¸Ã³ ¿£ÁøÀ» ÁßÁöÇÏ´Â °ÍÀº ¿©ÀüÈ÷ µå¶óÀÌ¹ö¿¡ ´Ş·Á ÀÖÁö¸¸ ±×·¸½À´Ï´Ù. videobuf_mmap_free ()¸¦ È£ÃâÇÏ¸é ¸ğµç ¹öÆÛ°¡ ¸ÅÇÎ ÇØÁ¦ µÈ °ÍÀÔ´Ï´Ù. ±×·¸´Ù¸é, ±×µéÀº ¸ğµÎ buf_release () Äİ¹é¿¡ Àü´Ş µÉ °ÍÀÌ´Ù. ¹öÆÛ°¡ ¸ÅÇÎ µÈ Ã¤·Î ÀÖÀ¸¸é videobuf_mmap_free ()°¡ ´ë½Å ¿À·ù ÄÚµå¸¦ ¹İÈ¯ÇÕ´Ï´Ù. ±× ¸ñÀûÀº ¹öÆÛ°¡ ¿©ÀüÈ÷ ¸ÊÇÎµÇ¾î ÀÖÀ¸¸é ÆÄÀÏ µğ½ºÅ©¸³ÅÍ°¡ ´İÈ÷Áö ¾Êµµ·ÏÇÏ´Â °ÍÀÌ ºĞ¸íÇÏÁö¸¸ 2.6.32 Ä¿³ÎÀÇ ¸ğµç µå¶óÀÌ¹ö´Â ±× ¹İÈ¯ °ªÀ» ±âºĞ ÁÁ°Ô ¹«½ÃÇÕ´Ï´Ù.
-
+videobuf_stop ()ì— ëŒ€í•œ í˜¸ì¶œì€ ì§„í–‰ì¤‘ì¸ ëª¨ë“  I / Oë¥¼ ì¢…ë£Œí•©ë‹ˆë‹¤. ìº¡ì²˜ ì—”ì§„ì„ ì¤‘ì§€í•˜ëŠ” ê²ƒì€ ì—¬ì „íˆ ë“œë¼ì´ë²„ì— ë‹¬ë ¤ ìˆì§€ë§Œ ê·¸ë ‡ìŠµë‹ˆë‹¤. videobuf_mmap_free ()ë¥¼ í˜¸ì¶œí•˜ë©´ ëª¨ë“  ë²„í¼ê°€ ë§¤í•‘ í•´ì œ ëœ ê²ƒì…ë‹ˆë‹¤. ê·¸ë ‡ë‹¤ë©´, ê·¸ë“¤ì€ ëª¨ë‘ buf_release () ì½œë°±ì— ì „ë‹¬ ë  ê²ƒì´ë‹¤. ë²„í¼ê°€ ë§¤í•‘ ëœ ì±„ë¡œ ìˆìœ¼ë©´ videobuf_mmap_free ()ê°€ ëŒ€ì‹  ì˜¤ë¥˜ ì½”ë“œë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤. ê·¸ ëª©ì ì€ ë²„í¼ê°€ ì—¬ì „íˆ ë§µí•‘ë˜ì–´ ìˆìœ¼ë©´ íŒŒì¼ ë””ìŠ¤í¬ë¦½í„°ê°€ ë‹«íˆì§€ ì•Šë„ë¡í•˜ëŠ” ê²ƒì´ ë¶„ëª…í•˜ì§€ë§Œ 2.6.32 ì»¤ë„ì˜ ëª¨ë“  ë“œë¼ì´ë²„ëŠ” ê·¸ ë°˜í™˜ ê°’ì„ ê¸°ë¶„ ì¢‹ê²Œ ë¬´ì‹œí•©ë‹ˆë‹¤.
+ 
 ioctl() operations
-
+ 
 The V4L2 API includes a very long list of driver callbacks to respond to
 the many ioctl() commands made available to user space.  A number of these
 - those associated with streaming I/O - turn almost directly into videobuf
 calls.  The relevant helper functions are:
-V4L2 API´Â »ç¿ëÀÚ °ø°£¿¡¼­ »ç¿ë °¡´ÉÇÑ ¸¹Àº ioctl () ¸í·É¿¡ ÀÀ´äÇÏ´Â µå¶óÀÌ¹ö Äİ¹éÀÇ ¸Å¿ì ±ä ¸ñ·ÏÀ» Æ÷ÇÔÇÕ´Ï´Ù. ½ºÆ®¸®¹Ö I / O¿Í °ü·ÃµÈ ¿©·¯ °¡Áö°¡ °ÅÀÇ Á÷Á¢ videobuf È£Ãâ·Î ¹Ù²ò´Ï´Ù. °ü·Ã µµ¿ì¹Ì ÇÔ¼ö´Â ´ÙÀ½°ú °°½À´Ï´Ù.
-
+V4L2 APIëŠ” ì‚¬ìš©ì ê³µê°„ì—ì„œ ì‚¬ìš© ê°€ëŠ¥í•œ ë§ì€ ioctl () ëª…ë ¹ì— ì‘ë‹µí•˜ëŠ” ë“œë¼ì´ë²„ ì½œë°±ì˜ ë§¤ìš° ê¸´ ëª©ë¡ì„ í¬í•¨í•©ë‹ˆë‹¤. ìŠ¤íŠ¸ë¦¬ë° I / Oì™€ ê´€ë ¨ëœ ì—¬ëŸ¬ ê°€ì§€ê°€ ê±°ì˜ ì§ì ‘ videobuf í˜¸ì¶œë¡œ ë°”ë€ë‹ˆë‹¤. ê´€ë ¨ ë„ìš°ë¯¸ í•¨ìˆ˜ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+ 
     int videobuf_reqbufs(struct videobuf_queue *q,
 			 struct v4l2_requestbuffers *req);
     int videobuf_querybuf(struct videobuf_queue *q, struct v4l2_buffer *b);
@@ -278,22 +278,22 @@ V4L2 API´Â »ç¿ëÀÚ °ø°£¿¡¼­ »ç¿ë °¡´ÉÇÑ ¸¹Àº ioctl () ¸í·É¿¡ ÀÀ´äÇÏ´Â µå¶óÀÌ¹ö Äİ
 		       int nonblocking);
     int videobuf_streamon(struct videobuf_queue *q);
     int videobuf_streamoff(struct videobuf_queue *q);
-
+ 
 So, for example, a VIDIOC_REQBUFS call turns into a call to the driver's
 vidioc_reqbufs() callback which, in turn, usually only needs to locate the
 proper struct videobuf_queue pointer and pass it to videobuf_reqbufs().
 These support functions can replace a great deal of buffer management
 boilerplate in a lot of V4L2 drivers.
-¿¹¸¦ µé¾î, VIDIOC_REQBUFS È£ÃâÀº µå¶óÀÌ¹öÀÇ vidioc_reqbufs () Äİ¹é¿¡ ´ëÇÑ È£Ãâ·Î ¹Ù²î¸ç º¸ÅëÀº ¿Ã¹Ù¸¥ struct videobuf_queue Æ÷ÀÎÅÍ¸¦ Ã£°í videobuf_reqbufs ()¿¡ Àü´ŞÇÏ¸éµË´Ï´Ù. ÀÌ·¯ÇÑ Áö¿ø ±â´ÉÀº ¸¹Àº V4L2 µå¶óÀÌ¹ö¿¡¼­ ¸¹Àº ºÎºĞÀ» Â÷ÁöÇÏ´Â ¹öÆÛ °ü¸®¸¦ ´ëÃ¼ ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
+ì˜ˆë¥¼ ë“¤ì–´, VIDIOC_REQBUFS í˜¸ì¶œì€ ë“œë¼ì´ë²„ì˜ vidioc_reqbufs () ì½œë°±ì— ëŒ€í•œ í˜¸ì¶œë¡œ ë°”ë€Œë©° ë³´í†µì€ ì˜¬ë°”ë¥¸ struct videobuf_queue í¬ì¸í„°ë¥¼ ì°¾ê³  videobuf_reqbufs ()ì— ì „ë‹¬í•˜ë©´ë©ë‹ˆë‹¤. ì´ëŸ¬í•œ ì§€ì› ê¸°ëŠ¥ì€ ë§ì€ V4L2 ë“œë¼ì´ë²„ì—ì„œ ë§ì€ ë¶€ë¶„ì„ ì°¨ì§€í•˜ëŠ” ë²„í¼ ê´€ë¦¬ë¥¼ ëŒ€ì²´ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ 
 The vidioc_streamon() and vidioc_streamoff() functions will be a bit more
 complex, of course, since they will also need to deal with starting and
 stopping the capture engine.
-¹°·Ğ vidioc_streamon () ¹× vidioc_streamoff () ÇÔ¼ö´Â Ä¸Ã³ ¿£Áø ½ÃÀÛ ¹× ÁßÁö¸¦ Ã³¸®ÇØ¾ßÇÏ¹Ç·Î Á» ´õ º¹ÀâÇÕ´Ï´Ù.
-
+ë¬¼ë¡  vidioc_streamon () ë° vidioc_streamoff () í•¨ìˆ˜ëŠ” ìº¡ì²˜ ì—”ì§„ ì‹œì‘ ë° ì¤‘ì§€ë¥¼ ì²˜ë¦¬í•´ì•¼í•˜ë¯€ë¡œ ì¢€ ë” ë³µì¡í•©ë‹ˆë‹¤.
+ 
 Buffer allocation
-¹öÆÛ ÇÒ´ç
-
+ë²„í¼ í• ë‹¹
+ 
 Thus far, we have talked about buffers, but have not looked at how they are
 allocated.  The scatter/gather case is the most complex on this front.  For
 allocation, the driver can leave buffer allocation entirely up to the
@@ -301,29 +301,29 @@ videobuf layer; in this case, buffers will be allocated as anonymous
 user-space pages and will be very scattered indeed.  If the application is
 using user-space buffers, no allocation is needed; the videobuf layer will
 take care of calling get_user_pages() and filling in the scatterlist array.
-Áö±İ±îÁö´Â ¹öÆÛ¿¡ ´ëÇØ ÀÌ¾ß±âÇßÁö¸¸ ÇÒ´ç ¹æ¹ıÀ» »ìÆì º¸Áö ¾Ê¾Ò½À´Ï´Ù. ºĞ»ê / ¼öÁı »ç·Ê´ÂÀÌ Àü¸é¿¡¼­ °¡Àå º¹ÀâÇÕ´Ï´Ù. ÇÒ´çÀ» À§ÇØ, µå¶óÀÌ¹ö´Â ¹öÆÛ ÇÒ´çÀ» ÀüÀûÀ¸·Î ÇØ´ç videobuf °èÃş±îÁö ³²°Ü µÑ ¼ö ÀÖ½À´Ï´Ù. ÀÌ °æ¿ì ¹öÆÛ´Â ÀÍ¸í »ç¿ëÀÚ °ø°£ ÆäÀÌÁö·Î ÇÒ´çµÇ¸ç ½ÇÁ¦·Î ¸Å¿ì ºĞ»êµË´Ï´Ù. ÀÀ¿ë ÇÁ·Î±×·¥ÀÌ »ç¿ëÀÚ °ø°£ ¹öÆÛ¸¦ »ç¿ëÇÏ´Â °æ¿ì¿¡´Â ÇÒ´ç ÇÒ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù. videobuf ·¹ÀÌ¾î´Â get_user_pages ()¸¦ È£ÃâÇÏ°í scatterlist ¹è¿­À» Ã¤ ¿ó´Ï´Ù.
-
-
+ì§€ê¸ˆê¹Œì§€ëŠ” ë²„í¼ì— ëŒ€í•´ ì´ì•¼ê¸°í–ˆì§€ë§Œ í• ë‹¹ ë°©ë²•ì„ ì‚´í´ ë³´ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤. ë¶„ì‚° / ìˆ˜ì§‘ ì‚¬ë¡€ëŠ”ì´ ì „ë©´ì—ì„œ ê°€ì¥ ë³µì¡í•©ë‹ˆë‹¤. í• ë‹¹ì„ ìœ„í•´, ë“œë¼ì´ë²„ëŠ” ë²„í¼ í• ë‹¹ì„ ì „ì ìœ¼ë¡œ í•´ë‹¹ videobuf ê³„ì¸µê¹Œì§€ ë‚¨ê²¨ ë‘˜ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì´ ê²½ìš° ë²„í¼ëŠ” ìµëª… ì‚¬ìš©ì ê³µê°„ í˜ì´ì§€ë¡œ í• ë‹¹ë˜ë©° ì‹¤ì œë¡œ ë§¤ìš° ë¶„ì‚°ë©ë‹ˆë‹¤. ì‘ìš© í”„ë¡œê·¸ë¨ì´ ì‚¬ìš©ì ê³µê°„ ë²„í¼ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ì—ëŠ” í• ë‹¹ í•  í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤. videobuf ë ˆì´ì–´ëŠ” get_user_pages ()ë¥¼ í˜¸ì¶œí•˜ê³  scatterlist ë°°ì—´ì„ ì±„ ì›ë‹ˆë‹¤.
+ 
+ 
 If the driver needs to do its own memory allocation, it should be done in
 the vidioc_reqbufs() function, *after* calling videobuf_reqbufs().  The
 first step is a call to:
-µå¶óÀÌ¹ö°¡ ÀÚÃ¼ ¸Ş¸ğ¸® ÇÒ´çÀ»ÇØ¾ßÇÏ´Â °æ¿ì videobuf_reqbufs ()¸¦ È£Ãâ ÇÑ *ÈÄ* vidioc_reqbufs () ÇÔ¼ö¿¡¼­ ¼öÇàÇØ¾ßÇÕ´Ï´Ù. Ã¹ ¹øÂ° ´Ü°è´Â ´ÙÀ½À» È£ÃâÇÏ´Â °ÍÀÔ´Ï´Ù.
-
-
+ë“œë¼ì´ë²„ê°€ ìì²´ ë©”ëª¨ë¦¬ í• ë‹¹ì„í•´ì•¼í•˜ëŠ” ê²½ìš° videobuf_reqbufs ()ë¥¼ í˜¸ì¶œ í•œ *í›„* vidioc_reqbufs () í•¨ìˆ˜ì—ì„œ ìˆ˜í–‰í•´ì•¼í•©ë‹ˆë‹¤. ì²« ë²ˆì§¸ ë‹¨ê³„ëŠ” ë‹¤ìŒì„ í˜¸ì¶œí•˜ëŠ” ê²ƒì…ë‹ˆë‹¤.
+ 
+ 
     struct videobuf_dmabuf *videobuf_to_dma(struct videobuf_buffer *buf);
-
+ 
 The returned videobuf_dmabuf structure (defined in
 <media/videobuf-dma-sg.h>) includes a couple of relevant fields:
-<media / videobuf-dma-sg.h>¿¡ Á¤ÀÇ µÈ ¹İÈ¯ µÈ videobuf_dmabuf ±¸Á¶¿¡´Â ¸î °¡Áö °ü·Ã ÇÊµå°¡ Æ÷ÇÔµË´Ï´Ù.
-
+<media / videobuf-dma-sg.h>ì— ì •ì˜ ëœ ë°˜í™˜ ëœ videobuf_dmabuf êµ¬ì¡°ì—ëŠ” ëª‡ ê°€ì§€ ê´€ë ¨ í•„ë“œê°€ í¬í•¨ë©ë‹ˆë‹¤.
+ 
     struct scatterlist  *sglist;
     int                 sglen;
-
+ 
 The driver must allocate an appropriately-sized scatterlist array and
 populate it with pointers to the pieces of the allocated buffer; sglen
 should be set to the length of the array.
-µå¶óÀÌ¹ö´Â ÀûÀıÇÑ Å©±âÀÇ scatterlist ¹è¿­À» ÇÒ´çÇÏ°í ÇÒ´ç µÈ ¹öÆÛ Á¶°¢¿¡ ´ëÇÑ Æ÷ÀÎÅÍ¸¦ Ã¤¿ö¾ßÇÕ´Ï´Ù. sglenÀº ¹è¿­ÀÇ ±æÀÌ·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù.
-
+ë“œë¼ì´ë²„ëŠ” ì ì ˆí•œ í¬ê¸°ì˜ scatterlist ë°°ì—´ì„ í• ë‹¹í•˜ê³  í• ë‹¹ ëœ ë²„í¼ ì¡°ê°ì— ëŒ€í•œ í¬ì¸í„°ë¥¼ ì±„ì›Œì•¼í•©ë‹ˆë‹¤. sglenì€ ë°°ì—´ì˜ ê¸¸ì´ë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤.
+ 
 Drivers using the vmalloc() method need not (and cannot) concern themselves
 with buffer allocation at all; videobuf will handle those details.  The
 same is normally true of contiguous-DMA drivers as well; videobuf will
@@ -332,34 +332,34 @@ means that these drivers may be trying to do high-order allocations at any
 time, an operation which is not always guaranteed to work.  Some drivers
 play tricks by allocating DMA space at system boot time; videobuf does not
 currently play well with those drivers.
-vmalloc () ¸Ş¼Òµå¸¦ »ç¿ëÇÏ´Â µå¶óÀÌ¹ö´Â ¹öÆÛ ÇÒ´ç¿¡ ÀüÇô ½Å°æ ¾µ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù. videobuf°¡ ÀÌ·¯ÇÑ ¼¼ºÎ »çÇ×À» Ã³¸®ÇÕ´Ï´Ù. ¿¬¼Ó DMA µå¶óÀÌ¹ö¿¡ ´ëÇØ¼­µµ ¸¶Âù°¡ÁöÀÔ´Ï´Ù. videobuf´Â ÀûÇÕÇÏ´Ù°í ÆÇ´ÜµÇ¸é ¹öÆÛ¸¦ ÇÒ´çÇÕ´Ï´Ù (dma_alloc_coherent () ÇÔ²²). Áï, ÀÌ·¯ÇÑ µå¶óÀÌ¹ö°¡ ¾ğÁ¦µçÁö °íÂ÷¿ø ÇÒ´çÀ» ½Ãµµ ÇÒ ¼ö ÀÖ´Ù´Â °ÍÀ» ÀÇ¹ÌÇÕ´Ï´Ù. ÀÛµ¿Àº Ç×»ó ÀÛµ¿ÇÏÁö ¾ÊÀ» ¼ö ÀÖ½À´Ï´Ù. ÀÏºÎ µå¶óÀÌ¹ö´Â ½Ã½ºÅÛ ºÎÆÃ½Ã DMA °ø°£À» ÇÒ´çÇÏ¿© Æ®¸¯À» ½ÇÇàÇÕ´Ï´Ù. videobuf´Â ÇöÀç ÇØ´ç µå¶óÀÌ¹ö¿Í Àß ÀÛµ¿ÇÏÁö ¾Ê½À´Ï´Ù.
-
-
+vmalloc () ë©”ì†Œë“œë¥¼ ì‚¬ìš©í•˜ëŠ” ë“œë¼ì´ë²„ëŠ” ë²„í¼ í• ë‹¹ì— ì „í˜€ ì‹ ê²½ ì“¸ í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤. videobufê°€ ì´ëŸ¬í•œ ì„¸ë¶€ ì‚¬í•­ì„ ì²˜ë¦¬í•©ë‹ˆë‹¤. ì—°ì† DMA ë“œë¼ì´ë²„ì— ëŒ€í•´ì„œë„ ë§ˆì°¬ê°€ì§€ì…ë‹ˆë‹¤. videobufëŠ” ì í•©í•˜ë‹¤ê³  íŒë‹¨ë˜ë©´ ë²„í¼ë¥¼ í• ë‹¹í•©ë‹ˆë‹¤ (dma_alloc_coherent () í•¨ê»˜). ì¦‰, ì´ëŸ¬í•œ ë“œë¼ì´ë²„ê°€ ì–¸ì œë“ ì§€ ê³ ì°¨ì› í• ë‹¹ì„ ì‹œë„ í•  ìˆ˜ ìˆë‹¤ëŠ” ê²ƒì„ ì˜ë¯¸í•©ë‹ˆë‹¤. ì‘ë™ì€ í•­ìƒ ì‘ë™í•˜ì§€ ì•Šì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì¼ë¶€ ë“œë¼ì´ë²„ëŠ” ì‹œìŠ¤í…œ ë¶€íŒ…ì‹œ DMA ê³µê°„ì„ í• ë‹¹í•˜ì—¬ íŠ¸ë¦­ì„ ì‹¤í–‰í•©ë‹ˆë‹¤. videobufëŠ” í˜„ì¬ í•´ë‹¹ ë“œë¼ì´ë²„ì™€ ì˜ ì‘ë™í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+ 
+ 
 As of 2.6.31, contiguous-DMA drivers can work with a user-supplied buffer,
 as long as that buffer is physically contiguous.  Normal user-space
 allocations will not meet that criterion, but buffers obtained from other
 kernel drivers, or those contained within huge pages, will work with these
 drivers.
-2.6.31ºÎÅÍ ¿¬¼Ó DMA µå¶óÀÌ¹ö´Â ¹öÆÛ°¡ ¹°¸®ÀûÀ¸·Î ÀÎÁ¢ ÇØÀÖ´Â ÇÑ »ç¿ëÀÚ°¡ Á¦°ø ÇÑ ¹öÆÛ·Î ÀÛ¾÷ ÇÒ ¼ö ÀÖ½À´Ï´Ù. ÀÏ¹İ »ç¿ëÀÚ °ø°£ ÇÒ´çÀºÀÌ ±âÁØÀ» ÃæÁ·½ÃÅ°Áö ¾ÊÁö¸¸ ´Ù¸¥ Ä¿³Î µå¶óÀÌ¹ö ¶Ç´Â °Å´ëÇÑ ÆäÀÌÁö¿¡ Æ÷ÇÔ µÈ ¹öÆÛ´ÂÀÌ µå¶óÀÌ¹ö¿Í ÇÔ²² ÀÛµ¿ÇÕ´Ï´Ù.
-
+2.6.31ë¶€í„° ì—°ì† DMA ë“œë¼ì´ë²„ëŠ” ë²„í¼ê°€ ë¬¼ë¦¬ì ìœ¼ë¡œ ì¸ì ‘ í•´ìˆëŠ” í•œ ì‚¬ìš©ìê°€ ì œê³µ í•œ ë²„í¼ë¡œ ì‘ì—… í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì¼ë°˜ ì‚¬ìš©ì ê³µê°„ í• ë‹¹ì€ì´ ê¸°ì¤€ì„ ì¶©ì¡±ì‹œí‚¤ì§€ ì•Šì§€ë§Œ ë‹¤ë¥¸ ì»¤ë„ ë“œë¼ì´ë²„ ë˜ëŠ” ê±°ëŒ€í•œ í˜ì´ì§€ì— í¬í•¨ ëœ ë²„í¼ëŠ”ì´ ë“œë¼ì´ë²„ì™€ í•¨ê»˜ ì‘ë™í•©ë‹ˆë‹¤.
+ 
 Filling the buffers
-
+ 
 The final part of a videobuf implementation has no direct callback - it's
 the portion of the code which actually puts frame data into the buffers,
 usually in response to interrupts from the device.  For all types of
 drivers, this process works approximately as follows:
-videobuf ±¸ÇöÀÇ ¸¶Áö¸· ºÎºĞÀº Á÷Á¢ Äİ¹éÀÌ ¾ø½À´Ï´Ù. ÄÚµåÀÇ ÀÏºÎºĞÀ¸·Î, ÀÏ¹İÀûÀ¸·Î ÀåÄ¡ÀÇ ÀÎÅÍ·´Æ®¿¡ ÀÀ´äÇÏ¿© ½ÇÁ¦·Î ÇÁ·¹ÀÓ µ¥ÀÌÅÍ¸¦ ¹öÆÛ¿¡ ³Ö½À´Ï´Ù. ¸ğµç À¯ÇüÀÇ µå¶óÀÌ¹ö¿¡¼­ÀÌ ÇÁ·Î¼¼½º´Â ´ë·« ´ÙÀ½°ú °°ÀÌ ÀÛµ¿ÇÕ´Ï´Ù.
-
+videobuf êµ¬í˜„ì˜ ë§ˆì§€ë§‰ ë¶€ë¶„ì€ ì§ì ‘ ì½œë°±ì´ ì—†ìŠµë‹ˆë‹¤. ì½”ë“œì˜ ì¼ë¶€ë¶„ìœ¼ë¡œ, ì¼ë°˜ì ìœ¼ë¡œ ì¥ì¹˜ì˜ ì¸í„°ëŸ½íŠ¸ì— ì‘ë‹µí•˜ì—¬ ì‹¤ì œë¡œ í”„ë ˆì„ ë°ì´í„°ë¥¼ ë²„í¼ì— ë„£ìŠµë‹ˆë‹¤. ëª¨ë“  ìœ í˜•ì˜ ë“œë¼ì´ë²„ì—ì„œì´ í”„ë¡œì„¸ìŠ¤ëŠ” ëŒ€ëµ ë‹¤ìŒê³¼ ê°™ì´ ì‘ë™í•©ë‹ˆë‹¤.
+ 
  - Obtain the next available buffer and make sure that somebody is actually
    waiting for it.
-- ´ÙÀ½ »ç¿ë °¡´ÉÇÑ ¹öÆÛ¸¦ È®º¸ÇÏ°í ´©±º°¡°¡ ½ÇÁ¦·Î ±×°ÍÀ» ±â´Ù¸®°í ÀÖ´ÂÁö È®ÀÎÇÏ½Ê½Ã¿À.
-
+- ë‹¤ìŒ ì‚¬ìš© ê°€ëŠ¥í•œ ë²„í¼ë¥¼ í™•ë³´í•˜ê³  ëˆ„êµ°ê°€ê°€ ì‹¤ì œë¡œ ê·¸ê²ƒì„ ê¸°ë‹¤ë¦¬ê³  ìˆëŠ”ì§€ í™•ì¸í•˜ì‹­ì‹œì˜¤.
+ 
  - Get a pointer to the memory and put video data there.
-- ¸Ş¸ğ¸® Æ÷ÀÎÅÍ¸¦ °¡Á® ¿Í¼­ ºñµğ¿À µ¥ÀÌÅÍ¸¦ °Å±â¿¡ ³õ½À´Ï´Ù.
-
+- ë©”ëª¨ë¦¬ í¬ì¸í„°ë¥¼ ê°€ì ¸ ì™€ì„œ ë¹„ë””ì˜¤ ë°ì´í„°ë¥¼ ê±°ê¸°ì— ë†“ìŠµë‹ˆë‹¤.
+ 
  - Mark the buffer as done and wake up the process waiting for it.
-- ¹öÆÛ¸¦ ¿Ï·á·Î Ç¥½ÃÇÏ°í ´ë±âÁßÀÎ ÇÁ·Î¼¼½º¸¦ ±ú¿î´Ù.
-
+- ë²„í¼ë¥¼ ì™„ë£Œë¡œ í‘œì‹œí•˜ê³  ëŒ€ê¸°ì¤‘ì¸ í”„ë¡œì„¸ìŠ¤ë¥¼ ê¹¨ìš´ë‹¤.
+ 
 Step (1) above is done by looking at the driver-managed list_head structure
 - the one which is filled in the buf_queue() callback.  Because starting
 the engine and enqueueing buffers are done in separate steps, it's possible
@@ -369,37 +369,37 @@ to be empty.  It is equally possible that nobody is yet interested in the
 buffer; the driver should not remove it from the list or fill it until a
 process is waiting on it.  That test can be done by examining the buffer's
 done field (a wait_queue_head_t structure) with waitqueue_active().
-À§ÀÇ ´Ü°è (1)Àº buf_queue () Äİ¹é¿¡ Ã¤¿öÁö´Â µå¶óÀÌ¹ö °ü¸® list_head ±¸Á¶¸¦ º¸¸é¼­ ¼öÇàµË´Ï´Ù. ¿£ÁøÀ» ½ÃÀÛÇÏ°í ¹öÆÛ¸¦ Å¥¿¡ ³Ö´Â ÀÛ¾÷Àº º°µµÀÇ ´Ü°è·Î ¼öÇàµÇ±â ¶§¹®¿¡ vmalloc ()ÀÇ °æ¿ì Æ¯È÷ »ç¿ë °¡´ÉÇÑ ¹öÆÛ¾øÀÌ ¿£ÁøÀÌ ½ÇÇàµÉ ¼ö ÀÖ½À´Ï´Ù. µû¶ó¼­ µå¶óÀÌ¹ö´Â ¸ñ·ÏÀÌ ºñ¾îÀÖÀ» ÁØºñ¸¦ÇØ¾ßÇÕ´Ï´Ù. ¾Æ¹«µµ ¾ÆÁ÷ ¹öÆÛ¿¡ °ü½ÉÀÌ ¾ø´Ù´Â °Íµµ ¶È°°ÀÌ °¡´ÉÇÕ´Ï´Ù; µå¶óÀÌ¹ö´Â ÇÁ·Î¼¼½º°¡ ´ë±â ÁßÀÏ¶§±îÁö ¸ñ·Ï¿¡¼­ Á¦°ÅÇÏ°Å³ª Ã¤¿ö¼­´Â ¾ÈµË´Ï´Ù. ÀÌ Å×½ºÆ®´Â waitqueue_active ()¸¦ »ç¿ëÇÏ¿© ¹öÆÛÀÇ done ÇÊµå (wait_queue_head_t ±¸Á¶Ã¼)¸¦ °Ë»çÇÏ¿© ¼öÇà ÇÒ ¼ö ÀÖ½À´Ï´Ù.
-
+ìœ„ì˜ ë‹¨ê³„ (1)ì€ buf_queue () ì½œë°±ì— ì±„ì›Œì§€ëŠ” ë“œë¼ì´ë²„ ê´€ë¦¬ list_head êµ¬ì¡°ë¥¼ ë³´ë©´ì„œ ìˆ˜í–‰ë©ë‹ˆë‹¤. ì—”ì§„ì„ ì‹œì‘í•˜ê³  ë²„í¼ë¥¼ íì— ë„£ëŠ” ì‘ì—…ì€ ë³„ë„ì˜ ë‹¨ê³„ë¡œ ìˆ˜í–‰ë˜ê¸° ë•Œë¬¸ì— vmalloc ()ì˜ ê²½ìš° íŠ¹íˆ ì‚¬ìš© ê°€ëŠ¥í•œ ë²„í¼ì—†ì´ ì—”ì§„ì´ ì‹¤í–‰ë  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë”°ë¼ì„œ ë“œë¼ì´ë²„ëŠ” ëª©ë¡ì´ ë¹„ì–´ìˆì„ ì¤€ë¹„ë¥¼í•´ì•¼í•©ë‹ˆë‹¤. ì•„ë¬´ë„ ì•„ì§ ë²„í¼ì— ê´€ì‹¬ì´ ì—†ë‹¤ëŠ” ê²ƒë„ ë˜‘ê°™ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤; ë“œë¼ì´ë²„ëŠ” í”„ë¡œì„¸ìŠ¤ê°€ ëŒ€ê¸° ì¤‘ì¼ë•Œê¹Œì§€ ëª©ë¡ì—ì„œ ì œê±°í•˜ê±°ë‚˜ ì±„ì›Œì„œëŠ” ì•ˆë©ë‹ˆë‹¤. ì´ í…ŒìŠ¤íŠ¸ëŠ” waitqueue_active ()ë¥¼ ì‚¬ìš©í•˜ì—¬ ë²„í¼ì˜ done í•„ë“œ (wait_queue_head_t êµ¬ì¡°ì²´)ë¥¼ ê²€ì‚¬í•˜ì—¬ ìˆ˜í–‰ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ 
 A buffer's state should be set to VIDEOBUF_ACTIVE before being mapped for
 DMA; that ensures that the videobuf layer will not try to do anything with
 it while the device is transferring data.
-DMA¿¡ ¸ÅÇÎµÇ±â Àü¿¡ ¹öÆÛÀÇ »óÅÂ¸¦ VIDEOBUF_ACTIVE·Î ¼³Á¤ÇØ¾ßÇÕ´Ï´Ù. ÀåÄ¡°¡ µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÏ´Â µ¿¾È videobuf °èÃş¿¡¼­ ¾Æ¹« °Íµµ ½ÃµµÇÏÁö ¾Êµµ·ÏÇÕ´Ï´Ù.
-
+DMAì— ë§¤í•‘ë˜ê¸° ì „ì— ë²„í¼ì˜ ìƒíƒœë¥¼ VIDEOBUF_ACTIVEë¡œ ì„¤ì •í•´ì•¼í•©ë‹ˆë‹¤. ì¥ì¹˜ê°€ ë°ì´í„°ë¥¼ ì „ì†¡í•˜ëŠ” ë™ì•ˆ videobuf ê³„ì¸µì—ì„œ ì•„ë¬´ ê²ƒë„ ì‹œë„í•˜ì§€ ì•Šë„ë¡í•©ë‹ˆë‹¤.
+ 
 For scatter/gather drivers, the needed memory pointers will be found in the
 scatterlist structure described above.  Drivers using the vmalloc() method
 can get a memory pointer with:
-ºĞ»ê / ¼öÁı µå¶óÀÌ¹öÀÇ °æ¿ì ÇÊ¿äÇÑ ¸Ş¸ğ¸® Æ÷ÀÎÅÍ´Â À§¿¡¼­ ¼³¸íÇÑ scatterlist ±¸Á¶¿¡¼­ Ã£À» ¼ö ÀÖ½À´Ï´Ù. vmalloc () ¸Ş¼­µå¸¦ »ç¿ëÇÏ´Â µå¶óÀÌ¹ö´Â ´ÙÀ½À» »ç¿ëÇÏ¿© ¸Ş¸ğ¸® Æ÷ÀÎÅÍ¸¦ °¡Á®¿Ã ¼ö ÀÖ½À´Ï´Ù.
-
+ë¶„ì‚° / ìˆ˜ì§‘ ë“œë¼ì´ë²„ì˜ ê²½ìš° í•„ìš”í•œ ë©”ëª¨ë¦¬ í¬ì¸í„°ëŠ” ìœ„ì—ì„œ ì„¤ëª…í•œ scatterlist êµ¬ì¡°ì—ì„œ ì°¾ì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤. vmalloc () ë©”ì„œë“œë¥¼ ì‚¬ìš©í•˜ëŠ” ë“œë¼ì´ë²„ëŠ” ë‹¤ìŒì„ ì‚¬ìš©í•˜ì—¬ ë©”ëª¨ë¦¬ í¬ì¸í„°ë¥¼ ê°€ì ¸ì˜¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+ 
     void *videobuf_to_vmalloc(struct videobuf_buffer *buf);
-
+ 
 For contiguous DMA drivers, the function to use is:
-ÀÎÁ¢ DMA µå¶óÀÌ¹öÀÇ °æ¿ì »ç¿ëÇÒ ÇÔ¼ö´Â ´ÙÀ½°ú °°½À´Ï´Ù.
-
+ì¸ì ‘ DMA ë“œë¼ì´ë²„ì˜ ê²½ìš° ì‚¬ìš©í•  í•¨ìˆ˜ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+ 
     dma_addr_t videobuf_to_dma_contig(struct videobuf_buffer *buf);
-
+ 
 The contiguous DMA API goes out of its way to hide the kernel-space address
 of the DMA buffer from drivers.
-ÀÎÁ¢ DMA API´Â µå¶óÀÌ¹ö¿¡¼­ DMA ¹öÆÛÀÇ Ä¿³Î °ø°£ ÁÖ¼Ò¸¦ ¼û±â´Â ¹æ½ÄÀ» ¹ş¾î³³´Ï´Ù.
-
+ì¸ì ‘ DMA APIëŠ” ë“œë¼ì´ë²„ì—ì„œ DMA ë²„í¼ì˜ ì»¤ë„ ê³µê°„ ì£¼ì†Œë¥¼ ìˆ¨ê¸°ëŠ” ë°©ì‹ì„ ë²—ì–´ë‚©ë‹ˆë‹¤.
+ 
 The final step is to set the size field of the relevant videobuf_buffer
 structure to the actual size of the captured image, set state to
 VIDEOBUF_DONE, then call wake_up() on the done queue.  At this point, the
 buffer is owned by the videobuf layer and the driver should not touch it
 again.
-¸¶Áö¸· ´Ü°è´Â °ü·Ã videobuf_buffer ±¸Á¶Ã¼ÀÇ Å©±â ÇÊµå¸¦ Ä¸Ã³ µÈ ÀÌ¹ÌÁöÀÇ ½ÇÁ¦ Å©±â·Î ¼³Á¤ÇÏ°í »óÅÂ¸¦ VIDEOBUF_DONEÀ¸·Î ¼³Á¤ ÇÑ ´ÙÀ½ ¿Ï·áµÈ Å¥¿¡¼­ wake_up ()À» È£ÃâÇÏ´Â °ÍÀÔ´Ï´Ù. ÀÌ ½ÃÁ¡¿¡¼­ videobuf ·¹ÀÌ¾î°¡ ¹öÆÛ¸¦ ¼ÒÀ¯ÇÏ°í ÀÖÀ¸¹Ç·Î µå¶óÀÌ¹ö°¡ ´Ù½ÃÀÌ¸¦ ¸¸ÁöÁö ¾Ê¾Æ¾ßÇÕ´Ï´Ù.
-
-
+ë§ˆì§€ë§‰ ë‹¨ê³„ëŠ” ê´€ë ¨ videobuf_buffer êµ¬ì¡°ì²´ì˜ í¬ê¸° í•„ë“œë¥¼ ìº¡ì²˜ ëœ ì´ë¯¸ì§€ì˜ ì‹¤ì œ í¬ê¸°ë¡œ ì„¤ì •í•˜ê³  ìƒíƒœë¥¼ VIDEOBUF_DONEìœ¼ë¡œ ì„¤ì • í•œ ë‹¤ìŒ ì™„ë£Œëœ íì—ì„œ wake_up ()ì„ í˜¸ì¶œí•˜ëŠ” ê²ƒì…ë‹ˆë‹¤. ì´ ì‹œì ì—ì„œ videobuf ë ˆì´ì–´ê°€ ë²„í¼ë¥¼ ì†Œìœ í•˜ê³  ìˆìœ¼ë¯€ë¡œ ë“œë¼ì´ë²„ê°€ ë‹¤ì‹œì´ë¥¼ ë§Œì§€ì§€ ì•Šì•„ì•¼í•©ë‹ˆë‹¤.
+ 
+ 
 Developers who are interested in more information can go into the relevant
 header files; there are a few low-level functions declared there which have
 not been talked about here.  Also worthwhile is the vivi driver
@@ -407,4 +407,6 @@ not been talked about here.  Also worthwhile is the vivi driver
 drivers should be written.  Vivi only uses the vmalloc() API, but it's good
 enough to get started with.  Note also that all of these calls are exported
 GPL-only, so they will not be available to non-GPL kernel modules.
-Ãß°¡ Á¤º¸¿¡ °ü½ÉÀÌÀÖ´Â °³¹ßÀÚ´Â °ü·Ã Çì´õ ÆÄÀÏ·Î ÀÌµ¿ÇÒ ¼ö ÀÖ½À´Ï´Ù. ¿©±â¿¡ ¾ğ±ŞµÇÁö ¾ÊÀº Àú¼öÁØ ÇÔ¼ö°¡ ¸î °¡Áö ÀÖ½À´Ï´Ù. Vivi µå¶óÀÌ¹ö (drivers / media / platform / vivi.c)µµ À¯¿ë ÇÒ °ÍÀÔ´Ï´Ù.ÀÌ µå¶óÀÌ¹ö´Â V4L2 µå¶óÀÌ¹ö¸¦ ÀÛ¼ºÇÏ´Â ¹æ¹ıÀÇ ¿¹ÀÔ´Ï´Ù. Vivi´Â vmalloc () API ¸¸ »ç¿ëÇÏÁö¸¸ ½ÃÀÛÇÏ±â¿¡ ÃæºĞÇÕ´Ï´Ù. ÀÌ ¸ğµç È£ÃâÀº GPL Àü¿ëÀ¸·Î ³»º¸³» Áö¹Ç·Î ºñ GPL Ä¿³Î ¸ğµâ¿¡¼­´Â »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.
+ì¶”ê°€ ì •ë³´ì— ê´€ì‹¬ì´ìˆëŠ” ê°œë°œìëŠ” ê´€ë ¨ í—¤ë” íŒŒì¼ë¡œ ì´ë™í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì—¬ê¸°ì— ì–¸ê¸‰ë˜ì§€ ì•Šì€ ì €ìˆ˜ì¤€ í•¨ìˆ˜ê°€ ëª‡ ê°€ì§€ ìˆìŠµë‹ˆë‹¤. Vivi ë“œë¼ì´ë²„ (drivers / media / platform / vivi.c)ë„ ìœ ìš© í•  ê²ƒì…ë‹ˆë‹¤.ì´ ë“œë¼ì´ë²„ëŠ” V4L2 ë“œë¼ì´ë²„ë¥¼ ì‘ì„±í•˜ëŠ” ë°©ë²•ì˜ ì˜ˆì…ë‹ˆë‹¤. ViviëŠ” vmalloc () API ë§Œ ì‚¬ìš©í•˜ì§€ë§Œ ì‹œì‘í•˜ê¸°ì— ì¶©ë¶„í•©ë‹ˆë‹¤. ì´ ëª¨ë“  í˜¸ì¶œì€ GPL ì „ìš©ìœ¼ë¡œ ë‚´ë³´ë‚´ ì§€ë¯€ë¡œ ë¹„ GPL ì»¤ë„ ëª¨ë“ˆì—ì„œëŠ” ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+ 
+
