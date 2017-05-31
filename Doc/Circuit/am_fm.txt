@@ -1,0 +1,1008 @@
+AM/FM Radio Project 는 AM Radio Section 과
+FM Radio Section 의 두 부분으로 나뉜다.
+AM 은 AM 만 FM 은 FM 만 작업하도록 한다.
+
+
+
+* PARTS LIST FOR THE AM RADIO SECTION
+
+10 ohm x 1
+47 ohm x 2
+100 ohm x 4
+330 ohm x 1
+470 ohm x 1
+1k ohm x 1
+2.2k ohm x 1
+3.3k ohm x 3
+10k ohm x 1
+12k ohm x 1
+27k ohm x 1
+39k ohm x 1
+56k ohm x 1
+470k ohm x 1
+1M ohm x 1
+50k ohm Potentiometer x 1
+
+150p F x 1
+0.001u F x 1
+0.01u F x 1
+0.02u F x 5
+0.022u F x 5
+0.047u F x 1
+0.1u F x 2
+10u F x 4
+47u F x 1
+100u F x 1
+470u F x 2
+Variable Cap
+
+1N4148 x 2
+2N3904 x 5
+2N3906 x 1
+JE8050 x 1
+JE8550 x 1
+LM386 x 1
+
+AM Oscillator Coil(Red) x 1
+AM IF Coil(Yellow) x 1
+AM IF Coil(White) x 1
+AM IF Coil(Black) x 1
+AM Antenna Holder x 1
+
+Iron Core x 1
+Brass Core x 1
+Shrink Tubing x 4
+
+PCB - Transistor Audio Amplifier x 1
+PCB - Main x 1
+Switch x 1
+Battery Holder x 1
+Speaker x 1
+Heder male 4-pin x 2
+Speaker Pad x 1
+Knob(Dial) x 1
+Knob(Pot) x 1
+Earphone Jack with Nut x 1
+Radio Stand x 1
+Earphone x 1
+Screw M1.8 x 7.5mm(Battery Holder) x 3
+Screw M2.5 x 7.5mm(Dial) x 1
+Screw M2.5 x 3.8mm(Gang) x 2
+Nut M1.8 x 3
+Plastic Washer x 1
+Socket 8-pin x 1
+Test Point Pin x 12
+Label AM/FM x 1
+Wire 22AWG insulated x 8
+Solder Lead-free x 1
+
+
+
+* IDENTIFYING RESISTOR VALUES
+
+저항 테이블을 확인하며 작업해야 한다.
+
+
+
+* IDENTIFYING CAPACITOR VALUES
+
+콘덴서 테이블도 확인하며 작업한다.
+
+
+
+* METRIC UNITS AND CONVERSIONS
+
+단위에 각별히 주의하도록 한다.
+
+
+
+* INTRODUCTION
+
+AM / FM Radio 는 표준 AM(진폭 변조) 및
+FM(주파수 변조) 방송 주파수의 Superheterodyne 수신기다.
+PCB 의 표면에 적절한 부품을 배치할 수 있게 함으로써 어셈블리 오류를 최소화한다.
+그러나 납땜 문제가 발생할 수 있으므로 납땜 가이드를 주의해야 한다.
+
+실제 어셈블리는 9 개의 Block 으로 나뉜다.
+어셈블리를 시작하기 전에 각 섹션 혹은 스테이지의 작동 이론을 알아야 한다.
+각 어셈블리를 마친 후 각 섹션이 제대로 작동하는지
+파악하기 위해 특정 테스트와 측정을 하도록 지시 받는다.
+테스트에서 올바른 결과가 나오지 않으면 문제를 해결하는데
+도움이되는 문제 해결 가이드를 살펴보도록 한다.
+테스트 장비가 있으면 더 많은 측정 및 계산을 통해
+각 단계가 엔지니어링 사양을 충족하는지 확인할 수 있다.
+모든 테스트가 완료된 후 수신기의 성능을 극대화하도록 한다.
+
+
+
+* GENERAL DISCUSSION
+
+Section 1 Audio Amplfier Stage 의 목적은 검출기로부터
+수신된 Audio 신호의 전력을 Speaker 를
+구동할 수 있는 전력 레벨로 증가시키는 것이다.
+Audio Amplifier 는 IC 혹은 TR 버전이다.
+
+Section 2 는 AM Detector Circuit 과 AGC(자동 이득 제어) 단계를 포함한다.
+AM Detector 는 진폭 변조된 IF(중간 주파수) 신호를 낮은 레벨의 Audio 신호로 변환한다.
+AGC Stage 는 Detector 에서 거의 일정한 레벨의 Audio 신호를 유지하기 위해
+제 1 AM IF Amplifier 에 DC Voltage 를 Feedback 한다.
+
+Section 3 는 두 번째 AM IF Amplifier 이다.
+두 번째 AM IF Amplifier 는 455 kHz(Kilohertz)로
+튜닝되어 있으며 50 의 주파수에서 고정 이득을 갖는다.
+
+Section 4 는 AGC Stage 에서 수신한 AGC Voltage 에 따라
+가변 이득을 갖는 첫 번째 AM IF Amplifier 다.
+첫 번째 AM IF Amplifier 는 또한 455 kHz 로 튜닝된다.
+
+Section 5 는 AM Mixer, AM Oscillator 및 AM Antenna Stage 가 포함되어 있다.
+전파가 Antenna 를 통과하면 Antenna Coil 에 작은 전압이 유도된다.
+이 전압은 Mixer 혹은 Converter Stage 에 결합되어 455 kHz 의 주파수로 변경된다.
+이 변화는 Radio Frequency Signal 을 Oscillator Signal 과
+Mixing(Heterodyne) 함으로써 달성된다.
+
+Section 6 은 FM Ratio Detector Circuit 이다.
+FM Ratio Detector 의 고정 이득은 약 20 이다.
+
+Section 7 은 두 번째 FM IF Amplifier 다.
+두 번째 FM IF Amplifier 는 10.7 MHz 로 튜닝되며 약 20 의 이득을 갖는다.
+이 단계의 3 dB Bandwidth 는 약 350 kHz 여야한다.
+
+Section 8 은 첫 번째 FM IF Amplifier 다.
+첫 번째 FM IF Amplifier 는 10.7 MHz 로 튜닝되어 약 10 의 이득을 얻는다.
+또한 3 dB Bandwidth 350 kHz 를 갖는다.
+
+Section 9 는 FM Mixer, FM Oscillator, FM RF(Radio Frequency) Amplifier,
+AFC(Automatic Frequency Control) Stage, 그리고 FM Antenna 가 포함된다.
+
+들어오는 전파는 FM RF Amplifier 에 의해 증폭되고
+88 MHz ~ 108 MHz 의 FM Frequency Bandwidth 에서 원하는 Radio 방송국으로 튜닝된다.
+이 증폭된 신호는 FM Mixer Stage 에 결합되어 10.7 MHz 의 주파수로 변경된다.
+AM 에서처럼 이 변경은 Radio Frequency 신호를
+Oscillator 신호로 헤테로다인(Heterodyning)하여 수행된다.
+AFC Stage 는 Oscillator 가 표류하는 것을 방지하기 위해
+FM Oscillator 에 DC Voltage 를 Feedback 한다.
+
+
+
+* CONSTRUCTION
+
+- Introduction
+
+AM / FM Radio 를 만들 때 가장 중요한 요소는 우수한 납땜 기술이다.
+적절한 납땜 인두를 사용하는 것이 가장 중요하다.
+25 와트의 작은 연필형 납땜 인두가 권장된다.
+인두의 끝은 항상 청결하게 유지되어야하며 주석 도금이 되어 있어야 한다.
+
+- Solder
+
+수년 동안 납은 전자 산업에서 사용되는 가장 일반적인 유형의 납땜이었지만
+현재는 건강상의 이유로 납없는 납땜으로 대체되고 있다.
+99.3% 의 주석, 0.7% 의 구리를 함유하며
+Rosin Flux Core 가 있는 무연 Solder 를 사용하면 좋다.
+
+무연 Solder 는 납 Solder 와 다르다.
+무연의 경우 융점이 높으므로 Solder 가 제대로 흐르려면 더 높은 온도가 필ㅇ하다.
+권장 온도는 약 700 화씨로 370 섭씨로 볼 수 있다.
+온도가 높을수록 납의 흐름이 좋지만 Tip 붕괴가 가속화된다.
+좋은 결과를 얻으려면 납땜 시간이 길어질 수 있다.
+Soldering Iron Tip 은 무연 Solder 가 부식성이 높고
+Soldering 온도가 높을수록 부식이 빨라지기 때문에 빨리 마모된다.
+그렇기에 적절한 Tip 관리가 중요하다.
+Solder 접합부 마무리는 무연 Solder 로 약간 더 둔해 보일 것이다.
+
+무연 Solder 를 사용할 때 아래 절차를 사용하여 납땜 인두 끝의 수명을 늘려라
+
+1. 인두를 잘 보관한다.
+
+2. 최상의 열 전달을 위해 올바른 팁 사이즈를 선택한다.
+   원추형 팁이 가장 일반적으로 사용된다.
+
+3. Soldering Station 을 사용할 때 온도 설정을 잘 하도록 한다.
+
+4. Tip 은 제거가 불가능해지기 전에 산화를 제거하기 위해 자주 청소해야 한다.
+   Dry Tip Cleaner 혹은 Tip Cleaner 를 사용하라.
+   스펀지로 Tip 을 닦으면 증류수를 사용한다.
+   (수돗물에는 불순물이 있어 부식을 촉진한다)
+
+- Safety Procedures
+
+1. 공구 또는 납땜 인두 작업시 눈을 보호하기 위해
+   안전 안경을 착용하도록 한다.
+
+2. 납땜할 때 통풍이 잘 되는지 확인한다.
+
+3. 납땜 인두는 주변에 사람이 돌아다니지 않는 곳에 설치하라.
+   유아의 손이 닿지 않는 곳에 보관한다.
+
+4. 입안에 납땜을 두지 마라.
+   납은 독성 물질이며 납을 취급한 후엔 손을 철저하게 씻으라!
+
+- Assemble Components
+
+조립 단계에서 별도로 명시하지 않는 한 구성 요소는 PCB 의 윗면에 설치한다.
+Lead 는 보드의 구멍을 통과하여 호일쪽에 납땜된다.
+Rosin Core Solder 만을 사용하도록 한다.
+
+
+
+* What Good Soldering Looks Like
+
+잘 된 땜질은 모든 표면에서 밝고 윤기 있고 부드럽고 균일하게 흘러야 한다.
+
+1. 모든 부품을 동박면에서만 땜질한다.
+   리드선과 회로판 호일에 납땜 인두 팁을 밀어 넣어라.
+
+2. 인두 팁에 소량의 납을 바른다.
+   그리고 부품을 땜질한다.
+
+3. 납을 골고루 잘 바른다.
+   잘 발라졌다면 연결부를 식힌다.
+   주변에 납이 묻지 않아야 한다.
+
+
+
+* Types of Poor Soldering Connections
+
+1. 불충분한 열  
+   Solder 가 제대로 연결되지 않는다. 
+
+2. 불충분한 땜질
+   땜이 충분히 덮일 때까지 충분히 발라준다. 
+   연결부를 덮을만큼 땜용 납을 사용하라. 
+
+3. 과도한 땜질
+   인접한 포일 영역이나 다른 부품 공간에 의도하지 않은 연결을 만듬
+
+
+
+* SEMICONDUCTOR PARTS FAMILIARIZATION
+
+TR 과 Diode 를 테스트하는데 사용되는 적절한 방법을 학습한다.
+
+
+
+* TRANSISTOR TEST(NPN and PNP)
+
+Emitter, Base, Collector 의 위치는 데이터시트를 참고하도록 한다.
+저항계를 사용하여 TR 을 계측하여본다.
+계측기는 낮은 저항 값을 읽을 것이다.
+Emitter 에서 Collector 로 확인해봐도 낮은 저아을 볼 수 있다.
+(+ 를 Base 에 고정시키고 - 를 왔다갔다한다: NPN)
+
+저항계를 사용하여 TR 을 계측해본다.
+계측기는 높은 저항 값을 읽는다.
+Emitter 에서 Collector 로 연결하면 높은 저항을 읽으며
+일반적으로 약 1M ohm 에서 무한대까지 읽는다.
+(- 를 Base 에 고정시키고 + 를 왔다갔다한다: NPN)
+
+Emitter, Base, Collector 의 위치는 부품 목록을 참조하고 PNP TR 을 찾으라.
+저항계를 사용하여 계측을 해보면 낮은 저항을 읽게 된다.
+(- 를 Base 에 고정시키고 + 를 왔다갔다한다: PNP)
+
+저항계를 사용하여 TR 을 계측하면 높은 저항을 읽게 된다.
+(+ 를 Base 에 고정시키고 - 를 왔다갔다한다: PNP)
+
+
+
+* DIODE TEST
+
+부품 목록을 참조하고 Diode 를 찾으라.
+음극 및 양극의 위치는 Datasheet 를 참조하라.
+저항계를 사용하여 Diode 를 연결하면 낮은 저항을 읽는다.
+반면 반대로 연결하면 높은 저항을 읽어야 한다.
+실리콘 다이오드(1N4148)의 경우 무한대에서 1M ohm 까지 읽는다.
+
+
+
+* INTEGRATED CIRCUIT(IC) AUDIO AMPLIFIER
+
+이 Radio Kit 은 2 개의 별도 Audio System 이 포함되어 있다.
+첫 번째는 집적 회로(IC)이고 두 번째는 5 개의 TR Circuit 이다.
+목표는 이 2 개의 회로가 어떻게 작동하는지 살펴보고
+각 회로의 성능을 비교하는 것이다.
+먼저 IC Audio Amplifier 를 제작하여 Radio Project 를 시작한다.
+
+Audio Amplifier 의 목적은 Audio Power 를
+8 ohm Speaker 를 구동하기에 충분한 수준으로 높이는 것이다.
+이를 위해 Battery 로부터 DC(직류)가
+Amplifier 에 의해 Speaker 의 AC(교류)로 변환된다.
+Speaker 로 전달되는 전력과 Battery 에서 소비되는 전력의 비율은 Amplifier 의 효율이다.
+Audio Amplifier 의 경우 집적 회로(IC) LM-386 을 사용한다.
+동일한 회로에 대해 스케치 해보고 시뮬레이션 해보도록 한다.
+
+Class A Amplifier(전체 Cycle 에 걸친 Transistor)에서
+최대 이론 효율은 0.5 혹은 50% 다.
+그러나 Class B Amplifier(1/2 Cycle 에 대한 Transistor)에서
+최대 이론 효율은 0.785 혹은 78.5% 다.
+Transistor 특성이 순수한 Class B Amplifier 에서 이상적이지 않기 때문에
+Transistor 는 Crossover Distortion(왜곡)을 유발하게 된다.
+이는 Zero Current 혹은 차단 근처의 비선형 전달 곡선 때문이다.
+이러한 유형의 왜곡은 전자회로 교과서에 아주 잘 나와있다.
+
+Crossover 왜곡을 없애고 효율을 극대화하기 위해
+Audio Amplifier Circuit 의 TR 은 Class AB 주기의 1/2 이상에서 Bias 된다.
+바꾸어 말해 TR 은 Speaker 에 매우 작은 레벨의 전원을 공급하기 위해
+Class A Amplifier 로 작동하지만 더 큰 전력 레벨에서는 Class B 로 동작하게 된다.
+
+LM-386 을 보다 범용적인 Amplifier 로 만들기 위한
+Gain Control 을 위해 2 개의 Pins(1 과 8)이 제공된다.
+핀 1 과 8 이 열린 상태에서 1.35k ohm 은 이득을 20 으로 설정한다.
+이득은 핀 1 과 핀 8 사이에 콘덴서를 배치하여 최대 200 이 될 수 있다.
+저항을 콘덴서와 직렬로 배치하면 이득을 20 ~ 200 사이의 값으로 설정할 수 있다.
+이를 기반으로 이득이 150 인 증폭기를 설계해보도록 한다.
+
+150 의 이득을 가진 Amplifier 설계에서
+콘덴서는 제어된 Audio Signal 의 볼륨을 Audio Amplifier 입력에 연결한다.
+또한 커플링용 콘덴서는 AC 가 통과하는 동안 Speaker 에 DC 를 차단하는 역할을 수행한다.
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+저항을 먼저 연결하도록 한다.
+저항 색상을 확인하고 잘 설치하도록 한다.
+모든 부품을 올바르게 장착하고 땜질을 한다.
+Diode, TR 및 전해 콘덴서는 극성이 바뀌므로 각별히 주의하여 연결한다.
+각 연결을 완료했음을 표기하기 위해 체크 표시를 해두도록 한다.
+
+-- 조립 단계에서 안전 고글을 착용하라 --
+
+
+
+* Test Point Pin
+
+PCB 의 파란색면이 앞 부분
+PCB 의 초록색면이 뒷 부분
+
+
+
+* Lytic Capacitor
+
+음극(짧은) 리드가 PCB 의 올바른 구멍에 있는지 확인하라.
+
+경고:
+콘덴서가 올바르지 않은 극성으로 연결되면
+열이 올라서 누출되거나 콘덴서가 폭발할 수 있다.
+
+- 극성 표시
+- PCB 의 Foil 쪽(녹색면)
+
+
+
+* Integrated Circuit(IC)
+
+- 점이 위쪽(파란색면)의 표시와 같은 방향으로 IC Socket 을 PCB 에 삽입한다.
+  IC Socket 을 제자리에 납땜하라.
+
+- 점이 Socket 의 점과 같은 방향으로 일치되도록 IC 를 삽입하라.
+
+
+
+PCB 의 Foil(녹색)쪽 (PCB 의 GND 패드에 있는 터미널 #1)의 너트로 잭을 마운트하라.
+탭을 PCB 의 Foil 쪽 패드에 맞춰라.
+납땜 단자 #1 은 PCB 의 패드에 연결한다.
+
+
+
+1 단계:
+Speaker 패드에 중앙 및 외부 조각이 있는 경우 제거한다.
+Speaker 패드의 한쪽면을 뒤쪽으로 떼어내고 패드를 Speaker 위에 붙인다.
+
+2 단계:
+Speaker 패드에서 다른 받침을 제거하라.
+
+3 단계:
+Speaker 를 PCB 의 납땜면에 붙인다.
+
+
+
+2 개의 1" Wire 와 1 1/2" Wire 를 자르고 양쪽 끝의 절연체를 1/4" 벗겨낸다.
+표시된 위치에 Wire 를 땜질한다.
+
+
+
+* STATIC MEASUREMENTS(POWER TEST)
+
+모든 측정을 위해 장비 GND 를 회로 GND TP15 에 연결하라.
+VOM(Volt-OhmMillimeter)을 2 amp DC 로 설정한다.
+건전지의 - 를 PCB 의 - 에 연결하고
+건전지의 + 를 멀티미터 + 에 연결한다.
+그리고 멀티미터의 - 를 PCB 의 + 에 연결한다.
+
+볼륨 조절기가 OFF 위치에 있는지 확인하라(완전히 반 시계 방향으로 돌림)
+VOM 을 보면서 볼륨을 ON 위치로 돌린다("딸깍" 소리가 들릴 때까지 시계 방향으로 돌림)
+VOM 은 매우 낮은 전류를 나타내야 한다.
+필요한 경우 측정기를 조정하여 정확한 판독 값을 얻어야 한다.
+전류가 20 mA 보다 크면 즉시 전원을 끄도록 한다.
+전류는 10 mA 미만이어야 한다.
+이것은 입력 신호가 없을 때 Battery 가 소비하는 전류다("유휴 전류").
+회로가 이 테스트를 통과하지 못한다면
+모든 부품이 올바르게 설치되었는지 확인하고 단락 또는 불량한 솔더 연결을 점검하라!
+
+
+
+* OUTPUT BIAS TEST
+
+Battery 를 Holder 에 넣으라!
+
+VOM 을 조정하여 9 Volt 를 읽고 GND 와 Amp 피드백 중간단을 찍어보자
+Battery 또는 9V 전원 공급 장치(사용 가능한 경우)가
+올바르게 연결되었는지 확인하고 전원을 켜라.
+TP1 의 전압은 3 ~ 6V 사이여야 한다.
+이 값을 확인하고 다음을 계측한다.
+이 검사를 통과하지 못했다면 전원을 끄고
+집적 회로가 올바른 위치에 올바르게 삽입되었는지 확인한다.
+IC 의 점이 PCB 에 표시된 것과 같은 방향이어야 한다.
+모든 저항 값이 올바른 값이고 잘못 연결 되었는지 확인한다.
+Dynamic Test 나 다음 절차를 진행하기 전에 모든 정적 테스트가 통과되어야 한다.
+
+
+
+* DYNAMIC MEASUREMENTS(GAIN)
+
+VOM 및 Audio Generator 를 회로에 연결한다.
+
+일반적으로 AC Gain 은 1 kHz 의 주파수에서 측정된다.
+그러나 VOM 은 이 주파수에서 AC 전압을 정확하게 읽을 수 없다.
+따라서 이 검사는 400 Hz 에서 수행하는 것이 좋다.
+Audio Generator 를 400 Hz 및 최소 전압 출력으로 설정한다.
+전원을 켠 상태에서 테스트 포인트 TP1 에서
+1 Volt 의 AC 전압을 읽도록 VOM 을 설정한다.
+볼륨 제어를 절반 정도 늘린다.
+VOM 이 1V AC 를 읽을 때까지 Audio Generator 의 진폭을 천천히 높인다.
+Audio Generator 를 이 설정 상태로 두고 VOM 의 양극 도선을 점퍼 J3 로 옮긴다.
+Amplifier 에 AC 입력 전압을 기록하라:
+
+Vin = x Volts
+
+가장 정확한 수치를 보려면 VOM 의 척도를 변경해야 할 수도 있다.
+전원을 끈다.
+Audio Amplifier 의 AC Voltage Gain 은
+AC Output Voltage 를 AC Input Voltage 혹은 1 / Vin 으로 나눈 것과 같다.
+
+이득을 계산하라.
+이득은 100 ~ 180 이어야 한다.
+
+Gain = x
+
+
+
+* AC BANDWIDTH
+
+Oscilloscope 와 Audio Generator 를 회로상에 적절하게 연결한다.
+스코프를 그라운딩 하고 TP1 에 연결한다.
+Audio Generator 도 그라운딩하고 TP2 에 연결한다.
+Audio Generator 를 1 kHz 의 주파수 및 최소 전압 출력으로 설정한다.
+Oscilloscope 를 0.5 단위로 읽도록 설정한다.
+전원을 켜고 천천히 볼륨 조절기를 올리도록 한다.
+Oscilloscope 가 TP1 에서 2V peak to peak(Vpp) 를 표시할 때까지
+Audio Generator 의 진폭을 늘려라.
+볼륨 컨트롤을 조정해야 할 수도 있다.
+Oscilloscope Probe 를 점퍼 J3 으로 이동하고 여기에 입력 전압을 기록한다.
+
+Vin = x Vpp
+
+(이 시점에서 AC 이득을 검증할 수 있다)
+
+Oscilloscope Probe 를 다시 TP1 으로 옮기고
+Oscilloscope 의 파형이 원본 판독 값 1.4 Vpp
+혹은 2.8 Division 의 0.7 이 될 때까지
+Audio Generator 의 주파수를 천천히 높인다.
+출력이 원래값의 0.7 로 떨어지면
+Generator 의 주파수는 고주파 3 dB Corner 라 부른다.
+이 주파수를 기록하라.
+
+(f high 3 dB) = x kHz
+
+Output 이 원래 판독값인 1.4 Vpp 혹은
+2.8 Divisions 의 0.7 이 될 때까지 발전기의 주파수를 천천히 낮춘다.
+
+(f low 3 dB) = x kHz
+
+AC Bandwidth 를 계산하라:
+
+(f high 3 dB - f low 3 dB) = x kHz
+AC Bandwidth = x
+
+계산된 답은 30 kHz 보다 커야 한다.
+
+
+
+* DISTORTION
+
+Generator 와 Oscilloscope 를 앞선 작업과 동일하게 연결하도록 한다.
+Generator 를 1 kHz 의 주파수로 설정하고 전원을 켠다.
+Generator 출력을 조정하고 Generator 출력을 조정하고
+TP1 에서 sine 파의 피크가 최대 신호를 낼 때까지 볼륨을 돌린다.
+(Clipping Circuit 에서 보여지는 파형이 나오면 된다)
+sine 파의 한면은 TP1 의 DC 중심에 따라 다른면보다 먼저 Clip 될 수 있다.
+진동이 보이면 Generator 에 회로의 GND 로 Clip Lead 를 연결하라.
+Clipping 이 처음 발생했을 때 최대 전압 피크를 측정하고 여기에 그 값을 기록하라.
+
+Vclp = x Vpp
+
+전원을 끈다.
+
+
+
+* MAXIMUM POWER OUTPUT
+
+"Clipping" 으로 인한 왜곡 전의 최대 출력은
+아래와 같이 왜곡 단계에서 얻은 전압 Vclp 를 사용하여 계산할 수 있다.
+
+Vpeak(Vp) = Vclp / 2
+
+Vroot mean squared(Vrms) = Vp x 0.7
+
+Max power out = (Vrms)^2 / 8 ohm = (Vclp x 0.35)^2 / 8
+
+최대 출력은 200 밀리 와트 이상이어야 한다.
+
+
+
+* EFFICIENCY
+
+최대 전력 출력 Level 에서 Battery 로부터 얻은
+DC Power 를 측정함으로써 Audio Amplifier 의 효율을 계산할 수 있다.
+Battery 의 전력은 최대 전력 출력 동안
+배터리의 전압과 배터리에서 나오는 전류를 곱한 값과 같다.
+효율성은 아래와 같이 계산할 수 있다:
+
+Eff(효율성) = Max Audio Power / Battery Power
+
+이러한 측정중에 전원 전압이 변하지 않도록
+전원 공급 장치(사용 가능한 경우)를 사용하는 것이 가장 좋다.
+
+Generator, Oscilloscope, Power Supply(혹은 Battery) 및 Current Meter 를 연결한다.
+Generator 를 그라운딩하고 TP2 에 건다.
+Power Supply - 를 배터리 홀더 - 에 건다.
+그리고 Current Meter 의 + 를 Power Supply + 에 건다.
+Current Meter 의 - 를 Battery Holder + 에 건다.
+Oscilloscope 를 그라운딩하고 TP1 에 건다.
+
+Current Meter 를 1 amp DC 로 설정한다.
+전원을 켜고 볼륨 조절기를 최대로 돌린다.
+Clipping Circuit 과 유사해질 때까지 Audio Generator 의 진폭을 서서히 높인다.
+
+Vclp 를 기록하라:
+
+Vclp = x Vpp
+
+Distortion Step 의 Vclp 와 같아야 한다.
+9V Supply 에서 끌어온 DC Current 를 기록하라:
+
+Current(I) max = x A
+
+공급 전압을 측정하고 V 전원을 기록하라:
+
+V supply = x volts
+
+전원을 끈다.
+
+최대 출력 단계에서의 출력을 계산하고 기록하라.
+
+Vp = Vclp / 2
+Vrms = Vp x 0.7
+Max power out = (Vrms)^2 / 8
+
+Vp = x
+Vrms = x
+Max power out = x
+
+Battery 전력은 Battery 전압과 Battery 의 전류를 곱한 값이다.
+Battery Power 를 계산하라:
+
+Battery power = I(max) x Vsupply
+
+Battery power = x
+
+효율(N)이 최대 전력을 Battery 전력으로 나눈 값과 같기 때문에
+이제 Audio Amplifier 의 효율을 계산할 수 있다.
+
+N = Max power out / Battery power
+N in % = N x 100
+
+N = x
+N = x%
+
+계산 결과가 0.5 혹은 50% 의 근처에 있어야 한다.
+
+
+
+* TRANSISTOR AUDIO AMPLIFIER
+
+IC Audio Amplifier 를 성공적으로 완성했다면
+이제 5 개의 Transistor Audio Amplifier 를 만들 준비가 완료된 것이다.
+Transistor Audio Amplifier 는
+별도의 PCB 에 내장되어 있으며 IC Socket 에 연결된다.
+Socket 에서 IC 를 제거해야 한다.
+
+Speaker 로 전달되는 전력과
+Battery 에서 소비되는 전력의 비율은 Amplifier 의 효율이다.
+Class A Amplifier 의 최대 이론 효율은 0.5 혹은 50% 지만
+Class B Amplifier 의 최대 이론 효율은 0.785 혹은 78.5% 에 해당한다.
+Transistor 특성이 이상적인 것이 아니므로
+순수한 Class B Amplifier 에서 Transistor 는 Crossover 왜곡을 일으킬 것이다.
+이는 Zero Current 혹은 차단 근처의 비선형 전달 곡선 때문이다.
+이러한 것은 전자 회로의 Transistor 부분에서 많이 다루는 내용에 해당한다.
+
+Crossover 왜곡을 제거하고 효율을 극대화하기 위해
+Audio Amplifier Circuit 의 TR 은 AB 급으로 주기의 1/2 이상에서 약간 Bias 된다.
+다시 말해 TR 은 Speaker 에 매우 적은 전력을 공급하는
+Class A Amplifier 로 작동하지만
+더 큰 전력 레벨에서는 Class B Amplifier 로 작동한다.
+
+TR 은 Bias String 저항 2 개와 다이오드를 통해
+TR 2 개를 구동하는 Class A Amplifier 에 해당한다.
+TR 2 개는 다른 TR 2 개의 전류를 증폭하는 전류 증폭기로 동작한다.
+AC 및 DC 이득은 TR 의 DC 전류와 Collector 저항에 의해 결정된다.
+Audio Amplifier 의 AC 이득은 거의 100 이며 DC 이득은 약 50 이다.
+TR 은 자체 Bias 되므로 Emitter 에서의 전압은 공급 전압의 약 1 / 2 이다.
+저항은 대략 0.7 V 로 바이어스된 TR 의 Base 에 Feedback 을 제공한다.
+콘덴서는 볼륨 제어를 위한 Audio Signal 을 Audio 입력에 연결한다.
+콘덴서는 AC 가 통과하는 동안 Speaker 에 전류를 차단한다.
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(POWER TEST)
+
+
+
+* OUTPUT BIAS TEST
+
+
+
+* TRANSISTOR BIAS TEST
+
+
+
+* DYNAMIC MEASUREMENTS(DC GAIN)
+
+
+
+* AC GAIN
+
+
+
+* AC BANDWIDTH
+
+
+
+* DISTORTION
+
+
+
+* MAXIMUM POWER OUTPUT
+
+
+
+* EFFICIENCY
+
+
+
+* AM DETECTOR AND AGC STAGE
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(AGC ZERO SIGNAL BIAS)
+
+
+
+* T8 TEST
+
+
+
+* DYNAMIC MEASUREMENTS(AM DETECTOR AND AGC TEST)
+
+
+
+* SYSTEM CHECK
+
+
+
+* AM DETECTOR BANDWIDTH TEST
+
+
+
+* SECOND AM IF AMPLIFIER
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q9 BIAS)
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* BANDWIDTH
+
+
+
+* FIRST AM IF AMPLIFIER
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q8 BASE BIAS)
+
+
+
+* Q8 CURRENT
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* AGC ACTION
+
+
+
+* AM MIXER, AM OSCILLATOR, AND AM ANTENNA
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q7 BIAS)
+
+
+
+* DYNAMIC MEASUREMENTS(AM OSCILLATOR CIRCUIT)
+
+
+
+* AM FINAL ALIGNMENTS
+
+
+
+* AM ALIGNMENT WITHOUT TEST EQUIPMENT
+
+
+
+* IF ALIGNMENT
+
+
+
+* OSCILLATOR ALIGNMENT
+
+
+
+* ANTENNA ALIGNMENT
+
+
+
+* AM ALIGNMENT WITH TEST EQUIPMENT(IF ALIGNMENT)
+
+
+
+* OSCILLATOR ALIGNMENT
+
+
+
+* ANTENNA ALIGNMENT
+
+
+
+* AM RADIO HIGHLIGHTS
+
+
+
+* DC VOLTAGES
+
+
+
+* QUIZ
+
+
+
+* PARTS LIST FOR FM SECTION
+
+
+
+* THE FM RADIO
+
+
+
+* FM RATIO DETECTOR
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(FM VOLTAGE)
+
+
+
+* TRANSISTOR CURRENT TEST
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* RATIO DETECTOR ALIGNMENT METHOD #1(ALIGNMENT WITH NO TEST EQUIPMENT)
+
+
+
+* METHOD #2 ALIGNMENT OF RATIO DETECTOR USING A RF GENERATOR AND OSCILLOSCOPE
+
+
+
+* METHOD #3 ALIGNMENT OF RATIO DETECTOR USING A SWEEP GENERATOR AND OSCILLOSCOPE
+
+
+
+* SECOND FM IF AMPLIFIER
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC TESTS(Q5 BIAS)
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* BANDWIDTH
+
+
+
+* FIRST FM IF AMPLIFIER
+
+
+
+* ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC TESTS(Q4 BIAS)
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* BANDWIDTH
+
+
+
+* FM RF AMPLIFIER, MIXER, OSCILLATOR, AND AFC STAGE
+
+
+
+* MIXER ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q3 BIAS)
+
+
+
+* DYNAMIC MEASUREMENTS(AC GAIN)
+
+
+
+* BANDWIDTH TEST
+
+
+
+* FM OSCILLATOR ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q2 BIAS)
+
+
+
+* AFC
+
+
+
+* AFC ASSEMBLY INSTRUCTIONS
+
+
+
+* RF AMPLIFIER ASSEMBLY INSTRUCTIONS
+
+
+
+* STATIC MEASUREMENTS(Q1 BIAS)
+
+
+
+* ANTENNA FM ASSEMBLY
+
+
+
+* FM FINAL ALIGNMENTS
+
+
+
+* ALIGNMENT WITH NO TEST EQUIPMENT
+
+
+
+* IF ALIGNMENT
+
+
+
+* DETECTOR ALIGNMENT
+
+
+
+* OSCILLATOR ALIGNMENT
+
+
+
+* RF ALIGNMENT
+
+
+
+* ALIGNMENT WITH RF GENERATOR AND OSCILLOSCOPE IF ALIGNMENT
+
+
+
+* OSCILLATOR ALIGNMENT
+
+
+
+* RF ALIGNMENT
+
+
+
+* FM RADIO HIGHLIGHTS
+
+
+
+* DC VOLTAGES
+
+
+
+* SPECIFICATIONS(Audio)
+
+
+
+* AM Radio Specifications
+
+
+
+* FM Radio Specifications
+
+
+
+* QUIZ
+
+
+
+* AM/FM Radio Baffle
