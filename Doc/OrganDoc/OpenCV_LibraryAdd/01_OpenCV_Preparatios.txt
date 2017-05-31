@@ -1,0 +1,23 @@
+1. CMake 다운로드 
+- Latest Release 의 [Windows win64-x64 Installer] ... 인스톨러 다운로드 받습니다
+https://cmake.org/download/
+ 
+ 
+2. 깃허브에서 OpenCV 다운로드 
+- 각각 보여지는 페이지에서 [Clone or download] 클릭 .. [Download ZIP] 다운로드
+https://github.com/opencv/opencv
+https://github.com/opencv/opencv_contrib
+ 
+ 
+3. CUDA 툴킷 다운로드
+- Operating System : Windows
+  Architecture : x86_64
+  Version : {각자 윈도우버전에 맞게 다운받으면 됩니다}
+  Installer Type : {network : 무선으로 받음 , local : 유선으로 받음}
+https://developer.nvidia.com/cuda-downloads
+ 
+ 
+4. TBB 다운로드
+- Intel(R) Threading Building Blocks 2017 Update 6 창에서... [tbb2017_2017xxxxoss_win.zip] 다운로드 
+https://github.com/01org/tbb/releases
+
