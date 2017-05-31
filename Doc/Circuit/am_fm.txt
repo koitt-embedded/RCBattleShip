@@ -485,21 +485,163 @@ Vin = x Vpp
 
 (이 시점에서 AC 이득을 검증할 수 있다)
 
+Oscilloscope Probe 를 다시 TP1 으로 옮기고
+Oscilloscope 의 파형이 원본 판독 값 1.4 Vpp
+혹은 2.8 Division 의 0.7 이 될 때까지
+Audio Generator 의 주파수를 천천히 높인다.
+출력이 원래값의 0.7 로 떨어지면
+Generator 의 주파수는 고주파 3 dB Corner 라 부른다.
+이 주파수를 기록하라.
+
+(f high 3 dB) = x kHz
+
+Output 이 원래 판독값인 1.4 Vpp 혹은
+2.8 Divisions 의 0.7 이 될 때까지 발전기의 주파수를 천천히 낮춘다.
+
+(f low 3 dB) = x kHz
+
+AC Bandwidth 를 계산하라:
+
+(f high 3 dB - f low 3 dB) = x kHz
+AC Bandwidth = x
+
+계산된 답은 30 kHz 보다 커야 한다.
+
 
 
 * DISTORTION
+
+Generator 와 Oscilloscope 를 앞선 작업과 동일하게 연결하도록 한다.
+Generator 를 1 kHz 의 주파수로 설정하고 전원을 켠다.
+Generator 출력을 조정하고 Generator 출력을 조정하고
+TP1 에서 sine 파의 피크가 최대 신호를 낼 때까지 볼륨을 돌린다.
+(Clipping Circuit 에서 보여지는 파형이 나오면 된다)
+sine 파의 한면은 TP1 의 DC 중심에 따라 다른면보다 먼저 Clip 될 수 있다.
+진동이 보이면 Generator 에 회로의 GND 로 Clip Lead 를 연결하라.
+Clipping 이 처음 발생했을 때 최대 전압 피크를 측정하고 여기에 그 값을 기록하라.
+
+Vclp = x Vpp
+
+전원을 끈다.
 
 
 
 * MAXIMUM POWER OUTPUT
 
+"Clipping" 으로 인한 왜곡 전의 최대 출력은
+아래와 같이 왜곡 단계에서 얻은 전압 Vclp 를 사용하여 계산할 수 있다.
+
+Vpeak(Vp) = Vclp / 2
+
+Vroot mean squared(Vrms) = Vp x 0.7
+
+Max power out = (Vrms)^2 / 8 ohm = (Vclp x 0.35)^2 / 8
+
+최대 출력은 200 밀리 와트 이상이어야 한다.
+
 
 
 * EFFICIENCY
 
+최대 전력 출력 Level 에서 Battery 로부터 얻은
+DC Power 를 측정함으로써 Audio Amplifier 의 효율을 계산할 수 있다.
+Battery 의 전력은 최대 전력 출력 동안
+배터리의 전압과 배터리에서 나오는 전류를 곱한 값과 같다.
+효율성은 아래와 같이 계산할 수 있다:
+
+Eff(효율성) = Max Audio Power / Battery Power
+
+이러한 측정중에 전원 전압이 변하지 않도록
+전원 공급 장치(사용 가능한 경우)를 사용하는 것이 가장 좋다.
+
+Generator, Oscilloscope, Power Supply(혹은 Battery) 및 Current Meter 를 연결한다.
+Generator 를 그라운딩하고 TP2 에 건다.
+Power Supply - 를 배터리 홀더 - 에 건다.
+그리고 Current Meter 의 + 를 Power Supply + 에 건다.
+Current Meter 의 - 를 Battery Holder + 에 건다.
+Oscilloscope 를 그라운딩하고 TP1 에 건다.
+
+Current Meter 를 1 amp DC 로 설정한다.
+전원을 켜고 볼륨 조절기를 최대로 돌린다.
+Clipping Circuit 과 유사해질 때까지 Audio Generator 의 진폭을 서서히 높인다.
+
+Vclp 를 기록하라:
+
+Vclp = x Vpp
+
+Distortion Step 의 Vclp 와 같아야 한다.
+9V Supply 에서 끌어온 DC Current 를 기록하라:
+
+Current(I) max = x A
+
+공급 전압을 측정하고 V 전원을 기록하라:
+
+V supply = x volts
+
+전원을 끈다.
+
+최대 출력 단계에서의 출력을 계산하고 기록하라.
+
+Vp = Vclp / 2
+Vrms = Vp x 0.7
+Max power out = (Vrms)^2 / 8
+
+Vp = x
+Vrms = x
+Max power out = x
+
+Battery 전력은 Battery 전압과 Battery 의 전류를 곱한 값이다.
+Battery Power 를 계산하라:
+
+Battery power = I(max) x Vsupply
+
+Battery power = x
+
+효율(N)이 최대 전력을 Battery 전력으로 나눈 값과 같기 때문에
+이제 Audio Amplifier 의 효율을 계산할 수 있다.
+
+N = Max power out / Battery power
+N in % = N x 100
+
+N = x
+N = x%
+
+계산 결과가 0.5 혹은 50% 의 근처에 있어야 한다.
+
 
 
 * TRANSISTOR AUDIO AMPLIFIER
+
+IC Audio Amplifier 를 성공적으로 완성했다면
+이제 5 개의 Transistor Audio Amplifier 를 만들 준비가 완료된 것이다.
+Transistor Audio Amplifier 는
+별도의 PCB 에 내장되어 있으며 IC Socket 에 연결된다.
+Socket 에서 IC 를 제거해야 한다.
+
+Speaker 로 전달되는 전력과
+Battery 에서 소비되는 전력의 비율은 Amplifier 의 효율이다.
+Class A Amplifier 의 최대 이론 효율은 0.5 혹은 50% 지만
+Class B Amplifier 의 최대 이론 효율은 0.785 혹은 78.5% 에 해당한다.
+Transistor 특성이 이상적인 것이 아니므로
+순수한 Class B Amplifier 에서 Transistor 는 Crossover 왜곡을 일으킬 것이다.
+이는 Zero Current 혹은 차단 근처의 비선형 전달 곡선 때문이다.
+이러한 것은 전자 회로의 Transistor 부분에서 많이 다루는 내용에 해당한다.
+
+Crossover 왜곡을 제거하고 효율을 극대화하기 위해
+Audio Amplifier Circuit 의 TR 은 AB 급으로 주기의 1/2 이상에서 약간 Bias 된다.
+다시 말해 TR 은 Speaker 에 매우 적은 전력을 공급하는
+Class A Amplifier 로 작동하지만
+더 큰 전력 레벨에서는 Class B Amplifier 로 작동한다.
+
+TR 은 Bias String 저항 2 개와 다이오드를 통해
+TR 2 개를 구동하는 Class A Amplifier 에 해당한다.
+TR 2 개는 다른 TR 2 개의 전류를 증폭하는 전류 증폭기로 동작한다.
+AC 및 DC 이득은 TR 의 DC 전류와 Collector 저항에 의해 결정된다.
+Audio Amplifier 의 AC 이득은 거의 100 이며 DC 이득은 약 50 이다.
+TR 은 자체 Bias 되므로 Emitter 에서의 전압은 공급 전압의 약 1 / 2 이다.
+저항은 대략 0.7 V 로 바이어스된 TR 의 Base 에 Feedback 을 제공한다.
+콘덴서는 볼륨 제어를 위한 Audio Signal 을 Audio 입력에 연결한다.
+콘덴서는 AC 가 통과하는 동안 Speaker 에 전류를 차단한다.
 
 
 
