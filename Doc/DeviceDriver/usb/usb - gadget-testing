@@ -1,0 +1,350 @@
+This file summarizes information on basic testing of USB functions
+provided by gadgets.
+
+이 파일은 가젯에서 제공하는 USB function의 기본 테스트에 대한 정보를 요약합니다.
+(이 파일이 중요한 것 같다. 디바이스 드라이버를 작성할 때 기존의 있는 함수를 활용하기도 한다)
+(그런데 이 function들을 어떻게 쓰는 건지 모르겠다.)
+
+1. ACM function
+2. ECM function
+3. ECM subset function
+4. EEM function
+
+5. FFS function
+6. HID function
+7. LOOPBACK function
+8. MASS STORAGE function
+9. MIDI function
+10. NCM function
+11. OBEX function
+12. PHONET function
+13. RNDIS function
+14. SERIAL function
+15. SOURCESINK function
+16. UAC1 function
+17. UAC2 function
+18. UVC function
+19. PRINTER function
+
+
+1. ACM function
+===============
+
+The function is provided by usb_f_acm.ko module.
+
+이 함수는 usb_f_acm.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "acm".
+
+함수 디렉토리를 작성할 때 사용할 함수 이름은 "acm"입니다.
+(함수 이름은 그 함수를 사용한 장치 이름)
+
+The ACM function provides just one attribute in its function directory:
+
+ACM 기능은 함수 디렉토리에 하나의 속성만 제공합니다:
+
+	port_num
+
+The attribute is read-only.
+
+속성은 읽기 전용입니다.
+(속성은 내가 수정할 수 없는 사항인 것 같다)
+
+There can be at most 4 ACM/generic serial/OBEX ports in the system.
+
+시스템에는 최대 4개의 ACM/일반 직렬/OBEX 포트가 있을 수 있습니다.
+
+
+Testing the ACM function
+------------------------
+ACM 기능 테스트
+
+On the host: cat > /dev/ttyACM<X>
+On the device : cat /dev/ttyGS<Y>
+
+then the other way round
+
+그 다음에는 다른 경로
+
+On the device: cat > /dev/ttyGS<Y>
+On the host: cat /dev/ttyACM<X>
+
+
+2. ECM function
+===============
+
+The function is provided by usb_f_ecm.ko module.
+
+이 함수는 usb_f_ecm.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "ecm".
+The ECM function provides these attributes in its function directory:
+
+함수 디렉토리를 만들 때 사용할 함수 이름은 "ecm"입니다.
+ECM 함수는 함수 디렉토리에 이러한 속성을 제공합니다:
+
+	ifname		- network device interface name associated with this
+			function instance
+			- 이 함수 인스턴스와 연관된 네트워크 장치 인터페이스 이름
+	qmult		- queue length multiplier for high and super speed
+			- 고속 및 초고속을 위한 큐 길이 승수
+	host_addr	- MAC address of host's end of this
+			Ethernet over USB link
+			- USB 링크를 통한 이 이더넷의 호스트 말단 MAC 주소
+	dev_addr	- MAC address of device's end of this
+			Ethernet over USB link
+			- USB 링크를 통한 이 이더넷의 장치 끝 MAC 주소
+
+and after creating the functions/ecm.<instance name> they contain default
+values: qmult is 5, dev_addr and host_addr are randomly selected.
+Except for ifname they can be written to until the function is linked to a
+configuration. The ifname is read-only and contains the name of the interface
+which was assigned by the net core, e. g. usb0.
+
+/ecm.<instance name> 함수를 작성한 후 기본 값을 포함합니다: 
+qmult는 5이고, dev_addr 및 host_addr은 무작위로 선택됩니다.
+ifname을 제외하고는 함수가 구성(configuration)에 링크 될 때까지 쓸 수 있습니다.
+ifname은 읽기 전용이며 net 코어에 의해 할당된 인터페이스의 이름을 포함합니다. (예. usb0)
+
+
+Testing the ECM function
+------------------------
+ECM 기능 테스트
+
+Configure IP addresses of the device and the host. Then:
+
+장치 및 호스트의 IP 주소를 구성하십시오. 그때:
+
+On the device: ping <host's IP>
+On the host: ping <device's IP>
+
+
+3. ECM subset function
+======================
+
+The function is provided by usb_f_ecm_subset.ko module.
+
+이 함수는 usb_f_ecm_subset.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "geth".
+The ECM subset function provides these attributes in its function directory:
+
+함수 디렉토리를 만들 때 사용할 함수 이름은 "geth"입니다.
+ECM 서브 세트 기능은 기능 디렉토리에서 이러한 속성을 제공합니다:
+
+	ifname		- network device interface name associated with this
+			function instance
+			- 이 함수 인스턴스와 연관된 네트워크 장치 인터페이스 이름
+	qmult		- queue length multiplier for high and super speed
+			- 고속 및 초고속을위한 큐 길이 승수
+	host_addr	- MAC address of host's end of this
+			Ethernet over USB link
+			- USB 링크를 통한이 이더넷의 호스트 말단 MAC 주소
+	dev_addr	- MAC address of device's end of this
+			Ethernet over USB link
+			- USB 링크를 통한이 이더넷의 장치 끝 MAC 주소
+
+and after creating the functions/ecm.<instance name> they contain default
+values: qmult is 5, dev_addr and host_addr are randomly selected.
+Except for ifname they can be written to until the function is linked to a
+configuration. The ifname is read-only and contains the name of the interface
+which was assigned by the net core, e. g. usb0.
+
+functions/ecm. <instance name> 를 만든 후 기본 값을 포함합니다:
+qmult가 5이면 dev_addr과 host_addr이 무작위로 선택됩니다.
+ifname을 제외하고는 함수가 구성에 링크 될 때까지 쓸 수 있습니다.
+ifname은 읽기 전용이며 net 코어에 의해 할당 된 인터페이스의 이름을 포함합니다. (예. usb0)
+
+
+Testing the ECM subset function
+-------------------------------
+ECM 하위 집합 함수 테스트
+
+Configure IP addresses of the device and the host. Then:
+장치 및 호스트의 IP 주소를 구성하십시오. 그때:
+
+On the device: ping <host's IP>
+On the host: ping <device's IP>
+
+
+4. EEM function
+===============
+
+The function is provided by usb_f_eem.ko module.
+
+이 함수는 usb_f_eem.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "eem".
+The EEM function provides these attributes in its function directory:
+
+함수 디렉토리를 만들 때 사용할 함수 이름은 "eem"입니다.
+EEM 함수는 함수 디렉토리에 이러한 속성을 제공합니다:
+
+	ifname		- network device interface name associated with this
+			function instance
+			- 이 함수 인스턴스와 연관된 네트워크 장치 인터페이스 이름
+	qmult		- queue length multiplier for high and super speed
+			- 고속 및 초고속을 위한 큐 길이 승수
+	host_addr	- MAC address of host's end of this
+			Ethernet over USB link
+			- USB 링크를 통한 이 이더넷의 호스트 말단 MAC 주소
+	dev_addr	- MAC address of device's end of this
+			Ethernet over USB link
+			- USB 링크를 통한 이 이더넷의 장치 끝 MAC 주소
+
+and after creating the functions/eem.<instance name> they contain default
+values: qmult is 5, dev_addr and host_addr are randomly selected.
+Except for ifname they can be written to until the function is linked to a
+configuration. The ifname is read-only and contains the name of the interface
+which was assigned by the net core, e. g. usb0.
+
+functions/eem. <인스턴스 이름>을 만든 후에는 기본값을 포함합니다:
+qmult가 5이면 dev_addr과 host_addr이 무작위로 선택됩니다.
+ifname을 제외하고는 함수가 구성에 링크 될 때까지 쓸 수 있습니다.
+ifname은 읽기 전용이며 net 코어에 의해 할당 된 인터페이스의 이름을 포함합니다. (예. usb0)
+
+
+Testing the EEM function
+------------------------
+EEM 함수 테스트
+
+Configure IP addresses of the device and the host. Then:
+
+장치 및 호스트의 IP 주소를 구성하십시오. 그때:
+
+On the device: ping <host's IP>
+On the host: ping <device's IP>
+
+
+5. FFS function
+===============
+
+The function is provided by usb_f_fs.ko module.
+
+이 함수는 usb_f_fs.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "ffs".
+The function directory is intentionally empty and not modifiable.
+
+함수 디렉토리를 만들 때 사용할 함수 이름은 "ffs"입니다.
+함수 디렉토리는 고의적으로 비어 있으며 수정할 수 없습니다.
+
+After creating the directory there is a new instance (a "device") of FunctionFS
+available in the system. Once a "device" is available, the user should follow
+the standard procedure for using FunctionFS (mount it, run the userspace
+process which implements the function proper). The gadget should be enabled
+by writing a suitable string to usb_gadget/<gadget>/UDC.
+
+디렉토리를 생성 한 후 FunctionFS의 새로운 인스턴스 ("장치")가 시스템에서 사용 가능합니다.
+"장치"를 사용할 수 있게 되면 사용자는 FunctionFS를 사용하기위한 표준 절차를 따라야합니다. 
+(마운트하고 적절한 기능을 구현하는 사용자 공간 프로세스를 실행하십시오)
+가젯은 usb_gadget/<gadget>/UDC에 적합한 문자열을 작성하여 활성화 해야합니다.
+
+
+Testing the FFS function
+------------------------
+FFS 함수 테스트
+
+On the device: start the function's userspace daemon, enable the gadget
+On the host: use the USB function provided by the device
+
+on the device: function의 사용자 공간 데몬을 시작하고, 가젯을 활성화합니다.
+on the host: 장치에서 제공하는 USB function 사용
+
+
+6. HID function
+===============
+
+The function is provided by usb_f_hid.ko module.
+
+이 함수는 usb_f_hid.ko 모듈에 의해 제공됩니다.
+
+
+Function-specific configfs interface
+------------------------------------
+기능별 configfs 인터페이스
+
+The function name to use when creating the function directory is "hid".
+The HID function provides these attributes in its function directory:
+
+함수 디렉토리를 만들 때 사용할 함수 이름은 "hid"입니다.
+HID 함수는 함수 디렉토리에 이러한 속성을 제공합니다:
+
+	protocol	- HID protocol to use
+			- 사용할 HID 프로토콜
+	report_desc	- data to be used in HID reports, except data
+			passed with /dev/hidg<X>
+			- /dev/hidg<X>와 함께 전달 된 데이터를 제외하고 HID 보고서에 사용될 데이터
+	report_length	- HID report length
+			- HID 보고서 길이
+	subclass	- HID subclass to use
+			- 사용할 HID 서브 클래스
+
+For a keyboard the protocol and the subclass are 1, the report_length is 8,
+while the report_desc is:
+
+키보드의 경우 프로토콜 및 하위 클래스는 1, report_length는 8, report_desc는 다음과 같습니다:
+
+$ hd my_report_desc
+00000000  05 01 09 06 a1 01 05 07  19 e0 29 e7 15 00 25 01  |..........)...%.|
+00000010  75 01 95 08 81 02 95 01  75 08 81 03 95 05 75 01  |u.......u.....u.|
+00000020  05 08 19 01 29 05 91 02  95 01 75 03 91 03 95 06  |....).....u.....|
+00000030  75 08 15 00 25 65 05 07  19 00 29 65 81 00 c0     |u...%e....)e...|
+0000003f
+
+Such a sequence of bytes can be stored to the attribute with echo:
+
+이러한 일련의 바이트는 echo와 함께 속성에 저장할 수 있습니다:
+
+$ echo -ne \\x05\\x01\\x09\\x06\\xa1.....
+
+
+Testing the HID function
+------------------------
+HID 기능 테스트
+
+Device:
+- create the gadget
+
+- 가제트 만들기
+
+- connect the gadget to a host, preferably not the one used
+to control the gadget
+
+- 가젯을 호스트에 연결하십시오. 가제트를 제어하는 데 사용하지 않는 것이 바람직합니다.
+
+- run a program which writes to /dev/hidg<N>, e.g.
+a userspace program found in Documentation/usb/gadget_hid.txt:
+
+- /dev/hidg<N>에 쓰는 프로그램을 실행하십시오. Documentation/usb/gadget_hid.txt에있는 userspace 프로그램:
+
+$ ./hid_gadget_test /dev/hidg0 keyboard
+
+Host:
+- observe the keystrokes from the gadget
+- 가제트의 키 입력을 관찰한다.
