@@ -802,29 +802,187 @@ VOM 과 Audio Generator 를 회로에 연결한다.
 (Generator 의 GND 를 TP17 에 연결하고 + 를 R43 에 연결한다.
  그리고 Meter 의 GND 를 TP17 에 연결하고 + 를 TP19 에 연결한다)
 
-Normally the AC gain is measured at a frequency of 1kHz.
+일반적으로 AC Gain 은 1 kHz 의 주파수에서 측정된다.
+그러나 VOM 은 이 주파수에서 AC Voltage 를 정확하게 읽을 수 없을 수도 있다.
+따라서 이 Test 는 400 Hz 에서 수행하는 것이 좋다.
+Audio Generator 를 400 Hz 및 최소 전압 출력으로 설정한라.
+전원을 켠 상태에서 Test Point TP19 에서 1 Volt 의 AC 전압을 읽도록 VOM 을 설정하라.
+Volume Control 을 절반 정도 늘린다.
+VOM 이 1V AC 를 읽을 때까지 Audio Generator 의 진폭을 천천히 높인다.
+Audio Generator 를 이 설정 상태로 두고 VOM 의 양극 도선을 TP16 으로 옮긴다.
+Amplifier 에 AC 입력 전압을 기록하라:
 
 Vin = x volts
+
+가장 정확한 수치를 보려면 VOM 의 척도를 변경해야 할 수도 있다.
+전원을 끈다.
+Audio Amplifier 의 AC Voltage Gain 은
+AC Output Voltage 를 AC Input Voltage 로 나눈 것 혹은 1 / Vin 과 같다.
+Gain 은 계산된 Gain 과 대략 동일해야 한다.
 
 
 
 * AC BANDWIDTH
 
+Oscilloscope 와 Audio Generator 를 연결한다.
+Generator 의 GND 를 TP17 에 Scope 의 GND 도 TP17 로 한다.
+Generator 의 + 를 R43 에 갔다대고 그라운딩한 스코프를 TP19 에 찍는다.
+
+Audio Generator 를 1 kHz 의 주파수 및 최소 전압 출력으로 설정한다.
+Oscilloscope 를 0.5 Volts 단위로 읽도록 설정한다.
+전원을 켜고 천천히 볼륨 조절기를 올린다.
+스코프가 TP19 에서 최대 2V 피크(Vpp)를 표시할 때까지 Audio Generator 의 진폭을 늘린다.
+Volume Control 을 조정해야할 수도 있다.
+오실로스코프 Probe 를 Q10(TP16) 의 베이스로 이동시키고 여기에 입력 전압을 기록하라:
+
+Vin = x Vpp
+
+(이 시점에 AC Gain 을 확인하는 것이 좋다)
+
+오실로스코프 Probe 를 다시 TP19 로 옮기고
+오실로스코프의 파형이 원래 판독값의 0.7(1.4 Vpp 혹은 2.8 Divisions)로 떨어질 때까지
+Audio Generator 에서 주파수를 천천히 높인다.
+출력이 원래 값의 0.7 로 떨어지면 Generator 의 주파수는 고주파 3 dB Corner 라 부른다.
+이 주파수를 여기에 기록하라:
+
+(f high 3 dB) = x kHz
+
+출력이 원래 판독값인 1.4 Vpp 혹은 2.8 div 의 0.7 이 될 때까지 발전기의 주파수를 천천히 낮춘다.
+이 주파수를 저주파 3 dB Corner 라고 하며,
+저주파 3 dB Corner 혹은 (f high 3 dB) - (f low 3 dB) 에 해당한다.
+계산된 값은 30 kHz 보다 커야 한다.
+
 
 
 * DISTORTION
+
+앞서 연결했듯이 Generator 와 Oscilloscope 를 연결한다.
+Generator 를 1 kHz 의 주파수로 설정하고 전원을 켜고 볼륨을 최대로 돌린다.
+Clipping Circuit 과 같이 TP19 에서 sine 파의 피크가 잘릴 때까지 Generator 출력을 조정하라.
+sine 파의 한 쪽은 TP19 의 DC 중심에 따라 다른 쪽보다 먼저 Clip 될 수 있다.
+진동이 보이면 Generator 의 GND 에서 회로의 GND 로 Clip Lead 를 연결하라.
+
+Clipping 이 처음 발생했을 때 최대 전압 피크를 측정하고 해당 값을 기록하라:
+
+Vclp = x Vpp
+
+Diode D5 와 저항 R49 를 사용한다.
+파형은 0.6 손실이 있는 다이오드 달린 사인파형을 보면 된다.
+각 사인파의 중심 근처에 있는 "flat spots" 은 crossover distortion(교차 왜곡)이라 불린다.
+이 왜곡의 대부분은 단락 Lead 를 제거할 때 사라진다.
+전원을 끈다.
 
 
 
 * MAXIMUM POWER OUTPUT
 
+"clipping" 으로 인한 왜곡 전의 최대 전력 출력은
+아래와 같이 4 단계에서 얻은 전압 Vclp 를 사용하여 계산할 수 있다.
+
+Vpeak(Vp) = Vclp / 2
+Vroot mean squared(Vrms) = Vp x 0.7
+
+최대 전력 출력 = (Vrms)^2 / 8 ohms = (Vclp x 0.35)^2 / 8 
+최대 전력은 350 mW 보다 커야 한다.
+
 
 
 * EFFICIENCY
 
+최대 전력 출력 레벨에서 Battery 로부터 얻은 DC 전력을 측정함으로써
+Audio Amplifier 의 효율을 계산할 수 있다.
+Battery 의 전력은 최대 전력 출력 중에 Battery 의 전압과 Battery 의 전압을 뺀 값과 같다.
+효율성은 아래와 같이 계산할 수 있다.
+Eff = 최대 Audio Power / Battery Power.
+이러한 측정 중에 전원 전압이 변하지 않도록
+전원 공급 장치(사용 가능한 경우)를 사용하는 것이 가장 좋다.
+Generator, Oscilloscope 및 Current Meter 를 연결하라.
+
+Generator 와 Oscilloscope 를 TP17 에 그라운딩한다.
+Generator 의 + 를 R43 에 찍는다.
+그리고 Scope 는 TP19 에 찍는다.
+전원 공급기의 - 를 Battery Holder - 에 찍는다.
+공급기의 + 에 Current Meter 의 + 를 연결한다.
+Current Meter 의 - 를 Battery Holder + 에 연결한다.
+
+Current Meter 를 1A DC 로 설정한다.
+전원을 켜고 Volume Control 을 최대로 돌린다.
+Clipping Circuit 과 같이 출력이 잘릴 때까지 Audio Generator 의 진폭을 천천히 높인다.
+
+Vclp = x Vpp
+
+이것은 단계 4 에서 Vclp 와 같아야 한다.
+여기에 9V 전원에서 끌어온 DC 전류를 기록하라:
+
+Current(I) max = x Amps
+
+공급 전압을 측정하고 공급된 전압을 기록한다:
+
+V supply = x volts
+
+전원을 끈다.
+최대 출력 단계에서 수행한 최대 출력을 계산하라.
+
+계측된 값들을 기록한다:
+
+Vp = Vclp / 2
+Vp = x
+
+Vrms = Vp x 0.7
+Vrms = x
+
+Max power out = (Vrms)^2 / 8
+Max power out = x
+
+Battery 전력은 Battery 전압과 Battery 전류를 곱한 값이므로 Battery 전력을 계산하라:
+
+Battery power = Imax x V supply
+Battery power = x
+
+효율(N)이 최대 전력을 Battery 전력으로 나눈 값과 같기 때문에
+이제 Audio Amplifier 의 효율을 계산할 수 있다.
+
+N = Max power out / Battery power
+N = x
+
+N in % = N x 100
+N = x%
+
+계산된 값은 0.5 혹은 50% 주변이어야 한다.
+
 
 
 * AM DETECTOR AND AGC STAGE
+
+Detector 의 목적은 진폭 변조된 IF Signal 을 다시 Audio Signal 로 변경하는 것이다.
+이것은 Detection 혹은 Demodulation 작업에 의해 수행된다.
+먼저 진폭 변조된 IF Signal 은 해당 Signal 의 음의 부분만 남기는 방식으로 Diode 에 적용된다.
+(AM 변조 회로 그림을 참조하라)
+
+Diode 는 전자 체크 밸브와 같은 역할을 하며
+화살표로 표시된 방향(Diode 기호에서)과 같은 방향으로만 전류를 흐르게 한다.
+Diode 가 전도 상태(On Condition)에 있을 때
+콘덴서 C33 과 C38 은 IF Signal 의 음의 피크와 거의 같은 전압으로 충전된다.
+전도 상태가 Diode 에서 멈춘 후(Off 조건) 콘덴서는 저항 R36 과 R42 를 통해 방전된다.
+방전 시간 상수는 Audio Signal 을 따르기에 충분해야하며
+그렇지 않으면 고주파 Audio Distortion 이 발생한다.
+그러나 방전 시간 상수는 중간 주파수(455 kHz)를 제거하고
+Audio Signal 만 남기기 위해 충분히 커야 한다.
+
+AGC(Automatic Gain Control) Circuit 의 목적은
+들어오는 Signal 의 세기에 관계없이 Detector 에서 일정한 레벨을 유지하는 것이다.
+AGC 가 없으면 Volume Control 을 각 Station 에 맞게 조정해야하고
+중간 정도의 강한 Station 조차도 최종 IF Amplifier 에서 Clip 하여 Audio Distortion 이 발생한다.
+AGC 는 Signal Strength 가 증가함에 따라
+첫 번째 IF Amplifier 의 DC Bias 를 조정하여 Gain 을 낮추어 수행한다.
+이 회로는 강한 신호가 발생할 때
+음량 DC Control 에서 Volume Control 상단의 Audio 가 실제로 "riding" 함을 보여준다.
+음의 DC 성분은 들어오는 Signal 의 강도에 해당한다.
+신호가 클수록 성분이 음수가 된다.
+Test Point 5(TP5)에서 Audio 는 Low Pass Filter R36 및 C32 에 의해 제거되어 DC 구성 요소만 남게 된다.
+저항 R35 는 Signal 이 없을 때 TR Q8 의 Base 를
+최대 이득 위치로 Bias 할만큼 충분히 높은 TP5 에서 전압을 Shift 하기 위해 사용된다.
+저항 R35 와 R36 은 또한 "On Condition" 문턱 전압을 최소화하기에 충분하도록 Bias Diode D4 를 포워드한다.
 
 
 
@@ -834,17 +992,50 @@ Vin = x volts
 
 * STATIC MEASUREMENTS(AGC ZERO SIGNAL BIAS)
 
+전원을 끄고 VOM 을 TP15 에 그라운딩하고 TP5 에 연결한다.
+AM/FM Switch 가 AM 위치에 있는지 확인한다.
+
+VOM 이 9V DC 를 읽고 전원을 켜도록 조정되었는지 확인하라.
+전압계는 약 1.5V DC 를 읽어야 한다.
+읽는 값이 이 값에서 0.5V 이상 변하면 전원을 끄고 D4 의 극성을 확인하라.
+또한 R36 과 R35 를 점검하고 변압기 T6 이 올바르게 설치되었는지 점검하라.
+
 
 
 * T8 TEST
+
+전원을 끄고 VOM 의 양극 Lead 를 TP3 에 연결하고 음극 리드를 접지핀 TP15 에 연결한다.
+VOM 이 9V DC 를 읽고 전원을 켜도록 설정되었는지 확인하라.
+VOM 의 전압은 Battery 전압 혹은 전원 공급 장치 전압과 같아야 한다.
+그렇지 않은 경우 전원을 끄고 T8 이 올바르게 설치되어 있는지 확인하라.
+전원을 끈다.
 
 
 
 * DYNAMIC MEASUREMENTS(AM DETECTOR AND AGC TEST)
 
+VOM 과 RF Generator 를 연결한다.
+VOM 의 GND 를 TP15 에 물리고 + 를 TP5 에 물린다.
+RF Generator 의 GND 를 TP15 에 물리고 + 를 0.001u F 콘덴서와 직렬로 연결하여 TP3 에 연결한다.
+
+변조가 없는 최소 전압 출력을 위해 VOM 을 2V DC 에 정확히 맞추고 RF Generator 는 455 kHz 에 맞춘다.
+전원을 켜고 TP5 의 전압이 떨어지기 시작할 때까지 Generator 의 진폭을 천천히 높인다.
+이 점을 IF Gain 이 없는 AGC Threshold 라 부른다.
+RF Generator 의 진폭 설정을 기록한다: x
+
 
 
 * SYSTEM CHECK
+
+RF Generator 와 스코프를 TP15 에 그라운딩하고
+스코프를 R43 근처의 TP에 찍도록 한다.
+Generator 는 0.001u F 콘덴서와 직렬 연결하여 TP3 에 찍도록 한다.
+
+RF Generator 를 80% 변조 및 최소 전압 출력 455 kHz, 1 kHz 로 설정한다.
+전원을 켜고 Volume Control 을 최대로 설정한다.
+Speaker 에 1 kHz Tone 이 들릴 때까지 RF Generator 출력의 진폭을 천천히 조정한다.
+이 검사가 실패하면 전원을 끄고 R42 와 D4 를 확인한다.
+전원을 끈다.
 
 
 
