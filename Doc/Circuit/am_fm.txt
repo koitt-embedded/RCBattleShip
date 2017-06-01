@@ -1182,37 +1182,218 @@ Q8 의 전류는 R37 의 전류와 같기 때문에 I(Q2) = 0.8 / R37 혹은 약
 
 * DYNAMIC MEASUREMENTS(AC GAIN)
 
+장비를 연결한다.
+TP6 에 0.001u F 콘덴서와 직렬로 연결된 Generator
+Generator 와 Scope 는 TP15 에 그라운딩하고 Scope 를 TP4 에 찍는다.
+그리고 R38 과 TP3 을 쇼트 시킨다.
+
+Scope Probe 는 12pF 이하의 입력 콘덴서를 달아야 한다.
+그렇지 않으면 변압기 T7 이 Detue 된다.
+Clip Lead 를 사용하여 TP3 과 R38 을 쇼트한다.
+이러한 단점은 AGC 가 첫 번째 IF 증폭기의 Gain 을 낮추는 것을 방지한다.
+Generator 를 455 kHz 로 설정하고 변조가 없으며 최소 전압 출력을 설정한다.
+한 구간 당 1V 를 읽도록 범위를 설정하고 전원을 켠다.
+범위에서 약 4Vpp 가 보일 때까지 Generator 의 진폭을 늘린다.
+TP4 에서 455 kHz 를 최대화하기 위해 IF Transformer T7 을 다시 조정한다.
+T7 을 조정한 후 TP4 에서 4Vpp 를 유지하려면 Generator 진폭을 조정한다.
+이제 Scope Probe 를 Q8 의 Base 로 옮기고 455 kHz Signal 의 peak2peak 수준을 기록하라:
+
+Vb = x Vpp
+
+첫 번째 IF Amplifier 의 AC Gain 은 4 / Vb 와 같다.
+AC Gain 은 100 보다 커야 한다.
+전원을 끄지 말고 다음 검사로 가도록 한다.
+
 
 
 * AGC ACTION
+
+Scope Probe 를 다시 TP4 로 옮기고 필요한 경우 4Vpp 로 Generator 를 조정한다.
+Clip Lead 로 TP3 과 R38 을 쇼트한 부분을 제거한다.
+AGC 는 TP4 의 Signal Level 을 약 0.8V 로 줄인다.
+전원을 끈다.
 
 
 
 * AM MIXER, AM OSCILLATOR, AND AM ANTENNA
 
+Superheterodyne 형 수신기에서 Antenna 상의 전파는 증폭된 후
+Local Oscillator 와 혼합되어 IF(중간 주파수)를 생성한다.
+TR(Q7)은 RF Signal 을 증폭할 뿐만 아니라
+원하는 Radio 방송국 주파수보다 455 kHz 높은 주파수에서 동시에 발진한다.
+Collector 에서 Q7 의 Emitter 까지의 양의 Feedback 은 Coil L5 및 콘덴서 C31 에 의해 제공된다.
+Heterodyning 과정에서 Q7 의 Collector 는 아래 4 개의 주파수가 존재한다:
+
+1. Local Oscillator 주파수, OF
+2. RF 반송파 혹은 무선국 주파수
+3. 이 두 주파수의 합, OF + RF
+4. 이 두 주파수의 차, OF - RF
+
+"주파수 차이"는 AM Radio 의 중간 주파수로 사용된다.
+Q7 의 Collector 에는 차동 주파수에만 튜닝된 IF Transformer(T6)도 포함되어있다.
+이 변압기는 455 kHz 근처의 주파수를 제외한 모든 주파수를 차단한다.
+또한 T6 은 455 kHz Signal 을 IF 증폭기로 처리할 Q8 의 Base 에 연결한다.
+Antenna 와 Generator Coil 은 Radio 가 다른 방송국에 맞춰질 때 변경되는 유일한 2 개의 공진 회로다.
+Radio 방송국은 Generator 주파수보다 455 kHz 높을 수 있기 때문에
+Antenna 가 이 Station 을 거부하고 Oscillator 주파수보다 455 kHz 낮은 Station 만 선택하는 것이 중요하다.
+Oscillator 위의 원하지 않는 방송국의 주파수 455 kHz 를 Image Frequency 라고 한다.
+Antenna 의 선택도(Q Factor)가 높으면 Image 가 충분히 줄어든다.
+
+원하는 Radio 방송국의 튜닝보다 455 kHz 이상을 유지하기 위해
+Radio 를 튜닝할 경우 Oscillator Circuit 을 반드시 변경해야 한다.
+Oscillator Frequency 를 정확히 Antenna 의 튜닝보다
+455 kHz 높게 유지하는 정확성의 정도를 Tracking Accuracy 라고 한다.
+
 
 
 * ASSEMBLY INSTRUCTIONS
+
+알림:
+PCB Foil(녹색)쪽에 튜닝 콘덴서를 장착하라.
+
+3 선식 코일 혹은 4 선식 코일이 있는지 확인한다.
+저항 측정은 코일의 구성을 확인하는데 사용된다.
+하나의 Holder 를 Antenna Assembly 의 Ferrite Core 에서 밀어낸다.
+그런 다음 Coil 을 Ferrite Core 에서 밀어낸다.
+Coil 의 저항을 측정한다.
+측정 값은 표시된 값과 일치해야 한다.
+
+알림:
+Antenna 에서 전선의 끝이 끊어지면 뜨거운 납땜 인두로 끝 부분의 절연재를 벗겨낸다.
+단단한 표면에 철사를 내려놓고 인두로 철사를 친다.
+단열재는 매우 쉽게 벗겨진다.
+
+주의:
+납땜 인두는 작업중인 단단한 표면을 태울 것이다.
+
+중요:
+Antenna Coil 을 설치하기 전에 3 선식 코일 혹은 4 선식 코일이 있는지 확인한다.
+아래와 같이 PCB 에 조립하도록 한다.
+Antenna Assembly 를 PCB 에 장착한다.
+
+1. 첫 번째 Holder 의 Tab 을 오른쪽 구멍에 넣고 Tab 을 90도 뒤튼다.
+2. 두 번째 Holder 의 Tab 을 왼쪽 구멍에 넣고 Tab 을 90 도 뒤튼다.
+3. Holder 를 통해 Ferrite Core 를 통해 밀어 넣는다.
+4. Antenna Coil 을 Ferrite Core 를 통해 밀어 넣는다.
+
+알림:
+Antenna 에서 전선의 끝이 끊어지면 뜨거운 납땜 인두로 끝 부분의 절연재를 벗겨낸다.
+단단한 표면에 철사를 내려 놓고 인두로 철사를 치도록 한다.
+단열재는 매우 쉽게 벗겨진다.
+
+주의:
+나땜 인두는 작업중인 단단한 표면을 태운다.
+
+상자의 앞면 Flap 에서 하나의 Antenna 심을 펀치 아웃한다.
+Ferrite Core 와 Antenna Coil 사이에 골판지 안테나 심을 삽입하라.
+그러면 일시적으로 Coil 이 고정된다.
+
+3 선식 안테나:
+PCB 에 3 색의 전선을 납땜하라:
+"RED" 라고 표시된 구멍에 A(적색)을,
+"BLK" 라고 표시된 구멍에 B(검정색)을,
+"WHT"라고 표시된 구멍에 C(흰색)을 연결한다.
+
+4 선식 안테나:
+PCB 에 4 색 전선을 땜질하라
+"RED"라고 표시된 구멍에 A(녹색)을 연결하고,
+"BLK"라고 표시된 구멍에 B(적색과 검정색을 꼬아서) 연결하고,
+"WHT"라고 표시된 구멍에 C(흰색) 와이어를 연결한다.
+
+Kit 로 받은 Tuning Gang Capacitor 의 2 가지 유형 중 어느 것을 알고 있어야 한다.
+가지고 있는 콘덴서를 확인해봐라.
+
+Locator Lead 부분
+(제거하지 말고 양쪽 Lead 를 함께 구멍에 납땜하라)
+
+- AM 및 FM 면이 올바른 방향으로 놓인 상태에서 PCB 의 Foil 쪽에 Tuning 콘덴서를 장착하라.
+- PCB 의 앞면에 있는 2 개의 나사를 사용하여 고정시킨다.
+- Lead 를 제자리에 납땜하고 전면의 PCB 를 통과하는 초과 Lead 를 차단한다.
+
+손잡이를 나사로 콘덴서 축에 고정하라.
+
+Knob 을 시계 방향으로 완전히 돌린다.
+Label 의 보호용 Backing 을 벗겨낸다.
+Label 의 긴 흰색 선을 PCB 의 화살표로 정렬한다.
+
+
+
+* PC Board Stand
+
+PCB 를 Stand 에 삽입하라.
 
 
 
 * STATIC MEASUREMENTS(Q7 BIAS)
 
+TP6 과 TR Q7 의 Collector 를 쇼트한다.
+VOM 의 GND 를 TP15 에 물리고 TP7 에 찍는다.
+
+TP6 의 Clip Lead 를 Q7 의 Collector 에 연결한다.
+이렇게 짧게하면 Q7 이 진동하지 않는다.
+VOM 을 2V DC 로 읽고 전원을 켠다.
+TP7 의 DC 전압은 약 1.6V 여야 한다.
+회로의 전압이 0.5V 이상 차이가 나면 전원을 켜고 Battery Voltage 를 확인한다.
+Battery 전압이 8.5V 보다 큰 경우 R31, R32, R33 및 Q7 구성 요소를 점검하라.
+전원을 끈다.
+
 
 
 * DYNAMIC MEASUREMENTS(AM OSCILLATOR CIRCUIT)
+
+Scope 의 GND 를 TP15 에 연결하고 AGC Collector 를 찍는다.
+
+구간당 1V 를 읽도록 범위를 설정하고 전원을 켠다.
+Scope 에 저전압 sinewave 가 표시되어야 한다.
+Tuning Gang 을 돌리면 sine 파의 주파수가 변경된다.
+회로가 이 검사에 실패하면 구성 요소 Q7, Gang 콘덴서, C28, C29, C30, C31, L4 및 L5 를 점검하라.
+전원을 끈다.
 
 
 
 * AM FINAL ALIGNMENTS
 
+두 가지 AM 정렬 절차가 있다.
+첫 번째 정렬 절차는 테스트 장비가 없는 사람들을 위한 것이고
+두 번째 절차는 테스트 장비를 가진 사람들을 위한 것이다.
+
+공진 회로를 정렬하는데 사용되는 "Magic Wand" 라는 특별한 장치가 포함되어 있다.
+이것은 보통 한 쪽 끝에는 황동 조각이 있고 다른 쪽 끝에는 철 조각이 있다.
+"Magic Wand" 의 황동 끝이 AM Antenna 근처에 배치되면
+Inductance 가 제거된 것처럼 Antenna Coil 이 반응한다.
+마찬가지로 "Magic Wand"의 철제 끝이 AM Antenna 근처에 놓여지면
+Inductance 가 추가된 것처럼 Antenna Coil 이 반응한다.
+따라서 황동 혹은 철을 Antenna Coil 근처에 배치하면 Antenna Coil Inductance 가 변경된다.
+Inductance 의 이러한 변화는 회로의 공진 주파수를 변화시켜 Antenna 가 선택적으로 주파수를 변화시킨다.
+Antenna 와 Oscillator Circuit 을 정렬할 때
+Coil L4 와 L5 는 Band 의 하단에서 조정되는 반면
+Oscillator 와 Antenna Trimer 콘덴서는 Band 의 상단에서 조정된다.
+이것은 Antenna 와 Oscillator 가 올바르게 추적될 수 있도록 한다.
+
+
+
+* Magic Wand Assembly
+
+1/4" 바깥쪽에 Shrink Tubing 끝 부분에 황동 조각을 놓는다.
+놋쇠 주위에 Tube 가 수축될 때까지 납땜 인두로 놋쇠를 가열하라.
+같은 방법으로 철편을 다른 끝에 조립하라.
+
 
 
 * AM ALIGNMENT WITHOUT TEST EQUIPMENT
 
+이 절차를 위해 이어폰을 사용하는 것이 가장 좋다.
+Switch 가 AM 에 있는지 확인한다.
+정렬 도구나 Screwdriver 로 Coil L5, T6, T7, T8 을 멈출 때까지 반 시계 방향으로 돌린다.
+더 이상의 Coil 은 강요하지 말라.
+각 Coil 을 약 1 1/4 ~ 1 1/2 fh ehfflsek.
+Ferrite Rod 의 끝에서 AM Antenna Coil 을 약 1/8" 로 설정하라.
+
 
 
 * IF ALIGNMENT
+
+
 
 
 
