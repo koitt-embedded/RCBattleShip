@@ -1563,28 +1563,128 @@ FM Assembly 섹션을 향해 진행한다.
 1. 소리에 의해 생성되는 초당 진동 수(혹은 주기)는 주파수라고 하며 Hz 로 측정된다.
 
 
+2. 음파 봉우리 사이의 거리를 파장이라고 한다.
+
+3. 음파는 초당 일정 진도수만큼 발생한다.
+   초당 진동이 많을수록 주파수가 높아진다.
+   진동이 적을수록 주파수는 낮아진다.
+
+4. 매우 높은 주파수의 파동은 전파라 불리며
+   전선을 사용하지 않고 공기를 통해 먼 거리를 이동한다.
+
+5. 반송파는 방송국이 Audio 파를 전송하는데 사용하는 전파다.
+
+
+6. 전파에 Audio 파를 부가하는 과정을 변조라하며
+   Audio 파에서 전파를 제거하는 과정을 검출기에 의해
+   AM Radio 에서 수행되는 복조라고 한다.
+
+7. Antenna 에 의해 수신되는 신호의 양은
+   전송된 신호의 전력과 신호가 이동한 거리에 따라 달라진다.
+
+8. 정류는 신호의 절반을 제거하는 과정이며, 필터링은 신호를 부드럽게 하는 과정이다.
+
+9. 헤테로다이닝은 2 개의 신호(들어오는 RF 신호와 국부 발진기의 RF 신호)를 혼합하여
+   세 번째 신호(IF 신호)를 생성하는 과정이다.
+
+
 
 * DC VOLTAGES
 
+아래의 전압 수치는 AM Section 의 문제 해결에 사용되어야 한다. (AM 위치에서 Switch)
 
 
-* QUIZ
+
+* QUIZ - AM Radio Section
 
 
 
 * PARTS LIST FOR FM SECTION
 
+100 ohm x 2
+220 ohm x 1
+470 ohm x 1
+1k ohm x 5
+1.8k ohm x 1
+2.2k ohm x 2
+6.8k ohm x 2
+10k ohm x 7
+22k ohm x 2
+33k ohm x 2
+47k ohm x 3
+390k ohm x 2
+
+15p F x 1
+30p F x 1
+33p F x 1
+220p F x 1
+470p F x 2
+0.001u F x 3
+0.005u F x 3
+0.01u F x 10
+0.02u F x 1
+0.022u F x 1
+0.1u F x 1
+10u F x 1
+470u F x 1
+
+FV1043 x 1
+1N34A x 2
+2N3904 x 6
+
+FM Detector(Blue) x 1
+FM Detector(Pink) x 1
+FM IF(Green) x 2
+FM Mixer(Orange) x 1
+FM RF Amp(6 Turns) x 1
+FM RF Amp(2 Turns) x 1
+FM Oscillator(5 Turns) x 1
+
+Antenna FM x 1
+Screw M1.8 x 7.5mm x 2
+Screw M2 x 5mm(antenna) x 2
+Nut M1.8 x 2
+Test Point pin x 7
+Coil Spacer x 1
+
 
 
 * THE FM RADIO
+
+Section 6 에서 FM Radio 의 구성을 시작한다.
+구축할 단계는 아래의 Block Diagram 에 나와 있다.
+FM Ratio Detector 로 시작하여 FM Antenna 로 돌아간다.
+각 단계는 다음 단계로 진행하기 전에 검사되어야한다.
 
 
 
 * FM RATIO DETECTOR
 
+AM Detector 섹션에서 들어오는 신호의 진폭 변화로부터 Audio 가 감지되었음을 관찰했다.
+FM Detection 에서 Audio 는 들어오는 신호의 주파수 변화로부터 감지된다.
+Ratio Detector 에는 FM Carrier 에 잡음이 최소화되도록
+신호를 제한하는 제한 조치가 내장되어 있다.
+설명의 편의를 위해 Ratio Detector 가 아래에 다시 그려져 있다.
+
+들어오는 신호가 T4 및 T5 에 있을 때, 전류는 D2, R26, R28, R27, D3 을 통해 흐른다.
+아무런 변조가 없으면 T5 가 중앙 탭핑되어 있기 때문에
+Diode D2 와 D3 를 통과하는 전류는 동일하다.
+따라서 C23 을 통해 전류가 흐르지 않으므로 Audio 출력 전압은 제로가 된다.
+들어오는 신호가 변조되면 한 Diode 를 통과하는 전류는 다른 Diode 보다 커진다.
+이로 인해 C23 에 전류가 흐르게되어 C23 에서 Audio 전압이 생성된다.
+변조가 이전과 반대 방향인 경우, 
+다른 Diode 에서 더 많은 전류가 흐르게 되어
+다시 C23 에서 반대 방향으로 전류가 흐르게되어 C23 에서 Audio 전압이 생성된다.
+Audio 에서 나오는 큰 전류를 배터리 전압의 변화에서 야기된다.
+Ratio Detector 는 저항 R23 과 콘덴서 C21 에 의해 bypass 된다.
+
 
 
 * ASSEMBLY INSTRUCTIONS
+
+- FM Detector Coil(T4)
+
+
 
 
 
