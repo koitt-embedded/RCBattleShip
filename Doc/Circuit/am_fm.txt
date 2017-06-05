@@ -1873,9 +1873,34 @@ Generator 를 조정하여 150 mVpp 를 유지한다.
 
 Fl = x MHz
 
+전압이 원래 값의 0.707, 2.1 division 
+혹은 106mVpp 로 떨어질 때까지 주파수를 높이도록 한다.
+고주파 3 dB Drop-Off Point 의 주파수를 기록하라:
+
+Fh = x MHz
+
+두 번째 IF 의 Bandwidth 는 아래와 같이 계산할 수 있다:
+
+Bandwidth = Fh - Fl
+
+결과는 300 ~ 500 Hz 구간이 나와야 한다.
+
+계산 결과를 기록하라:
+
+Bandwidth = x
+
 
 
 * FIRST FM IF AMPLIFIER
+
+첫 번째 IF 증폭기의 동작은
+이득이 다르다는 것을 제외하고는 2 차 IF 증폭기와 동일하다.
+이득은 T2 의 1 차 AC 임피던스와 Q4 의 전류에 의해 설정된다.
+Q4 의 전류는 저항 R12, R13 및 R15 에 의해 설정된다.
+콘덴서 C14 및 C15 는 AC 신호를 접지로 bypass 한다.
+C13 및 C16 은 V+ Line 의 Feedback 을 방지하기 위해
+V+ 에서 접지로 bypass 하는 콘덴서다.
+R19 는 변압기 T2 의 대역폭을 넓히는데 사용된다.
 
 
 
@@ -1885,17 +1910,100 @@ Fl = x MHz
 
 * STATIC TESTS(Q4 BIAS)
 
+아래와 같이 VOM 을 연결한다.
+GND 를 TP15 에 그라운딩하고 TP10 에 찍는다.
+
+전원을 켜라.
+Q4 의 Base 전압은 대략 1.4V 가 되어야한다.
+이 값을 읽지 못하면 R12, R13, R15, Q4 및 T1 을 확인하라.
+
 
 
 * DYNAMIC MEASUREMENTS(AC GAIN)
+
+아래와 같이 RF Generator 및 Scope 를 연결하도록 한다.
+Generator 와 Scope 를 TP15 에 그라운딩한다.
+Generator 를 0.001uF 콘덴서와 직렬 연결하고 Base 에 찍고
+Scope 를 TP11 에 찍도록 한다.
+
+Scope Probe 는 12pF 이하의 입력 콘덴서를 가져야 한다.
+그렇지 않으면 Probe 가 T2 를 Detune 하여 AC Gain 을 잘못 측정한다.
+Generator 를 변조 및 최소 전압 출력이 없는 10.7 MHz 로 설정한다.
+구간 당 20 mV 를 읽도록 범위를 설정하고 전원을 켠다.
+Scope 에 3 개 구획 혹은 60 mVpp 가 나타날 때까지
+천천히 Generator 의 진폭을 증가시킨다.
+Alignment Tool 혹은 Screwdriver 로 T2 를 조정하여 Peak 를 얻는다.
+Scope 에서 3 개의 구간을 유지하려면 Generator 입력을 줄인다.
+Scope Probe 를 Q4 의 Base 로 이동시키고 여기에 입력 전압을 기록한다:
+
+Vb = x mVpp
+
+전원을 끈다.
+AC Gain 은 아래와 같이 계산될 수 있다:
+
+AC Gain = 60 mV / Vb
+
+계산 결과는 10 근처가 나와야 한다.
+계산 결과를 기록하라:
+
+AC Gain = x
 
 
 
 * BANDWIDTH
 
+위와 동일하게 장비를 연결한다.
+Generator 를 변조 및 최소 전압 출력이 없는 10.7 MHz 로설정한다.
+범위 당 20 mV 를 읽도록 설정한다.
+전원을 켜고 Scope 에 60 mVpp 가 나타날 때까지
+천천히 Generator 의 진폭을 증가시킨다.
+전압이 원래 값의 0.707, 2.1 Divisions
+혹은 42 mVpp 가 될 때까지 Generator 의 주파수를 증가시킨다.
+높은 3 dB Drop-Off Point 의 주파수를 기록하라:
+
+Fh = x MHz
+
+전압이 원래 값인 2.1 Divisions 혹은 42 mVpp 의 0.707 구간으로 떨어질 때까지
+Generator 의 주파수를 낮추도록 한다.
+낮은 3 dB Drop-Off Point 의 주파수를 기록하라:
+
+Fl = x MHz
+
+첫 번째 IF 의 Bandwidth 는 아래와 같이 계산될 수 있다:
+
+Bandwidth = Fh - Fl
+
+계산 결과는 300 ~ 500 kHz 가 나와야 한다.
+계산 결과를 기록하라:
+
+Bandwidth = x kHz
+
 
 
 * FM RF AMPLIFIER, MIXER, OSCILLATOR, AND AFC STAGE
+
+Superheterodyne Receiver 에서 전파가 방출된 다음
+LO(Local Oscillator) 와 혼합되어 IF(Intermediate Frequency) 를 생성한다.
+첫 번째 단계는 Radio Station 을 선택하고 증폭하는 RF 증폭기다.
+두 번째 단계는 원하는 Radio Station 주파수보다
+10.7 MHz 높은 주파수에서 발진하는 Local Oscillator 에 해당한다.
+세 번째 단계는 증폭된 전파가 Local Oscillator 와
+Heterodyning 되는 Mixing 단계에 해당한다.
+Mixing 절차 동안 10.7 MHz 의 차이가 나는 주파수가 생성된다.
+이 차이가 나는 주파수는 FM Radio 의 IF 로 사용된다.
+TR(Q3) 의 Collector 는 차동 주파수로만 튜닝된 IR Transformer(T1) 을 포함한다.
+이 Transformer 는 10.7 MHz 근처의 주파수를 제외한 모든 주파수를 차단한다.
+T1 은 또한 10.7 MHz Signal 을 첫 번째 FM IF 증폭기에 연결한다.
+RF 증폭기와 발진기는 Radio 가 다른 Station 을 위해 튜닝될 때
+변경되는 유일한 2 개의 공진 회로에 해당한다.
+Radio Station 이 발진기 주파수보다 10.7 MHz 이상 존재할 수 있기 때문에
+RF Stage 에서 이 Station 을 거부하고
+발진기 주파수보다 10.7 MHz 낮은 방송국만 선택하는 것이 중요하다.
+
+Oscillator 보다 10.7 MHz 높은
+원하지 않는 Station 의 주파수를 Image Frequency 라 한다.
+이 FM 수신기에는 RF 증폭기가 있기 때문에 Image Frequency 가 크게 감소한다.
+저항(R9) 와 콘덴서(C12) 는 IF Stage 의 전압으로부터 Tuner 의 전압을 분리시킨다.
 
 
 
@@ -1905,13 +2013,75 @@ Fl = x MHz
 
 * STATIC MEASUREMENTS(Q3 BIAS)
 
+전원을 끄고 아래와 같이 VOM 을 회로에 연결한다.
+TP15 에 그라운딩하고 TP13 에 찍는다.
+
+VOM 을 9V DC 에 놓고 전원을 켠다.
+Q3 의 Base 에 있는 DC 전압은 약 1.8V 여야 한다.
+응답이 2V 이상 변하면 전원을 끄고 R7, R8, R11, Q3 구성요소를 점검한다.
+
 
 
 * DYNAMIC MEASUREMENTS(AC GAIN)
 
+Mixer 의 AC Gain 은 T1 의 1 차 임피던스와 Q3 에 흐르는 전류에 의해 설정된다.
+Q3 의 전류는 저항 R7, R8, R11 에 의해 설정된다.
+아래와 같이 테스트 장비를 회로에 연결하도록 한다.
+Generator 와 Scope 모두 TP15 에 그라운딩하고
+Generator 와 0.001uF 콘덴서를 직렬로 연결하여 TP13 에 찍는다.
+그리고 Scope 는 TP12 에 찍도록 한다.
+
+Scope Probe 의 입력 콘덴서는 12pF 이하여야 한다.
+그렇지 않으면 Probe 가 T1 을 Detune 하여 잘못된 측정 결과를 초래한다.
+구간당 10 mV 를 읽도록 범위를 설정하라.
+RF Generator 를 변조 최소 전압 출력이 없는 10.7 MHz 로 설정한다.
+전원을 켜고 Scope 에 4 개 혹은 40 mVpp 가 나타날 때까지
+Generator 의 진폭을 천천히 높여주도록 한다.
+Alignment Tool 혹은 Screwdriver 를 사용하여 T1 을 조정하라.
+Scope 에서 4 Divisions 를 유지하려면 Generator 진폭을 줄이도록 한다.
+Scope Probe 를 Q3 의 Base 로 이동시키고 여기에 입력 전압을 기록하라:
+
+Vb = x mVpp
+
+전원을 끈다.
+Gain 은 아래와 같이 계산할 수 있다.
+
+AC Gain = 40 mV / Vb
+
+계산 결과는 3 근처에 있어야 한다.
+계산 결과를 기록한다:
+
+AC Gain = x
+
+Generator 로부터의 Signal 이 Q3 의 Emitter 에서 입력되므로
+Emitter 저항은 접지로 bypass 되지 않는다.
+이것이 Mixer 의 Gain 이 다른 IF Stage 와 비교하여 낮은 이유다.
+
 
 
 * BANDWIDTH TEST
+
+위와 동일하게 테스트 장비를 회로에 연결한다.
+Generator 를 변조 및 최소 전압 출력이 없는 10.7 MHz 로 설정한다.
+구간 당 10 mV 의 범위를 설정한다.
+전원을 켜고 Scope 에 40 mVpp 가 나타날 때까지
+Generator 의 진폭을 천천히 높이도록 한다.
+전압이 원래 값의 0.707, 2.8 Divisions 
+혹은 28 mVpp 가 될 때까지 주파수를 높인다.
+그리고 이 때의 주파수를 기록한다.
+낮은 3 dB Drop-Off Point 를 기록한다:
+
+Fl = x MHz
+
+전원을 끈다.
+아래와 같이 Bandwidth 를 계산할 수 있다.
+
+Bandwidth = Fh - Fl
+
+계산 결과는 300 ~ 500 kHz 가 나와야 한다.
+계산 결과를 기록하라:
+
+Bandwidth = x kHz
 
 
 
@@ -1920,6 +2090,14 @@ Fl = x MHz
 
 
 * STATIC MEASUREMENTS(Q2 BIAS)
+
+VOM 을 아래와 같이 연결하도록 한다.
+TP15 에 그라운딩하고 Q2 의 Base 를 찍는다.
+
+VOM 을 9V 에 놓고 전원을 켠다.
+Q2 의 Base 전압은 약 4V 여야 한다.
+전원을 끈다.
+이 측정 값을 얻지 못하면 R4, R5, Q2 를 확인한다.
 
 
 

@@ -35,3 +35,23 @@ Hydrodynamic Coupling 은 선박이
 Transverse Force(횡력)이 선박에 작용하면
 Pitch 진동을 시작하게 된다.
 Gyroscopic Effect 는 방정식 시스템 (1.13)에 있다.
+이들은 V_(j≠ i)ω_(m≠ j≠ i) 에 의한 "i 번째" 힘 방정식과
+ω_(j≠ i)ω_(m≠ j≠ i) 에 의한 "i 번째" 모멘트 방정식으로 표현된다.
+
+이 Chapter 에서 우리는 진폭이 작은 선박 진동을 고려한다.
+이러한 진동의 경우 위에 언급된 Coupling 을 무시할 수 있다.
+
+
+
+Fig. 1.1: Ship Motion with 6 Degree of Freedom(from[12])
+
+
+
+1.2 Classification of Forces
+
+거의 백 년 이래로 Hydrodynamics 에서 사용된 전통에 따르면
+선박에 작용하는 힘은 유체정역학, 복사 및 회절로 세분화된다.
+이 세분은 잠재적인 이론을 형식으로 유도할 수 있다.
+잠재적인 이론은 파도에 의한 힘의 결정을 수행하기 위한 이론적인 기반이다.
+왜냐하면 이 힘들에 가장 큰 기여는 비점성 유동 모델에 의해
+적절하게 기술된 과정에 기인하기 때문이다.
