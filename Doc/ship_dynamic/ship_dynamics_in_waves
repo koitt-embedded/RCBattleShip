@@ -20,3 +20,18 @@ Ship Draught 가 변경되면 수직 수압(뜨는) 힘의 centre of effort 는
 선미쪽으로 centre of effort 의 변위는 음의 피치각을 유발한다.
 그러므로 heave 진동은 pitch 진동을 일으키고 이 반대도 마찬가지다.
 즉 heave 와 pitch 진동은 서로 결합되어 있다.
+
+Hydrodynamic Coupling 은 선박이
+횡 방향(sway 동작)으로 가속할 때 나타날 수 있다.
+선박이 선박의 중앙부와 비대칭 적이기 때문에
+이러한 운동은 Yaw Moment 의 출현을 유발한다.
+그러므로 sway 와 yaw 진동은 Hydrodynamically(유체 동역학적으로) 결합되어 있다.
+
+자이로 스코프 효과에 따르면
+두 번째 축 휠을 중심으로 회전하는 한 축의 회전은
+세 번째 축의 회전을 생성한다.
+이 규칙은 선박에 적용될 수 있다.
+예로 선박이 Rolling Motion 을 하고
+Transverse Force(횡력)이 선박에 작용하면
+Pitch 진동을 시작하게 된다.
+Gyroscopic Effect 는 방정식 시스템 (1.13)에 있다.
