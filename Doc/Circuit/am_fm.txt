@@ -2199,37 +2199,195 @@ Oscillator 와 RF Trimmer 콘덴서는 Band 의 높은쪽 끝에서 조정된다
 
 * ALIGNMENT WITH NO TEST EQUIPMENT
 
+Alignment Tool 혹은 Screwdriver 로
+Coil T1, T2, T3 를 완전히 반 시계 방향으로 돌린다.
+너무 세게 Coil 에 힘을 주지 않도록 한다.
+각 Coil 을 약 1 1/4 ~ 1 1/2 돌리도록 한다.
+
 
 
 * IF ALIGNMENT
+
+Alignment Tool 혹은 Screwdriver 로
+Coil T1, T2, T3 를 완전히 반 시계 방향으로 돌린다.
+너무 세게 Coil 에 힘을 주지 않도록 한다.
+각 Coil 을 약 1 1/4 ~ 1 1/2 돌리도록 한다.
+
+최상의 결과를 위해 제공된 이어폰을 사용하라.
+FM 으로 Switch 를 셋팅한다.
+VOM 을 아래와 같이 회로에 연결한다.
+TP15 에 그라운딩하고 TP2 에 찍는다.
+
+Radio 를 켜고 Radio 를 약한 Station 에 맞춘다.
+볼륨을 낮은 수준으로 유지하는 것이 가장 좋다.
+VOM 의 최소 전압을 T1 으로 조정한다.
+필요한 경우 볼륨을 줄인다.
+T2 에서 VOM 의 최소 전압을 조정하고 필요한 경우 볼륨을 줄인다.
+T3 에서 VOM 의 최소 전압을 조정하고 필요한 경우 볼륨을 줄인다.
+Coil 을 조정할 때 왜곡 및 잡음이 덜 들린다.
+FM IF Gain 이 최적화 될 때까지 이 절차를 반복한다.
+이 절차는 FM IF 증폭기를 최대 Gain 으로 Peak 처리한다.
 
 
 
 * DETECTOR ALIGNMENT
 
+VOM 의 최소 전압을 T4 로 조정한다.
+최소 왜곡을 위해 T5 를 조정한다.
+Ratio Detector Alignment 가 최적화 될 때까지 이 두 단계를 반복한다.
+
 
 
 * OSCILLATOR ALIGNMENT
 
+Radio 를 90 MHz 주변의 알려진 Station 으로 조정한다.
+Station 이 발견되고 방송 주파수가 알려지면
+흰색 포인터가 Dial 의 해당 방송 주파수가 align 될 때까지 Dial 을 돌린다.
+"Magic Wand" 를 사용하여 황동 끝을 Coil L3 근처에 놓는다.
+
+방송이 들리면 L3 에 필요한 Inductance 가 줄어든다.
+방송이 들릴 때까지 L3 를 조심스럽게 당겨 빼낸다.
+철재 끝을 L3 근처에 놓는다.
+방송이 들리면 L3 에 더 많은 Inductance 가 필요함을 의미한다.
+방송이 들릴 때까지 L3 를 함께 조심스럽게 누른다.
+L3 을 약간 당기거나 누를 경우 Coil 공진 주파수에 큰 영향을 미친다.
+포인터가 Station 의 주파수에 맞춰질 때까지 이 단계를 반복한다.
+Radio 를 106 MHz 주변의 방송으로 조정한다.
+방송이 발견되고 방송 주파수가 알려지면
+흰색 포인터가 Dial 의 해당 방송 주파수와 Align 될 때까지 Dial 을 돌린다.
+"Magic Wand" 의 황동 끝을 L3 근처에 놓는다.
+방송이 들리면 L3 에 더 많은 Capacitance 가 필요하다는 의미다.
+방송이 들릴 때까지 Gang 뒤쪽의 FM Oscillator Trimmer 를 조심스럽게 조정한다.
+"Magic Wand" 의 철제 끝을 L3 근처에 놓는다.
+방송이 들리면 L3 의 Capacitance 가 줄어든다.
+방송이 들릴 때까지 Gang 뒤쪽의 FM Oscillator Trimmer 를 조정하도록 한다.
+포인터가 Station 의 주파수에 맞춰질 때까지 이 단계를 반복한다.
+Oscillator Coil L3 와 Oscillator Trimmer 콘덴서 모두를 조정하면
+Oscillator 의 주파수가 영향을 받으므로
+FM Oscillator Alignment 가 최적화될 때까지 이 절차를 반복하는 것이 좋다.
+이 절차는 FM Oscillator 범위를 98.7 MHz ~ 118.7 MHz 로 설정한다.
+
 
 
 * RF ALIGNMENT
+
+L1 과 L2 를 함께 누른다.
+약간의 틈새를 만들어 Coil L1 을 벌린다.
+간격은 1/32" ~ 1/16" 사이여야 한다.
+이 절차는 RF 추적을 설정한다.
+Coil Gap 하기 위해 제공된 특수 Coil Spacer 를 사용하도록 한다.
+Coil 사이에 Coil Spacer 를 조심스럽게 밀어 넣어 간격을 확보한다.
+
+이것으로 FM Radio Alignment 가 완료된다.
+방송이 들리지 않는다면 다른 FM Radio 를 청취하여
+해당 위치에 FM Signal 이 들리는지 확인한다.
+FM Signal 여전히 들어오지 않는다면
+각 단계에서 잘못된 값과 납땜 불량을 확인하도록 한다.
 
 
 
 * ALIGNMENT WITH RF GENERATOR AND OSCILLOSCOPE IF ALIGNMENT
 
+FM Section 으로 스위칭한다.
+RF Generator 와 Scope 를 아래와 같이 연결하도록 한다.
+둘다 TP15 에 그라운딩하고 Generator 는 TP14 를 찍고 Scope 는 TP2 를 찍는다.
+그리고 Q2 의 Base 와 Emitter 를 쇼트시키도록 한다.
+
+RF Generator 를 최소 전압 출력에서 1 kHz 편차로 변조된 10.7 MHz 로 설정한다.
+Scope 를 50 mV 를 읽도록 설정한다.
+Clip Lead 로 Q2 의 Base 와 Emitter 를 쇼트시킨다.
+이 단락은 Local Oscillator 를 "죽인다".
+
+전원을 켠다.
+Scope 에 1 kHz 신호가 나타날 때까지 천천히 Generator 의 진폭을 증가시킨다.
+IF 섹션이 제한을 받지 않도록 Generator 를 낮은 수준의 출력으로 유지한다.
+Alignment Tool 혹은 Screwdriver 를 사용하여
+T1 에서 Scope Peak 의 크기를 조정한다.
+필요한 경우 입력 신호의 진폭을 줄이도록 한다.
+T2 Peak 를 조정하고 필요한 경우 입력 신호의 진폭을 줄인다.
+IF Alignment 가 최적화 될 때까지 이 단계를 반복한다.
+이 절차는 FM IF 증폭기를 10.7 MHz 로 조정한다.
+
 
 
 * OSCILLATOR ALIGNMENT
+
+Clip Lead 를 제거하고 1 kHz, 22.5 kHz 편차 및 최소 전압 출력에서
+88 MHz 변조기로 Generator 를 설정한다.
+Scope 에서 1 kHz 신호가 보일 때까지 Radio 를 조정한다.
+Generator 의 진폭을 늘려야 할 수도 있다.
+흰색 포인터가 88 MHz 에 맞춰질 때까지 Dial 을 돌린다.
+"Magic Wand" 를 사용하여 황동 끝을 L3 근처에 놓는다.
+Scope 에 표시된 Signal 이 증가하면 L3 에 필요한 Inductance 가 감소한다.
+Inductance 를 제거하려면 Coil L3 을 조심스럽게 펼친다.
+풀리거나 Coil L3 을 함께 누르면 소량은 Coil 의 공진 주파수에 큰 영향을 미친다.
+"Magic Wand" 의 철제 끝을 L3 근처에 놓는다.
+Scope 에 표시된 Signal 이 증가하면 L3 에 더 많은 Inductance 가 필요하다는 의미다.
+Inductance 를 추가하려면 Coil L3 을 조심스럽게 누른다.
+"Magic Wand" 양쪽 끝의 신호가 감소할 때까지 이 단계를 반복한다.
+Generator 의 주파수를 108 MHz 로 높인다.
+Scope 에서 1 kHz 신호가 보일 때까지 Radio 를 조정한다.
+흰색 포인터가 108 MHz 에 맞춰질 때까지 Dial 을 돌린다.
+"Magic Wand" 의 황동 끝을 L3 근처에 놓는다.
+Scope 의 신호가 증가하면 L3 에 더 많은 Capacitance 가 필요하다는 의미다.
+1 kHz 신호가 최고가 될 때까지 Gang 에 FM Oscillator Trimmer 를 조정한다.
+"Magic Wand" 의 철제 끝을 L3 근처에 놓는다.
+신호가 증가하면 Coil L3 의 Capacitance 가 줄어든다.
+1 kHz 신호가 Peak 에 도달할 때까지 Gang 에 FM Oscillator Trimmer 를 조정한다.
+"Magic Wand" 양쪽 끝의 신호가 감소할 때까지 이 두 단계를 반복한다.
+Oscillator Coil L3 과 Oscillator Trimmer 를 모두 조정하면
+발진 주파수가 영향을 받으므로
+Oscillator Alignment 가 최적화 될 때까지 이 절차를 반복하는 것이 좋다.
+이 절차는 FM Oscillator 범위를 98.7 MHz ~ 118.7 MHz 로 설정한다.
 
 
 
 * RF ALIGNMENT
 
+Generator 를 1 kHz, 22.5 kHz 편차
+및 최소 전압에서 변조된 90 MHz 주변 주파수로 설정한다.
+1 kHz Tone 이 들릴 때까지 Radio 를 조정한다.
+RF Coil L1 근처에 "Magic Wand" 의 황동 끝을 놓는다.
+Scope 의 신호가 증가하면 Coil L1 에 필요한 Inductance 가 작음을 의미한다.
+Inductance 를 줄이려면 Coil L1 을 조심스럽게 펼친다.
+지팡이의 철제 끝을 L1 가까이에 놓는다.
+신호가 증가하면 Coil L1 에 더 많은 Inductance 가 필요함을 의미한다.
+Coil L1 을 조심스럽게 눌러 Inductance 를 증가시킨다.
+Scope 의 신호가 "Magic Wand" 의 양 끝에서 줄어들 때까지 이 절차를 반복한다.
+Generator 를 106 MHz 근처의 주파수로 증가시킨다.
+1 kHz Tone 이 들릴 때까지 Radio 를 조정한다.
+L1 근처에 "Magic Wand" 의 황동 끝을 놓는다.
+신호가 증가하면 Coil L1 이 더 많은 Capacitance 를 필요로 함을 의미한다.
+Alignment Tool 혹은 Screwdriver 로 FM Antenna Trimmer 를 조정한다.
+신호가 증가하면 Coil L1 의 Capacitance 가 줄어든다.
+Scope 에 Peak 가 보일 때까지 조심스럽게 FM Antenna Trimmer 를 조정한다.
+Scope 의 신호가 "Magic Wand" 의 양 끝에서 모두 줄어들 때까지 이 절차를 반복한다.
+RF Coil L1 과 Antenna Trimmer 를 모두 조정하면 RF Stage 의 이득에 영향을 주므로
+RF 증폭기 Alignment 가 최적화 될 때까지 이 절차를 반복하는 것이 좋다.
+이 과정은 FM Oscillator Stage 를 "track" 하도록 RF Stage 를 설정한다.
+
+이것으로 FM Radio Section 의 Alignment 가 완료된다.
+Station 이 들리지 않으면 근처의 다른 FM Radio 를 청취하여
+FM Signal 이 사용자 근처에 있는지 확인하도록 한다.
+FM Section 이 여전히 수신되지 않으면
+돌아가서 각 단계에서 잘못된 값과 납땜 불량 여부를 확인하라.
+
 
 
 * FM RADIO HIGHLIGHTS
+
+1. FM Broadcast Band 는 88 MHz ~ 108 MHz 의 주파수 범위를 커버한다.
+
+2. 최대 15 kHz 의 Audio Signal 이 FM 반송파(Carrier) 에서 전송된다.
+
+3. RF Carrier 가 주파수를 변경하는 양은 변조 신호의 진폭에 의해 결정된다.
+
+4. 일정 기간 동안 Carrier 주파수가 변하는 횟수는
+   Audio 주파수와 정확히 동일하다.
+
+5. 주파수의 변화를 편차라하며 Monaural FM 의 경우 75 kHz 로 제한된다.
+
+6. FM 에 할당된 Bandwidth 는 200 kHz 에 해당한다.
 
 
 
@@ -2239,13 +2397,31 @@ Oscillator 와 RF Trimmer 콘덴서는 Band 의 높은쪽 끝에서 조정된다
 
 * SPECIFICATIONS(Audio)
 
+Frequency Response 3 dB 가 8 ohm 부하 저항으로 떨어진다.
+Low End 800 MHz ~ High End 120 kHz
+총 고조파 왜곡시 최대 출력 10%
+500 mW
+1000 Hz 에서 일반적인 Audio Gain: 150
+100 mW 출력에서의 일반적인 왜곡률: 2% 미만
+
 
 
 * AM Radio Specifications
 
+튜닝 범위 - 520 kHz ~ 1620 kHz
+IF 주파수 - 455 kHz
+Tracking = 700 kHz ~ 1400 kHz 까지의 3 dB
+일반적인 200 uV 에서 10 dB SNR
+
 
 
 * FM Radio Specifications
+
+튜닝 범위 = 88 MHz ~ 108 MHz
+IF 주파수 - 10.7 MHz
+90 MHz 에서 106 MHz 까지 Tracking + 5 dB
+12 uV 에서 10 dB SNR
+Ratio Detector 및 Full Time Auto Frequency Control 사용
 
 
 
@@ -2254,3 +2430,44 @@ Oscillator 와 RF Trimmer 콘덴서는 Band 의 높은쪽 끝에서 조정된다
 
 
 * AM/FM Radio Baffle
+
+주의:
+키트 상자 보관에 주의하도록 한다.
+Radio 를 완료하고 만족스럽게 작동하면
+Baffle 을 설치하여 Sound 를 향상시킬 수 있다.
+
+마지막 단계는 Speaker 에 Baffle 을 조립하고 부착하는 것이다.
+상자의 바닥에 있는 Baffle 을 제거한다.
+칼을 사용하여 잘라 내도록 한다.
+
+Speaker 가 밀폐되어 있지 않으면 음파가 모든 방향으로 이동할 수 있다.
+Speaker 가 바깥쪽으로 움직이면
+Speaker 는 앞쪽의 공기에 양의 압력을 만들고 뒤쪽에 음수의 압력을 생성한다.
+저주파에서는 앞뒤 파형이 서로 섞여 음파가 부분적으로 또는 전체적으로 제거된다.
+최종 결과는 Speaker 의 효율성이 낮고 왜곡된다.
+
+저주파 영향을 제거하기 위해 Speaker 는 밀봉된 곳 안에 배치되어야 한다.
+이제 전방 음파가 뒤쪽으로 이동하는 것을 방지한다.
+이제 Speaker 는 내부의 공기를 압축 및 압축 해제하며
+자유 공기 값에 비례하여 공진 주파수와 Q 를 증가시킨다.
+이러한 유형의 공기 밀폐형 상자를 Acoustic Suspension 이라고 한다.
+
+1. 한 쪽 가장자리에서 시작하여 상자 바닥에서 Baffle 의 윤곽을 잡는다.
+
+2. 4 개의 Flap 을 위쪽으로 구부리도록 한다.
+
+3. 윗면을 위로 구부린다.
+
+4. 양면을 위로 구부린다.
+   접착제를 사용하여 3 개의 면을 부착한다.
+
+5. 아래쪽 면을 위쪽으로 구부리고 접착제를 사용하여 다른면에 붙인다.
+   2 개의 장착 Flap 을 아래로 구부린다.
+
+6. Baffle 을 Speaker 위에 놓는다.
+   장착 구멍을 정렬하고 2 개의 나사와 2 개의 너트를 사용하여 장착한다.
+   나사는 Baffle Flap 의 X 표시를 통과해야 한다.
+
+선택 사항:
+공기의 밀폐를 유지하려면
+PCB 보드와 Baffle 모서리 사이에 접착제로된 Bead 를 배치하라.
