@@ -121,4 +121,86 @@ Simplified Application Diagram
   - 내용 및 두 번째 방정식 추가
   - 방정식 변경
 
-* 
+* 개정 E(2014 년 12 월)에서 개정 F 페이지로 변경
+  - 취급 등급을 ESD 정격으로 변경하고 보관 온도를 절대 최대 정격으로 변경
+  - ESD 등급을 kV 에서 V 로 변경
+  - Current Sense 저항 RS 공식 29 에서 저항(Ohm) 기호를 반영하도록 오타 변경
+
+* 개정 D(2013 년 9 월)에서 개정 E 페이지로 변경
+  - 핀 구성 및 기능 섹션, 처리 등급 테이블, 기능 설명 섹션, 장치 기능 모드,
+    Application 및 구현 섹션, 전원 공급 장치 권장 사항 섹션, 레이아웃 섹션,
+    장치 및 설명서 지원 섹션, 기계 및 패키징 및 주문 정보 섹션 추가
+
+* 개정 C(2013 년 8 월)에서 개정 D 페이지로 변경
+  - 5k ohm ~ 20k ohm 으로 변경
+  - C_COMP 를 C_HF 로 변경
+
+* 개정 B(2013 년 5 월)에서 개정 C 페이지로 변경
+  - 패키지 부록을 삭제
+
+* 개정 A(2013 년 5 월)에서 개정 B 페이지로 변경
+  - 소자 정보 테이블 삭제
+
+* 원본(2013 년 3 월)에서 개정 A 로 변경
+  - 전체 데이터 시트 발표
+
+
+
+5. Pin Configuration and Function
+
+	PIN
+NAME		NO	TYPE				Description
+AGND		9	G	Analog 접지 연결
+                                내부 전압 Reference 및 Analog 회로에서 반환
+BST		20	P	Bootstrap Gate Drive 용 High-Side Driver 전원
+                                외부 Bootstrap Diode 의 음극과 Bootstrap 콘덴서에 연결한다.
+                                Bootstrap 콘덴서는 High-Side N Channel MOSFET Gate 를
+                                충전하기 위해 전류를 공급하며
+                                Controller 에 최대한 가깝게 배치해야한다.
+                                내부 BST Charge Pump 는 Bypass 동작을 위해
+                                Bootstrap 콘덴서에 200uA 를 공급한다.
+COMP		11	O	내부 오차 증폭기의 출력
+                                Loop 보상 Network 는 이 핀과 FB 핀 사이에 연결되어야 한다.
+CSN		3	I	전류 감지 증폭기의 반전 입력
+                                전류 감지 저항의 음극 측에 연결한다.
+CSP		4	I	전류 감지 증폭기의 비반전 입력
+                                전류 감지 저항의 양극 측에 연결한다.
+FB		10	I	Feedback
+                                내부 오류 증폭기의 반전 입력
+                                출력에서 이 핀까지의 저항 분배기는 출력 전압 레벨을 설정한다.
+                                FB 핀의 레귤레이션 임계 값은 1.2V 에 해당한다.
+HO		19	O	High-Side N-Channel MOSFET Gate Drive 출력
+                                짧은 Inductance 경로를 통해 High-Side Synchronous N-Channel
+                                MOSFET Switch 의 Gate 에 연결한다.
+KI		16	0	Low-Side N-Channel MOSFET Gate Drive 출력
+                                짧은 Inductance 경로를 통해 Low-Side Synchronous N-Channel
+                                MOSFET Switch 의 Gate 에 연결한다.
+MODE		13	I	Switching Mode 선택 핀
+                                700k ohm Pull-Up 및 100k ohm Pull-Down 저항 내부는
+                                MODE 핀을 기본값으로 0.15V 로 유지한다.
+                                외부 Pull-Up 혹은 Pull-Down 저항을 추가함으로써
+                                MODE 핀 전압을 프로그래밍할 수 있다.
+                                MODE 핀 전압이 1.2V Diode Emulation Mode Threshold 보다 큰 경우
+                                PWM 모드가 활성화되어 High-Side N-Channel MOSFET Switch 를 통해
+                                전류가 어느 방향으로든 흐를 수 있도록 한다.
+                                MODE 핀 전압이 1.2V 보다 낮으면
+                                Controller 는 Diode Emulation Mode 로 작동한다.
+                                Skip Cycle 비교기가 기본값으로 활성화된다.
+                                MODE 핀이 접지되면 Controller 는
+                                여전히 Diode Emulation Mode 에서 작동하지만
+                                Skip Cycle 비교기는 정상 작동시 Trigger 되지 않으며
+                                낮은 경부하에서 Pulse Skipping 동작을 가능하게 한다.
+OPT		2	I	Clock Synchronization 선택 핀
+                                또한 이 핀은 Master/Slave 구성과 관련된
+                                SYNCOUT 을 활성화/비활성화한다.
+                                OPT 핀을 Floating 상태로 두어서는 안된다.
+PGND		15	G	Low-Side N-Channel MOSFET Gate Driver 의 전원 접지 연결 핀
+                                Low-Side N-Channel MOSFET Switch 의
+                                Source Terminal 에 직접 연결한다.
+RES		14	O	Hiccup Mode Off-Time 을 구성하고
+                                과부하 상태에서 재시작 Delay 를 구성하는
+                                외부 콘덴서의 재시작 Timer 핀
+                                Hiccup Mode 동작이 필요하지 않을 때
+                                AGND 에 직접 연결하라.
+SLOPE		12	I	Slope Compensation 은 SLOPE 와 AGND 사이의
+                                단일 저항으로 프로그래밍 된다.
