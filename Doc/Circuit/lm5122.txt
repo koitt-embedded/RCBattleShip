@@ -1,1 +1,124 @@
-내꺼
+LM5122/-Q1 Wide-Input Synchronous Boost Controller With Multiple Phase Capability
+
+1. Features
+
+* AEC-Q100 은 아래 사항을 인증한다:
+  - 소자 동작 온도 등급 1: -40℃  ~ +125℃
+    주변 작동 온도 범위
+  - 소자 HBM ESD 분류 수준 2
+  - 소자 CDM ESD 분류 수준 C6
+* 최대 입력 전압: 65V
+* 최소 입력 전압: 3V(구동을 위해 4.5V)
+* 출력 전압은 최대 100V
+* Bypass(V_out = V_in) 동작
+* 1.0% 정확도의 1.2V Reference
+* 1 MHz 로 Free-Run 및 Synchronizable Switching
+* Peak Current Mode Control
+* 견고한 3A Integrated Gate Drivers
+* Adaptive Dead-Time Control
+* Optional Diode Emulation Mode
+* Programmable Cycle-by-Cycle Current Limit
+* Hiccup Mode Overload Protection
+* Programmable Line UVLO
+* Programmable Soft-Start
+* Thermal Shutdown Protection
+* Low Shutdown Quiescent Current: 9uA
+* Programmable Slope Compensation
+* Programmable Skip Cycle Mode Reduces Standby Power
+* Allows External VCC Supply
+* Inductor DCR Current Sensing Capability
+* Multiphase Capability
+* Thermally Enhanced 20-Pin HTSSOP
+
+
+
+2. Applications
+
+* 12-V, 24-V, 48-V 전원 시스템
+* 자동차 시동 및 시동 끄기
+* 오디오 전원 공급기
+* 고전류 전원 시스템
+
+
+
+3. Description
+
+LM5122 는 고효율 동기식 Boost Regulator Application 을 위한
+다상 동기식 Boost Controller 에 해당한다.
+제어 방법은 Peak Current Mode 제어를 기반으로 한다.
+Current Mode 제어는 고유의 Line Feedforward,
+Cycle-by-Cycle Current Limiting, 그리고 Loop 보상의 용이성을 제공한다.
+
+Switching Frequency 는 최대 1 MHz 까지 프로그래밍 할 수 있다.
+적응형 Dead-Time Control 기능을 갖춘
+2 개의 견고한 N Channel MOSFET Gate Driver 로 높은 효율을 달성한다.
+또한 사용자가 선택할 수 있는 Diode Emulation Mode 는
+불연속 모드 동작을 가능하게 하여 경부하 조건에서 향상된 효율을 제공한다.
+
+내부 Charge Pump 는 High-Side Synchronous Switch(Bypass 동작)에 대해 100% duty 를 허용한다.
+180도 위상이 이동된 Clock 출력으로 쉬운 다중 위상 Interleave 로 구성이 가능하다.
+추가 기능으로는 Thermal Shutdown, Frequency Synchronization,
+Hiccup Mode Current Limit 및 Adjustable Line Undervoltage Lockout 이 있다.
+
+
+
+* Device Information
+
+PART NUMBER	PACKAGE		BODY SIZE(NOM)
+LM5122		HTSSOP(20)	6.50mm x 4.40mm
+LM5122-Q1
+
+(1) 사용 가능한 모든 Package 에 대해 Datasheet 끝에 있는 주문 가능한 부록을 참조하라.
+
+Simplified Application Diagram
+
+
+
+* Table of Contents
+ 
+1.  Features
+2.  Applications
+3.  Descriptions
+4.  Revision History
+5.  Pin Configuration and Functions
+6.  Specifications
+    6-1. Absolute Maximum Ratings
+    6-2. ESD Ratings: LM5122
+    6-3. ESD Ratings: LM5122-Q1
+    6-4. Recommended Operating Conditions
+    6-5. Thermal Information
+    6-6. Electrical Characteristics
+    6-7. Typical Characteristics
+7.  Detailed Description
+    7-1. Overview
+    7-2. Functional Block Diagram
+    7-3. Feature Description
+    7-4. Device Functional Modes
+8.  Application and Implementation
+    8-1. Application Information
+    8-2. Typical Application
+9.  Power Supply Recommendations
+10. Layout
+    10.1 Layout Guidelines
+    10.2 Layout Example
+11. Device and Documentation Support
+    11.1 Related Links
+    11.2 Community Resources
+    11.3 Trademarks
+    11.4 Electrostatic Discharge Caution
+    11.5 Glossary
+12. Mechanical, Packaging, and Orderable Information
+
+
+
+4. Revision History
+
+알림:
+이전 버전의 페이지 번호는 현재 버전의 페이지 번호와 다를 수 있다.
+
+* 개정 F(2015 년 5 월)에서 개정 G 페이지로의 변경
+  - 자동차 ESD 기능 추가
+  - 내용 및 두 번째 방정식 추가
+  - 방정식 변경
+
+* 
