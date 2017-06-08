@@ -431,3 +431,151 @@ VCC 가 외부 Bias 전원에 의해 공급될 때
 모든 Application 에 대해 Blocking Diode 의 필요성을 평가해야 한다.
 특히 입력 전원 전압이 4.5V 미만인 경우
 외부 VCC 전원을 공급하고 외부 전원 차단 다이오드가 필요하다.
+
+Figure 19. VIN Configuration when V_VIN < V_VCC
+
+
+
+7.3.3. Oscillator
+
+LM5122 Switching Frequency 는 RT 핀과 AGND 핀 사이에 연결된
+단일 외부 저항으로 프로그래밍 할 수 있다.
+저항은 디바이스에 매우 가깝고 RT 핀과 AGND 핀에 연결되어야 한다.
+원하는 Switching Frequency(f_SW) 를 설정하기 위한
+저항은 식 4 로 계산할 수 있다.
+
+R_T = (9 x 10^9) / f_SW ohm
+
+
+
+7.3.4. Slope Compensation
+
+Duty Cycle 이 50% 보다 큰 경우
+Peak Current Mode Regulator 는 Subharmonic Oscillation 을 가지게 된다.
+Subharmonic Oscillation 은 일반적으로 폭이 좁고
+폭이 좁은 Duty Cycle 을 관찰하여 특성화된다.
+이 Subharmonic Oscillation 은 감지된 Inductor Current 에
+Slope Compensation 으로 알려진 인공 Ramp 를 추가하는 기술로 제거할 수 있다.
+
+Figure 20. Slope Compensation
+
+Slope Compensation 의 양은 SLOPE 핀과 AGND 핀 사이에 연결된
+단일 저항으로 프로그래밍 할 수 있다.
+Slope Compensation 의 양은 아래와 같이 계산할 수 있다.
+
+V_SLOPE = {(6 x 10^9) / (f_SW x R_SLOPE)} x D
+D = 1 - V_IN / V_OUT
+
+R_SLOPE 값은 최소 입력 전압에서 아래 식으로 결정할 수 있다:
+
+R_SLOPE = (L_IN x 6 x 10^9) / {(K x V_OUT - V_IN(MIN)) x R_S x 10} ohm
+K = 0.82 ~ 1
+
+이전 방정식에서 K 는 입력 범위에 대해 아래와 같이 계산할 수 있다:
+
+K = {1 + (L_IN x 6 x 10^9) / (V_IN x R_S x 10 x R_SLOPE)} x D'
+D' = V_IN / V_OUT
+
+어떤 경우에도 K 는 0.5 이상이어야 한다.
+500 kHz 이상의 높은 Switching Frequency 에서,
+최소 지연 시간은 내부 지연으로 인한 Slope Compensation 의 양에
+영향을 미치기 때문에 K 계수는 1 보다 크거나 같을 것을 권장한다.
+
+감지된 Inductor Current 와 Slope Compensation 의 합은
+Load 및 적절한 Current Limit 동작으로
+적절한 시동을 위해 COMP 출력 고전압(VOH) 보다 낮아야 한다.
+R_SLOPE 의 최소값을 아래와 같이 제한한다:
+
+R_SLOPE > {(5.7 x 10^9) / f_SW} x [1.2 - {V_IN(MIN) / V_OUT}] ohm
+
+이 식이 대다수의 경우 사용된다.
+
+R_SLOPE > (8 x 10^9) / f_SW ohm
+
+V_IN(MIN) < 5.5V 일 때 위와 같은 보수적인 선택을 고려해야 한다.
+
+SLOPE 핀은 floating 상태로 둘 수 없다.
+
+
+
+7.3.5. Error Amplifier
+
+내부의 High-Gain Error Amplifier 는 FB 핀 전압과
+내부 정밀도 1.2V Reference 의 차이에 비례하는 오류 신호를 생성한다.
+Error Amplifier 의 출력은 COMP 핀에 연결되어 사용자가
+Type 2 Loop Compensation Network 를 제공할 수 있도록 한다.
+
+R_COMP, C_COMP, 그리고 C_HF 는 Error Amplifier Gain 및
+Phase 특성을 구성하여 안정적인 Voltage Loop 를 달성한다.
+이 Network 는 DC 에 Pole, Phase Boost 를 위한 중간 대역 Zero(fZ_EA),
+그리고 High Frequency Pole(fP_EA) 를 생성한다.
+R_COMP 의 최소 권장 값은 2k ohm 이다.
+Feedback Compensation 섹션을 참조하라.
+
+f_(Z_EA) = 1 / (2π x R_COMP x C_COMP) [Hz]
+f_(P_EA) = 1 / [2π x R_COMP x {(C_COMP x C_HF) / (C_COMP + C_HF)}] [Hz]
+
+
+
+7.3.6. PWM Comparator
+
+감지된 Inductor Current 와 Slope Compensation Ramp 의 합이 V_COMP - 1.2V 보다 클 때,
+PWM Comparator 는 1.2V 내부 COMP 를 통해 PWM 전압 강하를 통해 감지된 Inductor Current 와
+Slope Compensation Ramp 의 합을 COMP 핀의 전압과 비교하고 현재 Cycle 을 종료한다.
+
+Figure 21. Feedback Configuration and PWM Comparator
+
+
+
+7.3.7. Soft-Start
+
+Soft-Start 기능은 Regulator 가
+점진적으로 정상 상태 동작점에 도달하도록 도와주므로 시동 Stress 와 Surge 가 감소된다.
+LM5122 는 FB 핀을 SS 핀 전압 혹은 내부 1.2V Reference 중 낮은 값으로 조정한다.
+내부 10uA Soft-Start Current Source 는 SS 핀에 연결된
+외부 Soft-Start Capacitor 의 전압을 점차 증가시킨다.
+이로 인해 입력 전압 레벨에서 목표 출력 전압까지 출력 전압이 서서히 상승한다.
+Soft-Start Time(tSS) 은 입력 전원 전압에 따라 달라지며 식 11 로 계산한다.
+
+t_SS = {(C_SS x 1.2V) / 10uA} x (1 - V_IN / V_OUT)
+
+UVLO 핀 전압이 1.2V UVLO Threshold 보다 크고
+VCC UV Threshold 를 초과하면 내부 10uA Soft-Start Current Source 가 커진다.
+이 Soft-Start Sequence 의 시작 부분에서 V_SS 는
+내부 SS Pull Down Switch 로 25mV 미만으로 떨어뜨려야 한다.
+SS 핀은 외부 Switch 에 의해 Pull Down 될 수 있지만
+Switch 를 수행하기 위해 Pulling up 하는 것은 허용되지 않는다.
+시동 지연(Figure 22 참조)은 High-Side Boot Capacitor 가
+내부 BST Charge Pump 에 의해 완전히 충전되기에 충분해야 한다.
+
+CSS 의 값은 Soft-Start Time 동안 출력 콘덴서를 충전할만큼 충분히 커야 한다.
+
+C_SS > {(10uA x V_OUT) / 1.2V} x (C_OUT / I_OUT)
+
+
+
+7.3.8. HO and LO Drivers
+
+LM5122 에는 강력한 N-Channel MOSFET Gate Driver 와
+관련된 N-Channel MOSFET Switch 를 구동하는 High-Side Level Shifter 가 내장되어 있다.
+High-Side Gate Driver 는 External Boot Diode DBST 및
+Bootstrap Capacitor CBST 와 함께 동작한다.
+Low-Side N Channel MOSFET Driver 의 On-Time 동안 SW 핀 전압은 약 0V 이고
+CBST 는 DBST 를 통해 VCC 로부터 충전된다.
+BST 와 SW 핀 사이의 짧은 Trace 로 연결된 0.1uF 이상의 세라믹 콘덴서를 권장한다.
+
+LO 및 HO 출력은 Adaptive Dead-Time 방식으로 제어되어
+2 개의 출력이 동시에 활성화되지 않도록 한다.
+Controller 가 LO 를 활성화하도록 명령하면
+Adaptive Dead-Time Logic 은 먼저 HO 를 Disable 하고
+HO-SW 전압이 떨어질 때까지 대기한다.
+LO 는 작은 지연(HO Fall 에서 LO Rise Delay) 후에 활성화된다.
+유사하게 HO Turn-On 은 LO 전압이 방전될 때까지 지연된다.
+HO 는 작은 Delay 후에 활성화된다(LO Fall 에서 HO Rise Delay)
+이 기법은 특히 VCC 가 더 높은 외부 전압 소스에 의해 공급될 때
+모든 크기 N Channel MOSFET Device 에 적합한 Dead-Time 을 보장한다.
+직렬 Gate 저항을 추가할 때 주의하라.
+그러면 유효 Dead-Time(불감) 시간이 줄어들 수 있다.
+
+특히 VIN 전압 범위가 VCC Regulation 레벨 미만이거나 Bypass 동작이 필요한 경우
+N-Channel MOSFET Devices Threshold 전압을 선택할 때 주의해야 한다.
