@@ -204,3 +204,230 @@ RES		14	O	Hiccup Mode Off-Time 을 구성하고
                                 AGND 에 직접 연결하라.
 SLOPE		12	I	Slope Compensation 은 SLOPE 와 AGND 사이의
                                 단일 저항으로 프로그래밍 된다.
+SS		7	I	Soft-Start Programming 핀
+                                외부 콘덴서와 내부 10uA 전류 소스는 Soft-Start 중
+                                내부 오차 증폭기 Reference 의 Ramp 속도를 설정한다.
+SW		18	I/O	Boost Regulator 의 Switching Node
+                                Bootstrap 콘덴서,
+                                High-Side N-Channel MOSFET Switch 의 소스 터미널 및
+                                Low-Side N-Channel MOSFET Switch 의 드레인 터미널을
+                                짧은 Inductance 경로를 통해 연결한다.
+SYNCIN/RT	8	I	내부 Oscillator Frequency 는
+                                RT 와 AGND 사이의 단일 저항으로 프로그래밍 된다.
+                                내부 Oscillator 는 이 SYNCIN 핀에 양의 펄스 신호를
+                                인가하여 외부 클록에 동기화할 수 있다.
+                                Master 구성에서 권장되는
+                                최대 내부 Oscillator Frequency 는 2 MHz 이며
+                                최대 Switching Frequency 는 1 MHz 이다.
+SYNCOUT		1	O	Clock 출력 핀
+                                SYNCOUT 은 Interleave 작업을 위해
+                                180 도 이동된 클럭 출력을 제공한다.
+                                SYNCOUT 핀은 사용하지 않을 때 플로팅 상태로 둘 수 있다.
+                                Slave Mode 와 SYNCOUT 섹션을 참조하라.
+UVLO		6	I	저전압 잠금 프로그래밍 핀
+                                UVLO 핀이 0.4V 미만이면 Regulator 는 Shutdown Mode 에
+                                있고 모든 기능은 Disable 상태에 해당한다.
+                                UVLO 핀 전압이 0.4V 보다 크고 1.2V 미만이면
+                                Regulator 는 VCC Regulator 로 작동하고
+                                HO 및 LO 출력에서 Switching 없는 대기 Mode 에 해당한다.
+                                UVLO 핀 전압이 1.2V 이상이면 시동 절차가 시작된다.
+                                UVLO 핀에서 10uA 전류 소스는 1.2V 를 초과할 때
+                                활성화되고 외부 UVLO 저항을 통해 흘러 Hysteresis 를 제공한다.
+                                UVLO 핀은 플로팅 상태로 두어서는 안된다.
+VCC		17	P/O/I	VCC Bias 공급 핀
+                                Controller 에 가능한 가까이 위치한
+                                낮은 ESR/ESL 콘덴서를 사용하여 PGND 로 국지적으로 디커플링한다.
+VIN		5	P/I	VCC Regulator 용 전원 입력 소스
+                                짧은 콘덴서 경로로 입력 콘덴서 및
+                                소스 전원 공급 장치 연결부에 연결한다.
+EP		EP	N/A	Package 의 노출된 Pad
+                                내부 전기 연결이 없다.
+                                열 저항을 줄이기 위해 큰 접지면에 납땜해야 한다.
+
+
+
+6. Specifications
+
+6.1. Absolute Maximum Ratings
+
+실온에서 작동 범위(별도의 언급이 없는 한)
+
+(1) 절대 최대 정격에 나열된 것 이외의 응력은 장치에 영구적인 손상을 줄 수 있다.
+    이는 stress 등급으로 권장 작동 조건에 명시된 조건 이외의
+    다른 조건에서의 장치의 기능 작동은 암시되어 있지 않다.
+    장기간 절대 최대 정격 조건에 노출되면 장치의 신뢰성에 영향을 줄 수 있다.
+    달리 명시하지 않는 한 모든 전압은 AGND 핀을 기준으로 한다.
+
+(2) 입력 전원 전압이 VCC 전압보다 낮으면 Application 정보를 참조하라!
+
+(3) 모든 출력 핀은 외부 전압이 인가되도록 지정되지 않는다.
+
+
+
+6.2. ESD Ratings: LM5122
+
+(1) JEDEC 문서 JEP155 에 따르면 500-V HBM 을 사용하면
+    표준 ESD 제어 절차로 안전하게 제조할 수 있다.
+(2) JEDEC 문서 JEP157 에 따르면 250-V CDM 을 사용하면
+    표준 ESD 제어 절차로 안전하게 제조할 수 있다.
+
+
+
+6.3. ESD Ratings: LM5122-Q1
+
+(1) AEC Q100-002 는 HBM Stress 가
+    ANSI/ESDA/JEDEC JS-001 사양에 따라 수행되었음을 나타낸다.
+
+
+
+6.4. Recommended Operating Conditions
+
+실온 동작 범위(별도 명시가 없는한)
+
+(1) 권장 작동 조건은 장치의 작동이 의도된 조건이지만
+    특정 성능 제한을 보장하지 않는다.
+(2) 최소 VIN 동작 전압은 항상 4.5V 이다.
+    사용 가능한 외부 소스로부터 VIN 전압이 공급된다고 가정하면
+    최소 입력 전원 전압은 시동후 3.0V 가 될 수 있다.
+
+
+
+6.5. Thermal Information
+
+(1) 기존 및 새로운 열 Metrics 에 대한 자세한 내용은
+    IC Package Thermal Metrics Application Report, SPRA953 을 참조하라.
+    http://www.ti.com/lit/an/spra953c/spra953c.pdf
+
+
+
+6.6. Electrical Characteristics
+
+달리 명시되지 않는 한 이 사양은 -40도 ~ 125도 범위이며,
+V_Vin = 12V, V_Vcc = 8.3V, R_T = 20k ohm, LO 및 HO 는 무부하다.
+일반적인 값은 T_J = 25도 에서 가장 가능성있는
+Parametric 표준을 나타내며 Reference 목적으로만 제공된다.
+
+
+
+6.7. Typical Characteristics
+
+
+
+7. Detailed Description
+
+7.1. Overview
+
+LM5122 Wide Input Range Synchronous Boost Controller 는
+고효율 동기 Boost Regulator 를 구현하는데 필요한 모든 기능을 갖추고 있다.
+Regulator 제어 방법은 Peak 전류 모드 제어를 기반으로 한다.
+Peak Current Mode 제어는 고유한 Line Feed-Forward 및
+Loop Compensation 의 용이성을 제공한다.
+이 고집적 Controller 는 Adaptive Dead-Time Control 기능이 있는
+강력한 High-Side 및 Low-Side N-Channel MOSFET Drivers 를 제공한다.
+Switching Frequency 는 단일 저항으로 최대 1 MHz 를 설정하거나
+External Clock 과 동기화하여 사용자 프로그래밍이 가능하다.
+
+High-Side Synchronous Switch 의 제어 모드는
+강제 PWM(FPWM) 혹은 Diode Emulation Mode 로 구성할 수 있다.
+Fault Protection 기능엔 UVLO 핀을 Pulling Down 함에 의해
+Cycle-by-Cycle Current Limiting, Hiccup Mode Over Load Protection,
+Thermal Shutdown, 및 Remote Shutdown 기능이 포함된다.
+UVLO 입력은 입력 전압이 사용자가 선택한 임계값에 도달할 때
+Controller 를 Enable 하며 Low 로 하면 매우 작은 9uA Shutdown 대기 전류를 제공한다.
+이 Device 는 방열을 돕기 위해 노출 패드가 있는 20 핀 HTSSOP Package 로 제공된다.
+
+
+
+7.2. Functional Block Diagram
+
+
+
+7.3. Feature Description
+
+7.3.1. Undervoltage Lockout(UVLO)
+
+LM5122 는 Dual Level UVLO Circuit 을 갖추고 있다.
+UVLO 핀 전압이 0.4V UVLO Standby Enable Threshold 보다 작으면
+LM5122 는 모든 기능이 비활성화된 Shutdown Mode 에 있다.
+Shutdown Comparator 는 전환하는 동안
+Chatter 를 피하기 위해 0.1V 의 Hysteresis 를 제공한다.
+전원이 켜져있는 동안 UVLO 핀 전압이 0.4V 이상 1.2V 미만이면
+Controller 는 VCC Regulator 가 작동하고
+HO 및 LO 출력에서 Switching 이 없는 대기 모드에 있다.
+이 기능은 UVLO 핀을 외부 Open Collector 또는 Open Drain 장치로
+UVLO 핀을 UVLO Standby Enable Threshold 아래로 Pull Down 하여
+UVLO 핀을 원격 Remote Shutdown 기능으로 사용할 수 있게 한다.
+
+Figure 16. UVLO Remote Standby and Shutdown Control
+
+UVLO 핀 전압이 1.2V UVLO Threshold 를 초과하고
+VCC 전압이 VCC UV Threshold 값을 초과하면 시동 절차가 시작된다.
+UVLO Hysteresis 는 UVLO 설정점 분배기의
+임피던스로 켜지거나 꺼지는 내부 10uA 전류 소스로 수행된다.
+UVLO 핀 전압이 1.2V 를 초과하면
+Current Source 는 UVLO 핀에서 전압을 빠르게 올릴 수 있다.
+UVLO 핀 전압이 1.2V UVLO Threshold 아래로 떨어지면
+Current Source 가 Disable 되어 UVLO 핀의 전압이 빠르게 떨어진다.
+UVLO Hysteresis Current Source 외에도
+UVLO Toggling 의 Rising Edge 와 Falling Edge 모두에서
+5us Deglitch Filter 는 전원이 켜지거나 꺼질 때 Chatter 를 방지한다.
+
+공급 전압에서 AGND 까지의 외부 UVLO 설정 전압 분압기는
+Regulator 의 최소 입력 동작 전압을 설정하는데 사용된다.
+분압기는 입력 전압이 원하는 동작 범위에 있을 때
+UVLO 핀의 전압이 1.2V 보다 커지도록 설계되어야 한다.
+UVLO 핀의 최대 정격 전압은 15V 이다.
+필요한 경우 UVLO 핀을 외부 Zener Diode 로 Clamp 할 수 있다.
+UVLO 핀은 Floating 상태로 두어서는 안된다.
+RUV1 및 RUV2 의 값은 수학 식 1 및 수학 식 2 로부터 결정된다.
+
+R_UV2 = V_HYS / 10uA ohm
+R_UV1 = (1.2V * R_UV2) / {V_IN(STARTUP) - 1.2V} ohm
+
+V_HYS 는 원하는 UVLO Hysteresis 에 해당한다.
+V_IN(STARTUP) 은 전원을 켜는 동안 원하는 Regulator 의 시동 전압이다.
+
+Turn-Off 동안 일반적인 Shutdown Voltage 은 아래와 같이 계산할 수 있다:
+
+V_IN(SHUTDOWN) = V_IN(STARTUP) - V_HYS
+
+
+
+7.3.2. High Voltage VCC Regulator
+
+LM5122 에는 Controller 및 N-Channel MOSFET Driver 를 위한
+전형적인 7.6V VCC Bias Voltage 를 제공하는 내부 고전압 Regulator 가 내장되어 있다.
+VCC Regulator 의 입력인 VIN 은 65V 의 입력 전압 소스에 연결할 수 있다.
+VCC Regulator 는 UVLO 핀 전압이 0.4V 보다 클 때 켜진다.
+입력 전압이 VCC 설정점 레벨보다 낮으면 VCC 출력은 작은 전압 강하로 VIN 을 추적한다.
+VCC Regulator 의 출력은 최소 50 mA 에서 전류 제한이 있다.
+
+Power Up 시에 Regulator 는 VCC 핀에 연결된 콘덴서에 전류를 공급한다.
+VCC 콘덴서의 권장 콘덴서 범위는 1.0uF ~ 47uF 이며
+CBST 값의 10 배 이상인 것이 좋다.
+VIN 전압이 6V 미만에서 작동할 때 VCC 콘덴서 값은 4.7 uF 이상이어야 한다.
+
+외부 전원으로부터 VCC 를 공급함으로써
+LM5122 Device 의 내부 전력 손실을 줄일 수 있다.
+외부 VCC Bias 전원이 존재하고 전압이 9V 보다 크고 14.5V 미만이다.
+외부 VCC Bias 전원은 그림 17 과 같이 Diode 를 통해 직접 VCC 핀에 인가될 수 있다.
+
+Figure 17. External Bias Supply when 9V < V_EXT < 14.5V
+
+그림 18 은 Boost Inductor 에 추가 권선을 사용하여
+VCC Bias 전압을 유도하는 방법이다.
+이 회로는 VCC 전압을 VCC Regulation 전압보다 높여
+내부 VCC Regulator 를 차단하도록 설계되어야 한다.
+
+Figure 18. External Bias Supply using Transformer
+
+VCC Regulator Series Pass Transistor 에는
+VCC 와 VIN 사이에 Diode 가 포함되어 있는데
+Figure 19 와 같이 정상 동작시 완전히 순방향 Bias 되지 않아야 한다.
+외부 VCC Bias 전원의 전압이 VIN 핀 전압보다 큰 경우,
+외부 Bias 전원이 VCC 를 통해 입력 서플라이로 전류를 통과하지 못하도록
+외부 전원 공급 장치에서 VIN 핀으로 외부 전원 차단 Diode 가 필요하다.
+VCC 가 외부 Bias 전원에 의해 공급될 때
+모든 Application 에 대해 Blocking Diode 의 필요성을 평가해야 한다.
+특히 입력 전원 전압이 4.5V 미만인 경우
+외부 VCC 전원을 공급하고 외부 전원 차단 다이오드가 필요하다.
