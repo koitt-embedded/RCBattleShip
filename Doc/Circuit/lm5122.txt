@@ -579,3 +579,126 @@ HO 는 작은 Delay 후에 활성화된다(LO Fall 에서 HO Rise Delay)
 
 특히 VIN 전압 범위가 VCC Regulation 레벨 미만이거나 Bypass 동작이 필요한 경우
 N-Channel MOSFET Devices Threshold 전압을 선택할 때 주의해야 한다.
+Bypass 동작이 필요한 경우 특히 출력 전압이 12V 미만인 경우
+High-Side N-Channel MOSFET 에 대해 Logic Level Device 를 선택해야 한다.
+낮은 입력 전압에서 시동하는 동안
+Low-Side N-Channel MOSFET Switch 의 Get Plateau Voltage(MOSFET 특성) 는
+N-Channel MOSFET Device 를 완전히 Enhance 하기에 충분해야 한다.
+(Enhancement 는 전압이 일정한 상태에서 전류가 대폭 증폭되는 구간)
+작동시 Low-Side N-Channel MOSFET Drive Voltage 가
+Low-Side N-Channel MOSFET Device Gate Plateau Voltage 보다 낮다면
+Regulator 가 제대로 작동되지 않을 수 있으며
+고전력 손실 상태에서 최대 Duty Cycle 에 고착될 수 있다.
+이 조건은 낮은 Threshold N-Channel MOSFET Switch 를 선택하거나
+UVLO 핀 전압 프로그래밍으로 VIN(STARTUP) 을 증가시킴으로써 피할 수 있다.
+
+
+
+7.3.9. Bypass Operation(V_OUT = V_IN)
+
+LM5122 는 입력 전원 전압이 목표 출력 전압 이상인 경우
+High-Side Synchronous Switch 에 100% Duty Cycle 동작을 허용한다.
+내부 200uA BST Charge Pump 는 Power Stage Switching 없이
+High-Side N-Channel MOSFET Switch 를 켜기 위해
+충분한 High-Side Driver 전원 전압을 유지한다.
+UVLO 핀 전압이 1.2V 보다 크고 VCC 전압이 VCC UV Threshold 를 초과할 때
+내부 BST Charge Pump 가 활성화된다.
+SW 전압이 9V 보다 클 때 BST Charge Pump 는
+5.3V 최소 BST 2 SW 전압을 발생시킨다.
+이를 위해선 적절한 bypass 동작을 위해 최소 9V Boost 출력 전압이 필요하다.
+저온 및 고온에서 충분한 Driver 공급 전압을 유지하려면
+Boot Diode 의 누설 전류가 항상 BST Charge Pump Sourcing Current 보다 작아야 한다.
+Bypass 동작이 필요할 때 권장되는 PWM 구성은 Forced PWM Mode 이다.
+
+
+
+7.3.10. Cycle-by-Cycle Current Limit
+
+LM5122 는 Peak Cycle-by-Cycle Current Limit 기능을 갖추고 있다.
+CSP 2 CSN 전압이 75mV Cycle-by-Cycle Current Limit Threshold 를 초과하면
+Current Limit Comparator 는 즉시 LO 출력을 중단한다.
+
+Inductor Saturation 과 같이 Inductor Current 가 Overshoot 할 수 있는 경우
+Current Limit Comparator 는 Current 가
+Current Limit Threshold 이하로 떨어질 때까지 Pulse 를 Skip 한다.
+Current Limit 의 Peak Inductor Current 는 아래와 같이 계산할 수 있다:
+
+I_PEAK(CL) = 75mV / R_S
+
+
+
+7.3.11. Clock Synchronization
+
+SYNCIN/RT 핀을 사용하여 내부 발진기를 외부 클럭과 동기화할 수 있다.
+RT 핀에서 Positive 로 가는 Synchronization Clock 은
+RT Sync 상승 Threshold 보다 커야하며
+RT 핀에서 Negative 로 가는 Synchronization Clock 은
+내부 Synchronization Pulse Detector 를 통과하기 위해
+RT Sync 하강 Threshold 보다 커야 한다.
+
+Master1 Mode 에서 2 가지 유형의 구성이 Clock Synchronization 에 허용된다.
+Figure 23 에서 외부 Synchronization Pulse 의 Frequency 는
+RT 저항에 의해 프로그램된 내부 발진기 주파수의 +40% 및 -20% 이내가 되도록 권장된다.
+예로 Master1 Mode 에서 450 kHz Switching 을 위해서는
+900 kHz 외부 Synchronization Clock 및 20k ohm RT 저항이 필요하다.
+내부 발진기는 Positive Edge 에서 RT 핀으로 AC 커플링을 수행함으로써 동기화된다.
+100pF 콘덴서를 통해 커플링된 5V 진폭 펄스 신호는 좋은 시작점이다.
+RT 저항은 발진기가 구동하거나 혹은 외부적으로 동기화되었는지 여부에 관계없이
+Figure 23 구성의 AC 커플링 콘덴서에서 항상 필요하다.
+
+RT 핀 전압이 외부 Pulse 의 하강 에지에서 -0.3V 이하가 되지 않도록 주의해야 한다.
+이것은 외부 동기화 펄스의 Duty Cycle 을 제한할 수 있다.
+외부 펄스의 상승 에지에서 LO 의 상승 에지까지 약 400ns Delay 가 있다.
+
+Figure 23. Oscillator Synchronization Through AC Coupling in Master1 Mode
+
+Figure 24 의 구성에서 내부 Oscillator 는 Duty Cycle 한계가 없는 RT 저항을 통해
+RT 핀에 외부 동기화 클록을 연결함으로써 동기화 될 수 있다.
+외부 클럭 소스의 출력단은 낮은 임피던스의 Totem-Pole 구조여야 한다.
+f_SYNC 의 기본 논리 상태는 Low 여야 한다.
+
+Figure 24. Oscillator Synchronization Through a Resistor in Master1 Mode
+
+Master2 및 Slave Mode 에서 이 외부 Synchronization Clock 은
+RT 핀에 직접 연결되어야하며 항상 연속적으로 제공되어야 한다.
+내부 발진기 주파수는 FB 및 OPT 핀 조합을 구성하여
+Switching Frequency 보다 2 배 빠르거나 스위칭 주파수와 같을 수 있다(표 1 참조)
+
+
+
+7.3.12. Maximum Duty Cycle
+
+높은 PWM Duty Cycle 에서 작동할 때
+Low-Side N-Channel MOSFET Device 는 매 Cycle 마다 강제로 꺼진다.
+이 강제된 LO Off-Time 은 Controller 의 최대 Duty Cycle 을 제한한다.
+높은 스위칭 주파수와 높은 Duty Cycle 요구 사항을 가진
+Boost Regulator 를 설계할 때 필요한 최대 Duty Cycle 을 확인해야 한다.
+목표 출력 전압을 달성할 수 있는 최소 입력 전원 전압은
+수식 14 혹은 15 로 계산할 수 있다.
+
+V_VCC 가 5.5V 보다 크거나 V_VIN 이 6.0V 보다 크면 수식 14 를 사용한다.
+이 조건 중 하나를 만족하지 않는 저전압 Application 의 경우 식 15 를 사용한다.
+
+V_IN(MIN) = f_SW x V_OUT x (400ns + margin)
+V_IN(MIN) = f_SW x V_OUT x (750ns + margin)
+
+정상 작동시 약 100ns 의 margin 을 권장한다.
+
+
+
+7.3.13. Thermal Protection
+
+내부의 Thermal Shutdown 회로는 최대 접합 온도를 초과하는 경우
+Controller 를 보호하기 위해 제공된다.
+일반적으로 165 도에서 활성화되면
+Controller 는 Low-Power Shutdown Mode 로 강제 전환되며,
+출력 드라이버, 분리 스위치 및 VCC Regulator 는 비활성화된다.
+이 기능은 과열 및 Device 파손을 방지하기 위해 고안되었다.
+
+
+
+7.4. Device Functional Modes
+
+7.4.1. MODE Control(Forced PWM Mode and Diode Emulation Mode)
+
+
