@@ -769,3 +769,131 @@ MODE 핀을 디폴트 0.15V 로 설정한다.
 Peak Current Limit Threshold 는 750 mV 로 설정되므로
 기본 Skip Threshold 가 Peak Level 의 약 17% 에 해당한다.
 실제로 Skip Level 은 Slope Compensation 이 추가되어 낮아질 것이다.
+SLOPE 혹은 VCC 핀에 외부 Pull Up 저항을 추가하거나
+외부 Pull Down 저항을 접지에 추가함으로써 Skip Cycle Threshold 를 프로그래밍 할 수 있다.
+Skip Cycle Comparator 는 COMP 전압에 비례하는 PWM Comparator 입력을 모니터하므로
+Bypass 동작이 필요한 경우에 Skip Cycle 동작은 권장되지 않는다.
+
+기존의 Pulse Skipping 동작은 MODE 핀을 접지에 연결하여 수행할 수 있다.
+Skip Cycle Comparator 에서 Negative 20 mV Offset 은
+Skip Cycle Comparator 가 정상 동작에서 Trigger 되지 않도록 보장한다.
+가볍거나 무부하 조건에서 LM5122 는 Regulator 에 필요한 Pulse Width 가
+Device 의 최소 LO On-Time 보다 작으면 LO Pulse 를 건너뛴다.
+Error Amplifier 가 경부하 혹은 무부하 상태에서 Regulation 을 유지하기 위해
+LO 의 평균 Pulse Width 를 찾기 위한 임의적 동작으로 Pulse Skipping 이 나타난다.
+
+
+
+7.4.3. Hiccup Mode Over-Load Protection
+
+어떤 Cycle 동안 Cycle-by-Cycle Current Limit 에 도달하면
+30uA Current 가 나머지 Clock Cycle 동안 RES 콘덴서에 공급된다.
+RES 콘덴서 전압이 1.2V Restart Threshold 를 초과하는 경우
+Hiccup Mode Over Load Protection Sequence 가 시작된다.
+SS 콘덴서는 GND 로 방전되고 LO 및 HO 출력은 모두 Disable 되며
+RES 콘덴서의 전압은 2V Hiccup Counter Lower Threshold 와
+4V Hiccup Counter Upper Threshold 사이에서
+10uA 충전 및 5uA 방전 Current 에 의해 8 배로 위아래로 Ramp 된다.
+8 번째 Cycle 후에 SS 콘덴서는 10uA Soft-Start Current 로 다시 방전되고 충전된다.
+3V Zener Diode 가 RES 콘덴서와 병렬로 연결된 경우
+Regulator 는 Hiccup Mode Off Mode 로 들어가고
+UVLO Shutdown 이 순환될 때까지 다시 시작하지 않는다.
+Hiccup Mode 동작을 사용하지 않을 때 RES 핀을 AGND 에 직접 연결하라.
+
+Figure 26. Hiccup Mode Over-Load Protection
+
+
+
+7.4.4. Slave Mode and SYNCOUT
+
+LM5122 는 하나의 Controller 를 Master 로 구성하고
+다른 모든 Controller 를 Slave 로 구성하여
+Dual(혹은 그 이상) Phase Boost Converter 를 쉽게 구현할 수 있다.
+Slave Mode 는 FB 핀을 VCC 핀에 연결함으로써 활성화된다.
+FB 핀은 초기 전원을 키는중에 Sampling 되며 Slave 구성이 감지되면 상태가 Latch 된다.
+Slave Mode 에서 Error Amplifier 가 활성화되고 높은 임피던스 출력을 가지며,
+10uA 의 Hiccup Mode Off-Time Charging Current 와
+5uA 의 Hiccup Mode Off-Time Discharging Current 가 Disable 되고,
+5uA 의 정상 상태 RES Discharging Current 및
+10uA Soft-Start Charging Current 가 비활성화되면
+30uA Fault-State RES Charging Current 가 35uA 로 변경된다.
+10uA UVLO Hysteresis Current Source 는 Master Mode 와 동일하게 동작한다.
+또한 Slave Mode 에서는 내부 Oscillator 가 비활성화되고 외부 동기화 클록이 필요하다.
+
+SYNCOUT 기능은 180도 Phase Shift 된 클록 출력을 제공하므로
+쉬운 Dual-Phase Interleav 구성이 가능하다.
+Master1 SYNCOUT 을 Slave1 SYNCIN 에 직접 연결하면
+Slave Controller 의 Switching Frequency 가
+180도 Phase Shift 로 Master Controller 에 동기화된다.
+Master Mode 에서 OPT 핀을 GND 에 연결하면
+50% Duty Cycle 의 2 로 나눠진 내부 발진기 클록이 제공되어
+2 개의 Phase Interleave 구성에서 180도 Phase Shift 동작을 달성할 수 있다.
+이 구성에서는 Master Controller 의 Switching Frequency 가 외부 클록 주파수의 절반이다.
+OPT 핀 전압이 2.7V OPT Threshold 보다 높거나 핀이 VCC 에 연결되면 SYNCOUT 은 비활성화되고
+Master Controller 의 Switching Frequency 는 외부 클록 주파수와 동일해진다.
+Master2, Slave1, Slave2 구성의 경우
+외부 동기화 클록을 항상 제공하고 SYNCIN 에 직접 연결해야 한다.
+자세한 내용은 Interleave 된 Boost 구성 섹션을 참조하라.
+
+Table 1. LM5122 Multiphase Configuration
+
+
+
+8. Application and Implementation
+
+NOTE
+
+다음 Application Section 의 정보는 TI 구성 요소 사양의 일부가 아니며
+TI 는 그 정확성이나 완전성을 보증하지 않는다.
+TI 고객은 자신의 목적을 위한 구성 요소의 적합성을 결정할 책임이 있다.
+고객은 System 기능을 확인하기 위해 설계 구현을 검증하고 테스트해야 한다.
+
+
+
+8.1. Application Information
+
+LM5122 Device 는 Step-Up DC-DC Converter 다.
+이 Device 는 일반적으로 낮은 DC 전압을 높은 DC 전압으로 변환하는데 사용된다.
+아래 설계 절차를 사용하여 LM5122 Device 의 Component 값을 선택하라
+혹은 WEBENCH SW 를 사용하여 완전한 Design 을 생성하라.
+WEBENCH SW 는 반복 설계 절차를 사용하고 설계를 생성할 때
+포괄적인 구성 요소 DB 에 접근한다.
+이 섹션에서는 설계 절차에 대해 간단하게 설명한다.
+
+
+
+8.1.1. Feedback Compensation
+
+Boost Regulator 의 Open Loop Response 는
+Modulator Transfer Function 과 Feedback Transfer Function 의 곱으로 정의된다.
+dB Scale 상에서 그래프를 그리면 Open Loop Gain 은
+Modulator Gain 과 Feedback Gain 의합으로 표시된다.
+Embedded Current Loop 가 있는 Power Stage Transfer Function 을 포함하는
+Current Mode Boost Regulator 의 Modulator Transfer Function 은 1 개의 Pole, 1 개의 Zero,
+그리고 1 개의 Right Half Plane(RHP) Zero System 으로 단순화될 수 있다.
+
+Modulator Transfer Function 은 아래와 같다:
+
+V_OUT(s) / V_COMP(s) = A_M x [{1 + s / w_(Z_ESR)} x {1 - s / w_(Z_RHP)} / (1 + s / w_(P_LF))]
+
+A_M(Modulator DC Gain) = [R_LOAD / {R_(S_EQ) x A_S}] x D' / 2
+w_(P_LF)(Load Pole) = 2 / (R_LOAD x C_OUT)
+w_(Z_ESR)(ESR Zero) = 1 / {R_ESR x C_OUT)
+w_(Z_RHP)(RHP Zero) = (R_LOAD x D^2) / L_(IN_EQ)
+L_(IN_EQ) = L_IN / n
+R_(S_EQ) = R_S / n
+n 은 phase 의 숫자
+
+COUT(RESR) 의 ESR 이 충분히 작고 RHP Zero Frequency 가 Target Crossover Frequency 에서 멀다면
+Modulator Transfer Function 은 1 개의 Pole System 으로 더 단순화될 수 있으며
+Voltage Loop 는 2 개의 Loop Compensation 구성 요소인 RCOMP 및 CCOMP 만으로 폐쇄되어
+Crossover Frequency 에 Single Pole Response 를 남긴다.
+Crossover Frequency 에서 Single Pole Response 는
+90 도의 Phase Margin 을 갖는 매우 안정한 Loop 를 생성한다.
+
+Feedback Transfer Function 은 Feedback 저항 분배기와
+Error Amplifier 의 Loop Compensation 을 포함한다.
+RCOMP, CCOMP 및 옵션 CHF 는 Error Amplifier Gain 및 Phase 특성을 구성하고
+원점에 기둥을 만들고 Low Frequency Zero 와 High Frequency Pole 을 만든다.
+
+Feedback Transfer Function 은 아래와 같이 정의된다:
