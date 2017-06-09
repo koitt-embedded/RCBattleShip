@@ -701,4 +701,71 @@ Controller 는 Low-Power Shutdown Mode 로 강제 전환되며,
 
 7.4.1. MODE Control(Forced PWM Mode and Diode Emulation Mode)
 
+Diode 가 아닌 High-Side Switch 로 구현된 Fully Synchronous Boost Regulator 는
+경부하, 과전압 혹은 부하 과도 현상과 같은 특정 조건에서
+Sink Current 로부터 출력할 수 있는 기능을 가지고 있다.
+LM5122 는 강제 PWM Mode 혹은 Diode Emulation Mode 로 작동하도록 구성할 수 있다.
 
+강제 PWM Mode(FPWM) 에서 High-Side N-Channel MOSFET Switch 의 역전류가 허용되고
+부하 조건이 가볍거나 무부하 상태에서 Inductor 전류가 연속적으로 흐른다.
+강제 PWM Mode 의 이점은 가볍거나 무부하 조건에서 일정한 주파수로 동작하고
+가벼운 부하 ~ 무거운 부하 과도까지 응답이 빠르다.
+강제 PWM Mode 를 활성화하려면
+MODE 핀을 VCC 에 연결하거나 1.2V 이상의 전압에 연결한다.
+FPWM Mode 에서 역전류는 제한되지 않는다.
+
+Diode Emulatio Mode 에서 High-Side Switch 의 전류 흐름은
+한 방향(Source 2 Drain)에서만 허용된다.
+CSP 에서 CSN 으로의 전압이 Low-Side Switch On-Time 동안
+Zero Current Detection 의 Rising Threshold 인 7 mV 보다 큰 경우
+High-Side Switch 를 켤 수 있다.
+CSP 대 CSN 전압이 High-Side Switch On-Time 동안
+Zero Current Detection 의 Falling Threshold 미만인 경우
+High-Side N-Channel MOSFET Switch 를 통한 출력에서 입력의로의 역전류가 방지되고
+나머지 PWM Cycle 동안 High-Side N-Channel MOSFET Switch 를
+Latching Off 함으로써 Discontinuous Conduction Mode 가 가능해진다.
+Diode Emulation 의 이점은 경부하 조건에서 전력 손실이 낮다는 것이다.
+
+Figure 25. MODE Selection
+
+작동시 LM5122 는 작동시 사전 Bias 된 부하로
+Diode Emulation 을 강제하는 반면 SS 핀 전압은 1.2V 미만이다.
+강제 Diode Emulation 은 SS 가 1.2V 보다 클 때
+PWM Comparator 로부터의 Pulse 에 의해 종료된다.
+Soft-Start 기간 동안 LO Pulse 가 없으면 Soft-Start 가 끝날 때
+350 ns 의 단일 샷 LO Pulse 가 강제로 Bootstrap 콘덴서를 충전하는데 도움이 된다.
+내부 전류 감지 지연 때문에 Inductor Ripple 비율이 높고
+매우 높은 Switching Frequency 에서 작동하는 경우
+Diode Emulation Mode 용 LM5122 를 신중하게 평가해야 한다.
+FPWM Mode 에서 무부하까지의 전 부하 동안의 과도 성능도 검증되어야 한다.
+
+
+
+7.4.2. MODE Control(Skip Cycle Mode and Pulse Skipping Mode)
+
+Regulator 의 경부하 효율은 일반적으로 Converter 의 Switching 및
+Bias Current 와 관련된 손실이 부하에 전달되는 총 전력의 대다수가 될 때 떨어진다.
+경부하 효율을 높이기 위해 LM5122 는 Diode Emulation Mode 에서
+2 가지 유형의 경부하 작동을 제공한다.
+
+LM5122 Controller 에 통합된 Skip Cycle Mode 는 Switching Loss 를 줄이고
+평균 Switching Frequency 를 낮춤으로써 경부하 조건에서 효율을 향상시킨다.
+Skip Cycle Comparator 에 의해 Skip Cycle 동작이 달성된다.
+경부하 조건이 발생하면 COMP 핀 전압은 자연적으로 감소하여
+Regulator 가 제공하는 Peak Current 를 감소시킨다.
+COMP 전압 강하 동안 Skip Cycle Threshold 는 VMODE -20 mV 로 정의되고
+COMP 전압 Rising 동안 VMODE + 20 mV 로 정의된다.
+Skip Cycle Comparator 에는 내부 Hysteresis 가 40 mV 있다.
+
+PWM Comparator 입력의 전압이 VMODE -20 mV 미만으로 떨어지면
+HO 및 LO 출력이 모두 비활성화된다.
+Controller 는 PWM Comparator Input 에서의 전압이 VMODE +20 mV 으로 증가할 때까지
+Switching Cycle 을 계속 Skip 하여 더 많은 Inductor Current 를 요구한다.
+Skip 되는 Cycle 수는 Frequency Compensation Network 의 부하 및 응답 시간에 따라 다르다.
+Skip Cycle Comparator 의 내부 Hysteresis 는
+긴 Skip Cycle 간격과 짧은 Pulse Burst 를 생성하는데 도움이 된다.
+내부 700k ohm Pull Up 및 100k ohm Pull Down 저항은
+MODE 핀을 디폴트 0.15V 로 설정한다.
+Peak Current Limit Threshold 는 750 mV 로 설정되므로
+기본 Skip Threshold 가 Peak Level 의 약 17% 에 해당한다.
+실제로 Skip Level 은 Slope Compensation 이 추가되어 낮아질 것이다.
