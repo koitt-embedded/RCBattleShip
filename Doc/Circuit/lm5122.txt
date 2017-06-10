@@ -897,3 +897,130 @@ RCOMP, CCOMP 및 옵션 CHF 는 Error Amplifier Gain 및 Phase 특성을 구성�
 원점에 기둥을 만들고 Low Frequency Zero 와 High Frequency Pole 을 만든다.
 
 Feedback Transfer Function 은 아래와 같이 정의된다:
+
+-V_COMP / V_OUT = A_FB x [{1 + s / w_(Z_EA)} / {s x {1 + s / w_(P_EA)}}]
+
+A_FB(Feedback DC Gain) = 1 / {R_(FB2) x (C_COMP + C_HF)}
+w_(Z_EA)(Low Frequency Zero) = 1 / (R_COMP x C_COMP)
+w_(P_EA)(High Frequency Zero) = 1 / (R_COMP x C_HF)
+
+원점의 Pole 은 출력의 정상 상태 오차를 최소화한다.
+Low Frequency Zero 는 Modulator 의 Load Pole 을 취소하기 위해 배치되어야 한다.
+High Frequency Pole 은 출력 콘덴서 ESR 에 의해 생성된 Zero 를 취소하거나
+Error Amplifier 의 잡음 감수성을 감소시키는데 사용될 수 있다.
+Low Frequency Zero 를 Crossover Frequency 보다 작은 크기의 차수로 배치함으로써
+Crossover Frequency 에서 Phase Boost 의 최대량이 달성될 수 있다.
+CHF 를 추가하면 Feedback Transfer Function 에 Pole 이 추가되므로
+High Frequency Pole 은 Crossover Frequency 를 초과하여 배치해야 한다.
+
+Crossover Frequency(Open Loop Bandwidth)는
+대개 f_SW 의 20 분의 1 에서 5 분의 1 사이에서 선택된다.
+단순화된 공식에서 추정된 Crossover Frequency 는 아래와 같이 정의될 수 있다:
+
+f_CROSS = [R_COMP / {π x R_(S_EQ) x R_(FB2) x A_S x C_OUT}] x D
+D = V_IN / V_OUT
+
+더 높은 Crossover Frequency 의 경우
+R_COMP 는 증가할 수 있고 C_COMP 는 비례적으로 감소할 수 있다.
+반대로 C_COMP 를 비례적으로 증가시키면서 R_COMP 를 줄이면
+Feedback Transfer Function 에서 동일한 Zero Frequency 를 유지하면서 Bandwidth 가 낮아진다.
+
+Modulator Transfer Function 은 Network Analyzer 로 측정할 수 있으며
+Feedback Transfer Function 은 원하는 Open Loop Transfer Function 으로 구성할 수 있다.
+Network Analyzer 를 사용할 수 없는 경우 허용 가능한 성능을 확인하기 위해
+Step Load 과도 특성 검사를 수행할 수 있다.
+Step Load 의 목표는 댐핑된 응답이 있는 최소 Overshoot/Undershoot 를 얻는 것이다.
+
+
+
+8.1.2. Sub-Harmonic Oscillation
+
+Modulator Transfer Function 은 Network Analyzer 로 측정할 수 있으며
+Feedback Transfer Function 은 원하는 Open Loop Transfer Function 으로 구성할 수 있다.
+Network Analyzer 를 사용할 수 없는 경우 허용 가능한 성능을 확인하기 위해
+Step Load 과도 특성 검사를 수행할 수 있다.
+
+Peak Current Mode Regulator 는 50% Duty Cycle 이상으로 동작할 때
+불안정한 동작을 나타낼 수 있다.
+이 동작은 Sub-Harmonic Oscillation 이라고 알려져 있으며
+SW 핀에서 폭이 좁고 넓은 Pulse 가 번갈아 나타나는 특징이 있다.
+Sub-Harmonic Oscillation 은 감지된 Inductor Current 상단에
+추가 Slope Voltage Ramp(Slope Compensation)을 추가하여 방지할 수 있다.
+K >= 0.82 ~ 1.0 을 선택하면 넓은 입력 전압 변화에도 Sub-Harmonic Oscillation 이 제거된다.
+
+Time-Domain Analysis 에서 초기 지점에서 시작하는
+Steady-State Inductor Current 는 같은 지점으로 되돌아 간다.
+초기 섭동(dI_0)에 의해 유발된 종료 사이클 Current Error(dI_1)의 진폭이 
+dI_0 의 진폭보다 작거나 혹은 dI_1 / dI_0 > -1 이라면
+섭동은 몇 주기 후에 자연적으로 사라진다.
+dI_1 / dI_0 < -1 일 때 초기 섭동은 더 이상 사라지지 않으며
+정상 상태에서 Sub-Harmonic Oscillation 을 초래한다.
+
+Figure 27. Effect of Initial Perturbation when dI_1 / dI_0 < -1
+
+dI_1 / dI_0 은 아래와 같이 계산된다:
+
+dI_1 / dI_0 = 1 - (1 / K)
+
+dI_1 / dI_0 과 K 인자 사이의 관계는 아래와 같은 도표로 설명된다.
+
+Figure 28. dI_1 / dI_0 vs K Factor
+
+K 의 절대 최소값은 0.5 이다.
+K < 0.5 일 때, dI_1 의 진폭은 dI_0 의 진폭보다 크며
+초기 섭동은 Sub-Harmonic Oscillation 을 초래한다.
+K = 1 이면 초기 Switching 은 한 번의 Switching Cycle 에서 제거된다.
+이것을 1 Cycle Damping 이라고 한다.
+-1 < dI_1 / dI_0 < 0 일 때, 초기 섭동은 감쇠가 부족하다.
+모든 섭동은 0 < dI_1 / dI_0 < 1 일 때 과도 감쇠가 일어난다.
+
+Frequency Domain 에서 Q 는 Modulator Transfer Function 에서
+Sampling Gain 항의 Quality Factor 로서
+Sub-Harmonic Oscillation 에 대한 경향을 예측하는데 사용되며 아래와 같이 정의된다:
+
+Q = 1 / π(K - 0.5)
+
+Q 와 K Factor 의 관계는 Figure 29 에 나와있다.
+
+Figure 29. Sampling Gain Q vs K Factor
+
+K 의 권장 최소 절대 값은 0.5 다.
+K 가 0.5 보다 작으면 High Gain Peaking 은
+f_SW / 2 에서 Sub-Harmonic Oscillation 을 초래한다.
+K Factor 의 값이 클수록 Crossover Frequency 근처에서 추가적인 Phase Shift 가 발생하지만
+Current Loop 에서 Noise 감수성을 감소시키는 이점이 있다.
+K Factor 의 최대 허용 값은 Table 2 의 Frequency Analysis Formula 에서
+최대 Crossover Frequency 방정식으로 계산할 수 있다.
+
+Table 2. Boost Regulator Frequency Analysis
+
+(1) 종합 방정식은 Inductor Pole 과 f_SW / 2 에서 정점에 도달하는 Gain 을 포함하며
+    이는 Current Mode Control 의 Sampling Effect 로 인해 발생한다.
+    또한 Seramic 콘덴서 C_OUT2(No ESR) 이 C_OUT1 과 병렬로 연결되어 있다고 가정한다.
+    R_ESR1 은 C_OUT1 의 ESR 을 나타낸다.
+
+(2) Multi-Phase Configuration 에서 L_(IN_EQ) = L_IN / n, R_(S_EQ) = R_S / n,
+    R_LOAD = V_OUT / {I_OUT(각 Phase 당) x n},
+    C_OUT = 각 Phase 당 C_OUT x n, n 은 Phase 의 수이다.
+    전류 감지 증폭기 Gain 은 그대로다.
+
+(3) w_(Z_EA) = w_(P_LF), w_(P_EA) = w_(Z_ESR), f_CROSS < w_(Z_RHP) / (2 x π x 10),
+    C_COMP = (R_LOAD x C_OUT) / (4 x R_COMP), D = V_IN / V_OUT 으로 가정한다.
+
+(4) Modulator Phase 특성에서 45 도 Phase Shift 가 발생하는 주파수
+
+
+
+8.1.3. Interleaved Boost Configuration
+
+Interleave 작업은 고효율, 낮은 부품 Stress 및 감소된 입출력 Ripple 을 가진
+단일 출력, High Current Application 에서 많은 이점을 제공한다.
+Dual Phase Interleave 동작의 경우,
+Output Power Path 가 분할되어 각 Phase 의 Input Current 를 1 / 2 로 줄인다.
+입출력 콘덴서의 Ripple Current 는 각 Channel 이
+다른 Channel 과 180 도 위상차로 작동하므로 상당히 감소한다.
+Figure 30 은 정규화된(I_RMS / I_OUT) 출력 콘덴서 Ripple Current 대
+Single Phase 및 Dual Phase Boost Converter 의 Duty Cycle 을 나타내며
+I_RMS 는 Output Current Ripple RMS 에 해당한다.
+
+Figure 30. Normalized Output Capacitor RMS Ripple Current
