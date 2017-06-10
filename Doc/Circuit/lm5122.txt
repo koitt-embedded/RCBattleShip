@@ -1024,3 +1024,161 @@ Single Phase 및 Dual Phase Boost Converter 의 Duty Cycle 을 나타내며
 I_RMS 는 Output Current Ripple RMS 에 해당한다.
 
 Figure 30. Normalized Output Capacitor RMS Ripple Current
+
+Dual Phase Interleave 동작을 구성하려면 하나의 Device 를 Master 로 구성하고
+FB 를 VCC 에 연결하여 다른 Device 를 Slave Mode 로 구성해야 한다.
+또한 Master 측의 COMP, UVLO, RES, SS, SYNCOUT 은
+각각 Slave 측의 COMP, UVLO, RES, SS, SYNCIN 에 연결해야 한다.
+Compensation Network 는 Master FB 와 공통 COMP 연결 사이에 연결된다.
+2 개 Power Stage 의 출력 콘덴서는 공통 출력에 함께 연결된다.
+
+Figure 31. Dual Phase Interleaved Boost Configuration
+
+Figure 32 는 Dual Phase Timing Diagram 을 보여준다.
+180도 Phase Shift 는 Master 측의 SYNCOUT 을 Slave 측의 SYNCIN 에 연결함으로써 실현된다.
+
+Figure 32. Dual Phase Configuration and Timing Diagram
+
+각 Channel 은 Figure 33 의 개별 외부 클럭에 의해 동기화된다.
+SYNCOUT 핀은 Figure 34 에서 하나의 외부 클록 소스만 필요로 한다.
+외부 동기화 펄스의 50% Duty Cycle 은 항상 이 Daisy Chain Configuration 과 함께 제공되어야 한다.
+
+Phase 간의 Current Sharing 은 Master Controller 의
+Error Amplifier Output 을 3 개의 Slave Controller 와 공유하여 이뤄진다.
+저항 감지는 Phase Current 의 Balance 를 맞추기 위해 선호되는 Current Sensing 방법이다.
+
+Figure 33. 4-Phase Timing Diagram Individual Clock
+
+Figure 34. 4-Phase Timing Diagram Daisy Chain
+
+
+
+8.1.4. DCR Sensing
+
+최소의 전도 손실로 최저 비용이 요구되는 Application 의 경우,
+Inductor DC 저항(DCR)은 감지 저항을 사용하지 않고 Inductor Current 를 감지하는데 사용된다.
+Figure 35 는 2 개의 DCR Sensing 저항과 하나의 콘덴서를 사용하는 DCR 감지 구성이다.
+
+Figure 35. DCR Sensing
+
+R_CSN 과 C_DCR 선택은 식 21 을 충족해야 한다.
+이 간접 전류 감지 방법은 시간 상수 매칭을 요구하기 때문이다.
+C_DCR 은 일반적으로 0.1uF ~ 2.2uF 의 범위에서 선택된다.
+
+L_IN / R_DCR = C_DCR x R_CSN
+
+R_CSN 값이 작으면 CSN Bias Current 로 인한 전압 강하가 최소화되지만
+R_CSN 의 동적 전력 소모가 증가한다.
+R_CSP 의 DC 전압 강하는 R_CSP 의 동일한 값을 선택하여 보상할 수 있지만
+Current Amplifier 의 Gain(일반적으로 10)은 R_CSP 를 추가함으로써 영향을 받는다.
+DCR 감지 Network 가 있는 Current Amplifier 의 Gain 은 아래와 같이 결정할 수 있다:
+
+A_(CS_DCR) = 12.5k ohm / (1.25k ohm + R_CSP)
+
+DCR 감지의 정확도가 떨어지므로 DCR 감지가 사용되는 경우 FPWM Mode 작동이 권장된다.
+
+
+
+8.1.5. Output Overvoltage Protection
+
+간단한 외부 회로를 추가하여 출력 과전압 보호를 달성할 수 있다.
+Figure 36 의 출력 과전압 보호 회로는
+출력 전압이 Zener Diode 에 설정된 과전압 Threshold 를 초과하면 LM5122 를 Shutdown 시킨다.
+
+Figure 36. Output Overvoltage Protection
+
+
+
+8.1.6. SEPIC Converter Simplified Schematic
+
+Figure 37. Sepic Converter Simplified Schematic
+
+
+
+8.1.7. Non-Isolated Synchronous Flyback Converter Simplified Schematic
+
+Figure 38. Non-Isolated Synchronous Flyback Converter Simplifed Schematic
+
+
+
+8.2. Typical Application
+
+Figure 39. Single Phase Example Schematic
+
+
+
+8.2.1. Design Requirements
+
+
+
+8.2.2. Detailed Design Procedure
+
+8.2.2.1. Timing Resistor R_T
+
+일반적으로 고주파 Application 은 작지만 손실이 더 크다.
+이 예에서 250 kHz 에서의 작동이 작은 크기와 높은 효율 사이의 합리적인 절충안으로 선택된다.
+250 kHz Switching Frequency 에 대한 R_T 값은 아래와 같이 계산된다:
+
+R_T = (9 x 10^9) / f_SW = (9 x 10^9) / 250kHz = 36.0k ohm
+
+R_T 는 36.5k ohm 의 표준 값이 선택된다.
+
+
+
+8.2.2.2. UVLO Divider R_UV2, R_UV1
+
+원하는 시작 전압과 Hysteresis 는 전압 분배기 R_UV2, R_UV1 에 의해 설정된다.
+UVLO Shutdown Voltage 는 Low-Side N-Channel MOSFET Switch 를
+충분히 Enhancem 시킬 수 있을만큼 높아야 한다.
+이 Design 에서 시동 전압은 V_IN(MIN) 보다 0.3V 낮은 8.7V 로 설정된다.
+V_HYS 는 0.5V 로 설정된다.
+결과적으로 V_IN(SHUTDOWN) 8.2V 가 발생한다.
+R_UV2, R_UV1 의 값은 아래와 같이 계사한다:
+
+R_UV2 = V_HYS / I_HYS = 0.5V / 10uA = 50k ohm
+R_UV1 = (1.2V x R_UV2) / {V_IN(STARTUP) - 1.2V} = [(1.2V x 50k ohm) / (8.7V - 1.2V)] = 8k ohm
+
+R_UV2 에 대해 49.9k ohm 의 표준값이 선택된다.
+R_UV1 에 대해 8.06k ohm 의 표준값이 선택된다.
+
+
+
+8.2.2.3. Input Inductor L_IN
+
+Inductor Ripple Current 는 일반적으로 Core Loss 와 Inductor 의 Copper Loss 사이에
+좋은 절충안으로 알려진 최대 부하 전류의 20% ~ 40% 로 설정된다.
+Ripple Current 가 높을수록 Inductor 크기가 작아지지만
+출력 콘덴서에 더 많은 부담이 가해져 출력 Ripple 전압이 잘 발생하게 된다.
+이 예에서 입력 전류의 25% 인 0.25 의 Ripple Ratio(RR)가 선택되었다.
+Switching Frequency 와 일반 출력 전압을 알면 Inductor 값은 아래와 같이 계산할 수 있다:
+
+L_IN = [V_IN / (I_IN x RR)] x (1 / f_SW) x [1 - (V_IN / V_OUT)]
+     = [12V / {(108W / 12V) x 0.25}] x (1 / 250 kHz) x [1 - (12V / 24V)] = 10.7uH
+
+L_IN 에 대해 가장 가까운 표준값 10uH 가 선택되었다.
+
+Inductor 의 포화 전류 정격은 최소 입력 전압 및 최대 부하에서
+계산된 Peak Inudctor Current 보다 커야 한다.
+8.7V 시동 전압은 보수적으로 사용된다.
+
+I_PEAK = I_IN + (1 / 2) x [V_IN / (L_IN x f_SW)] x [1 - (V_IN / V_OUT)]
+       = [(24V x 4.5A) / 8.7V] + (1 / 2) x [8.7V / (10uH x 250kHz)] x [1 - (8.7V / 24V)] = 13.5A
+
+
+
+8.2.2.4. Current Sense Resistor R_S
+
+최대 Peak 입력 전류 성능은 허용 입력을 고려한 낮은 입력 전압 및
+최대 부하에서 필요한 Peak Current 보다 20 ~ 50% 높아야 한다.
+이 예에서 40% 가 Margin 으로 선택된다.
+
+R_S = V_(CS_TH1) / I_PEAK(CL) = 75mV / (13.5A x 1.4) = 3.97m ohm
+
+R_S 에 가장 가까운 표준값 4m ohm 이 선택된다.
+R_S 의 최대 전력 손실은 아래와 같이 계산된다:
+
+R_LOSS(RS) = I^2 x R = (13.5A x 1.4)^2 x 4m ohm = 1.43W
+
+
+
+8.2.2.5. Current Sens Filter R_CSFP, R_CSFN, C_CS
