@@ -1182,3 +1182,280 @@ R_LOSS(RS) = I^2 x R = (13.5A x 1.4)^2 x 4m ohm = 1.43W
 
 
 8.2.2.5. Current Sens Filter R_CSFP, R_CSFN, C_CS
+
+Current Sense Filter 는 옵션이다.
+100pF 의 C_CS 및 100 ohm 의 R_CSFP, R_CSFN 은 일반적인 권장 사항이다.
+CSP 및 CSN 핀은 High Impedance 로 CCS 는 물리적으로 Device 에 가깝게 배치해야 한다.
+
+Figure 40. Current Sense Filter
+
+
+
+8.2.2.6. Slope Compensation Resisitor R_SLOPE
+
+K 값은 최소 입력 전압에서 1 로 선택된다.
+감지된 Inductor Slope Compensation 의 합이
+COMP 출력 고전압보다 작도로 R_SLOPE 를 신중하게 선택해야 한다.
+
+R_SLOPE > (8 x 10^9) / f_SW = (8 x 10^9) / 250kHz = 32k ohm
+R_SLOPE = (L_IN x 6 x 10^9) / [{K x V_OUT - V_IN(MIN)} x R_S x 10]
+        = (10uH x 6 x 10^9) / [(1 x 24V - 9V) x 4m ohm x 10] = 100k ohm
+
+가장 가까운 표준값인 100k ohm 이 R_SLOPE 로 선택된다.
+
+
+
+8.2.2.7. Output Capacitor C_OUT
+
+출력 콘덴서는 출력 전압 Ripple 을 평활화시키고 과도 부하 조건에서 충전 소스를 제공한다.
+출력 콘덴서는 부하가 갑자기 끊어진 경우 출력 전압 Overshoot 를 줄인다.
+
+출력 콘덴서의 Ripple Current 정격을 신중하게 선택해야 한다.
+Boost Regulator 에서 출력은 불연속 전류로 공급되며
+일반적으로 Ripple Current 요구 사항이 높다.
+실제적으로 Ripple Current 요건은 전력 스위치에 가깝게 Bulk Aluminum 콘덴서보다
+높은 품질의 Seramic 콘덴서를 배치함으로써 급격하게 감소될 수 있다.
+
+출력 전압 리플은 출력 콘덴서의 ESR 에 의해 좌우된다.
+병렬 출력 콘덴서는 효과적인 ESR 을 최소화하고 출력 리플 전류를 콘덴서로 분할하는데 좋다.
+
+이 예에서 3 개의 330uF 알루미늄 콘덴서를 사용하여 출력 리플 전류를 공유하고 필요한 전하를 소싱한다.
+최대 출력 리플 전류는 아래와 같이 최소 입력 전압을 통해 간단히 계산할 수 있다:
+
+I_(RIPPLE_MAX(COUT)) = I_OUT / [2 x V_IN(MIN) / V_OUT] = 4.5A / [2 x 9V / 24V] = 6A
+
+출력 콘덴서당 60m ohm 의 ESR 을 가정하면
+최소 입력 전압에서의 출력 전압 리플은 아래와 같이 계산된다:
+
+V_(RIPPLE_MAX(COUT)) = I_OUT / [V_IN(MIN) / V_OUT] x [R_ESR + 1 / (4 x C_OUT x f_SW)]
+                     = 4.5A / (9V / 24V) x [(60m ohm / 3) + 1 / (4 x 3 x 330uF x 250 kHz)] = 0.252V
+
+실제적으로 4 개의 10uF 세라믹 콘덴서가 추가적으로 Bulk 알루미늄 콘덴서보다
+먼저 배치되어 출력 전압 리플을 줄이고 출력 리플 전류를 분리한다.
+
+입력에서 출력까지 고유한 경로로 인해 전압이 빠르게 상승하고
+출력 콘덴서를 충전할 때 무한 돌입 전류가 흐를 수 있다.
+입력 전압 상승의 Slew Rate 는 Hot-Swap 에 의해 제어되거나
+감지 저항 혹은 High-Side N-Channel MOSFET Switch 를 구성하여
+돌입 전류에 대해 입력 전원을 평활하여 시작함으로써 Inductor 를 손상시키지 않도록 한다.
+
+
+
+8.2.2.8. Input Capacitor C_IN
+
+입력 콘덴서는 입력 전압 리플을 평활화한다.
+고품질의 세라믹 콘덴서가 입력 콘덴서로 사용된다고 가정하면
+입력 전압이 출력 전압의 절반일 때 발생하는 최대 입력 전압 리플은 아래와 같이 계산할 수 있다:
+
+V_(RIPPLE_MAX(CIN)) = V_OUT / (32 x L_IN x C_IN x f_SW^2)
+                    = 24V / (32 x 10uH x 4 x 3.3uF x 250kHz^2) = 0.09V
+
+입력 콘덴서의 값은 소스 임피던스, 소스 전원 임피던스의 함수이다.
+소스 전원 공급 장치의 임피던스가 충분히 낮지 않은 경우
+전원을 켤때 Chatter 상태를 방지하기 위해 더 많은 입력 콘덴서가 필요하다.
+
+
+
+8.2.2.9. VIN Filter R_VIN, C_VIN
+
+VIN 핀의 RC Filter(R_VIN, C_VIN)은 옵션이다.
+C_IN 콘덴서가 고품질 세라믹 콘덴서이고
+물리적으로 Device 가까이에 배치되는 경우엔 필요하지 않다.
+이 Filter 는 VIN 핀에 고주파 스위칭 잡음 주입으로 인한 결함을 방지하는데 도움이 된다.
+0.47uF 세라믹 콘덴서가 이 예에서 사용된다.
+3 ohm 의 R_VIN 과 0.47uF 의 C_VIN 이 일반적인 권장 사항이다.
+입력 전압이 8V 보다 낮거나 필요한 Duty Cycle 이 최대 Duty Cycle 한계에 가까울 때
+C_VIN 이 2.2uF ~ 4.7uF 인 더 큰 Filter 가 권장된다.
+
+Figure 41. VIN Filter
+
+
+
+8.2.2.10. Bootstrap Capacitor C_BST and Boost Diode D_BST
+
+BST 와 SW 핀 사이의 Bootstrap 콘덴서는 Gate Current 를 공급하여 각 Cycle 의 Turn-On 동안
+High-Side N-Channel MOSFET Device Gate 를 충전하고 Bootstrap Diode 에 대한 복구 전하를 제공한다.
+이러한 Current Peak 는 수 A 가 될 수 있다.
+Bootstrap 콘덴서의 권장 값은 0.1uF 에 해당한다.
+C_BST 는 우수한 Inductance 로 인한 잠재적인 전압 과도 현상을 최소화하기 위해
+Device 의 핀에 위치한 양질의 낮은 ESR 세라믹 콘덴서가 필요하다.
+Bootstrap 콘덴서의 최소값은 아래와 같이 계산한다:
+
+C_BST = Q_G / ΔV_BST
+
+여기서 QG 는 High-Side N-Channel MOSFET Gate 전하이며
+ΔV_BST 는 C_BST 에서 허용 가능한 전압 저하이며
+이는 일반적으로 VCC 의 5% 혹은 0.15V 미만인 것으로 보수적이다.
+이 예에서 BST 콘덴서(C_BST)의 값은 0.1uF 이다.
+
+D_BST 의 전압 정격은 Peak SW 노드 전압 + 16V 보다 커야 한다.
+Bypass 동작에는 낮은 누설 Diode 가 필수적이다.
+D_BST 의 누설 전류는 BST Charge Pump 가 고온에서
+충분한 High-Side Driver 전원 전압을 유지할만큼 충분히 낮아야 한다.
+낮은 누설 Diode 는 또한 높은 출력 전압 Application 에서
+Shutdown 하는 동안 과도한 VCC 전압의 가능성을 방지한다.
+누설이 심한 경우 Zener VCC Clamp 혹은 Bleed 저항이 필요할 수 있다.
+High-Side Driver 전원 전압은 최소 입력 전압에서
+High-Side N-Channel MOSFET Switch 의 Gate Plateau 보다 커야 한다.
+
+
+
+8.2.2.11. VCC Capacitor C_VCC
+
+VCC 콘덴서의 주요 목적은 LO Driver 및 
+ootstrap Diode 의 Peak 과도 전류를 공급하는 동시에 VCC Regulator 를 안정화시키는 것이다.
+이러한 Peak Current 는 수 A 가 될 수 있다.
+C_VCC 의 값은 C_BST 의 값보다 적어도 10 배 이상 커야 하며
+양질의 낮은 ESR 세라믹 콘덴서여야 한다.
+Trace Inductance 로 인한 전압 과도 현상을 최소화하려면 C_VCC 를 IC 핀에 가깝게 배치애햐 한다.
+이 Design 예에서 4.7uF 의 값이 선택되었다.
+
+
+
+8.2.2.12. Output Voltage Divider R_FB1, R_FB2
+
+R_FB1 와 R_FB2 는 출력 전압 레벨을 설정한다.
+이들 저항의 비율은 아래와 같이 계산한다:
+
+R_FB2 / R_FB1 = (V_OUT / 1.2V) - 1
+
+R_COMP 와 R_FB2 사이의 비율은 Mid Band Gain 인 AFB_MID 를 결정한다.
+R_FB2 의 값이 클수록 R_COMP 에 해당하는 더 큰 값이 필요할 수 있다.
+R_FB2 는 전체 분배기 전력 소비를 작게 유지할만큼 충분히 커야 한다.
+이 예에서 825 ohm 과 직렬로 49.9k ohm 이 High-Side Feedback 저항으로 선택되었으므로
+24V 출력에 대해 2.67k ohm 의 R_FB1 값이 된다.
+
+
+
+8.2.2.13. Soft-Start Capacitor C_SS
+
+Soft-Start Time(t_SS) 는 출력 전압이 입력 전압에서 목표 전압에 도달하는 시간이다.
+Soft-Start 시간은 Soft-Start Capacitor 와 비례할 뿐만 아니라 입력 전압에 따라 달라진다.
+0.1uF 의 C_SS 로 Soft-Start 시간은 아래와 같이 계산된다:
+
+t_SS(MIN) = {(C_SS x 1.2V) / I_SS} x [1 - {V_IN(MAX) / V_OUT}]
+          = [(0.1uF x 1.2V) / 10uA] x [1 - 20V / 24V] = 2ms
+t_SS(MAX) = {(C_SS x 1.2V) / I_SS} x [1 - {V_IN(MIN) / V_OUT}]
+          = [(0.1uF x 1.2V) / 10uA] x [1 - 9V / 24V] = 7.5ms
+
+
+
+8.2.2.14. Restart Capacitor C_RES
+
+Restart 콘덴서는 Restart Delay t_RD Hiccup Mode Off Time t_RES 를 결정한다.
+(Figure 26 을 참조하라)
+t_RD 는 t_SS(MAX0 보다 커야 한다.
+C_RES 의 최소 요구 값은 아래와 같이 낮은 입력 전압에서 계산할 수 있다:
+
+C_RES(MIN) = [I_RES x t_SS(MAX)] / V_RES = (30uA x 7.5ms) / 1.2V = 0.19uF
+
+C_RES 의 표준 값은 0.47uF 에 해당한다.
+
+
+
+8.2.2.15. Low-Side Power Switch Q_L
+
+손실을 줄임으로써 전력 N-Channel MOSFET Device 를 선택하는 것은
+여러 소자의 상대적 효율성을 비교하는 한 가지 방법이다.
+Low-Side N-Channel MOSFET Device 의 손실은
+Conduction Loss 와 Switching Loss 로 분리될 수 있다.
+
+Low-Side Conduction Loss 는 대략 아래와 같이 계산된다:
+
+P_COND(LS) = D x I_IN^2 x R_(DS_ON(LS)) x 1.3
+           = [1 - (V_IN / V_OUT)] x [(I_OUT x V_OUT) / V_IN]^2 x R_(DS_ON(LS)) x 1.3
+
+여기서 D 는 Duty Cycle 이고 1.3 의 계수는 Heating 으로 인한
+저항에 대한 N-Channel MOSFET Device 의 증가를 설명한다.
+대안으로 1.3 의 계수는 제거될 수 있으며
+N-Channel MOSFET Device 의 고온 On 저항은
+N-Channel MOSFET Datasheet 의 R_DS(ON) 대 온도 곡선을 사용하여 추정할 수 있다.
+
+Switching Loss 는 Low-Side N-Channel MOSFET Device 가
+Turn-On 및 Turn-Off 될 때 짧은 Transition 기간 동안 발생한다.
+전이 기간 동안 전류 및 전압 모두 N-Channel MOSFET Device 의 Channel 에 존재한다.
+Low-Side Switching Loss 는 대략 아래와 같이 계산된다:
+
+P_SW(LS) = 0.5 x V_OUT x I_IN x (t_R + t_F) x f_SW
+
+t_R 및 t_F 는 Low-Side N-Channel Device 의 상승 및 하강 시간에 해당한다.
+상승 및 하강 시간은 일반적으로 N-Channel MOSFET Datasheet 에 언급되어 있거나
+Oscilloscope 를 사용하여 경험적으로 관찰할 수 있다.
+
+추가적인 Schottky Diode 는 Low-Side N-Channel MOSFET Switch 와 병렬로 배치할 수 있으며
+SW 노드에서 음의 전압 Spike 를 최소화하기 위해 Source 및 Drain 에 Shoft Connection 을 수행한다.
+
+
+
+8.2.2.16. High-Side Power Switch Q_H and Additional Parallel Schottky Diode
+
+High-Side N-Channel MOSFET Device 의 Loss 는 Conduction Loss,
+Dead Time Loss, Reverse Recovery Loss 로 분리될 수 있다.
+Switching Loss 는 Low-Side N-Channel MOSFET Device 에 대해서만 계산된다.
+High-Side N-Channel MOSFET Device 의 Switching Loss 는 무시할 수 있다.
+High-Side N-Channel MOSFET Device 의 Body Diode 가
+High-Side N-Channel MOSFET Device 전후에 켜지기 때문이다.
+
+High-Side Conduction Loss 는 대략 아래와 같이 계산된다:
+
+P_COND(HS) = (1 - D) x I_IN^2 x R_(DS_ON(HS)) x 1.3
+           = (V_IN / V_OUT) x [(I_OUT x V_OUT) / V_IN]^2 x R_(DS_ON(HS)) x 1.3
+
+Dead-Time Loss 는 아래와 같이 근사값으로 계산될 수 있다:
+
+P_DT(HS) = V_D x I_IN x (t_DLH + t_DHL) x f_SW
+
+* V_D 는 High-Side NMOS Body Diode 의 순방향 전압 강하다.
+
+High-Side N-Channel MOSFET Switch 의 Reverse Recovery 특성은
+특히 출력 전압이 높을 때 효율에 큰 영향을 미친다.
+Small Reverse Recovery Charge 는 Switching Noise 를 최소화하면서
+효율을 증가시키는데 도움이 된다.
+
+Reverse Recovery Loss 는 대략 아래와 같이 계산된다:
+
+P_RR(HS) = V_OUT x Q_RR x f_SW
+
+* Q_RR 은 High-Side N-Channel MOSFET Body Diode 의 Reverse Recovery Charge 에 해당한다.
+
+추가적인 Schottky Diode 를 High-Side Switch 와 병렬로 배치하여 효율을 향상시킬 수 있다.
+일반적으로 이 병렬 Schottky Diode 의 전력 정격은 Diode 가 Dead-Time 동안만
+전도하기 때문에 Side Switch 보다 낮을 수 있다.
+Bypass 작동이 요구되면 Hiccup Mode 작동이 필요하거나 Switching 전에 어떤 부하가 존재한다면
+병렬 다이오드의 정격 전력은 High-Side Switch 와 동일하거나 더 높아야 한다.
+
+
+
+8.2.2.17. Snubber Components
+
+High-Side N-Channel MOSFET Device 의 저항-콘덴서 Snubber Network 는
+Switching Node 에서 Ringing 및 Spike 를 줄인다.
+과도한 Ringing 및 Spike 는 출력 전압에 오작동할 수 있으며 Couple Noise 가 발생할 수 있다.
+Snubber 값을 선택하는 것은 경험적 방법을 통해 잘 수행됨을 알 수 있다.
+먼저 Snubber 연결의 Lead 가 매우 짧은지 확인한다.
+저항 값을 5 ~ 50 ohm 으로 시작한다.
+Snubber 콘덴서의 값을 높이면 감쇠가 더 커지지만 Snubber Loss 가 더 커진다.
+과부하시 Switch Waveform 에서 Spike 의 적절한 감쇠를 제공하는 Snubber 콘덴서의 최소값을 선택하라.
+최적화된 Layout 에서는 Snubber 가 필요하지 않을 수 있다.
+
+
+
+8.2.2.18. Loop Compensation Components C_COMP, R_COMP, C_HF
+
+R_COMP, C_COMP, C_HF 는 Error Amplifier Gain 및
+Phase 특성을 구성하여 안정적인 전압 Loop 를 생성한다.
+빠른 시작을 위해 다음의 4 단계를 따르라:
+
+1. f_CROSS 를 선택한다.
+
+RHP 의 1/4 혹은 Switching Frequency 의 1/10 중 낮은 쪽에서
+Crossover Frequency(f_CROSS) 를 선택한다.
+
+f_SW / 10 = 25 kHz
+f_(Z_RHP) / 4 = (R_LOAD x d^2) / (4 x 2π x L_(IN_EQ))
+              = [(V_OUT / I_OUT) x (V_IN / V_OUT)^2] / (4 x 2π x L_(IN_EQ)) = 5.3 kHz
+
+Crossover Frequency 의 5.3 kHz 는 2 개 사이에서 선택된다.
+입력 전압 범위가 넓은 경우 최소 입력 전압에서 RHP Zero 를 고려해야 한다.
+
+2. 필요한 R_COMP 를 결정한다.
