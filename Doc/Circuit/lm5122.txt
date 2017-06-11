@@ -1459,3 +1459,99 @@ Crossover Frequency 의 5.3 kHz 는 2 개 사이에서 선택된다.
 입력 전압 범위가 넓은 경우 최소 입력 전압에서 RHP Zero 를 고려해야 한다.
 
 2. 필요한 R_COMP 를 결정한다.
+
+계산된 f_CROSS 로 R_COMP 를 아래와 같이 구할 수 있다:
+
+R_COMP = f_CROSS x π x R_S x R_FB2 x 10 x C_OUT x (V_OUT / V_IN) = 68.5k ohm
+
+R_COMP 에 대한 표준값은 68.1k ohm 이다.
+
+3. Load Pole 을 취소하기 위해 C_COMP 를 결정한다.
+   Load Pole Frequency 의 2 배에 해당하는 곳에 Error Amplifier Zero 를 배치하라.
+   R_COMP 를 알면 C_COMP 는 아래와 같이 계산할 수 있다:
+
+C_COMP = (R_LOAD x C_OUT) / (4 x R_COMP) = 20.2nF
+
+C_COMP 에 대한 표준값은 22nF 로 선택된다.
+
+4. ESR Zero 를 막기 위해 C_HF 를 결정한다.
+
+R_COMP, R_ESR, C_COMP 를 알면 C_HF 는 아래와 같이 계산할 수 있다:
+
+C_HF = (R_ESR x C_OUT x C_COMP) / (R_COMP x C_COMP - R_ESR x C_OUT) = 307pF
+
+C_HF 에 대한 표준값은 330pF 로 선택된다.
+
+
+
+8.2.3. Application Curve
+
+Figure 42. Clock Synchronization
+
+Figure 43. Forced PWM
+
+Figure 44. Pulse Skip
+
+Figure 45. Skip Cycle
+
+Figure 46. Loop Response
+
+Figure 47. Start-Up
+
+
+
+9. Power Supply Recommendations
+
+LM5122 는 전원 관리 소자다.
+Device 의 전원 공급 장치는 지정된 입력 범위 내의 모든 DC 전압 소스다.
+
+
+
+10. Layout
+
+10.1. Layout Guidelines
+
+Boost Regulator 에서 기본 Switching Loop 는
+출력 콘덴서와 N-Channel MOSFET 전력 Switch 로 구성된다.
+이 Loop 의 영역을 최소화하면 Stray Inductance 가 감소하고 Noise 가 최소화된다.
+특히, Bulk 알루미늄 출력 콘덴서보다 먼저 이 Loop 에 가깝게 고품질의 세라믹 출력 콘덴서를 배치하면
+알루미늄 콘데서의 출력 전압 리플 및 리플 전류를 최소화 할 수 있다.
+
+High-Side Switch 의 dv/dt 유도 Turn-On 을 방지하기 위해
+HO 및 SW 는 Low Inductance 경로와 Short 한 경로를 통해
+High-Side Synchronous N-Channel MOSFET Switch 의 Gate 및 Source 에 연결되어야 한다.
+FPWM Mode 에서 dv/dt 유도된 Turn-On 은 Low-Side Switch 에서 발생할 수 있다.
+LO 및 PGND 는 Short 된 Low Inductance Paths 를 통해
+Low-Side N-Channel MOSFET 의 Gate 및 Source 에 연결되어야 한다.
+전원 접지 연결은 모두 Single Point 에 연결해야 한다.
+또한 Noise 에 민감한 Low Power Ground 연결은 모두 AGND 핀 가까이에 연결되어야하며
+Single Connection 은 Single Point PGND 에 연결되어야 한다.
+CSP 및 CSN 은 높은 임피던스 핀 및 잡음에 민감하다.
+CSP 및 CSN Trace 는 Kelvin 연결과 함께 가능한 한 짧게 전류 감지 저항에 연결해야 한다.
+필요한 경우 100pF 세라믹 필터 콘덴서를 Device 가까이에 두어라.
+MODE 핀은 High 임피던스 및 잡음에 민감하다.
+MODE 핀에서 외부 Pull-Up 혹은 Pull-Down 저항을 사용하는 경우
+저항은 Device 가까이에 배치해야 한다.
+VCC, VIN 및 BST 콘덴서는 가능한한 물리적으로 소자에 가까이 있어야 한다.
+
+LM5122 는 방열을 돕기 위해 노출된 열 Pad 를 가지고 있다.
+노출된 Pad 아래에 여러 개의 경로(via)를 추가하면 Device 에서 열을 전도하는데 도움이 된다.
+주변 온도에 대한 접합부는 Application 에 따라 다르다.
+가장 중요한 변수는 PCB 의 구리 면적, 노출 Pad 아래의 via 의 갯수 및 강제 공냉의 양이다.
+Device 노출 Pad 에서 PCB Solder 연결의 무결성이 중요하다.
+많은 양의 공백은 열 방출 용량을 크게 줄인다.
+가장 높은 전력 소모 구성 요소는 2 개의 전원 스위치다.
+노출된 Pad 가 있는 N-Channel MOSFET Switch 를 선택하면
+이러한 Device 의 전력 손실을 줄일 수 있다.
+
+
+
+10.2. Layout Example
+
+Figure 48. Power Path Layout
+
+
+
+11. Device and Documentation Support
+
+11.1. Related Links
