@@ -1,17 +1,8 @@
 
-
-
-
-
-
 * 데이터 시트 원문과 함께 보세요. 이상한 번역이 다수 있을 것 같습니다... -_-;;;
 
 
-
-
-
-
-Chapter 34 
+Chapter 34
 
 -1712p
 Enhanced Pulse Width Modulator (ePWM) Module 향상된 펄스 폭 변조기 (ePWM) 모듈
@@ -30,7 +21,7 @@ Enhanced Pulse Width Modulator (ePWM) Module 향상된 펄스 폭 변조기 (ePW
         34.2.2.1 Purpose of the Time-Base Submodule
         34.2.2.2 Controlling and Monitoring the Time-Base Submodule
         34.2.2.3 Calculating PWM Period and Frequency
-           34.2.2.3.1 Time-Base Period Shadow Register // 
+           34.2.2.3.1 Time-Base Period Shadow Register
            34.2.2.3.2 Time-Base Clock Synchronization
            34.2.2.3.3 Time-Base Counter Synchronization
         34.2.2.4 Phase Locking the Time-Base Clocks of Multiple ePWM Modules
@@ -97,7 +88,7 @@ ePWM 모듈은 필요한 경우 단일 시스템으로 작동 할 수 있는 클
 
 각 ePWM 모듈은 다음 기능을 지원합니다.
 - 주기 및 주파수 제어 기능이 있는 전용 16 비트 타임베이스 카운터
-- 다음 구성에서 사용할 수있는 2 개의 PWM 출력 (EPWMxA 및 EPWMxB)
+- 다음 구성에서 사용할 수 있는 2 개의 PWM 출력 (EPWMxA 및 EPWMxB)
   .) 단일 에지 동작을 갖는 2 개의 독립적인 PWM 출력
   .) 듀얼 에지 대칭동작을 갖는 2 개의 독립적인 PWM 출력
   .) 듀얼 에지 비대칭 동작을 갖춘 하나의 독립 PWM 출력
@@ -115,8 +106,8 @@ ePWM 모듈은 필요한 경우 단일 시스템으로 작동 할 수 있는 클
 각 ePWM 모듈은 8 개의 서브 모듈로 구성되며 그림 34-2에 표시된 신호를 통해 시스템 내에서 연결됩니다.
 
 Figure 34-1. Multiple ePWM Modules
-Figure 34-2. Submodules and Signal Connections for an ePWM Module 
-( 아래 해석에 직역되있는 부분이 있습니다. 유의해주세용... = 뒤는 직역되서 나온 단어를 적니다.  )
+Figure 34-2. Submodules and Signal Connections for an ePWM Module
+( 아래 해석에 직역되있는 부분이 있습니다. 유의해주세용... = 뒤는 직역되서 나온 단어를 적었습니다.  )
 Time-base (TB) module :: = 시간 기반
 Counter-compare (CC) module :: = 카운터 비교
 Action-qualifier (AQ) module :: = 액션 한정자
@@ -125,7 +116,6 @@ PWM-chopper (PC) module :: = PWM 쵸퍼
 Event-trigger (ET) module :: = 이벤트 트리거
 Trip-zone (TZ) module :: = 트립 존
 Digital Compare (DC) module :: = 디지털 비교
-
 ePWM 모듈에서 사용되는 주요 신호는 다음과 같습니다.
 
 - PWM 출력 신호 (EPWMxA 및 EPWMxB).
@@ -173,15 +163,16 @@ Time-base (TB) - 시스템 클럭 (VCLK3)을 기준으로 타임베이스 클록
                   - 다른 ePWM 모듈과 관련된 시간 기준 위상을 구성하세요.
                   - 하드웨어 또는 소프트웨어를 통해 모듈 간의 시간 기준 카운터를 동기화하세요.
                   - 동기화 이벤트 후 시간 축 카운터의 방향 (위 또는 아래)을 구성하세요.
-                  - 장치가 에뮬레이터에 의해 중지되었을 때 시간 기준 카운터가 작동하는 방식을 구성합니다.
+                  - 장치가 에뮬레이터에 의해 중지되었을 때 시간 기준 카운터가 작동하는 방식을 
+구성합니다.
                   - ePWM 모듈의 동기화 출력 소스 지정 :
-                    동기화 입력 신호
+                 동기화 입력 신호
                  제로와 동일한 시간축 카운터
                  카운터 비교 B (CMPB)와 동일한 시간축 카운터
                  출력 동기화 신호가 생성되지 않음
 
 Counter-compare (CC) - 출력 EPWMxA 및 출력 EPWMxB에 대한 PWM 듀티 사이클 지정
-                           - EPWMxA 또는 EPWMxB 출력에서 스위칭 이벤트가 발생하는 시간을 지정하십시오
+                   - EPWMxA 또는 EPWMxB 출력에서 스위칭 이벤트가 발생하는 시간을 지정하십시오
 
 Action-qualifier (AQ) - 시간 기준 또는 하위 비교 하위 모듈 이벤트가 발생할 때 수행 할 작업 유형 지정
                       취한 조치 없음
@@ -192,7 +183,7 @@ Action-qualifier (AQ) - 시간 기준 또는 하위 비교 하위 모듈 이벤�
                         - 소프트웨어를 통해 PWM 데드 밴드 구성 및 제어
 
 Dead-band (DB) -  상하 스위치 간의 전형적인 보완 데드밴드 관계 제어 (?)
-                       Control of traditional complementary dead-band relationship between upper and lower switches
+Control of traditional complementary dead-band relationship between upper and lower switches
                    - 출력 상승 에지 지연 값 지정
                    - 출력 하강 에지 지연 값 지정
                    - 데드밴드 모듈을 완전히 건너 뜁니다. 이 경우 PWM 파형은 수정없이 통과됩니다.
@@ -201,29 +192,33 @@ Dead-band (DB) -  상하 스위치 간의 전형적인 보완 데드밴드 관�
 PWM-chopper (PC) - chopping (반송파) 주파수 생성
                        - 잘게 다진(chopped) 펄스열의 첫 번째 펄스의 펄스 폭.
                        - 두 번째 및 후속 펄스의 듀티 사이클
-                       - PWM-chopper 모듈을 완전히 바이 패스합니다. 이 경우 PWM 파형은 수정없이 통과됩니다.
+                       - PWM-chopper 모듈을 완전히 바이 패스합니다. 이 경우 PWM 파형은 수정없이
+통과됩니다.
 
- 
+  
+[choppy 참고 그림]
 
 Trip-zone (TZ) - 트립 영역 신호 또는 디지털 비교 이벤트 중 하나 또는 모두에 반응하도록 ePWM 모듈을 구성하세요.
                   - 오류가 발생할 때 수행되는 트리핑 동작을 지정하세요.
-                    EPWMxA 및 / 또는 EPWMxB를 높게 설정하세요.
+                 EPWMxA 및 / 또는 EPWMxB를 높게 설정하세요.
                  EPWMxA 및 / 또는 EPWMxB를 낮추세요
                  EPWMxA 및 / 또는 EPWMxB를 하이 임피던스 상태로 설정
                  모든 트립 조건을 무시하도록 EPWMxA 및 / 또는 EPWMxB를 구성하세요.
                   - ePWM이 각 트립 영역 신호에 반응하는 빈도 구성
                     One-shot
-                 Cycle-by-cycle
+                    Cycle-by-cycle
                   - 트립 - 영역이 인터럽트를 시작하도록 함
                   - 트립 - 영역 모듈을 완전히 건너 뜁니다.
 
 Event-trigger (ET) - 인터럽트를 트리거하는 ePWM 이벤트를 사용 가능하게 하세요.
                      - ADC 시작 변환 이벤트를 트리거하는 ePWM 이벤트를 사용 가능하게 하세요.
-                     - 이벤트가 트리거를 발생시키는 비율을 지정하세요. (매번 발생 또는 매 두 번째 또는 세 번째 발생)
+                     - 이벤트가 트리거를 발생시키는 비율을 지정하세요. 
+(매번 발생 또는 매 두 번째 또는 세 번째 발생)
                      - 이벤트 플래그 폴링, 설정 또는 지우기
 
 Digital-compare (DC) - 트립 영역 신호로 이벤트 및 필터링 된 이벤트를 생성 할 수 있습니다.
-                        - TBCTR 카운터를 캡처하거나 블랭킹(blanking) 윈도우를 생성하는 이벤트 필터링 옵션 지정
+                        - TBCTR 카운터를 캡처하거나 블링킹(blanking) 윈도우를 생성하는 이벤트 
+필터링 옵션 지정
 
 이 장에서는 다양한 ePWM 모듈 구성을 구현하는 방법을 보여주는 코드 예제가 제공됩니다. 이 예에서는 장치 별 헤더 파일 및 주변 장치 예제 소프트웨어 패키지의 장치 EPwm_defines.h 파일에있는 상수 정의를 사용합니다.
 
@@ -233,7 +228,7 @@ Digital-compare (DC) - 트립 영역 신호로 이벤트 및 필터링 된 이�
 
 Figure 34-3. Time-Base Submodule Block Diagram 타임 베이스 서브 모듈 블록 다이어그램
 
-    34.2.2.1 Purpose of the Time-Base Submodule 타임 베이스 서브 모듈의 목적
+    34.2.2.1 Purpose of the Time-Base Submodule 타임 베이스  서브 모듈의 목적
 다음을 위해 타임 베이스 하위 모듈을 구성 할 수 있습니다.
 
 - ePWM 시간-기반 카운터 (TBCTR) 빈도 또는 주기를 지정하여 이벤트 발생 빈도를 제어하십시오.
@@ -246,7 +241,7 @@ Figure 34-3. Time-Base Submodule Block Diagram 타임 베이스 서브 모듈 �
 
 타임 베이스 클록의 속도를 구성하십시오. (디바이스 주변 장치 클록 도메인 (VCLK3)의 프리 스케일 버전) 이렇게 하면 타임 베이스 카운터가 느린 속도로 증가 / 감소 할 수 있습니다.
 
-    34.2.2.2 Controlling and Monitoring the Time-Base Submodule 타임 베이스 하위 모듈 제어 및 모니터링
+    34.2.2.2 Controlling and Monitoring the Time-Base Submodule  타임 베이스 하위 모듈 제어 및 모니터링
 표 34-3은 타임 베이스 서브 모듈을 제어하고 모니터하는 데 사용되는 레지스터를 보여줍니다.
 
 Table 34-3. Time-Base Submodule Registers
@@ -260,33 +255,39 @@ Table 34-4. Key Time-Base Signals -> 타임베이스 서브모듈과 관련된 �
 Signal : Description
 
 EPWMxSYNCI : 타임 베이스 동기화 입력.
-                : 동기화 체인의 이전에 ePWM 모듈의 카운터와 시간 기준 카운터를 동기화하는 데 사용되는 입력 펄스. ePWM 주변 장치는이 신호를 사용하거나 무시하도록 구성 할 수 있습니다. 첫 번째 ePWM 모듈 (EPWM1)의 경우이 신호는 장치 핀 또는 N2HET1 모듈에서 제공됩니다. 후속 ePWM 모듈의 경우 이 신호는 다른 ePWM 주변 장치에서 전달됩니다. 예를 들어, EPWM2SYNCI는 ePWM1 주변 장치에 의해 생성되고, EPWM3SYNCI는 ePWM2에 의해 생성됩니다. 특정 장치의 동기화 순서에 대한 정보는 34.2.2.3.3 절을 참조하십시오.
+             : 동기화 체인의 이전에 ePWM 모듈의 카운터와 시간 기준 카운터를 동기화하는 데 사용되는 입력 펄스. ePWM 주변 장치는이 신호를 사용하거나 무시하도록 구성 할 수 있습니다. 첫 번째 ePWM 모듈 (EPWM1)의 경우 이 신호는 장치 핀 또는 N2HET1 모듈에서 제공됩니다. 후속 ePWM 모듈의 경우 이 신호는 다른 ePWM 주변 장치에서 전달됩니다. 예를 들어, EPWM2SYNCI는 ePWM1 주변 장치에 의해 생성되고, EPWM3SYNCI는 ePWM2에 의해 생성됩니다. 특정 장치의 동기화 순서에 대한 정보는 34.2.2.3.3 절을 참조하십시오.
 
 EPWMxSYNCO : 타임 베이스 동기화 출력.
-                  : 이 출력 펄스는 나중에 동기화 체인에서 ePWM 모듈의 카운터를 동기화하는 데 사용됩니다. 
+                  : 이 출력 펄스는 나중에 동기화 체인에서 ePWM 모듈의 카운터를 동기화하는 데 
+사용됩니다. 
                     ePWM 모듈은 세 가지 이벤트 소스 중 하나에서 이 신호를 생성합니다.
                   1. EPWMxSYNCI (동기 입력 펄스)
                   2. CTR = Zero: 제로와 동일한 타임베이스 카운터 (TBCTR = 0x0000)
-                  3. CTR = CMPB: 타임베이스 카운터는 counter-compare B 레지스터(TBCTR = CMPB)와 같습니다. 
+                  3. CTR = CMPB: 타임베이스 카운터는 counter-compare B 레지스터(TBCTR = CMPB)와 
+같습니다. 
 
 CTR = PRD : 지정된 주기와 동일한 타임 베이스 카운터.
-               : 이 신호는 counter 값이 active period 레지스터 값과 같을 때마다 생성됩니다. TBCTR = TBPRD 일 때 입니다.
+               : 이 신호는 counter 값이 active period 레지스터 값과 같을 때마다 생성됩니다. 
+TBCTR = TBPRD 일 때 입니다.
 
 CTR = Zero : 제로와 동일한 타임 베이스 카운터
                 : 이 신호는 카운터 값이 0 일 때마다 생성됩니다. TBCTR이 0x0000 일 때입니다.
 
 CTR = CMPB : active counter-compare B 레지스터 (TBCTR = CMPB)와 동일한 타임베이스 카운터.
-                  : 이 이벤트는 counter-compare 서브 모듈에 의해 생성되고 동기화 아웃 로직에 의해 사용됩니다              
+                  : 이 이벤트는 counter-compare 서브 모듈에 의해 생성되고 동기화 아웃 로직에 의해 
+사용됩니다              
 
 CTR_dir : 타임 베이스 카운터 방향.
-           : ePWM의 타임 베이스 카운터의 현재 방향을 나타냅니다. 이 신호는 카운터가 증가 할 때 높고 감소 할 때 낮습니다.
+        : ePWM의 타임 베이스 카운터의 현재 방향을 나타냅니다. 이 신호는 카운터가 증가 할 때 높고 
+감소 할 때 낮습니다. -> 카운터가 증가하고 감소하는게 무슨 영향이 있지?
 
 CTR_max : 타임베이스 카운터는 최대 값과 같습니다. (TBCTR = 0xFFFF)
-             : TBCTR 값이 최대 값에 도달하면 생성되는 이벤트입니다. 이 신호는 상태 비트로만 사용됩니다
+          : TBCTR 값이 최대 값에 도달하면 생성되는 이벤트입니다. 이 신호는 상태 비트로만 사용됩니다
 
 TBCLK : 타임베이스 클록
-         : 이것은 시스템 클럭 (VCLK3)의 프리 스케일 버전이며 ePWM 내의 모든 서브 모듈에서 사용됩니다. 
-           이 클럭은 시간축 카운터가 증가 또는 감소하는 속도를 결정합니다
+       : 이것은 시스템 클럭 (VCLK3)의 프리 스케일 버전이며 ePWM 내의 모든 서브 모듈에서
+사용됩니다. 
+        이 클럭은 시간축 카운터가 증가 또는 감소하는 속도를 결정합니다
 
     34.2.2.3 Calculating PWM Period and Frequency PWM주기 및 주파수 계산
 PWM 이벤트의 빈도는 time-base period (TBPRD) 레지스터와 타임베이스 카운터의 모드에 의해 제어됩니다. 그림 34-5는 주기가 4 (TBPRD = 4)로 설정된 경우 업 카운트, 다운 카운트 및 업 다운 카운트 타임베이스 카운터 모드의 주기 (Tpwm) 및 주파수 (Fpwm) 관계를 보여줍니다. 각 단계의 시간 증가분은 시스템 클럭 (VCLK3)의 프리스케일 버전인 타임베이스 클럭 (TBCLK)에 의해 정의됩니다.
@@ -309,12 +310,18 @@ shadow period 레지스터의 메모리 주소는 active 레지스터와 동일�
 
 - Time-Base Period Shadow Mode:
 TBPRD Shadow 레지스터는 TBCTL [PRDLD] = 0 일 때 활성화됩니다. TBPRD 메모리 주소에 대한 읽기 및 쓰기는 Shadow 레지스터로 이동합니다. 타임베이스 카운터가 0 인 경우 (TBCTR = 0x0000) Shadow 레지스터 내용이 활성 레지스터 (TBPRD (활성) ← TBPRD (섀도우))로 전송됩니다. 기본적으로 TBPRD Shadow 레지스터가 활성화 됩니다.
+-> 즉, 해당모드의 경우 TBPRD의 값을 Active로 보내기전 Shadow를 거친다고 보면 됨
+   TBCTR이 0이 되면 해당 값을 Active로 보냄. 
+( 오류 없이 카운터가 0이 되면 TBPRD의 값을 전달한다 생각하자)
 
 - Time-Base Period Immediate Load Mode:
-​즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
+즉시 로드 모드가 선택되면 (TBCTL [PRDLD] = 1), TBPRD 메모리 어드레스로부터의 읽기 또는 쓰기는 Active 레지스터로 직접 전달 됩니다.
+-> TBPRD값은 바로 Active로 전달됨
 
      34.2.2.3.2 Time-Base Clock Synchronization 타임베이스 클록 동기화
-장치 레벨 멀티플렉싱 제어 모듈 (IOMM) 레지스터의 비트 1 PINMMR166은 TBCLKSYNC 비트로 정의됩니다. TBCLKSYNC 비트를 사용하면 사용 가능한 모든 ePWM 모듈을 TBCLK (Time-Base Clock)에 전역적으로 동기화 할 수 있습니다. 설정되면 활성화 된 모든 ePWM 모듈 클럭이 TBCLK의 첫 번째 상승 에지와 정렬되어 시작됩니다. 완벽하게 동기화 된 TBCLK의 경우 각 ePWM 모듈의 프리스케일러가 동일하게 설정되어야합니다.
+장치 레벨 멀티플렉싱 제어 모듈 (IOMM) 레지스터의 비트 중 하나인 PINMMR166은 TBCLKSYNC 비트로 정의됩니다. TBCLKSYNC 비트를 사용하면 사용 가능한 모든 ePWM 모듈을 TBCLK (Time-Base Clock)에 전역적으로 동기화 할 수 있습니다. 설정되면 활성화 된 모든 ePWM 모듈 클럭이 TBCLK의 첫 번째 상승 에지와 정렬되어 시작됩니다. 완벽하게 동기화 된 TBCLK의 경우 각 ePWM 모듈의 프리스케일러가 동일하게 설정되어야합니다. 
+-> TBCLKSYNC 비트를 못찾겠당… PINMMR166[1] 이라는데.. 쩝. / PINMMR의 3A8에 위치하는 비트
+
 
 ePWM 클록을 활성화하는 적절한 절차는 다음과 같습니다 : 
 1. 각 ePWM 모듈 인스턴스에 대해 IOMM 제어 레지스터를 사용하여 ePWM 모듈 클럭 활성화
@@ -325,9 +332,9 @@ ePWM 클록을 활성화하는 적절한 절차는 다음과 같습니다 :
      34.2.2.3.3 Time-Base Counter Synchronization 타임베이스 카운터 동기화
 타임베이스 동기화 구성표는 장치의 모든 ePWM 모듈을 연결합니다. 각 ePWM 모듈에는 동기화 입력 (EPWMxSYNCI)과 동기화 출력 (EPWMxSYNCO)이 있습니다. 첫 번째 인스턴스 (ePWM1)의 입력 동기화는 외부 핀에서 이루어집니다. 나머지 ePWM 모듈의 동기화 연결은 그림 34-6에 나와 있습니다.
 
-Figure 34-6. Time-Base Counter Synchronization Scheme 타임베이스 카운터 동기화 도식표
+Figure 34-6. Time-Base Counter Synchronization Scheme  타임베이스 카운터 동기화 도식표
 
-각 ePWM 모듈은 동기화 입력을 사용하거나 무시하도록 구성 할 수 있습니다. TBCTL [PHSEN] 비트가 설정되면 다음 조건 중 하나가 발생하면 ePWM 모듈의 타임베이스 카운터 (TBCTR)에 위상 레지스터 (TBPHS) 내용이 자동으로 로드됩니다.
+각 ePWM 모듈은 동기화 입력을 사용하거나 무시하도록 구성 할 수 있습니다. TBCTL [PHSEN] 비트가 설정되고 다음 조건 중 하나가 발생하면 ePWM 모듈의 타임베이스 카운터 (TBCTR)에 위상 레지스터 (TBPHS) 내용이 자동으로 로드됩니다.
 
 - EPWMxSYNCI: 동기화 입력 펄스
 입력 동기화 펄스가 감지되면 위상 레지스터의 값이 카운터 레지스터에 로드됩니다 (TBPHS → TBCTR). 이 작업은 다음 유효한 타임베이스 클럭(TBCLK) 에지에서 발생합니다.
@@ -367,17 +374,18 @@ ePWM 클록을 활성화하는 적절한 절차는 다음과 같습니다. (34.2
 Figure 34-7. Time-Base Up-Count Mode Waveforms 타임베이스 업 카운트 모드의 파형
 Figure 34-8. Time-Base Down-Count Mode Waveforms 타임베이스 다운 카운트 모드의 파형
 Figure 34-9. Time-Base Up-Down-Count Waveforms, 타임베이스 업-다운 카운트 파형
-              TBCTL[PHSDIR = 0] Count Down On Synchronization Event TBCTL [PHSDIR = 0] 
-              동기화 이벤트에서 카운트 다운
+              TBCTL[PHSDIR = 0] Count Down On Synchronization Event 
+TBCTL [PHSDIR = 0] 동기화 이벤트에서 카운트 다운
 Figure 34-10. Time-Base Up-Down Count Waveforms, 타임베이스 업-다운 카운트 파형
-               TBCTL[PHSDIR = 1] Count Up On Synchronization Event TBCTL [PHSDIR = 1] 
-               동기화 이벤트에서 카운트 업
+               TBCTL[PHSDIR = 1] Count Up On Synchronization Event
+TBCTL [PHSDIR = 1]  동기화 이벤트에서 카운트 업
+
 
   34.2.3 Counter-Compare (CC) Submodule
 그림 34-11은 ePWM 내의 카운터 비교 하위 모듈을 보여줍니다.
 그림 34-12는 카운터 비교 서브 모듈의 기본 구조를 보여줍니다.
 
-Figure 34-11. Counter-Compare Submodule​
+Figure 34-11. Counter-Compare Submodule
 Figure 34-12. Detailed View of the Counter-Compare Submodule 카운터-비교 하위 모듈의 상세보기 
 
     34.2.3.1 Purpose of the Counter-Compare Submodule 카운터-비교 서브 모듈의 목적
@@ -401,10 +409,11 @@ Signal : Description of Event : Registers Compared
 CTR = CMPA : 활성 카운터-비교 A 값과 동일한 시간 기준 카운터 : TBCTR = CMPA
 CTR = CMPB : 활성 카운터-비교 B 값과 동일한 시간 기준 카운터 : TBCTR = CMPB
 CTR = PRD : 활성 주기와 동일한 타임베이스 카운터.
-                shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?) : TBCTR = TBPRD
+        shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?) : 
+TBCTR = TBPRD
 ( Time-base counter equal to the active period. Used to load active counter-compare A and B registers from the shadow register )
 CTR = ZERO : 0과 동일한 타임베이스 카운터. shadow 레지스터에서 활성 카운터-비교 A 및 B 레지스터를 로드하는 데 사용됩니다. (?)
-                 TBCTR = 0x0000
+TBCTR = 0x0000
 ( Time-base counter equal to zero. Used to load active counter-compare A and B registers from the shadow register )
 
     34.2.3.3 Operational Highlights for the Counter-Compare Submodule 카운터-비교 하위 모듈의 주요 기능
@@ -432,7 +441,8 @@ active 레지스터 내용만 카운터-비교 하위 모듈에 의해 사용되
 Immediate Load Mode:
 즉시로드 모드가 선택되면 (TBCTL [SHADWAMODE] = 1 또는 TBCTL [SHADWBMODE] = 1) 레지스터에 대한 읽기 또는 쓰기가 active 레지스터로 직접 이동합니다.
 
-    34.2.3.4 Count Mode Timing Waveforms 카운트 모드 타이밍 파형
+
+    34.2.3.4 Count Mode Timing Waveforms  카운트 모드 타이밍 파형
 카운터-비교 모듈은 세 가지 모든 카운트 모드에서 비교 이벤트를 생성 할 수 있습니다.
 
 - 업 카운트 모드 : 비대칭 PWM 파형을 생성하는 데 사용됩니다.
@@ -447,6 +457,7 @@ Figure 34-15. Counter-Compare Events In Up-Down-Count Mode,
                 TBCTL[PHSDIR = 0] Count Down On Synchronization Event
 Figure 34-16. Counter-Compare Events In Up-Down-Count Mode, 
                 TBCTL[PHSDIR = 1] Count Up On Synchronization Event
+
 
 
   34.2.4 Action-Qualifier (AQ) Submodule
@@ -474,8 +485,8 @@ Table 34-7. Action-Qualifier Submodule Registers
 
 action-qualifier 하위 모듈은 이벤트 기반 논리를 기반으로합니다. 이것은 입력시 이벤트 및 출력시 조치가 있는 프로그래밍 가능한 교차 스위치로 생각할 수 있습니다. 이 스위치는 모두 표 34-7에 나와있는 레지스터 세트를 통해 소프트웨어로 제어됩니다.
 
-​Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
-​
+Figure 34-18. Action-Qualifier Submodule Inputs and Outputs
+
 가능한 입력 이벤트는 표 34-8에 다시 요약되어 있습니다.
 
 Table 34-8. Action-Qualifier Submodule Possible Input Events 동작 한정자 서브 모듈 가능한 입력 이벤트
@@ -492,35 +503,49 @@ Software forced event : 소프트웨어에 의해 시작된 비동기 이벤트
 
 action-qualifier 서브 모듈은 특정 이벤트가 발생할 때 두 출력 EPWMxA 및 EPWMxB의 동작을 제어합니다. action-qualifier 서브 모듈에 대한 이벤트 입력은 반대 방향 (위 또는 아래)으로 더 자격이 부여됩니다. 이를 통해 카운트 업 및 카운트 다운 단계에서 독립적인 조치를 취할 수 있습니다.
 
+
 출력 EPWMxA 및 EPWMxB에 부과 된 가능한 조치는 다음과 같습니다 : 
+
 - Set High: 출력 EPWMxA 또는 EPWMxB를 하이 레벨로 설정하십시오.
 - Clear Low: 출력 EPWMxA 또는 EPWMxB를 로우 레벨로 설정하십시오.
 - Toggle: EPWMxA 또는 EPWMxB가 현재 하이로 풀리면 출력을 로우로 끌어 올린다. 
-              EPWMxA 또는 EPWMxB가 현재 로우로 당겨지면, 출력을 하이로 끌어 올린다.
+            EPWMxA 또는 EPWMxB가 현재 로우로 당겨지면, 출력을 하이로 끌어 올린다.
 - Do Nothing: EPWMxA 및 EPWMxB 출력을 현재 설정된 것과 동일한 레벨로 유지하십시오. 
+
 "아무 것도하지 않음" 옵션으로 이벤트가 EPWMxA 및 EPWMxB 출력에서 조치를 일으키는 것을 방지 할 수 있지만 이 이벤트는 여전히 인터럽트 및 ADC 변환 시작(start of conversion 의미가 뭔진 모르겠지만.. 뒤에서 이 용어가 자주 나옵니다. )을 트리거 할 수 있습니다. 자세한 내용은 34.2.8 절의 이벤트 트리거 하위 모듈 설명을 참조하십시오.
 
 동작은 두 출력 (EPWMxA 또는 EPWMxB)에 대해 독립적으로 지정됩니다. 모든 또는 모든 이벤트는 주어진 출력에 대해 조치를 생성하도록 구성 될 수 있습니다. 예를 들어, CTR = CMPA 및 CTR = CMPB는 출력 EPWMxA에서 작동 할 수 있습니다. 모든 action-qualifier은 이 섹션 끝 부분에 있는 제어 레지스터를 통해 구성됩니다.
 
 명확하게 하기 위해 이 문서의 그림은 일련의 상징적인 동작을 사용합니다. 이 기호는 그림 34-19에 요약되어 있습니다. 각 기호는 작업을 시간의 마커로 나타냅니다. CMPA 및 CMPB 동작이 이동 가능하고 시간 위치가 각각 카운터-비교 A 및 B 레지스터를 통해 프로그래밍되는 동안 일부 동작은 시간 (0 및 주기)으로 고정됩니다. 동작을 끄거나 비활성화하려면 "아무 것도하지 않음" 옵션을 사용하세요. 재설정시 기본값입니다.
 
+
+
+
+
+
+
+
+
 Figure 34-19. Possible Action-Qualifier Actions for EPWMxA and EPWMxB Outputs
                EPWMxA 및 EPWMxB 출력에 대한 가능한 Action-Qualifier 동작
 
+ 
    34.2.4.3 Action-Qualifier Event Priority Action-Qualifier 이벤트 우선순위
 ePWM action qualifier는 동시에 둘 이상의 이벤트를 수신 할 수 있습니다. 이 경우 이벤트는 하드웨어에 의해 우선순위가 지정됩니다. 
 일반적인 규칙은 나중에 발생하는 이벤트가 더 높은 우선 순위를 가지며 소프트웨어 강제 이벤트가 항상 최우선 순위를 갖습니다. updown-count 모드의 이벤트 우선 순위 수준은 표 34-9에 나와 있습니다. 우선 순위 레벨 1이 가장 높은 우선 순위이고, 레벨 7이 가장 낮습니다. 우선 순위는 TBCTR의 방향에 따라 약간 변경됩니다.
 
 Table 34-9. Action-Qualifier Event Priority for Up-Down-Count Mode
 
-Priority Level : 이벤트가 TBCTR이 증가하는 경우 TBCTR = 0부터 TBCTR = TBPRD까지 : 이벤트 TBCTR이 TBCTR = TBPRD를 TBCTR = 1로 감축하는 경우 
+Priority Level : 
+이벤트 TBCTR이 증가하는 경우 TBCTR = 0부터 TBCTR = TBPRD까지 : 
+이벤트 TBCTR이 TBCTR = TBPRD에서 TBCTR = 1로 감소하는 경우 
 
 1 (Highest) : 소프트웨어 강제 이벤트 : 소프트웨어 강제 이벤트
-2 : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다. : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다.
-3 : 카운터는 업 카운트 (CAU)시 CMPA와 같습니다. : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다.
+2 : 카운터는 업 카운트시 CMPB와 같습니다. (CBU) : 카운터는 다운 카운트시 CMPB와 같습니다. (CBD)
+3 : 카운터는 업 카운트 시 CMPA와 같습니다. (CAU) : 카운터는 다운 카운트 시 CMPA와 같습니다. (CAD)
 4 : 카운터는 0입니다. : 카운터는 주기와 동등합니다. (TBPRD)
-5 : 카운터는 다운 카운트 (CBD)시 CMPB와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPB와 같습니다.
-6 (Lowest) : 카운터는 다운 카운트 (CAD)시 CMPA와 같습니다. : 카운터는 업 카운트 (CBU)시 CMPA와 같습니다.
+5 : 카운터는 다운 카운트시 CMPB와 같습니다. (CBD) : 카운터는 업 카운트 시 CMPB와 같습니다. (CBU)
+6 (Lowest) : 카운터는 다운 카운트 시 CMPA와 같습니다. (CAD) : 카운터는 업 카운트 시 CMPA와 같습니다. (CBU)
 
 
 표 34-10은 up-count 모드에 대한 action-qualifier 우선 순위를 보여줍니다. 이 경우 카운터 방향은 항상 up으로 정의되므로 down-count 이벤트는 절대 수행되지 않습니다.
@@ -529,9 +554,9 @@ Table 34-10. Action-Qualifier Event Priority for Up-Count Mode
 
 Priority Level : Event
 1 (Highest) : 소프트웨어 강제 이벤트
-2 : 마침표와 동등한 카운터 (TBPRD)
-3 : 업 카운트 (CBU)시 CMPB와 동일한 카운터
-4 : 업 카운트 (CAU)시 CMPA와 동일한 카운터
+2 : 주기와 동등한 카운터 (TBPRD)
+3 : 업 카운트 시 CMPB와 동일한 카운터 (CBU)
+4 : 업 카운트 시 CMPA와 동일한 카운터 (CAU)
 5 (Lowest) : 카운터는 0과 같습니다.
 
 
@@ -542,27 +567,35 @@ Table 34-11. Action-Qualifier Event Priority for Down-Count Mode
 Priority Level : Event 
 1 (Highest) : 소프트웨어 강제 이벤트
 2 : 카운터는 0과 같습니다.
-3 : 다운 카운트 (CBD)시 CMPB와 동일한 카운터
-4 : 다운 카운트 (CAD)시 CMPA와 동일한 카운터
+3 : 다운 카운트 시 CMPB와 동일한 카운터 (CBD)
+4 : 다운 카운트 시 CMPA와 동일한 카운터 (CAD)
 5 (Lowest) : 주기와 동등한 카운터 (TBPRD)
 
 비교 값을 주기보다 크게 설정할 수 있습니다. 이 경우 작업은 표 34-12와 같이 수행됩니다.
 Table 34-12. Behavior if CMPA/CMPB is Greater than the Period
               CMPA/CMPB가 주기보다 컸을때의 동작
 
-Counter Mode : Compare on Up-Count Event CAD/CBD : Compare on Down-Count Event CAD/CBD
-Up-Count Mode : CMPA / CMPB ≤ TBPRD 주기 인 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)시 발생합니다. 
+Counter Mode : 
+Compare on Up-Count Event CAD/CBD : 
+Compare on Down-Count Event CAD/CBD
+
+Up-Count Mode : CMPA / CMPB ≤ TBPRD 주기 인 경우, 이벤트는 비교 일치 
+(TBCTR = CMPA or CMPB)시 발생합니다. 
                      CMPA / CMPB > TBPRD이면 이벤트가 발생하지 않습니다.
-                   : 발생하지 않음
-Down-Count Mode : 발생하지 않음 
-                      : CMPA / CMPB < TBPRD 인 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)시 발생합니다.  
-                       CMPA / CMPB ≥ TBPRD 인 경우, 이벤트는 주기와 일치 (TBCTR = TBPRD)시 발생합니다.
-Up-Down-Count : CMPA / CMPB < TBPRD 이고 카운터가 증가하는 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)에서 
-                     발생합니다. 
-                     CMPA / CMPB가 TBPRD 이상인 경우 해당 주기 동안 이벤트가 발생합니다 (TBCTR = TBPRD).
-                   : CMPA / CMPB < TBPRD이고 카운터가 감소하는 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)에서 
-                     발생합니다.
-                     CMPA / CMPB ≥ TBPRD 인 경우, 해당 주기 동안 이벤트가 발생합니다 (TBCTR = TBPRD)
+                    : Down-Count 가 발생하지 않음
+Down-Count Mode : Up-Count 가 발생하지 않음
+                        : CMPA / CMPB < TBPRD 인 경우, 이벤트는 비교 일치 (TBCTR = CMPA or CMPB)시 
+발생합니다.  
+                        CMPA / CMPB ≥ TBPRD 인 경우, 이벤트는 주기와 일치 (TBCTR = TBPRD)시
+ 발생합니다.
+Up-Down-Count : CMPA / CMPB < TBPRD 이고 카운터가 증가하는 경우, 이벤트는 비교 일치 
+(TBCTR = CMPA or CMPB)에서 발생합니다. 
+                  CMPA / CMPB가 TBPRD 이상인 경우 해당 주기 동안 이벤트가 발생합니다 
+(TBCTR = TBPRD).
+                : CMPA / CMPB < TBPRD이고 카운터가 감소하는 경우, 이벤트는 비교 일치 
+(TBCTR = CMPA or CMPB)에서 발생합니다.
+                     CMPA / CMPB ≥ TBPRD 인 경우, 해당 주기 동안 이벤트가 발생합니다 
+(TBCTR = TBPRD)
 
    34.2.4.4 Waveforms for Common Configurations 공통 구성에 대한 파형 
 
@@ -579,13 +612,14 @@ NOTE: 이 문서의 파형은 정적 비교 레지스터 값에 대한 ePWM 동�
 CMPA / CMPB를 주기에 로드하고 주기 동작을 사용하여 PWM을 지우고 비교 동작을 통해 PWM을 설정합니다. 비교 값을 0에서 TBPRD로 변조하여 50 % ~ 0 % PWM 듀티를 달성합니다. 
 
 업 카운트 모드를 사용하여 비대칭 PWM을 생성 할 때 :
-- ​0 ~ 100% 비대칭 PWM을 얻으려면 다음 구성을 사용하세요. 
+- 0 ~ 100% 비대칭 PWM을 얻으려면 다음 구성을 사용하세요. 
 TBPRD에 CMPA / CMPB를 로드하십시오. Zero 동작을 사용하여 PWM을 설정하고 비교 작업을 수행하여 PWM을 지웁니다. 
 비교 값을 0에서 TBPRD + 1로 변조하여 0~100 % PWM 듀티를 달성합니다.
 
 0~100% 듀티 사이클 제어 애플리케이션 보고서를 위해 향상된 펄스 폭 모듈레이터 (ePWM) 모듈 사용 (문서 번호 SPRAAI1)
 
-그림 34-20은 TBCTR의 업 / 다운 카운트 모드를 사용하여 대칭 PWM 파형을 생성하는 방법을 보여줍니다. 이 모드에서는 파형의 업 카운트 및 다운 카운트 부분에서 동일한 비교 일치를 사용하여 0 ~100 % DC 변조가 수행됩니다. 예에서 볼 수 있듯, CMPA가 비교를 위해 사용된다. 카운터가 증가하면 CMPA 일치는 PWM 출력을 하이로 끌어 올립니다. 마찬가지로 카운터가 감소 할 때 비교 일치는 PWM 신호를 로우로 끌어 올 것입니다. 
+그림 34-20은 TBCTR의 업 / 다운 카운트 모드를 사용하여 대칭 PWM 파형을 생성하는 방법을 보여줍니다. 이 모드에서는 파형의 업 카운트 및 다운 카운트 부분에서 동일한 비교 일치를 사용하여 0 ~100 % DC 변조가 수행됩니다. 예에서 볼 수 있듯, CMPA가 비교를 위해 사용됩니다.  카운터가 증가하면 CMPA 일치는 PWM 출력을 하이로 끌어 올립니다. 마찬가지로 카운터가 감소 할 때 비교 일치는 PWM 신호를 로우로 끌어 올 것입니다.  
+
 CMPA = 0 일 때, PWM 로우 신호는 전체주기 동안 0 % 듀티 파형을 제공합니다. (?)
 CMPA = TBPRD 일 때, PWM 하이 신호는 100 % 듀티를 달성합니다. (?)
 ( When CMPA = 0, the PWM signal is low for the entire period giving the 0% duty waveform. When CMPA = TBPRD, the PWM signal is high achieving 100% duty. ) 
@@ -664,11 +698,14 @@ Figure 34-25. Up-Down-Count, Dual Edge Symmetric Waveform, With Independent Modu
 업 - 다운 카운트, 듀얼 에지 대칭 파형, EPWMxA 및 EPWMxB에서 독립적인 변조 - 보완형
 
 A. PWM 주기 = 2 × TBPRD × TTBCLK
-B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고, 액티브 로우, i.e. , 낮은 시간 듀티는 CMPA에 비례한다.
-C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고, 액티브 하이, i.e. , 높은 시간 듀티는 CMPB에 비례한다.
+B. EPWMxA에 대한 듀티 변조는 CMPA에 의해 설정되고, 액티브 로우이다.
+(낮은 시간 듀티는 CMPA에 비례한다.)
+C. EPWMxB에 대한 듀티 변조는 CMPB에 의해 설정되고, 액티브 하이이다. 
+(높은 시간 듀티는 CMPB에 비례한다.)
 D. 출력 EPWMx는 상 / 하 (보완) 전원 스위치를 구동 할 수 있습니다
+
 E. 데드 밴드 = CMPB - CMPA (소프트웨어로 완전히 프로그램 가능한 에지 배치). 
-    보다 고전적인 에지 지연 방법이 필요한 경우 데드 밴드 모듈도 사용할 수 있습니다.
+   보다 고전적인 에지 지연 방법이 필요한 경우 데드 밴드 모듈도 사용할 수 있습니다.
 
 예제 34-5는 그림 34-25의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플을 포함합니다.
 
@@ -682,12 +719,14 @@ A. PWM 주기 = 2 × TBPRD × TBCLK
 B. 상승 에지와 하강 에지는 PWM 사이클 내에서 비대칭 적으로 배치 될 수 있습니다. 이것은 펄스 배치 기술을 허용합니다.
 C. EPWMxA의 Duty 변조는 CMPA와 CMPB에 의해 설정됩니다.
 D. EPWMxA의 낮은 시간 듀티는 (CMPA + CMPB)에 비례합니다.
-E. 이 예를 액티브 하이로 변경하려면, CMPA 및 CMPB 동작이 반전 될 필요가있다 (즉, set ! 클리어 및 set 클리어 ).
+E. 이 예를 액티브 하이로 변경하려면, CMPA 및 CMPB 동작이 반전 될 필요가 있습니다. 
+(즉, set ! 클리어 및 set 클리어 ).
 F. EPWMxB의 듀티 모듈레이션은 50 %로 고정되어 있습니다 (EPWMxB의 예비 동작 리소스 활용)
 
 예제 34-6은 그림 34-26의 파형에 대한 초기화 및 런타임을 보여주는 코드 샘플을 포함합니다.
 
 Example 34-6. Code Sample for Figure 34-26
+
 
 
 34.2.5 Dead-Band Generator (DB) Submodule
@@ -714,6 +753,7 @@ Figure 34-27. Dead_Band Submodule
 
 Table 34-13. Dead-Band Generator Submodule Registers 데드 밴드 생성기 서브 모듈 레지스터
 
+
    34.2.5.3 Operational Highlights for the Dead-Band Submodule 데드 밴드 서브 모듈의 주요 특징
  
 다음 섹션에서는 운영상의 주요 내용을 설명합니다.
@@ -734,7 +774,8 @@ Table 34-13. Dead-Band Generator Submodule Registers 데드 밴드 생성기 서
 
 Figure 34-28. Configuration Options for the Dead-Band Submodule 데드 밴드 서브 모듈의 구성 옵션
 
-모든 조합이 지원되지만 일반적인 사용 모드가 전부는 아닙니다. 표 34-14에는 몇 가지 클래식 데드 밴드 구성이 나와 있습니다. 
+모든 조합이 지원되지만 일반적인 사용 모드가 전부는 아닙니다. 
+표 34-14에는 몇 가지 클래식 데드 밴드 구성이 나와 있습니다. 
 이 모드에서는 DBCTL [IN_MODE]가 EPWMxA In이 하강 에지 및 상승 에지 지연의 소스가 되도록 구성되어 있다고 가정합니다.
 입력 신호 소스를 변경하여 향상된 모드 또는 비 전통적인 모드를 얻을 수 있습니다. 표 34-14에 표시된 모드는 다음 범주로 분류됩니다.
 
@@ -764,6 +805,7 @@ RED = DBRED × TTBCLK
 
 표 34-15. Dead-Band Delay Values in μS as a Function of DBFED and DBRED
            DBFED와 DBRED의 함수로서 μS 단위의 데드 밴드 지연 값
+-> DBFED, DBRED 설정 값에 따른 시간 지연표 인듯.
 
 하프 사이클 클로킹이 활성화되면 하강 에지 지연 및 상승 에지 지연을 계산하는 공식은 다음과 같이 됩니다.
 
@@ -801,12 +843,14 @@ Table 34-16. PWM-Chopper Submodule Registers
 
 Figure 34-31. PWM-Chopper Submodule Operational Details PWM-Chopper 서브모듈의 운영 세부
 
+
    34.2.6.4 파형(Waveforms)
 그림 34-32는 chopping 동작의 단순화 된 파형을 보여줍니다. one-shot 및 duty-cycle 제어는 표시되지 않습니다. 
 one-shot 및 duty-cycle 제어에 대한 자세한 내용은 다음 절에서 설명합니다.
 
 Figure 34-32. Simple PWM-Chopper Submodule Waveforms Showing Chopping Action Only
                Chopping 동작만을 보여주는 간단한 PWM-Chopper 서브 모듈 파형
+
 
      34.2.6.4.1 one-shot 펄스
 첫 번째 펄스의 폭은 16 가지 가능한 펄스 폭 값 중 하나로 프로그래밍 할 수 있습니다. 첫 번째 펄스의 폭 또는 주기는 다음과 같습니다.
@@ -819,13 +863,13 @@ T1stpulse = TVCLK3 × 8 × OSHTWTH
 Figure 34-33. PWM-Chopper Submodule Waveforms Showing the First Pulse and Subsequent Sustaining
 Pulses 첫 번째 펄스와 후속 유지 펄스를 보여주는 PWM 초퍼 서브 모듈 파형
 
-Table 34-17. Possible Pulse Width Values for VCLK3 = 100 MHz VCLK3 = 100 MHz에 대한 가능한 펄스 폭 값
+Table 34-17. Possible Pulse Width Values for VCLK3 = 100 MHz 
+VCLK3 = 100 MHz에 대한 가능한 펄스 폭 값
 
      34.2.6.4.2 duty-cycle 제어
 펄스 트랜스포머 기반 게이트 드라이브 설계는 트랜스포머 및 관련 회로의 자기 특성 또는 특성을 이해할 필요가 있습니다. 
-Saturation(포화도)는 그러한 고려사항 중 하나입니다. 게이트 드라이브 설계자를 보조하기 위해 두 번째 및 후속 펄스의 
-duty-cycle이 프로그래밍 가능해졌습니다. 이러한 지속 펄스는 주기 동안 전원 스위치 게이트에서 정확한 구동 강도와 
-극성을 유지하므로 프로그램 가능한 duty-cycle을 통해 소프트웨어 제어를 통해 설계를 조정하거나 최적화 할 수 있습니다.
+Saturation(포화도)는 그러한 고려사항 중 하나입니다. 
+게이트 드라이브 설계자를 보조하기 위해 두 번째 및 후속 펄스의 duty-cycle이 프로그래밍 가능해졌습니다. 이러한 지속 펄스는 주기 동안 전원 스위치 게이트에서 정확한 구동 강도와 극성을 유지하므로 프로그램 가능한 duty-cycle을 통해 소프트웨어 제어를 통해 설계를 조정하거나 최적화 할 수 있습니다.
 
 그림 34-34는 CHPDUTY 비트를 프로그래밍함으로써 가능한 duty-cycle제어를 보여줍니다. 7 가지 가능한 duty ratios 중 하나를 12.5 %에서 87.5 %까지 선택할 수 있습니다.
 
@@ -837,12 +881,13 @@ Figure 34-34. PWM-Chopper Submodule Waveforms Showing the Pulse Width (Duty Cycl
 그림 34-35는 트립 영역 (TZ) Submodule이 ePWM 모듈에 어떻게 끼워지는지 보여줍니다. 각 ePWM 모듈은 6 개의 TZn 신호 (TZ1에서 TZ6)에 연결됩니다. TZ1에서 TZ3까지는 GPIO mux에서 제공됩니다. TZ4는 EQEP1ERR 및 EQEP2ERR 신호의 조합으로 제공됩니다. 
 TZ5는 시스템 oscillator 또는 PLL 클럭 오류 로직에 연결되며, TZ6은 CPU의 디버그 모드 중지 표시 출력을 기반으로합니다. 이 신호는 오류 또는 트립 조건을 나타내며, 오류가 발생할 때 ePWM 출력을 적절하게 응답하도록 프로그래밍 할 수있습니다.
 
+
 Figure 34-35. Trip-Zone Submodule
 
    34.2.7.1 Trip-Zone Submodule 목적
 Trip-Zone Submodule의 주요 기능은 다음과 같습니다 : 
 - 트립 입력 TZ1에서 TZ6은 모든 ePWM 모듈에 mapped 됩니다.
-- 오류 표시시 아무런 조치도 취하지 않거나 ePWM 출력 EPWMxA 및 EPWMxB는 다음 중 하나를 강제 수행 할 수 있습니다.
+- 오류 발생시 아무런 조치도 취하지 않으면 ePWM 출력 EPWMxA 및 EPWMxB는 다음 중 하나를 강제 수행 할 수 있습니다.
   - High
   - Low
   - High-impedance
@@ -874,6 +919,7 @@ TZCTL   28h  No   Trip-Zone Control Register
 TZCLR   2Eh  No   Trip-Zone Clear Register
 TZFLG   2Ch  No   Trip-Zone Flag Register
 TZFRC   30h  No   Trip-Zone Force Register
+
 (1) 모든 trip-zone레지스터는 권한(privileged) 모드에서만 쓸 수 있습니다.
 (2) 이 레지스터는 34.2.9 절에서 더 자세히 논의됩니다.
 
@@ -883,8 +929,7 @@ TZFRC   30h  No   Trip-Zone Force Register
 다음 절에서는 trip-zone submodule의 주요 사항 및 환경설정 옵션에 대해 설명합니다.
 
 trip-zone신호 TZ1 내지 TZ6 (총체적으로 TZn이라고도 함)은 액티브 로우(active low) 입력 신호입니다. 
-이 신호 중 하나가 낮아 지거나 TZDCSEL 레지스터 이벤트 선택에 따라 DCAEVT1 / 2 또는 DCBEVT1 / 2 강제 설정이 발생하면
-trip event가 발생했음을 나타냅니다. 각 ePWM 모듈은 각각의 trip-zone 신호 또는 DC 이벤트를 무시하거나 사용하도록 개별적으로 configured 할 수 있습니다. 특정 ePWM 모듈이 사용하는 trip-zone 신호 또는 DC 이벤트는 특정 ePWM 모듈의 TZSEL 레지스터에 의해 결정됩니다. 
+이 신호 중 하나가 낮아 지거나 TZDCSEL 레지스터 이벤트 선택에 따라 DCAEVT1 / 2 또는 DCBEVT1 / 2 강제 설정이 발생하면trip event가 발생했음을 나타냅니다. 각 ePWM 모듈은 각각의 trip-zone 신호 또는 DC 이벤트를 무시하거나 사용하도록 개별적으로 configured 할 수 있습니다. 특정 ePWM 모듈이 사용하는 trip-zone 신호 또는 DC 이벤트는 특정 ePWM 모듈의 TZSEL 레지스터에 의해 결정됩니다. 
 trip-zone 신호는 시스템 클럭 (VCLK3)에 동기화되거나 동기화되지 않을 수 있으며 GPIO MUX 블록 내에서 디지털 필터링됩니다. 
 TZn 입력에서 최소 3 × TBCLK의 low pulse 폭은 ePWM 모듈의 오류 조건을 trigger하기에 충분합니다. 
 펄스 폭이 이보다 작으면 트립 조건이 래치(latched)되지 않을 수 있습니다. 비동기 트립(asynchronous trip)은 어떤 이유로든 클록이 누락되면 TZn 입력에 유효한 이벤트가 발생해도 출력이 여전히 tripped 될 수 있음을 확인합니다. GPIO 또는 주변 장치를 적절하게 구성해야합니다. 자세한 내용은 장치 기술 참조 설명서의 IOMM 장을 참조하십시오.
@@ -894,9 +939,7 @@ DCAEVT1 및 DCBEVT1 이벤트는 ePWM 모듈을 직접 trip하거나 모듈에 o
 마찬가지로 DCAVET2 및 DCBEVT2 이벤트를 구성하여 ePWM 모듈을 직접 trip하거나 cycle-by-cycle trip 이벤트를 모듈에 제공 할 수도 있습니다. 이 구성은 TZSEL [DCAEVT1 / 2], TZSEL [DCBEVT1 / 2], TZSEL [CBCn] 및 TZSEL [OSHTn] 제어 비트 (n은 트립 입력에 해당)에 의해 결정됩니다.
 
 - Cycle-by-Cycle (CBC):
-cycle-by-cycle trip이 발생하면 TZCTL [TZA] 및 TZCTL [TZB] 비트에 지정된 동작이 EPWMxA 및 / 또는 EPWMxB 출력에서 
-즉시 수행됩니다. 표 34-19는 가능한 조치를 나열합니다. 또한 cycle-by-cycle trip event flag (TZFLG [CBC])가 설정되고 
-EPWMx_TZINT 인터럽트가 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 생성됩니다.
+cycle-by-cycle trip이 발생하면 TZCTL [TZA] 및 TZCTL [TZB] 비트에 지정된 동작이 EPWMxA 및 / 또는 EPWMxB 출력에서 즉시 수행됩니다. 표 34-19는 가능한 조치를 나열합니다. 또한 cycle-by-cycle trip event flag (TZFLG [CBC])가 설정되고 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 EPWMx_TZINT 인터럽트가 생성됩니다.
 
 (해석이 확실하지 않아요ㅠㅠ)
 CBC 인터럽트가 TZEINT 레지스터를 통해 활성화되고 DCAEVT2 또는 DCBEVT2가 TZSEL 레지스터를 통해 CBC trip 소스로 선택되면 DC events trigger 가 CBC mechanism을 통해 인터럽트하므로 TZEINT 레지스터에서 DCAEVT2 또는 DCBEVT2 인터럽트도 활성화 할 필요가 없습니다.
@@ -904,16 +947,14 @@ CBC 인터럽트가 TZEINT 레지스터를 통해 활성화되고 DCAEVT2 또는
 CBC trip sources via the TZSEL register, it is not necessary to also enable the DCAEVT2 or DCBEVT2
 interrupts in the TZEINT register, as the DC events trigger interrupts through the CBC mechanism. )
 
-trip event가 더 이상 존재하지 않으면 ePWM time-base 카운터가 0 (TBCTR = 0x0000)에 도달하면 입력에 지정된 조건이 
-자동으로 지워집니다. 따라서 이 모드에서는 trip event가 PWM cycle마다 지워지거나 재설정됩니다. 
-TZFLG [CBC] flag bit는 TZCLR [CBC] 비트에 기록함으로써 수동으로 클리어 될 때까지 설정된 상태를 유지합니다. 
-TZFLG [CBC] 비트가 지워졌을 때 cycle-by-cycle trip event가 여전히 존재하면, 즉시 다시 설정됩니다.
+* 정리하자면 … 
+CBC 인터럽트가 TZEINT를 통해 활성화 -> DCAEVT2 또는 DCBEVT2가 TZSEL를 통해 CBC trip 소스로 선택 -> DC events trigger가 CBC mechanism을 통해 인터럽트함 -> TZEINT 레지스터에서 DCAEVT2 또는 DCBEVT2 인터럽트도 활성화 할 필요없음
+
+ePWM time-base 카운터가 0 (TBCTR = 0x0000)에 도달하여 trip event가 더 이상 발생하지 않으면 입력에 지정된 조건이 자동으로 지워집니다. 따라서 이 모드에서는 trip event가 PWM cycle마다 지워지거나 재설정됩니다. 
+TZFLG [CBC] flag bit는 TZCLR [CBC] 비트에 기록함으로써 수동으로 클리어 될 때까지 설정된 상태를 유지합니다.  TZFLG [CBC] 비트가 지워졌을 때 cycle-by-cycle trip event가 여전히 존재하면, 즉시 다시 설정됩니다.
 
 - One-Shot (OSHT):
-one-shot trip 이벤트가 발생하면 TZCTL [TZA] 및 TZCTL [TZB] 비트에 지정된 동작이 EPWMxA 및 / 또는 EPWMxB 출력에서 
-즉시 수행됩니다. 표 34-19는 가능한 조치를 나열합니다. 또한 one-shot trip event flag(TZFLG [OST])가 설정되고 
-EPWMx_TZINT 인터럽트가 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 생성됩니다. 
-one-shot trip 조건(condition)은 TZCLR [OST] 비트에 기록함으로써 수동으로 클리어되어야한다(cleared).
+one-shot trip 이벤트가 발생하면 TZCTL [TZA] 및 TZCTL [TZB] 비트에 지정된 동작이 EPWMxA 및 / 또는 EPWMxB 출력에서 즉시 수행됩니다. 표 34-19는 가능한 조치를 나열합니다. 또한 one-shot trip event flag(TZFLG [OST])가 설정되고 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 EPWMx_TZINT 인터럽트가 생성됩니다.  one-shot trip 조건(condition)은 TZCLR [OST] 비트에 기록함으로써 수동으로 클리어할 수 있다.
 
 원샷 인터럽트가 TZEINT 레지스터를 통해 활성화되고, DCAEVT1 또는 DCBEVT1이 TZSEL 레지스터를 통해 OSHT 트립 소스로 선택되면, DC 이벤트가 OSHT mechanism을 통해 인터럽트를 trigger하므로 TZEINT 레지스터에서 DCAEVT1 또는 DCBEVT1 인터럽트를 활성화 할 필요가 없습니다.
 
@@ -923,11 +964,9 @@ DCAH / DCAL 및 DCBH / DCBL 신호의 소스 신호는 DCTRIPSEL 레지스터를
 digital compare(디지털 비교) submodule신호에 대한 자세한 내용은 34.2.9 절을 참조하십시오.
 
 digital compare event가 발생하면 TZCTL [DCAEVT1 / 2] 및 TZCTL [DCBEVT1 / 2] 비트에 지정된 동작이 EPWMxA 및 / 또는 EPWMxB 출력에서 즉시 수행됩니다. 
-표 34-19는 가능한 조치를 나열합니다. 또한 관련 DC trip event flag (TZFLG [DCAEVT1 / 2] / TZFLG [DCBEVT1 / 2])가 설정되고 
-EPWMx_TZINT 인터럽트가 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 생성됩니다.
+표 34-19는 가능한 조치를 나열합니다. 또한 관련 DC trip event flag (TZFLG [DCAEVT1 / 2] / TZFLG [DCBEVT1 / 2])가 설정되고 TZEINT 레지스터 및 VIM 주변 장치에서 활성화 된 경우 EPWMx_TZINT 인터럽트가 생성됩니다.
 
-DC trip event가 더 이상 존재하지 않으면 핀의 지정된 조건이 자동으로 제거됩니다. TZFLG [DCAEVT1 / 2] 또는 TZFLG [DCBEVT1 / 2] 플래그 비트는 
-TZCLR [DCAEVT1 / 2] 또는 TZCLR [DCBEVT1 / 2] 비트에 기록하여 수동으로 클리어 될 때까지 설정된 상태로 유지됩니다. 
+DC trip event가 더 이상 존재하지 않으면 핀의 지정된 조건이 자동으로 제거됩니다. TZFLG [DCAEVT1 / 2] 또는 TZFLG [DCBEVT1 / 2] 플래그 비트는 TZCLR [DCAEVT1 / 2] 또는 TZCLR [DCBEVT1 / 2] 비트에 기록하여 수동으로 클리어 될 때까지 설정된 상태로 유지됩니다.  -> 반복되는 내용이넹.. 
 TZFLG [DCAEVT1 / 2] 또는 TZFLG [DCBEVT1 / 2] 플래그가 지워졌을 때 DC 트립이 계속 발생하면 즉시 다시 설정됩니다.
 
 trip event가 발생할 때 수행되는 동작은 TZCTL 레지스터 비트 필드를 통해 각 ePWM 출력 핀에 개별적으로 구성 될 수 있습니다. 
@@ -946,11 +985,11 @@ TZ1의 원샷 트립 이벤트는 EPWM1A, EPWM1B를 모두 낮추고 EPWM2A 및 
 
 다음과 같이 ePWM2 레지스터를 구성하십시오 :
 - TZSEL [OSHT1] = 1 : TZ1을 ePWM2의 원샷 이벤트 소스로 사용 가능하게합니다.
-- TZCTL [TZA] = 1 : 여행 이벤트에서 EPWM2A가 강제로 높게 설정됩니다.
-- TZCTL [TZB] = 1 : EPWM2B는 트립 이벤트에서 하이로 강제됩니다.
+- TZCTL [TZA] = 1 : 트립 이벤트에서 EPWM2A가 강제로 높게 설정됩니다.
+- TZCTL [TZB] = 1 : 트립 이벤트에서 EPWM2B가 강제로 놓게 설정됩니다.
 
 Scenario B:
-TZ5의 사이클 별 이벤트는 EPWM1A, EPWM1B를 모두 낮춥니다.
+TZ5의 cycle-by-cycle 이벤트는 EPWM1A, EPWM1B를 모두 낮춥니다.
 TZ1 또는 TZ6의 원샷 이벤트는 EPWM2A를 높은 임피던스 상태로 만듭니다.
 
 다음과 같이 ePWM1 레지스터를 구성하십시오 :
@@ -962,7 +1001,7 @@ TZ1 또는 TZ6의 원샷 이벤트는 EPWM2A를 높은 임피던스 상태로 �
 - TZSEL [OSHT1] = 1 : TZ1을 ePWM2의 원샷 이벤트 소스로 사용 가능하게합니다.
 - TZSEL [OSHT6] = 1 : TZ6을 ePWM2의 원샷 이벤트 소스로 사용할 수 있습니다.
 - TZCTL [TZA] = 0 : EPWM2A는 트립 이벤트에서 하이 임피던스 상태가됩니다.
-- VZCTL [TAB] = 3 : EPWM 2B는 트립 이벤트를 무시합니다.
+- TZCTL [TZB] = 3 : EPWM 2B는 트립 이벤트를 무시합니다.
 
    34.2.7.4 Generating Trip Event Interrupts  Trip 이벤트 인터럽트 생성
 그림 34-36과 그림 34-37은 트립 영역 서브 모듈 제어와 인터럽트 로직을 각각 나타냅니다. DCAEVT1 / 2 및 DCBEVT1 / 2 신호에 대해서는 34.2.9 절에서 자세히 설명합니다.
@@ -983,7 +1022,9 @@ Figure 34-37. Trip-Zone Submodule Interrupt Logic  Trip-Zone 서브모듈 인터
 - 이벤트 카운터 및 플래그를 통해 이벤트 생성을 완전히 볼 수 있습니다.
 - 인터럽트 및 ADC의 변환 시작 소프트웨어 강제 허용
 
-이벤트 트리거 서브 모듈은 타임 베이스 서브 모듈, 카운터 컴 모듈 (countercompare submodule) 및 디지털 비교 서브 모듈 (digital-compare submodule)에 의해 생성 된 이벤트를 관리하여 CPU로 인터럽트를 생성하거나 선택된 이벤트가 발생할 때 ADC 로의 변환 펄스를 시작합니다. 그림 34-38은 이벤트 트리거 서브 모듈이 ePWM 시스템에 맞는 위치를 보여줍니다.
+이벤트 트리거 서브 모듈은 타임 베이스 서브 모듈, 카운터 비교 서브모듈 (counter-compare submodule) 및 디지털 비교 서브 모듈 (digital-compare submodule)에 의해 생성 된 이벤트를 관리하여 CPU로 인터럽트를 생성하거나 선택된 이벤트가 발생할 때 ADC 로의 변환 펄스를 시작합니다. 그림 34-38은 이벤트 트리거 서브 모듈이 ePWM 시스템에 맞는 위치를 보여줍니다.
+
+
 
 Figure 34-38. Event-Trigger Submodule 이벤트-트리거 서브모듈
 
@@ -1006,7 +1047,6 @@ Figure 34-40. Event-Trigger Submodule Showing Event Inputs and Prescaled Outputs
 이벤트 트리거 서브 모듈을 구성하는 데 사용되는 키 레지스터는 표 34-20에 나열되어 있습니다.
 
 Table 34-20. Event-Trigger Submodule Registers 
-
 - ETSEL : 가능한 이벤트 중에서 인터럽트를 트리거하거나 ADC 변환을 시작할 이벤트를 선택합니다.
 - ETPS : 위에서 언급한 이벤트 Prescaled 옵션을 프로그래밍합니다.
 - ETFLG : 이들은 선택된 Prescaled 이벤트의 상태를 나타내는 플래그 비트입니다.
@@ -1022,7 +1062,7 @@ Table 34-20. Event-Trigger Submodule Registers
 - 모든 두번째 이벤트에 인터럽트 생성
 - 모든 세번째 이벤트에 인터럽트 생성
 
-인터럽트를 유발할 수있는 이벤트는 인터럽트 선택 (ETSEL [INTSEL]) 비트로 구성됩니다. 이벤트는 다음 중 하나 일 수 있습니다.
+인터럽트를 유발할 수 있는 이벤트는 인터럽트 선택 (ETSEL [INTSEL]) 비트로 구성됩니다. 이벤트는 다음 중 하나 일 수 있습니다.
 
 - 0과 동일한 시간축 카운터 (TBCTR = 0x0000).
 - 주기와 동일한 시간축 카운터 (TBCTR = TBPRD).
@@ -1036,14 +1076,16 @@ Table 34-20. Event-Trigger Submodule Registers
 
 ETPS [INTCNT]가 ETPS [INTPRD]에 도달하면 다음과 같은 행동이 발생합니다 :
 
-- 인터럽트가 사용가능하고 ETSEL [INTEN] = 1이고 인터럽트 플래그가 클 경우 ETFLG [INT] = 0 이면 인터럽트 펄스가 생성되고 인터럽트 플래그가 설정되고 ETFLG [INT] = 1이 되며 이벤트 카운터는 ETPS [INTCNT] = 0 으로 클리어됩니다. 카운터가 이벤트를 다시 카운트하기 시작합니다.
+- 인터럽트가 사용가능하고 ETSEL [INTEN] = 1이고 인터럽트 플래그가 클리어된 경우 ETFLG [INT] = 0 이면 인터럽트 펄스가 생성되고, 인터럽트 플래그가 설정되고 ETFLG [INT] = 1이 되며 이벤트 카운터는 ETPS [INTCNT] = 0 으로 클리어됩니다. 카운터가 이벤트를 다시 카운트하기 시작합니다.
+ -> 인터럽트 펄스를 생성하기 위한 조건과 생성 후의 처리
+
 - 인터럽트가 비활성화되거나 ETSEL [INTEN] = 0이거나 인터럽트 플래그가 설정된 경우 ETFLG [INT] = 1이면 카운터는 주기 값 ETPS [INTCNT] = ETPS [INTPRD]에 도달하면 이벤트 계산을 중지합니다.
 - 인터럽트가 활성화되어 있지만 인터럽트 플래그가 이미 설정된 경우 카운터는 ENTFLG [INT] 플래그가 해제 될 때까지 출력을 계속 유지합니다. 하나의 인터럽트가 보류 중이고 하나는 인터럽트 될 수 있습니다.
 
-INTPRD 비트에 기록하면 카운터가 자동으로 클리어되고 - INTCNT = 0 - 카운터 출력이 리셋됩니다 (따라서 인터럽트가 생성되지 않습니다). ETFRC [INT] 비트에 1을 쓰면 이벤트 카운터 INTCNT가 증가합니다. 카운터는 INTCNT = INTPRD 인 경우 위에서 설명한대로 동작합니다. INTPRD = 0 일 때, 카운터는 비활성화되므로 이벤트가 감지되지 않고 ETFRC [INT] 비트도 무시됩니다.
+INTPRD 비트에 기록하면 카운터가 자동으로 클리어되고 (INTCNT = 0) 카운터 출력이 리셋됩니다 (따라서 인터럽트가 생성되지 않습니다). -> ETPS[INTPRD] , ETPS[INTCNT] 
+ ETFRC [INT] 비트에 1을 쓰면 이벤트 카운터 INTCNT가 증가합니다. 카운터는 INTCNT = INTPRD 인 경우 위에서 설명한대로 동작합니다.  INTPRD = 0 일 때, 카운터는 비활성화되므로 이벤트가 감지되지 않고 ETFRC [INT] 비트도 무시됩니다.
 
-위의 정의는 모든 이벤트, 모든 두 번째 이벤트 또는 모든 세번째 이벤트에서 인터럽트를 생성 할 수 있음을 의미합니다. 
-네 번째 또는 그 이상의 이벤트마다 인터럽트를 생성 할 수 없습니다
+위의 정의는 모든 이벤트, 모든 두 번째 이벤트 또는 모든 세번째 이벤트에서 인터럽트를 생성 할 수 있음을 의미합니다.  네 번째 또는 그 이상의 이벤트마다 인터럽트를 생성 할 수 없습니다
 
 Figure 34-41. Event-Trigger Interrupt Generator  이벤트-트리거 인터럽트 생성 
 
@@ -1057,10 +1099,12 @@ A. DCAEVT1.soc 신호는 Digital-compare(DC) 서브 모듈에 의해 생성된 �
 Figure 34-43. Event-Trigger SOCB Pulse Generator  이벤트-트리거 SOCB 펄스 발생기
 A. DCBEVT1.soc 신호는 Digital-compare(DC) 서브 모듈에 의해 생성된 신호입니다 (34.2.9 절 참조).
 
+
+
 34.2.9 Digital Compare (DC) Submodule 
 그림 34-44는 디지털 비교 (Digital Compare : DC) 서브 모듈 신호가 ePWM 시스템의 다른 서브 모듈과 인터페이스하는 위치를 보여줍니다.
 
-디지털 비교 (DC) 서브 모듈은 ePWM 모듈 외부의 신호를 비교하여 PWM 이벤트 / 동작을 직접 생성 한 다음 이벤트 트리거, 트립 영역 및 타임베이스 서브 모듈에 공급합니다. 또한 DC 이벤트 신호의 노이즈 또는 원치 않는 펄스를 필터링하기 위해 블랭킹(blanking) 윈도우 기능이 지원됩니다.
+디지털 비교 (DC) 서브 모듈은 ePWM 모듈 외부의 신호를 비교하여 PWM 이벤트 / 동작을 직접 생성 한 다음 이벤트 트리거, 트립 영역 및 타임베이스 서브 모듈에 공급합니다. 또한 DC 이벤트 신호의 노이즈 또는 원치 않는 펄스를 필터링하기 위해 블링킹(blanking) 윈도우 기능이 지원됩니다.
 
 Figure 34-44. Digital-Compare Submodule High-Level Block Diagram 디지털 비교 서브 모듈 상위 블록 다이어그램
 
@@ -1074,21 +1118,25 @@ DCAH/L 및 DCBH/L 신호는 이벤트를 트리거하거나 필터링되거나 �
 - ADC 변환시작을 생성한다.
 - force an event 
 - ePWM 모듈 TBCTR을 동기화 하기위한 동기화 이벤트를 생성합니다.
-- 이벤트 필터링 (블랭킹 윈도우 로직)은 선택적으로 잡음을 제거하기 위해 입력 신호를 비울 수 있습니다.
+- 이벤트 필터링 (블링킹 윈도우 로직)은 선택적으로 잡음을 제거하기 위해 입력 신호를 비울 수 있습니다.
 
    34.2.9.2 Controlling and Monitoring the Digital Compare Submodule 디지털 비교 서브모듈 제어 및 모니터링
 디지털 비교 하위 모듈 작동은 다음 레지스터를 통해 제어 및 모니터링됩니다.
 
 Table 34-21. Digital Compare Submodule Registers 디지털 비교 서브모듈 레지스터
 
+(1)	이 레지스터는 특권 모드에서만 쓸 수 있습니다.
+(2)	TZDCSEL 레지스터는 트립 존 서브 모듈의 일부이지만 디지털 비교 서브 모듈의 기능적인 중요성 때문에 여기에서 다시 언급됩니다. 
+
    34.2.9.3 Operation Highlights of the Digital Compare Submodule 디지털 비교 서브 모듈의 주요 동작
 다음 절에서는 디지털 비교 하위 모듈의 주요 기능 및 구성 옵션에 대해 설명합니다.
 
      34.2.9.3.1 Digital Compare Events 디지털 비교 이벤트
-이 섹션 앞부분의 그림 34-44에서 설명한 것처럼 트립 영역 입력(TZ1, TZ2, and TZ3)은 DCTRIPSEL 비트를 통해 선택하여 디지털 비교 A 고 / 저 (DCAH/L) 및 디지털 비교 B 고 / 저(DCBH/L) 신호를 생성 할 수 있습니다. 그런 다음, TZDCSEL 레지스터의 구성은 DCAEVT1/2 및 DCBEVT1/2 이벤트 (이벤트 규정-Qualification- A 및 B)를 생성하는 선택된 DCAH / L 및 DCBH / L 신호의 동작을 규정합니다.
+이 섹션 앞부분의 그림 34-44에서 설명한 것처럼 트립 영역 입력(TZ1, TZ2, and TZ3)은 DCTRIPSEL 비트를 통해 선택하여 디지털 비교 A 고 / 저 (DCAH/L) 및 디지털 비교 B 고 / 저(DCBH/L) 신호를 생성 할 수 있습니다. 
+그런 다음, TZDCSEL 레지스터의 구성은 DCAEVT1/2 및 DCBEVT1/2 이벤트 (이벤트 규정-Qualification- A 및 B)를 생성하는 선택된 DCAH / L 및 DCBH / L 신호의 동작을 규정합니다.
 
 NOTE:
-TZn 신호는 DCEVT 트리핑 기능으로 사용될 때 정상적인 입력 신호로 취급되며 액티브 하이 또는 액티브 로우 입력으로 정의 할 수 있습니다. TZn, DCAEVTx.force 또는 DCBEVTx.force 신호가 활성화되면 EPWM 출력이 비동기 적으로 트립됩니다. 조건을 래치(latched) 한 상태로 유지하려면 최소 3 * TBCLK의 동기화 펄스 폭이 필요합니다. 펄스 폭이 <3 * TBCLK 동기 펄스 폭보다 작으면 트립 상태가 CBC 또는 OST 래치(latched)에 의해 래치(latched) 될 수 있습니다. (래치가 뭔데.......)
+TZn 신호는 DCEVT 트리핑 기능으로 사용될 때 정상적인 입력 신호로 취급되며 액티브 하이 또는 액티브 로우 입력으로 정의 할 수 있습니다. TZn, DCAEVTx.force 또는 DCBEVTx.force 신호가 활성화되면 EPWM 출력이 비동기 적으로 트립됩니다. 조건을 래치(latched) 한 상태로 유지하려면 최소 3 * TBCLK의 동기화 펄스 폭이 필요합니다. 펄스 폭이 < 3 * TBCLK 동기 펄스 폭보다 작으면 트립 상태가 CBC 또는 OST 래치(latched)에 의해 래치(latched) 될 수 있습니다. (래치가 뭔데.......)
 
 그런 다음 DCAEVT1/2 및 DCBEVT1/2 이벤트를 필터링하여 이벤트 신호의 필터링 된 버전 (DCEVTFILT)을 제공하거나 필터링을 무시할 수 있습니다. 필터링은 2.9.3.2 절에서 더 자세히 기술되어 있습니다. DCAEVT1/2 및 DCBEVT1/2 이벤트 신호 또는 필터링 된 DCEVTFILT 이벤트 신호는 트립 영역 모듈, TZ 인터럽트, ADC SOC 또는 PWM 동기 신호에 힘을 생성 할 수 있습니다.
 
@@ -1103,7 +1151,7 @@ TZCTL 레지스터에서 충돌하는 동작의 우선 순위는 다음과 같�
 DCAEVT1 / 2 인터럽트 신호는 VIM에 트립 영역 인터럽트를 생성합니다. 인터럽트를 사용하려면 사용자가 TZEINT 레지스터에 DCAEVT1, DCAEVT2, DCBEVT1 또는 DCBEVT2 비트를 설정해야합니다. 이러한 이벤트 중 하나가 발생하면 EPWMxTZINT 인터럽트가 트리거되고 인터럽트를 지우려면 TZCLR 레지스터의 해당 비트를 설정해야합니다.
 
 soc 신호 : 
-DCAEVT1.soc 신호는 이벤트 트리거 서브 모듈과 인터페이스하며 ETSEL [SOCASEL] 비트를 통해 ADC 시작 변환 (ACA) 펄스를 생성하는 이벤트로 선택할 수 있습니다. 마찬가지로 DCBEVT1.soc 신호는 ETSEL [SOCBSEL] 비트를 통해 ADC 시작 - 변환 - B (SOCB) 펄스를 생성하는 이벤트로 선택 될 수 있습니다.
+DCAEVT1.soc 신호는 이벤트 트리거 서브 모듈과 인터페이스하며 ETSEL [SOCASEL] 비트를 통해 ADC 시작 변환 A (SOCA) 펄스를 생성하는 이벤트로 선택할 수 있습니다. 마찬가지로 DCBEVT1.soc 신호는 ETSEL [SOCBSEL] 비트를 통해 ADC 시작 변환B (SOCB) 펄스를 생성하는 이벤트로 선택 될 수 있습니다.
 
 동기 신호 :
 DCAEVT1.sync 및 DCBEVT1.sync 이벤트는 EPWMxSYNCI 입력 신호 및 TBCTL [SWFSYNC] 신호와 OR되어 타임베이스 카운터에 동기화 펄스를 생성합니다.
@@ -1119,15 +1167,16 @@ Figure 34-47. DCBEVT1 Event Triggering  DCBEVT1 이벤트 트리거링
 Figure 34-48. DCBEVT2 Event Triggering  DCBEVT2 이벤트 트리거링
 
      34.2.9.3.2 Event Filtering 이벤트 필터링
-이벤트 필터링 로직을 통해 DCAEVT1/2 및 DCBEVT1/2 이벤트를 필터링하여 일정 기간 동안 이벤트를 선택적으로 비워서 잡음을 제거 할 수 있습니다. 이것은 아날로그 비교기 출력이 DCAEVT1/2 및 DCBEVT1/2 이벤트를 트리거하도록 선택 될 수 있는 경우에 유용하며 블랭킹(blanking) 로직은 PWM 출력을 트리핑하거나 인터럽트 또는 ADC 전환 시작(start-of-conversion)을 생성하기 전에 신호의 잠재적 노이즈를 필터링하는 데 사용됩니다 
+이벤트 필터링 로직을 통해 DCAEVT1/2 및 DCBEVT1/2 이벤트를 필터링하여 일정 기간 동안 이벤트를 선택적으로 비워서 잡음을 제거 할 수 있습니다. 이것은 아날로그 비교기 출력이 DCAEVT1/2 및 DCBEVT1/2 이벤트를 트리거하도록 선택 될 수 있는 경우에 유용하며 블링킹(blanking) 로직은 PWM 출력을 트리핑하거나 인터럽트 또는 ADC 전환 시작(start-of-conversion)을 생성하기 전에 신호의 잠재적 노이즈를 필터링하는 데 사용됩니다 
 
 Figure 34-49. Event Filtering
 
-블랭킹 로직이 활성화 된 경우 디지털 비교 이벤트 중 하나 (DCAEVT1, DCAEVT2, DCBEVT1, DCBEVT2)가 필터링 대상으로 선택됩니다. 신호가 활성화되어있는 동안 모든 이벤트 발생을 필터링하는 블랭킹 윈도우는 CTR = PRD 펄스 또는 CTR = 0 펄스 (DCFCTL [PULSESEL] 비트로 구성됨) 중 하나에 정렬됩니다. TBCLK 카운트의 오프셋 값은 DCFOFFSET 레지스터에 프로그래밍되어 CTR = PRD 또는 CTR = 0 펄스 이후의 어떤 시점에서 블랭킹 윈도우가 시작되는지 결정합니다. 오프셋 카운터가 만료 된 후 TBCLK 카운트 수에서 블랭킹 윈도우의 기간은 응용 프로그램에 의해 DCFWINDOW 레지스터에 기록됩니다. 블랭킹 윈도우에서 모든 이벤트는 무시됩니다. 블랭킹 윈도우가 끝나기 전과 후에 이벤트는 이전처럼 soc, sync, interrupt 및 force 신호를 생성 할 수 있습니다.
+블링킹 로직이 활성화 된 경우 디지털 비교 이벤트 중 하나 (DCAEVT1, DCAEVT2, DCBEVT1, DCBEVT2)가 필터링 대상으로 선택됩니다. 신호가 활성화되어있는 동안 모든 이벤트 발생을 필터링하는 블링킹 윈도우는 CTR = PRD 펄스 또는 CTR = 0 펄스 (DCFCTL [PULSESEL] 비트로 구성됨) 중 하나에 정렬됩니다. TBCLK 카운트의 오프셋 값은 DCFOFFSET 레지스터에 프로그래밍되어 CTR = PRD 또는 CTR = 0 펄스 이후의 어떤 시점에서 블링킹 윈도우가 시작되는지 결정합니다. 오프셋 카운터가 만료 된 후 TBCLK 카운트 수에서 블링킹 윈도우의 주기는 응용 프로그램에 의해 DCFWINDOW 레지스터에 기록됩니다. 블링킹 윈도우에서 모든 이벤트는 무시됩니다. 블링킹 윈도우가 끝나기 전과 후에 이벤트는 이전처럼 soc, sync, interrupt 및 force 신호를 생성 할 수 있습니다.
 
-그림 34-50은 ePWM 기간 내의 오프셋 및 블랭킹 윈도우의 여러 타이밍 조건을 보여줍니다. 블랭킹 윈도우가 CTR = 0 또는 CTR = PRD 경계를 넘으면 다음 윈도우는 CTR = 0 또는 CTR = PRD 펄스 이후에 동일한 오프셋 값에서 시작됩니다.
+그림 34-50은 ePWM 기간 내의 오프셋 및 블링킹 윈도우의 여러 타이밍 조건을 보여줍니다. 블링킹 윈도우가 CTR = 0 또는 CTR = PRD 경계를 넘으면 다음 윈도우는 CTR = 0 또는 CTR = PRD 펄스 이후에 동일한 오프셋 값에서 시작됩니다.
 
 Figure 34-50. Blanking Window Timing Diagram
+
 
 
 34.2.10 Proper Interrupt Initialization Procedure 적절한 인터럽트 초기화 절차 
@@ -1143,12 +1192,13 @@ ePWM 주변 장치 클럭이 활성화되면 ePWM 레지스터가 제대로 초�
 8. 글로벌 인터럽트 활성화
 
 
+
 34.3 Application Examples 어플리케이션 예제
 
 ePWM 모듈은 독립실행형 모듈로 완벽하게 작동하거나 다른 동일한 ePWM 모듈과 동기화되어 작동하는 데 필요한 모든 로컬 리소스를 갖추고 있습니다.
 
    34.3.1 Overview of Multiple Modules 다중 모듈 개요
-이전에 이 사용 설명서에서 모든 토론에서 단일 모듈의 작동을 설명했습니다. 시스템에서 함께 작동하는 여러 모듈에 대한 이해를 돕기 위해 참조로 설명 된 ePWM 모듈은 그림 34-51에 표시된 보다 단순화 된 블록 다이어그램으로 표시됩니다. 이 단순화 된 ePWM 블록은 다중 ePWM 모듈이 함께 작동하여 다중 스위치 전원 토폴로지가 제어되는 방법을 설명하는 데 필요한 주요 리소스만 보여줍니다.
+이전에 이 사용 설명서의 모든 설명에서 단일 모듈의 작동을 설명했습니다. 시스템에서 함께 작동하는 여러 모듈에 대한 이해를 돕기 위해 참조로 설명 된 ePWM 모듈은 그림 34-51에 표시된 보다 단순화 된 블록 다이어그램으로 표시됩니다. 이 단순화 된 ePWM 블록은 다중 ePWM 모듈이 함께 작동하여 다중 스위치 전원 토폴로지가 제어되는 방법을 설명하는 데 필요한 주요 리소스만 보여줍니다.
 
 Figure 34-51. Simplified ePWM Module 단순한 ePWM 모듈
 
@@ -1156,11 +1206,12 @@ Figure 34-51. Simplified ePWM Module 단순한 ePWM 모듈
 각 모듈에서 사용할 수있는 핵심 구성은 다음과 같습니다.
 
 - SyncIn 옵션
-   - 동기화 스트로브가 들어오는 위상 레지스터가 있는 자체 카운터를 로드한다. -스위치가 닫혀야 사용가능하다(EN) (? 해석어렵 ㅠㅠ)
-    ( Load own counter with phase register on an incoming sync strobe—enable (EN) switch closed ) 
-   - 들어오는 동시화 신호를 아무것도 하지않거나 무시한다. - 스위치가 오픈되야 사용가능하다 (?)
+   - 동기화 스트로브가 들어오는 위상 레지스터가 있는 자체 카운터를 로드합니다. 
+-스위치가 닫혀야 사용가능하다(EN)    
+( Load own counter with phase register on an incoming sync strobe—enable (EN) switch closed ) 
+   - 들어오는 동시화 신호를 아무것도 하지않거나 무시한다. - 스위치가 오픈되야 사용가능합니다.
     ( Do nothing or ignore incoming sync strobe—enable switch open )
-   - 동기화 흐름 - SyncOut이 SyncIn에 연결되었습니다.
+   - 동기화 흐름 - SyncOut이 SyncIn에 연결되있습니다.
    - 마스터 모드, PWM 경계에서 동기화 제공 - SyncOut이 CTR = PRD에 연결됨
    - 마스터 모드, 임의의 프로그래밍 가능 시점에서 동기화 제공 - SyncOut이 CTR = CMPB에 연결됨
    - 모듈이 독립 실행형 모드이고 다른 모듈에 동기화 안 함(No sync) 제공 - SyncOut이 X에 연결됨 (비활성화 됨)
@@ -1181,6 +1232,8 @@ Figure 34-52. EPWM1 Configured as a Typical Master, EPWM2 Configured as a Slave
 가장 간단한 전력 변환기 토폴로지 중 하나는 buck입니다. 마스터로 구성된 단일 ePWM 모듈은 동일한 PWM 주파수로 두 개의 buck 스테이지를 제어 할 수 있습니다. 각 buck 컨버터에 독립적인 주파수 제어가 필요한 경우 각 컨버터 스테이지마다 하나의 ePWM 모듈을 할당해야합니다. 
 그림 34-53은 각각 독립적인 주파수로 동작하는 4 개의 buck 스테이지를 보여줍니다. 이 경우 네 개의 ePWM 모듈이 모두 마스터로 구성되며 동기화가 사용되지 않습니다. 그림 34-54는 그림 34-53의 설정에 의해 생성 된 파형을 보여줍니다. 4 개의 스테이지가 있지만 3 개의 파형 만 표시됩니다.
 
+
+
 Figure 34-53. Control of Four Buck Stages. Here FPWM1≠ FPWM2≠ FPWM3≠ FPWM4
 
 NOTE: Θ = X 위상 레지스터의 값이 "상관 없음"
@@ -1196,7 +1249,7 @@ Example 34-8. Configuration for Example in Figure 34-54
    34.3.4 Controlling Multiple Buck Converters With Same Frequencies 같은 주파수를 가진 다중 buck 컨버터 제어
  동기화가 요구되는 경우 ePWM 모듈 2는 슬레이브로 구성 될 수 있으며 모듈 1의 정수 배수 (N) 주파수에서 작동 할 수 있습니다. 마스터에서 슬레이브로의 동기 신호는 이러한 모듈이 잠금 상태를 유지하도록합니다. 그림 34-55는 그러한 구성을 보여줍니다. 그림 34-56은 구성에 의해 생성된 파형을 보여줍니다.
 
-Figure 34-55. Control of Four Buck Stages. (Note: FPWM2 = N x FPWM1) 4 buck 단계 제어
+Figure 34-55. Control of Four Buck Stages. (Note: FPWM2 = N x FPWM1) 4개의 buck 제어
 Figure 34-56. Buck Waveforms for Figure 34-55 (Note: FPWM2 = FPWM1) 그림 34-55의 buck 파형
 
 Example 34-9. Code Snippet for Configuration in Figure 34-55 그림 34-55의 구성을 위한 코드 일부
@@ -1227,15 +1280,16 @@ Figure 34-60. 3-Phase Inverter Waveforms for Figure 34-59 (Only One Inverter Sho
 34.3.7 Practical Applications Using Phase Control Between PWM Modules 
         PWM 모듈 사이에서 위상 제어를 사용하는 실용적인 애플리케이션
 지금까지는 위상 레지스터 (TBPHS)를 사용하지 않은 예제가 없습니다. 그것은 0으로 설정되었거나 값이 상관 없습니다. 그러나 TBPHS에 적절한 값을 프로그래밍함으로써 다중 PWM 모듈은 정확한 작동을 위해 스테이지 간의 위상 관계에 의존하는 또 다른 애플리케이션 클래스를 해결할 수 있습니다. TB 모듈 섹션에서 설명한 것처럼 SyncIn 펄스가 TBPHS 레지스터를 TBCTR 레지스터에 로드 할 수 있도록 PWM 모듈을 구성 할 수 있습니다. 이러한 개념을 설명하기 위해, 그림 34-61은 120 °의 위상 관계를 갖는 마스터 및 슬레이브 모듈, 
-즉 슬레이브가 마스터를 리드한다. 
+즉 슬레이브가 마스터를 리드합니다. 
 
 Figure 34-61. Configuring Two PWM Modules for Phase Control 위상 제어를 위한 2 개의 PWM 모듈 구성
 
 
-그림 34-62는 이 구성과 관련된 타이밍 파형을 보여줍니다. 여기서, 마스터와 슬레이브 모두 TBPRD = 600입니다. 슬레이브의 경우 TBPHS = 200 (200/600 × 360 ° = 120 °) 입니다. 마스터가 SyncIn 펄스 (CTR = PRD)를 생성 할 때마다 TBPHS = 200의 값이 슬레이브 TBCTR 레지스터에로드되므로 슬레이브 시간축은 항상 마스터의 타임베이스를 120도 앞섭니다.
+그림 34-62는 이 구성과 관련된 타이밍 파형을 보여줍니다. 여기서, 마스터와 슬레이브 모두 TBPRD = 600입니다. 슬레이브의 경우 TBPHS = 200 (200/600 × 360 ° = 120 °) -> 이 계산식 잘 알아둬야할 것 같다. 입니다. 마스터가 SyncIn 펄스 (CTR = PRD)를 생성 할 때마다 TBPHS = 200의 값이 슬레이브 TBCTR 레지스터에로드되므로 슬레이브 시간축은 항상 마스터의 타임베이스를 120도 앞섭니다.
 
 Figure 34-62. Timing Waveforms Associated With Phase Control Between 2 Modules
                2 개의 모듈 사이의 위상 제어와 관련된 타이밍 파형
 
 
 34.4 ePWM Registers ( 는 필요할 때 원문 찾아보세용.. ^^ ) 
+
