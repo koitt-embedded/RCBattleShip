@@ -2,3 +2,5 @@
 gcc -D__DEBUG__ mean.c
 평균, 분산, 표준편차
 gcc variance.c -lm
+사분위수, 사분위수 범위
+gcc quartile.c
