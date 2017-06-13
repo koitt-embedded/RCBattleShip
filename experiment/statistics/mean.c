@@ -10,7 +10,6 @@ typedef struct mode_val
 	int freq;
 } mv;
 
-mv mode_val_arr[10] = {0};
 float arr[LEN] = {0};
 
 void init_arr(void)
@@ -52,36 +51,50 @@ float get_median(void)
 		return (arr[LEN / 2] + arr[LEN / 2 - 1]) / 2.0;
 }
 
-float get_mode(float *mode_arr)
+float find_max(mv *mva, int len)
 {
-	int i, cnt = 0;
-	
-	mode_val_arr[0].val = mode_arr[0];
-	mode_val_arr[0].freq = 1;
+	int i, j;
+	mv key;
 
-	printf("mv[0].val = %f, freq = %d\n", mode_val_arr[0].val, mode_val_arr[i].freq);
-
-	for(i = 1; i < LEN; i++)
+	for(i = 1; i < len; i++)
 	{
-		if(mode_val_arr[cnt].val == mode_arr[i])
-		{
-			printf("True\n");
-			mode_val_arr[cnt].freq++;
-		}
-		else
-		{
-			printf("False\n");
-			mode_val_arr[cnt++].val = mode_arr[i];
-			mode_val_arr[cnt].freq = 1;
-		}
-
-		printf("mv[%d].val = %f, freq = %d\n", i, mode_val_arr[i].val, mode_val_arr[i].freq);
-		printf("mode_arr[%d] = %f\n", i, mode_arr[i]);
+		key = mva[i];
+		for(j = i - 1; mva[j].freq > key.freq; j--)
+			mva[j + 1] = mva[j];
+		mva[j + 1] = key;
 	}
 
+	return mva[len - 1].val;
+}
+
+float get_mode(float *mode_arr)
+{
+	int i, max, cnt = 1;
+	mv mode_val_arr[10] = {0};
+
+	mode_val_arr[0].val = mode_arr[0];
+	mode_val_arr[0].freq = 1;
+	
+	for(i = 1; i < LEN; i++)
+	{
+		if(mode_val_arr[cnt - 1].val == mode_arr[i])
+			mode_val_arr[cnt - 1].freq++;
+		else
+		{
+			mode_val_arr[cnt].val = mode_arr[i];
+			mode_val_arr[cnt++].freq = 1;
+		}
+	}
+
+#ifdef __DEBUG__	
 	printf("cnt = %d\n", cnt);
 
-	return;
+	for(i = 0; i < cnt; i++)
+		printf("val = %f, freq = %d\n", mode_val_arr[i].val, mode_val_arr[i].freq);
+#endif
+
+	max = find_max(mode_val_arr, cnt);
+	return max;
 }
 
 int main(void)

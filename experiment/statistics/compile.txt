@@ -1,0 +1,2 @@
+평균값, 중앙값, 최빈값
+gcc -D__DEBUG__ mean.c
