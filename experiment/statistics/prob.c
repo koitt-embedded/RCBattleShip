@@ -27,6 +27,7 @@ int main(void)
 
 	p = get_prob(part, total);
 	printf("p = %.2f\n", p * 100.0);
+	printf("q = %.2f\n", 100.0 - p * 100.0);
 
 	return 0;
 }
