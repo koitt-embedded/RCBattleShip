@@ -6,3 +6,5 @@ gcc variance.c -lm
 gcc quartile.c
 표본 분산 추정
 gcc sample_var.c -lm
+확률
+gcc prob.c
