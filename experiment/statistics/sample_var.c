@@ -77,9 +77,19 @@ float get_sam_var(float sm)
 	return sum / (SAM_LEN - 1);
 }
 
+float get_arr_std_dev(float avar)
+{
+	return sqrt(avar);
+}
+
+float get_sam_std_dev(float svar)
+{
+	return sqrt(svar);
+}
+
 int main(void)
 {
-	float am, sm, avar, svar;
+	float am, sm, avar, svar, astd_dev, sstd_dev;
 	srand(time(NULL));
 	init_arr();
 	init_sample();
@@ -94,6 +104,11 @@ int main(void)
 	printf("real var = %f\n", avar);
 	svar = get_sam_var(sm);
 	printf("sample var = %f\n", svar);
+
+	astd_dev = get_arr_std_dev(avar);
+	printf("real standard deviation = %f\n", astd_dev);
+	sstd_dev = get_sam_std_dev(svar);
+	printf("sample standard deviation = %f\n", sstd_dev);
 
 	return 0;
 }
