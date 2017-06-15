@@ -1,42 +1,36 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-float dollar = 0.1;
-float cherry = 0.2;
-float lemon = 0.2;
-float etc = 0.5;
+#include <string.h>
 
 void check_res(int *money, int *arr)
 {
-	int twenty[3] = {0.1, 0.1, 0.1};
-	int fifteen[3][3] = {{0.1, 0.1, 0.2}, {0.1, 0.2, 0.1}, {0.2, 0.1, 0.1}};
-	int ten[3] = {0.2, 0.2, 0.2};
-	int five[3] = {
-
-	if(memcmp(
 }
 
-float get_expectation(float *d, int *money)
+float get_expectation(char **d, int *money)
 {
-	int i;
-	int arr[3] = {0};
-	float tmp = 1;
+	int i, idx, len;
+	char *arr[3] = {0};
 
 	for(i = 0; i < 3; i++)
 	{
-		arr[i] = rand() % 4;
-		tmp *= d[arr[i]];
+		idx = rand() % 4;
+		len = strlen(d[idx]);
+		arr[i] = (char *)malloc(sizeof(char *) * (len + 1));
+		strcpy(arr[i], d[idx]);
 	}
 
-	check_res(money, arr);
+	for(i = 0; i < 3; i++)
+		printf("arr[%d] = %s\n", i, arr[i]);
 
-	return tmp;
+	//check_res(money, arr);
+
+	return 1;
 }
 
 int main(void)
 {
-	float data[4] = {dollar, cherry, lemon, etc};
+	char *data[4] = {"dollar", "cherry", "lemon", "etc"};
 	float prob;
 	int i, money = 0;
 
