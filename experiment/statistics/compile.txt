@@ -1,0 +1,12 @@
+평균값, 중앙값, 최빈값
+gcc -D__DEBUG__ mean.c
+평균, 분산, 표준편차
+gcc variance.c -lm
+사분위수, 사분위수 범위
+gcc quartile.c
+표본 분산 추정
+gcc sample_var.c -lm
+확률
+gcc prob.c
+상호 배반, 교차
+gcc prob_struct.c
