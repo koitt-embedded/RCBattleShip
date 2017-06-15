@@ -12,5 +12,5 @@ gcc prob.c
 gcc prob_struct.c
 조건부 확률, 베이즈 정리
 gcc cond_prob.c
-기대값
-gcc expectation.c
+기대값, 확률 분포 테이블(pdt), 분산, 표준편차
+gcc expectation.c -lm
