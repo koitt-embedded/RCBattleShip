@@ -135,6 +135,7 @@ int main(void)
 	printf("odd_prob = %.2f%c\n", odd_prob * 100.0, 0x25);
 
 	// 검정색 짝수가 A 만큼 발생했을 때 검정색이 얼만큼 발생할지에 대한 확률
+	// P(A | B) = [P(A) * P(B | A)] / [P(A) * P(B | A) + P(A') * P(B | A')]
 	decision_be_how_black = bayes_prob(black, black_even, even_prob, EVEN);
 	printf("P(black | black_even) = %.2f%c\n", decision_be_how_black * 100.0, 0x25);
 	decision_bo_how_black = bayes_prob(black, black_odd, odd_prob, ODD);
