@@ -32,6 +32,7 @@
 
 /* Zero out the end of the struct pointed to by p.  Everything after, but
  * not including, the specified field is cleared. */
+/* p가 가리키는 구조체의 끝을 제로로 만든다. 지정된 필드를 제외한 모든 필드가 지워집니다. */
 #define CLEAR_AFTER_FIELD(p, field) \
 	memset((u8 *)(p) + offsetof(typeof(*(p)), field) + sizeof((p)->field), \
 	0, sizeof(*(p)) - offsetof(typeof(*(p)), field) - sizeof((p)->field))
@@ -79,6 +80,7 @@ static const struct std_descr standards[] = {
 
 /* video4linux standard ID conversion to standard name
  */
+/* 표준 이름으로의 video4linux 표준 ID 변환*/
 const char *v4l2_norm_to_name(v4l2_std_id id)
 {
 	u32 myid = id;
@@ -88,6 +90,8 @@ const char *v4l2_norm_to_name(v4l2_std_id id)
 	   64 bit comparations. So, on that architecture, with some gcc
 	   variants, compilation fails. Currently, the max value is 30bit wide.
 	 */
+	/* HACK : ppc32 아키텍처에는 64 비트 비교를 처리하는 __ucmpdi2 함수가 없습니다. 
+	그래서, 그 아키텍쳐에서 몇몇 gcc 변종과 함께, 컴파일은 실패합니다. 현재 최대 값은 30 비트입니다.*/
 	BUG_ON(myid != id);
 
 	for (i = 0; standards[i].std; i++)
@@ -98,6 +102,7 @@ const char *v4l2_norm_to_name(v4l2_std_id id)
 EXPORT_SYMBOL(v4l2_norm_to_name);
 
 /* Returns frame period for the given standard */
+/* 주어진 표준의 프레임 기간을 반환합니다. */
 void v4l2_video_std_frame_period(int id, struct v4l2_fract *frameperiod)
 {
 	if (id & V4L2_STD_525_60) {
@@ -112,6 +117,7 @@ EXPORT_SYMBOL(v4l2_video_std_frame_period);
 
 /* Fill in the fields of a v4l2_standard structure according to the
    'id' and 'transmission' parameters.  Returns negative on error.  */
+/* 'id'와 'transmission'매개 변수에 따라 v4l2_standard 구조의 필드를 채 웁니다. 오류가 발생하면 음수를 반환합니다. */
 int v4l2_video_std_construct(struct v4l2_standard *vs,
 			     int id, const char *name)
 {
@@ -125,6 +131,7 @@ EXPORT_SYMBOL(v4l2_video_std_construct);
 
 /* ----------------------------------------------------------------- */
 /* some arrays for pretty-printing debug messages of enum types      */
+/* enum 형의 pretty-printing 디버그 메시지의 배열 */
 
 const char *v4l2_field_names[] = {
 	[V4L2_FIELD_ANY]        = "any",
@@ -296,6 +303,7 @@ static void v4l_print_format(const void *arg, bool write_only)
 		/* Note: we can't print the clip list here since the clips
 		 * pointer is a userspace pointer, not a kernelspace
 		 * pointer. */
+		/* 참고 : 클립 포인터는 커널 공간 포인터가 아닌 사용자 공간 포인터이기 때문에 여기서 클립 목록을 인쇄 할 수 없습니다. */
 		pr_cont(", wxh=%dx%d, x,y=%d,%d, field=%s, chromakey=0x%08x, clipcount=%u, clips=%p, bitmap=%p, global_alpha=0x%02x\n",
 			win->w.width, win->w.height, win->w.left, win->w.top,
 			prt_names(win->field, v4l2_field_names),

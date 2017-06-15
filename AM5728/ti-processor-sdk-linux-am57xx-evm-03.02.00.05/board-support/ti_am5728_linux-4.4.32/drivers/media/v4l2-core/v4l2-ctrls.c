@@ -33,18 +33,23 @@
 	(has_op(master, op) ? master->ops->op(master) : 0)
 
 /* Internal temporary helper struct, one for each v4l2_ext_control */
+/* 내부 임시 도우미 구조체, 각 v4l2_ext_control에 하나씩 */
 struct v4l2_ctrl_helper {
 	/* Pointer to the control reference of the master control */
+	/* 마스터 컨트롤의 제어 참조에 대한 포인터 */
 	struct v4l2_ctrl_ref *mref;
 	/* The control corresponding to the v4l2_ext_control ID field. */
+	/* v4l2_ext_control ID 필드에 해당하는 컨트롤입니다. */
 	struct v4l2_ctrl *ctrl;
 	/* v4l2_ext_control index of the next control belonging to the
 	   same cluster, or 0 if there isn't any. */
+	/* 동일한 클러스터에 속한 다음 컨트롤의 v4l2_ext_control 인덱스이거나 없으면 0입니다.*/
 	u32 next;
 };
 
 /* Small helper function to determine if the autocluster is set to manual
    mode. */
+/* 자동 클러스터가 수동 모드로 설정되어 있는지 판별하는 작은 도우미 기능. */
 static bool is_cur_manual(const struct v4l2_ctrl *master)
 {
 	return master->is_auto && master->cur.val == master->manual_mode_value;
@@ -52,6 +57,8 @@ static bool is_cur_manual(const struct v4l2_ctrl *master)
 
 /* Same as above, but this checks the against the new value instead of the
    current value. */
+/* 위와 같지만, 현재 값 대신에 새로운 값을 비교합니다. */
+
 static bool is_new_manual(const struct v4l2_ctrl *master)
 {
 	return master->is_auto && master->val == master->manual_mode_value;
@@ -61,6 +68,10 @@ static bool is_new_manual(const struct v4l2_ctrl *master)
    the given control ID. The pointer array ends with a NULL pointer.
    An empty string signifies a menu entry that is invalid. This allows
    drivers to disable certain options if it is not supported. */
+/* 주어진 제어 ID에 대한 메뉴를 포함하는 NULL 또는 문자 포인터 배열을 반환합니다. 
+포인터 배열은 NULL 포인터로 끝납니다. 빈 문자열은 유효하지 않은 메뉴 항목을 나타냅니다.
+ 이렇게하면 드라이버가 지원되지 않는 특정 옵션을 비활성화 할 수 있습니다. */
+
 const char * const *v4l2_ctrl_get_menu(u32 id)
 {
 	static const char * const mpeg_audio_sampling_freq[] = {
@@ -574,6 +585,9 @@ EXPORT_SYMBOL(v4l2_ctrl_get_menu);
  * Returns NULL or an s64 type array containing the menu for given
  * control ID. The total number of the menu items is returned in @len.
  */
+/*
+  * NULL 또는 지정된 제어 ID에 대한 메뉴가 포함 된 s64 유형 배열을 반환합니다. 총 메뉴 항목 수는 @len으로 반환됩니다.
+  */
 const s64 *v4l2_ctrl_get_int_menu(u32 id, u32 *len)
 {
 	static const s64 qmenu_int_vpx_num_partitions[] = {
@@ -602,6 +616,8 @@ const char *v4l2_ctrl_get_name(u32 id)
 	switch (id) {
 	/* USER controls */
 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+	/* 사용자 컨트롤 */
+/* v4l2-controls.h와 같은 경우의 순서를 유지하십시오! */
 	case V4L2_CID_USER_CLASS:		return "User Controls";
 	case V4L2_CID_BRIGHTNESS:		return "Brightness";
 	case V4L2_CID_CONTRAST:			return "Contrast";
@@ -648,6 +664,10 @@ const char *v4l2_ctrl_get_name(u32 id)
 	/* The MPEG controls are applicable to all codec controls
 	 * and the 'MPEG' part of the define is historical */
 	/* Keep the order of the 'case's the same as in videodev2.h! */
+	/* 코덱 제어 */
+/* MPEG 컨트롤은 모든 코덱 컨트롤에 적용 할 수 있으며 정의의 'MPEG'부분은 기록(history) */
+/* videodev2.h와 같은 경우의 순서를 유지하십시오! */
+
 	case V4L2_CID_MPEG_CLASS:		return "Codec Controls";
 	case V4L2_CID_MPEG_STREAM_TYPE:		return "Stream Type";
 	case V4L2_CID_MPEG_STREAM_PID_PMT:	return "Stream PMT Program ID";
@@ -764,6 +784,8 @@ const char *v4l2_ctrl_get_name(u32 id)
 
 	/* CAMERA controls */
 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+	/* 카메라 컨트롤 */
+/* v4l2-controls.h와 같은 경우의 순서를 유지하십시오! */
 	case V4L2_CID_CAMERA_CLASS:		return "Camera Controls";
 	case V4L2_CID_EXPOSURE_AUTO:		return "Auto Exposure";
 	case V4L2_CID_EXPOSURE_ABSOLUTE:	return "Exposure Time, Absolute";
@@ -801,6 +823,8 @@ const char *v4l2_ctrl_get_name(u32 id)
 
 	/* FM Radio Modulator controls */
 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+	/* 카메라 컨트롤 */
+	/* v4l2-controls.h와 같은 경우의 순서를 유지하십시오! */
 	case V4L2_CID_FM_TX_CLASS:		return "FM Radio Modulator Controls";
 	case V4L2_CID_RDS_TX_DEVIATION:		return "RDS Signal Deviation";
 	case V4L2_CID_RDS_TX_PI:		return "RDS Program ID";
@@ -833,6 +857,8 @@ const char *v4l2_ctrl_get_name(u32 id)
 
 	/* Flash controls */
 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+	/* 플래시 컨트롤 */
+/* v4l2-controls.h와 같은 경우의 순서를 유지하십시오! */
 	case V4L2_CID_FLASH_CLASS:		return "Flash Controls";
 	case V4L2_CID_FLASH_LED_MODE:		return "LED Mode";
 	case V4L2_CID_FLASH_STROBE_SOURCE:	return "Strobe Source";
@@ -849,6 +875,8 @@ const char *v4l2_ctrl_get_name(u32 id)
 
 	/* JPEG encoder controls */
 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+	/* JPEG 엔코더 제어 */
+/* v4l2-controls.h와 같은 경우의 순서를 유지하십시오! */
 	case V4L2_CID_JPEG_CLASS:		return "JPEG Compression Controls";
 	case V4L2_CID_JPEG_CHROMA_SUBSAMPLING:	return "Chroma Subsampling";
 	case V4L2_CID_JPEG_RESTART_INTERVAL:	return "Restart Interval";
@@ -1074,6 +1102,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
 	case V4L2_CID_DETECT_CLASS:
 		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
 		/* You can neither read not write these */
+		/* 당신은 이것들을 쓸 수 없다. */
 		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
 		*min = *max = *step = *def = 0;
 		break;
@@ -1082,6 +1111,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
 		*step = 1;
 		*min = 0;
 		/* Max is calculated as RGB888 that is 2^24 */
+		/* 맥스는 RGB888(2^24) 로 계산된다. */
 		*max = 0xFFFFFF;
 		break;
 	case V4L2_CID_FLASH_FAULT:
@@ -1247,6 +1277,7 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
 	case V4L2_CTRL_TYPE_STRING:
 		idx *= ctrl->elem_size;
 		/* strings are always 0-terminated */
+		/* 문자열은 항상 0- 종료 됨 */
 		return !strcmp(ptr1.p_char + idx, ptr2.p_char + idx);
 	case V4L2_CTRL_TYPE_INTEGER64:
 		return ptr1.p_s64[idx] == ptr2.p_s64[idx];
@@ -1353,6 +1384,9 @@ static void std_log(const struct v4l2_ctrl *ctrl)
  * close to the maximum range of the control type to prevent
  * wrap-arounds.
  */
+/*
+* 가장 가까운 적합한 값쪽으로 반올림합니다. 랩 어라운드를 방지하기 위해 제어 타입의 최대 범위에 접근 할 때주의하십시오.
+*/
 #define ROUND_TO_RANGE(val, offset_type, ctrl)			\
 ({								\
 	offset_type offset;					\
@@ -1385,6 +1419,9 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
 		 * We can't use the ROUND_TO_RANGE define here due to
 		 * the u64 divide that needs special care.
 		 */
+		/*
+		* 특별한주의가 필요한 u64 나누기 때문에 여기 ROUND_TO_RANGE 정의를 사용할 수 없습니다.
+		*/
 		val = ptr.p_s64[idx];
 		if (ctrl->maximum >= 0 && val >= ctrl->maximum - (s64)(ctrl->step / 2))
 			val = ctrl->maximum;
@@ -1448,6 +1485,7 @@ static const struct v4l2_ctrl_type_ops std_type_ops = {
 };
 
 /* Helper function: copy the given control value back to the caller */
+/* 도우미 함수 : 주어진 제어 값을 호출자에게 복사 */	
 static int ptr_to_user(struct v4l2_ext_control *c,
 		       struct v4l2_ctrl *ctrl,
 		       union v4l2_ctrl_ptr ptr)
@@ -1528,6 +1566,7 @@ static int user_to_ptr(struct v4l2_ext_control *c,
 			ptr.p_char[size - 1] = 0;
 			/* If the string was longer than ctrl->maximum,
 			   then return an error. */
+			/* 문자열이 ctrl-> maximum보다 길면 오류를 반환합니다. */
 			if (strlen(ptr.p_char) == ctrl->maximum && last)
 				return -ERANGE;
 		}
@@ -1540,6 +1579,7 @@ static int user_to_ptr(struct v4l2_ext_control *c,
 }
 
 /* Helper function: copy the caller-provider value as the new control value */
+	/* 도우미 함수 : 호출자 - 제공자 값을 새로운 제어 값으로 복사 */
 static int user_to_new(struct v4l2_ext_control *c,
 		       struct v4l2_ctrl *ctrl)
 {
@@ -1547,6 +1587,7 @@ static int user_to_new(struct v4l2_ext_control *c,
 }
 
 /* Copy the one value to another. */
+
 static void ptr_to_ptr(struct v4l2_ctrl *ctrl,
 		       union v4l2_ctrl_ptr from, union v4l2_ctrl_ptr to)
 {
@@ -1564,12 +1605,14 @@ static void new_to_cur(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags)
 		return;
 
 	/* has_changed is set by cluster_changed */
+	/* has_changed는 cluster_changed에 의해 설정됩니다. */
 	changed = ctrl->has_changed;
 	if (changed)
 		ptr_to_ptr(ctrl, ctrl->p_new, ctrl->p_cur);
 
 	if (ch_flags & V4L2_EVENT_CTRL_CH_FLAGS) {
 		/* Note: CH_FLAGS is only set for auto clusters. */
+		/* 참고 : CH_FLAGS는 자동 클러스터에만 설정됩니다. */
 		ctrl->flags &=
 			~(V4L2_CTRL_FLAG_INACTIVE | V4L2_CTRL_FLAG_VOLATILE);
 		if (!is_cur_manual(ctrl->cluster[0])) {
@@ -1582,6 +1625,7 @@ static void new_to_cur(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags)
 	if (changed || ch_flags) {
 		/* If a control was changed that was not one of the controls
 		   modified by the application, then send the event to all. */
+		/* 응용 프로그램에서 수정 된 컨트롤이 아닌 컨트롤이 변경된 경우, 그 이벤트를 보냅니다. */
 		if (!ctrl->is_new)
 			fh = NULL;
 		send_event(fh, ctrl,
@@ -1592,6 +1636,7 @@ static void new_to_cur(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags)
 }
 
 /* Copy the current value to the new value */
+/* 현재 값을 새로운 값으로 복사 */
 static void cur_to_new(struct v4l2_ctrl *ctrl)
 {
 	if (ctrl == NULL)
@@ -1601,6 +1646,7 @@ static void cur_to_new(struct v4l2_ctrl *ctrl)
 
 /* Return non-zero if one or more of the controls in the cluster has a new
    value that differs from the current value. */
+/* 클러스터안에 있는 하나 이상의 컨트롤에 현재 값과 다른 새 값이 있으면 0이 아닌 값을 반환합니다. */
 static int cluster_changed(struct v4l2_ctrl *master)
 {
 	bool changed = false;
@@ -1621,6 +1667,9 @@ static int cluster_changed(struct v4l2_ctrl *master)
 		 * Set has_changed to false to avoid generating
 		 * the event V4L2_EVENT_CTRL_CH_VALUE
 		 */
+		/*
+		* 이벤트 생성을 피하려면 has_changed를 false로 설정하십시오. V4L2_EVENT_CTRL_CH_VALUE
+		*/
 		if (ctrl->flags & V4L2_CTRL_FLAG_VOLATILE) {
 			ctrl->has_changed = false;
 			continue;
@@ -1662,6 +1711,7 @@ static int check_range(enum v4l2_ctrl_type type,
 			return -ERANGE;
 		/* Note: step == menu_skip_mask for menu controls.
 		   So here we check if the default value is masked out. */
+		/* 주 : step == menu_skip_mask는 메뉴 컨트롤입니다. 여기에서는 기본값이 마스크되어 있는지 확인합니다. */
 		if (step && ((1 << def) & step))
 			return -EINVAL;
 		return 0;
@@ -1691,6 +1741,7 @@ static inline u32 node2id(struct list_head *node)
 }
 
 /* Set the handler's error code if it wasn't set earlier already */
+/* 핸들러 에러 코드를 미리 설정하지 않은 경우 이를 설정합니다 */
 static inline int handler_set_err(struct v4l2_ctrl_handler *hdl, int err)
 {
 	if (hdl->error == 0)
@@ -1753,6 +1804,9 @@ EXPORT_SYMBOL(v4l2_ctrl_handler_free);
 
    We just find the n-th private user control. It's O(N), but that should not
    be an issue in this particular case. */
+/* 하위 호환성을 위해 : NEXT_CTRL 플래그를 사용하지 않는 응용 프로그램을 처리 할 때 
+G_CTRL, S_CTRL, QUERYCTRL 및 QUERYMENU를 제외하고는 V4L2_CID_PRIVATE_BASE를 더 이상 사용하지 않아야합니다.
+  우리는 n 번째 개인 사용자 컨트롤을 찾습니다. 그것은 O (N)이지만,이 특별한 경우에는 문제가되어서는 안됩니다. */
 static struct v4l2_ctrl_ref *find_private_ref(
 		struct v4l2_ctrl_handler *hdl, u32 id)
 {
@@ -1762,6 +1816,7 @@ static struct v4l2_ctrl_ref *find_private_ref(
 	list_for_each_entry(ref, &hdl->ctrl_refs, node) {
 		/* Search for private user controls that are compatible with
 		   VIDIOC_G/S_CTRL. */
+		/* VIDIOC_G / S_CTRL과 호환되는 개인 사용자 컨트롤을 검색하십시오. */
 		if (V4L2_CTRL_ID2CLASS(ref->ctrl->id) == V4L2_CTRL_CLASS_USER &&
 		    V4L2_CTRL_DRIVER_PRIV(ref->ctrl->id)) {
 			if (!ref->ctrl->is_int)
@@ -1775,6 +1830,7 @@ static struct v4l2_ctrl_ref *find_private_ref(
 }
 
 /* Find a control with the given ID. */
+/* 주어진 ID로 컨트롤을 찾습니다. */
 static struct v4l2_ctrl_ref *find_ref(struct v4l2_ctrl_handler *hdl, u32 id)
 {
 	struct v4l2_ctrl_ref *ref;
@@ -1788,10 +1844,12 @@ static struct v4l2_ctrl_ref *find_ref(struct v4l2_ctrl_handler *hdl, u32 id)
 	bucket = id % hdl->nr_of_buckets;
 
 	/* Simple optimization: cache the last control found */
+	/* 간단한 최적화 : 발견 된 마지막 컨트롤을 캐시 */
 	if (hdl->cached && hdl->cached->ctrl->id == id)
 		return hdl->cached;
 
 	/* Not in cache, search the hash */
+	/* 캐시에 없습니다. 해시를 검색하십시오. */
 	ref = hdl->buckets ? hdl->buckets[bucket] : NULL;
 	while (ref && ref->ctrl->id != id)
 		ref = ref->next;
@@ -1802,6 +1860,7 @@ static struct v4l2_ctrl_ref *find_ref(struct v4l2_ctrl_handler *hdl, u32 id)
 }
 
 /* Find a control with the given ID. Take the handler's lock first. */
+/* 주어진 ID로 컨트롤을 찾습니다. 먼저 핸들러의 잠금 장치를 가져옵니다. */
 static struct v4l2_ctrl_ref *find_ref_lock(
 		struct v4l2_ctrl_handler *hdl, u32 id)
 {
@@ -1825,6 +1884,7 @@ struct v4l2_ctrl *v4l2_ctrl_find(struct v4l2_ctrl_handler *hdl, u32 id)
 EXPORT_SYMBOL(v4l2_ctrl_find);
 
 /* Allocate a new v4l2_ctrl_ref and hook it into the handler. */
+/* 새로운 v4l2_ctrl_ref를 할당하고 핸들러에 연결합니다. */
 static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
 			   struct v4l2_ctrl *ctrl)
 {
@@ -1833,11 +1893,15 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
 	u32 id = ctrl->id;
 	u32 class_ctrl = V4L2_CTRL_ID2CLASS(id) | 1;
 	int bucket = id % hdl->nr_of_buckets;	/* which bucket to use */
+						/* 사용할 버켓 */	
 
 	/*
 	 * Automatically add the control class if it is not yet present and
 	 * the new control is not a compound control.
 	 */
+	/*
+* 컨트롤 클래스가 아직 없거나 새 컨트롤이 복합 컨트롤이 아닌 경우 자동으로 컨트롤 클래스를 추가합니다.
+*/
 	if (ctrl->type < V4L2_CTRL_COMPOUND_TYPES &&
 	    id != class_ctrl && find_ref_lock(hdl, class_ctrl) == NULL)
 		if (!v4l2_ctrl_new_std(hdl, NULL, class_ctrl, 0, 0, 0, 0))
@@ -1855,6 +1919,9 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
 		   new_ref->ctrl is basically a cluster array with one
 		   element, so that's perfect to use as the cluster pointer.
 		   But only do this for the handler that owns the control. */
+		/* 기본적으로 각 컨트롤은 자체 클러스터에서 시작됩니다. new_ref-> ctrl은 기본적으로
+		 하나의 요소를 가진 클러스터 배열이므로 클러스터 포인터로 사용하는 것이 좋습니다.
+		그러나 컨트롤을 소유 한 핸들러에 대해서만 수행하십시오. */
 		ctrl->cluster = &new_ref->ctrl;
 		ctrl->ncontrols = 1;
 	}
@@ -1867,12 +1934,14 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
 	   the last element in the list has a lower ID.
 	   This ensures that when elements are added in ascending order the
 	   insertion is an O(1) operation. */
+	/* 목록이 비어 있거나 목록의 마지막 요소의 ID가 더 낮 으면 목록 끝에 즉시 추가하십시오. 이렇게하면 요소가 오름차순으로 추가되면 삽입은 O (1) 연산이됩니다. */
 	if (list_empty(&hdl->ctrl_refs) || id > node2id(hdl->ctrl_refs.prev)) {
 		list_add_tail(&new_ref->node, &hdl->ctrl_refs);
 		goto insert_in_hash;
 	}
 
 	/* Find insert position in sorted list */
+	/* 정렬 된 목록에서 삽입 위치 찾기 */
 	list_for_each_entry(ref, &hdl->ctrl_refs, node) {
 		if (ref->ctrl->id < id)
 			continue;
@@ -1887,6 +1956,7 @@ static int handler_new_ref(struct v4l2_ctrl_handler *hdl,
 
 insert_in_hash:
 	/* Insert the control node in the hash */
+	/* 정렬 된 목록에서 삽입 위치 찾기 */
 	new_ref->next = hdl->buckets[bucket];
 	hdl->buckets[bucket] = new_ref;
 
@@ -1927,6 +1997,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
 	is_array = nr_of_dims > 0;
 
 	/* Prefill elem_size for all types handled by std_type_ops */
+	/* std_type_ops가 처리하는 모든 유형에 대해 premill elem_size */
 	switch (type) {
 	case V4L2_CTRL_TYPE_INTEGER64:
 		elem_size = sizeof(s64);
@@ -2089,6 +2160,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_new_custom);
 
 /* Helper function for standard non-menu controls */
+	/* 표준이 아닌 메뉴 컨트롤을위한 도우미 기능 */
 struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
 			const struct v4l2_ctrl_ops *ops,
 			u32 id, s64 min, s64 max, u64 step, s64 def)
@@ -2111,6 +2183,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_new_std);
 
 /* Helper function for standard menu controls */
+/* 표준 메뉴 컨트롤을위한 도우미 함수 */
 struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
 			const struct v4l2_ctrl_ops *ops,
 			u32 id, u8 _max, u64 mask, u8 _def)
@@ -2144,6 +2217,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
 
 /* Helper function for standard menu controls with driver defined menu */
+/* 드라이버 정의 메뉴로 표준 메뉴 컨트롤을위한 도우미 기능 */
 struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
 			const struct v4l2_ctrl_ops *ops, u32 id, u8 _max,
 			u64 mask, u8 _def, const char * const *qmenu)
@@ -2159,7 +2233,9 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
 	/* v4l2_ctrl_new_std_menu_items() should only be called for
 	 * standard controls without a standard menu.
 	 */
-	if (v4l2_ctrl_get_menu(id)) {
+	/* v4l2_ctrl_new_std_menu_items ()는 표준 메뉴가없는 표준 컨트롤에 대해서만 호출해야합니다.*/
+	
+if (v4l2_ctrl_get_menu(id)) {
 		handler_set_err(hdl, -EINVAL);
 		return NULL;
 	}
@@ -2177,6 +2253,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
 
 /* Helper function for standard integer menu controls */
+/* 표준 정수 메뉴 컨트롤을위한 도우미 함수 */	
 struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
 			const struct v4l2_ctrl_ops *ops,
 			u32 id, u8 _max, u8 _def, const s64 *qmenu_int)
@@ -2201,6 +2278,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
 
 /* Add a control from another handler to this handler */
+/*이 핸들러에 다른 핸들러의 컨트롤 추가 */	
 struct v4l2_ctrl *v4l2_ctrl_add_ctrl(struct v4l2_ctrl_handler *hdl,
 					  struct v4l2_ctrl *ctrl)
 {
@@ -2217,6 +2295,7 @@ struct v4l2_ctrl *v4l2_ctrl_add_ctrl(struct v4l2_ctrl_handler *hdl,
 EXPORT_SYMBOL(v4l2_ctrl_add_ctrl);
 
 /* Add the controls from another handler to our own. */
+/* 다른 핸들러의 컨트롤을 우리 자신의 컨트롤에 추가합니다. */
 int v4l2_ctrl_add_handler(struct v4l2_ctrl_handler *hdl,
 			  struct v4l2_ctrl_handler *add,
 			  bool (*filter)(const struct v4l2_ctrl *ctrl))
@@ -2225,6 +2304,7 @@ int v4l2_ctrl_add_handler(struct v4l2_ctrl_handler *hdl,
 	int ret = 0;
 
 	/* Do nothing if either handler is NULL or if they are the same */
+	/* 처리기가 NULL이거나 동일한 경우 아무 작업도하지 않습니다. */
 	if (!hdl || !add || hdl == add)
 		return 0;
 	if (hdl->error)
@@ -2279,6 +2359,7 @@ void v4l2_ctrl_cluster(unsigned ncontrols, struct v4l2_ctrl **controls)
 	int i;
 
 	/* The first control is the master control and it must not be NULL */
+	/* 처리기가 NULL이거나 동일한 경우 아무 작업도하지 않습니다. */
 	if (WARN_ON(ncontrols == 0 || controls[0] == NULL))
 		return;
 
@@ -2321,9 +2402,11 @@ void v4l2_ctrl_auto_cluster(unsigned ncontrols, struct v4l2_ctrl **controls,
 EXPORT_SYMBOL(v4l2_ctrl_auto_cluster);
 
 /* Activate/deactivate a control. */
+/* 컨트롤을 활성화 / 비활성화합니다. */
 void v4l2_ctrl_activate(struct v4l2_ctrl *ctrl, bool active)
 {
 	/* invert since the actual flag is called 'inactive' */
+	/* 실제 플래그가 '비활성'이라고하기 때문에 invert */
 	bool inactive = !active;
 	bool old;
 
@@ -2347,6 +2430,10 @@ EXPORT_SYMBOL(v4l2_ctrl_activate);
 
    Just call this and the framework will block any attempts to change
    these controls. */
+/* 컨트롤을 잡아라.
+    스트리밍이 시작될 때 일반적으로 사용되며 사용자가 컨트롤을 변경하지 못하도록하려는 경우.
+
+    그냥 이것을 호출하면 프레임 워크가 이러한 컨트롤을 변경하려는 모든 시도를 차단합니다. */
 void v4l2_ctrl_grab(struct v4l2_ctrl *ctrl, bool grabbed)
 {
 	bool old;
@@ -2424,6 +2511,7 @@ int v4l2_ctrl_subdev_log_status(struct v4l2_subdev *sd)
 EXPORT_SYMBOL(v4l2_ctrl_subdev_log_status);
 
 /* Call s_ctrl for all controls owned by the handler */
+/* 핸들러가 소유 한 모든 컨트롤에 대해 s_ctrl 호출 */
 int v4l2_ctrl_handler_setup(struct v4l2_ctrl_handler *hdl)
 {
 	struct v4l2_ctrl *ctrl;
@@ -2441,6 +2529,8 @@ int v4l2_ctrl_handler_setup(struct v4l2_ctrl_handler *hdl)
 
 		/* Skip if this control was already handled by a cluster. */
 		/* Skip button controls and read-only controls. */
+		/*이 컨트롤이 클러스터에 의해 이미 처리 된 경우 건너 뜁니다. */
+		/* 버튼 컨트롤과 읽기 전용 컨트롤을 건너 뜁니다. */
 		if (ctrl->done || ctrl->type == V4L2_CTRL_TYPE_BUTTON ||
 		    (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY))
 			continue;
@@ -2462,6 +2552,7 @@ int v4l2_ctrl_handler_setup(struct v4l2_ctrl_handler *hdl)
 EXPORT_SYMBOL(v4l2_ctrl_handler_setup);
 
 /* Implement VIDIOC_QUERY_EXT_CTRL */
+/* VIDIOC_QUERY_EXT_CTRL 구현 */
 int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctrl *qc)
 {
 	const unsigned next_flags = V4L2_CTRL_FLAG_NEXT_CTRL | V4L2_CTRL_FLAG_NEXT_COMPOUND;
@@ -2480,6 +2571,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
 	if ((qc->id & next_flags) && !list_empty(&hdl->ctrl_refs)) {
 		bool is_compound;
 		/* Match any control that is not hidden */
+		/* 숨겨져 있지 않은 모든 컨트롤 일치 */
 		unsigned mask = 1;
 		bool match = false;
 
@@ -2499,6 +2591,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
 		} else if (ref) {
 			/* We found a control with the given ID, so just get
 			   the next valid one in the list. */
+			/* 주어진 ID로 컨트롤을 찾았으므로 목록에서 다음 유효한 ID를 얻으십시오. */
 			list_for_each_entry_continue(ref, &hdl->ctrl_refs, node) {
 				is_compound = ref->ctrl->is_array ||
 					ref->ctrl->type >= V4L2_CTRL_COMPOUND_TYPES;
@@ -2513,6 +2606,8 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
 			   searching for the next largest ID. We know there
 			   is one, otherwise the first 'if' above would have
 			   been true. */
+			/* 지정된 ID를 가진 컨트롤이 없으므로 다음으로 큰 ID를 찾기 시작합니다. 
+			우리는 하나가 있다는 것을 압니다. 그렇지 않으면 위의 첫 번째 'if'가 사실 일 것입니다. */
 			list_for_each_entry(ref, &hdl->ctrl_refs, node) {
 				is_compound = ref->ctrl->is_array ||
 					ref->ctrl->type >= V4L2_CTRL_COMPOUND_TYPES;
@@ -2693,6 +2788,27 @@ EXPORT_SYMBOL(v4l2_subdev_querymenu);
 
 /* Prepare for the extended g/s/try functions.
    Find the controls in the control array and do some basic checks. */
+
+/* VIDIOC_G / TRY / S_EXT_CTRLS의 원자 적 요구 사항에 대한 일반적인 참고 사항 :
+
+    이것은 완전한 원자 적 연산이 아니라 단지 최선의 노력입니다. 결국 여러 개의 컨트롤을 여러 개의 i2c 쓰기 (예 :)를 
+통해 설정해야하는 경우 일부 초기 쓰기는 성공할 수 있지만 나머지는 실패 할 수 있습니다. 따라서 시스템을 일관성없는 상태로 둡니다.
+ 문제는 실제로는 그렇지 않은 원자를 만들기 위해 얼마나 많은 노력을 기울이고 있는지입니다.
+
+응용 프로그램의 관점에서 볼 때 VIDIOC_S_EXT_CTRLS를 호출 할 때 일부 값이 유효하지 않으면 어떤 컨트롤에도 실제로 영향을 미치지 않고 오류가 반환되어야한다는 것이 주요 요구 사항입니다.
+
+모든 값이 정확하다면 낮은 수준의 오류가 발생하는 경우에는 그냥 포기할 수도 있습니다. 부분적인 구성 만 수행 된 경우 응용 프로그램에서 알 수 있지만 중요합니다. 우리가하는 일은 
+struct v4l2_ext_controls의 error_idx 필드를 통해서입니다 : count 필드와 같으면 어떤 컨트롤도 영향을받지 않습니다. 
+그렇지 않으면 해당 인덱스 이전의 모든 컨트롤이 'get'또는 'set'작업을 성공적으로 수행하고 지정된 인덱스의 컨트롤이 실패하고 실패한 컨트롤 이후의 컨트롤에 어떤 일이 발생했는지 알 수 없습니다. 클러스터가 제어 클러스터의 일부인 경우 (클러스터 구성원이 색인 <error_idx에서 발견 된 경우) 성공적으로 처리 될 수 있기 때문에 (클러스터 구성원이 error_idx에 있었던 경우) 실패했거나 아직 처리되지 않았을 수 있습니다 (첫 번째 클러스터 멤버가 error_idx 뒤에 나타난 경우).
+그것은 모두 상당히 이론적입니다. 실제로 당신이 할 수있는 것은 구제 금융뿐입니다. error_idx == count이면 응용 프로그램 버그입니다. error_idx <count이면 오류 코드가 EBUSY이면 응용 프로그램 버그 일뿐입니다. 이는 대개 컨트롤을 설정하려고 할 때 스트리밍이 시작된다는 것을 의미합니다. 다른 모든 경우에는 드라이버 / 하드웨어 문제이므로 다시 시도하거나 구제하는 것이 좋습니다.
+
+    VIDIOC_TRY_EXT_CTRLS에는 이러한 규칙이 적용되지 않습니다. 컨트롤을 수정하지 않으므로 error_idx는 잘못된 컨트롤이있는 컨트롤로 설정됩니다.*/
+
+/* 확장 된 g / s / try 함수를 준비하십시오.
+    컨트롤 배열에서 컨트롤을 찾고 몇 가지 기본적인 검사를 수행하십시오. */
+
+
+
 static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
 			     struct v4l2_ext_controls *cs,
 			     struct v4l2_ctrl_helper *helpers,
@@ -2715,6 +2831,7 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
 
 		/* Old-style private controls are not allowed for
 		   extended controls */
+		/* 오래된 스타일 개인 컨트롤은 확장 된 컨트롤에 허용되지 않습니다 */
 		if (id >= V4L2_CID_PRIVATE_BASE)
 			return -EINVAL;
 		ref = find_ref_lock(hdl, id);
@@ -2741,26 +2858,32 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
 			c->size = tot_size;
 		}
 		/* Store the ref to the master control of the cluster */
+		/* 클러스터의 마스터 컨트롤에 ref를 저장 */
 		h->mref = ref;
 		h->ctrl = ctrl;
 		/* Initially set next to 0, meaning that there is no other
 		   control in this helper array belonging to the same
 		   cluster */
+		/* 초기에 0 옆에 설정됩니다. 즉, 동일한 클러스터에 속한이 도우미 배열에 다른 컨트롤이 없음을 의미합니다. */
 		h->next = 0;
 	}
 
 	/* We are done if there were no controls that belong to a multi-
 	   control cluster. */
+	/* 다중 제어 클러스터에 속한 컨트롤이없는 경우 완료됩니다. */
 	if (!have_clusters)
 		return 0;
 
 	/* The code below figures out in O(n) time which controls in the list
 	   belong to the same cluster. */
+	/* 아래의 코드는 O (n) 시간에 나와 있으며 목록의 컨트롤은 동일한 클러스터에 속합니다. */
 
 	/* This has to be done with the handler lock taken. */
+	/* 이것은 처리기 잠금을 취한 상태에서 수행되어야합니다. */
 	mutex_lock(hdl->lock);
 
 	/* First zero the helper field in the master control references */
+	/* 마스터 컨트롤 참조의 도우미 필드를 처음 0으로 만듭니다 */
 	for (i = 0; i < cs->count; i++)
 		helpers[i].mref->helper = NULL;
 	for (i = 0, h = helpers; i < cs->count; i++, h++) {
@@ -2768,16 +2891,20 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
 
 		/* If the mref->helper is set, then it points to an earlier
 		   helper that belongs to the same cluster. */
+		/* mref-> helper가 설정되면 동일한 클러스터에 속한 이전 도우미를 가리 킵니다. */
 		if (mref->helper) {
 			/* Set the next field of mref->helper to the current
 			   index: this means that that earlier helper now
 			   points to the next helper in the same cluster. */
+			/* mref-> helper의 다음 필드를 현재 색인으로 설정합니다. 즉, 이전 헬퍼가 이제 동일한 클러스터의 다음 헬퍼를 가리킨다는 의미입니다. */
 			mref->helper->next = i;
 			/* mref should be set only for the first helper in the
 			   cluster, clear the others. */
+			/* mref는 클러스터의 첫 번째 도우미에 대해서만 설정되고 다른 항목은 지워야합니다. */
 			h->mref = NULL;
 		}
 		/* Point the mref helper to the current helper struct. */
+		/* mref 도우미를 현재 도우미 구조체로 지정하십시오. */
 		mref->helper = h;
 	}
 	mutex_unlock(hdl->lock);
@@ -2787,6 +2914,7 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
 /* Handles the corner case where cs->count == 0. It checks whether the
    specified control class exists. If that class ID is 0, then it checks
    whether there are any controls at all. */
+/* cs-> count == 0 인 경우를 처리합니다. 지정된 제어 클래스가 존재하는지 여부를 확인합니다. 해당 클래스 ID가 0이면 컨트롤이 있는지 여부를 확인합니다. */	
 static int class_check(struct v4l2_ctrl_handler *hdl, u32 ctrl_class)
 {
 	if (ctrl_class == 0)
@@ -2797,6 +2925,7 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 ctrl_class)
 
 
 /* Get extended controls. Allocates the helpers array if needed. */
+/* 확장 된 컨트롤을 가져옵니다. 필요한 경우 헬퍼 배열을 할당합니다. */
 int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct v4l2_ext_controls *cs)
 {
 	struct v4l2_ctrl_helper helper[4];
@@ -2841,6 +2970,7 @@ int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct v4l2_ext_controls *cs
 		v4l2_ctrl_lock(master);
 
 		/* g_volatile_ctrl will update the new control values */
+	/* g_volatile_ctrl은 새로운 제어 값들을 갱신 할 것입니다 */
 		if ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
 			(master->has_volatiles && !is_cur_manual(master))) {
 			for (j = 0; j < master->ncontrols; j++)
@@ -2851,6 +2981,7 @@ int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct v4l2_ext_controls *cs
 		/* If OK, then copy the current (for non-volatile controls)
 		   or the new (for volatile controls) control values to the
 		   caller */
+		/* OK이면 현재 (비 휘발성 컨트롤 용) 또는 새로운 (휘발성 컨트롤 용) 컨트롤 값을 호출자에게 복사 */
 		if (!ret) {
 			u32 idx = i;
 
@@ -2886,6 +3017,9 @@ static int get_ctrl(struct v4l2_ctrl *ctrl, struct v4l2_ext_control *c)
 	 * cur_to_user() calls below would need to be modified not to access
 	 * userspace memory when called from get_ctrl().
 	 */
+	/* 복합 컨트롤은 지원되지 않습니다. 아래의 new_to_user () 및 cur_to_user () 
+	호출은 get_ctrl ()에서 호출 할 때 사용자 공간 메모리에 액세스하지 못하도록 수정해야합니다.
+	*/	
 	if (!ctrl->is_int && ctrl->type != V4L2_CTRL_TYPE_INTEGER64)
 		return -EINVAL;
 
@@ -2894,6 +3028,7 @@ static int get_ctrl(struct v4l2_ctrl *ctrl, struct v4l2_ext_control *c)
 
 	v4l2_ctrl_lock(master);
 	/* g_volatile_ctrl will update the current control values */
+	/* g_volatile_ctrl은 현재 제어 값을 업데이트합니다 */
 	if (ctrl->flags & V4L2_CTRL_FLAG_VOLATILE) {
 		for (i = 0; i < master->ncontrols; i++)
 			cur_to_new(master->cluster[i]);
@@ -2954,6 +3089,7 @@ EXPORT_SYMBOL(v4l2_ctrl_g_ctrl_int64);
 /* Core function that calls try/s_ctrl and ensures that the new value is
    copied to the current value on a set.
    Must be called with ctrl->handler->lock held. */
+/* try / s_ctrl을 호출하고 새로운 값이 집합의 현재 값으로 복사되는지 확인하는 핵심 함수. ctrl-> handler-> lock을 유지하여 호출해야합니다. */
 static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
 			      bool set, u32 ch_flags)
 {
@@ -2965,6 +3101,7 @@ static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
 	   (if no new value was set), copy the current value to the new
 	   value, ensuring a consistent view for the control ops when
 	   called. */
+	/* 클러스터를 탐색하여 새 값의 유효성을 검사하거나 (새 값이 설정되지 않은 경우) 현재 값을 새 값으로 복사하여 호출 될 때 제어 작업의 일관된 뷰를 보장합니다. */
 	for (i = 0; i < master->ncontrols; i++) {
 		struct v4l2_ctrl *ctrl = master->cluster[i];
 
@@ -2977,6 +3114,7 @@ static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
 		}
 		/* Check again: it may have changed since the
 		   previous check in try_or_set_ext_ctrls(). */
+		/* 다시 확인 : try_or_set_ext_ctrls ()의 이전 검사 이후 변경되었을 수 있습니다. */
 		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED))
 			return -EBUSY;
 	}
@@ -2984,6 +3122,7 @@ static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
 	ret = call_op(master, try_ctrl);
 
 	/* Don't set if there is no change */
+	/* 변경 사항이없는 경우 설정하지 마십시오. */
 	if (ret || !set || !cluster_changed(master))
 		return ret;
 	ret = call_op(master, s_ctrl);
@@ -2991,6 +3130,7 @@ static int try_or_set_cluster(struct v4l2_fh *fh, struct v4l2_ctrl *master,
 		return ret;
 
 	/* If OK, then make the new values permanent. */
+	/* OK이면 새 값을 영구적으로 만드십시오. */
 	update_flag = is_cur_manual(master) != is_new_manual(master);
 	for (i = 0; i < master->ncontrols; i++)
 		new_to_cur(fh, master->cluster[i], ch_flags |
@@ -3020,12 +3160,18 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
 		   an error occurs in try_set_control_cluster() some other
 		   controls may have been set already and we want to do a
 		   best-effort to avoid that. */
+		/*이 테스트는 atomic 컨텍스트에서 호출되는 try_set_control_cluster ()에서도 수행되므로 마지막 
+		말도 있지만 앞쪽 체크도 수행하는 것이 좋습니다. try_set_control_cluster ()에서 오류가 발생하면
+		 다른 컨트롤이 이미 설정되었을 수 있으므로이를 방지하기 위해 최선을 다하고 싶습니다. */
 		if (set && (ctrl->flags & V4L2_CTRL_FLAG_GRABBED))
 			return -EBUSY;
 		/*
 		 * Skip validation for now if the payload needs to be copied
-		 * from userspace into kernelspace. We'll validate those later.
+		 * from userspace into kernelspace. We'll validate those later.		
 		 */
+		/*
+* 페이로드를 사용자 공간에서 커널 공간으로 복사해야하는 경우 유효성 검사를 건너 뜁니다. 나중에 검증 할 것입니다.
+*/
 		if (ctrl->is_ptr)
 			continue;
 		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
@@ -3041,6 +3187,7 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
 
 /* Obtain the current volatile values of an autocluster and mark them
    as new. */
+/* 자동 클러스터의 현재 휘발성 값을 구하여 새로운 것으로 표시하십시오. */
 static void update_from_auto_cluster(struct v4l2_ctrl *master)
 {
 	int i;
@@ -3054,6 +3201,7 @@ static void update_from_auto_cluster(struct v4l2_ctrl *master)
 }
 
 /* Try or try-and-set controls */
+/* 시도 또는 설정 컨트롤 */
 static int try_set_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
 			     struct v4l2_ext_controls *cs,
 			     bool set)
@@ -3095,6 +3243,7 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
 		v4l2_ctrl_lock(master);
 
 		/* Reset the 'is_new' flags of the cluster */
+		/* 클러스터의 'is_new'플래그 재설정 */
 		for (j = 0; j < master->ncontrols; j++)
 			if (master->cluster[j])
 				master->cluster[j]->is_new = 0;
@@ -3105,6 +3254,9 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
 		   first since those will become the new manual values (which
 		   may be overwritten by explicit new values from this set
 		   of controls). */
+		/* 현재 자동 모드에있는 휘발성 자동 클러스터의 경우 수동 모드로 설정할지 여부를 알아야합니다. 
+		그렇다면 현재의 휘발성 값은 새로운 수동 값이 될 것이기 때문에 먼저 휘발성 값을 복사해야합니다.이 값은 이 컨트롤
+		 세트의 명시 적 새 값으로 덮어 쓸 수 있습니다. */
 		if (master->is_auto && master->has_volatiles &&
 						!is_cur_manual(master)) {
 			/* Pick an initial non-manual value */
@@ -3114,18 +3266,22 @@ static int try_set_ext_ctrls(struct v4l2_fh *fh, struct v4l2_ctrl_handler *hdl,
 			do {
 				/* Check if the auto control is part of the
 				   list, and remember the new value. */
+				/* 자동 제어가 목록의 일부인지 확인하고 새로운 값을 기억하십시오. */
 				if (helpers[tmp_idx].ctrl == master)
 					new_auto_val = cs->controls[tmp_idx].value;
 				tmp_idx = helpers[tmp_idx].next;
 			} while (tmp_idx);
 			/* If the new value == the manual value, then copy
 			   the current volatile values. */
+			/* new value == the manual value이면 현재의 휘발성 값을 복사합니다. */
 			if (new_auto_val == master->manual_mode_value)
 				update_from_auto_cluster(master);
 		}
 
 		/* Copy the new caller-supplied control values.
 		   user_to_new() sets 'is_new' to 1. */
+		/* 새로운 호출자 제공 컨트롤 값을 복사하십시오.
+		user_to_new ()는 'is_new'를 1로 설정합니다. */
 		do {
 			struct v4l2_ctrl *ctrl = helpers[idx].ctrl;
 
@@ -3199,6 +3355,8 @@ static int set_ctrl(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags)
 	/* For autoclusters with volatiles that are switched from auto to
 	   manual mode we have to update the current volatile values since
 	   those will become the initial manual values after such a switch. */
+	/* 자동 모드에서 수동 모드로 전환되는 휘발성 물질을 포함하는 자동 클러스터의 경우
+	 이러한 스위치 이후에 초기 수동 값이되므로 현재 휘발성 값을 업데이트해야합니다. */	
 	if (master->is_auto && master->has_volatiles && ctrl == master &&
 	    !is_cur_manual(master) && ctrl->val == master->manual_mode_value)
 		update_from_auto_cluster(master);
@@ -3367,6 +3525,7 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems
 		fill_event(&ev, ctrl, changes);
 		/* Mark the queue as active, allowing this initial
 		   event to be accepted. */
+		/* 대기열을 활성으로 표시하여이 초기 이벤트를 허용합니다. */
 		sev->elems = elems;
 		v4l2_event_queue_fh(sev->fh, &ev);
 	}
