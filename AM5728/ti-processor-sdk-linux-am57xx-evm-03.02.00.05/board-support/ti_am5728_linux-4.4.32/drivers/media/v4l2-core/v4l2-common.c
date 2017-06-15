@@ -3,10 +3,12 @@
  *
  *	A generic video device interface for the LINUX operating system
  *	using a set of device structures/vectors for low level operations.
- *
+ *	LINUX 운영 체제 용 일반 비디오 장치 인터페이스 낮은 수준의 작업을 위해 일련의 장치 구조 
+	/ 벡터	를 사용합니다.
  *	This file replaces the videodev.c file that comes with the
  *	regular kernel distribution.
- *
+ *	이 파일은 일반 커널 배포와 함께 제공되는 videodev.c 파일을 대체합니다.
+
  *	This program is free software; you can redistribute it and/or
  *	modify it under the terms of the GNU General Public License
  *	as published by the Free Software Foundation; either version
@@ -19,10 +21,13 @@
 
 /*
  * Video capture interface for Linux
- *
+ * Linux 용 비디오 캡처 인터페이스
+
  *	A generic video device interface for the LINUX operating system
  *	using a set of device structures/vectors for low level operations.
- *
+ *	저수준 작업을위한 일련의 장치 구조 / 벡터를 사용하는 LINUX 운영 체제 용 일반 비디오 
+	장치 인터페이스.
+
  *		This program is free software; you can redistribute it and/or
  *		modify it under the terms of the GNU General Public License
  *		as published by the Free Software Foundation; either version
@@ -76,11 +81,13 @@ MODULE_LICENSE("GPL");
 
 /*
  *  Video Standard Operations (contributed by Michael Schimek)
+	비디오 표준 업무 (Michael Schimek 제공)
  */
 
 /* Helper functions for control handling			     */
 
 /* Fill in a struct v4l2_queryctrl */
+/* 구조체를 채우십시오. v4l2_queryctrl */
 int v4l2_ctrl_query_fill(struct v4l2_queryctrl *qctrl, s32 _min, s32 _max, s32 _step, s32 _def)
 {
 	const char *name;
@@ -115,12 +122,15 @@ void v4l2_i2c_subdev_init(struct v4l2_subdev *sd, struct i2c_client *client,
 	v4l2_subdev_init(sd, ops);
 	sd->flags |= V4L2_SUBDEV_FL_IS_I2C;
 	/* the owner is the same as the i2c_client's driver owner */
+        /* 소유자가 i2c_client의 드라이버 소유자와 동일합니다 */
 	sd->owner = client->dev.driver->owner;
 	sd->dev = &client->dev;
 	/* i2c_client and v4l2_subdev point to one another */
+	/* i2c_client와 v4l2_subdev가 서로를 가리킴 */
 	v4l2_set_subdevdata(sd, client);
 	i2c_set_clientdata(client, sd);
 	/* initialize name */
+        /* 이름 초기화 */
 	snprintf(sd->name, sizeof(sd->name), "%s %d-%04x",
 		client->dev.driver->name, i2c_adapter_id(client->adapter),
 		client->addr);
@@ -128,6 +138,7 @@ void v4l2_i2c_subdev_init(struct v4l2_subdev *sd, struct i2c_client *client,
 EXPORT_SYMBOL_GPL(v4l2_i2c_subdev_init);
 
 /* Load an i2c sub-device. */
+/* i2c 하위 장치를로드하십시오. */
 struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
 		struct i2c_adapter *adapter, struct i2c_board_info *info,
 		const unsigned short *probe_addrs)
@@ -140,6 +151,7 @@ struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
 	request_module(I2C_MODULE_PREFIX "%s", info->type);
 
 	/* Create the i2c client */
+	/* i2c 클라이언트 만들기 */
 	if (info->addr == 0 && probe_addrs)
 		client = i2c_new_probed_device(adapter, info, probe_addrs,
 					       NULL);
@@ -153,19 +165,26 @@ struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
 	   loaded. This delay-load mechanism doesn't work if other drivers
 	   want to use the i2c device, so explicitly loading the module
 	   is the best alternative. */
+	/*주의 : 먼저 모듈을 로딩하면 드라이버가 발견되며 c-> driver가 설정 될 것입니다. 
+	모듈이 먼저로드되지 않으면 i2c 코어가 모듈을 지연로드하려고 시도하고 모듈이 마지막으로로드
+	 될 때까지 c-> driver가 여전히 NULL입니다. 이 지연로드 메커니즘은 다른 드라이버가 i2c 장치를
+	 사용하려는 경우에는 작동하지 않으므로 모듈을 명시 적으로로드하는 것이 가장 좋습니다. */
 	if (client == NULL || client->dev.driver == NULL)
 		goto error;
 
 	/* Lock the module so we can safely get the v4l2_subdev pointer */
+	/* 우리가 안전하게 v4l2_subdev 포인터를 얻을 수 있도록 모듈을 잠그십시오 */
 	if (!try_module_get(client->dev.driver->owner))
 		goto error;
 	sd = i2c_get_clientdata(client);
 
 	/* Register with the v4l2_device which increases the module's
 	   use count as well. */
+	/* 모듈의 사용 횟수를 증가시키는 v4l2_device에 등록하십시오. */
 	if (v4l2_device_register_subdev(v4l2_dev, sd))
 		sd = NULL;
 	/* Decrease the module use count to match the first try_module_get. */
+	/* 첫 번째 try_module_get과 일치하도록 모듈 사용 횟수를 줄입니다. */
 	module_put(client->dev.driver->owner);
 
 error:
@@ -185,6 +204,8 @@ struct v4l2_subdev *v4l2_i2c_new_subdev(struct v4l2_device *v4l2_dev,
 
 	/* Setup the i2c board info with the device type and
 	   the device address. */
+	/* 우리가 클라이언트가 있지만 subdev가 없다면, 뭔가 잘못되어 
+	클라이언트의 등록을 취소해야합니다. */
 	memset(&info, 0, sizeof(info));
 	strlcpy(info.type, client_type, sizeof(info.type));
 	info.addr = addr;
@@ -194,6 +215,7 @@ struct v4l2_subdev *v4l2_i2c_new_subdev(struct v4l2_device *v4l2_dev,
 EXPORT_SYMBOL_GPL(v4l2_i2c_new_subdev);
 
 /* Return i2c client address of v4l2_subdev. */
+/* v4l2_subdev의 i2c 클라이언트 주소를 반환합니다. */
 unsigned short v4l2_i2c_subdev_addr(struct v4l2_subdev *sd)
 {
 	struct i2c_client *client = v4l2_get_subdevdata(sd);
@@ -204,6 +226,7 @@ EXPORT_SYMBOL_GPL(v4l2_i2c_subdev_addr);
 
 /* Return a list of I2C tuner addresses to probe. Use only if the tuner
    addresses are unknown. */
+/* 조사 할 I2C 튜너 주소 목록을 반환합니다. 튜너 주소를 알 수없는 경우에만 사용하십시오. */
 const unsigned short *v4l2_i2c_tuner_addrs(enum v4l2_i2c_tuner_type type)
 {
 	static const unsigned short radio_addrs[] = {
@@ -249,9 +272,11 @@ void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
 	v4l2_subdev_init(sd, ops);
 	sd->flags |= V4L2_SUBDEV_FL_IS_SPI;
 	/* the owner is the same as the spi_device's driver owner */
+	/* 소유자가 spi_device의 드라이버 소유자와 동일합니다 */
 	sd->owner = spi->dev.driver->owner;
 	sd->dev = &spi->dev;
 	/* spi_device and v4l2_subdev point to one another */
+	/* spi_device와 v4l2_subdev가 서로를 가리킴 */
 	v4l2_set_subdevdata(sd, spi);
 	spi_set_drvdata(spi, sd);
 	/* initialize name */
@@ -282,15 +307,18 @@ struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
 
 	/* Register with the v4l2_device which increases the module's
 	   use count as well. */
+	/* 모듈의 사용 횟수를 증가시키는 v4l2_device에 등록하십시오. */
 	if (v4l2_device_register_subdev(v4l2_dev, sd))
 		sd = NULL;
 
 	/* Decrease the module use count to match the first try_module_get. */
+	/* 첫 번째 try_module_get과 일치하도록 모듈 사용 횟수를 줄입니다. */
 	module_put(spi->dev.driver->owner);
 
 error:
 	/* If we have a client but no subdev, then something went wrong and
 	   we must unregister the client. */
+	/* 우리가 클라이언트가 있지만 subdev가 없다면, 뭔가 잘못되어 클라이언트의 등록을 취소해야합니다. */
 	if (spi && sd == NULL)
 		spi_unregister_device(spi);
 
@@ -304,16 +332,23 @@ EXPORT_SYMBOL_GPL(v4l2_spi_new_subdev);
  * and max don't have to be aligned, but there must be at least one valid
  * value.  E.g., min=17,max=31,align=4 is not allowed as there are no multiples
  * of 16 between 17 and 31.  */
+/* x를 최소값과 최대 값 사이에 두어 2의 배수로 정렬합니다. 최소 및 최대 값은 정렬 할 필요는
+ 없지만 하나 이상의 유효한 값이 있어야합니다. 17과 31 사이에 16의 배수가 없으므로 E.g., min = 17, 
+max = 31, align = 4는 허용되지 않습니다. */
+
 static unsigned int clamp_align(unsigned int x, unsigned int min,
 				unsigned int max, unsigned int align)
 {
 	/* Bits that must be zero to be aligned */
+	/* 정렬되기 위해 0이어야하는 비트 */
 	unsigned int mask = ~((1 << align) - 1);
 
 	/* Clamp to aligned min and max */
+	/* 정렬 된 최소 및 최대 클램프 */
 	x = clamp(x, (min + ~mask) & mask, max & mask);
 
 	/* Round to nearest aligned value */
+	/* 가장 가까운 정렬 값으로 반올림 */
 	if (align)
 		x = (x + (1 << (align - 1))) & mask;
 
@@ -334,6 +369,15 @@ static unsigned int clamp_align(unsigned int x, unsigned int min,
  * you only want to adjust downward, specify a maximum that's the same as
  * the initial value.
  */
+/* 이미지를 wmin과 wmax 사이의 폭으로, hmin과 hmax 사이의 높이로 바인딩합니다. 또한 
+너비는 2 ^ walign의 배수가되고 높이는 2 ^ halign의 배수가되며 전체 크기 (너비 * 높이)는 
+2의 배수가됩니다. 정렬 제약 조건에 맞게 이미지가 축소되거나 확대 될 수 있습니다.
+   너비 또는 높이 최대 값은 해당 최소값보다 작아서는 안됩니다. 정렬은 너무 높아서는 안되며 
+허용 된 범위 내에 가능한 이미지 크기가 없습니다. wmin과 hmin은 적어도 1이어야합니다 (0은 사용하지 마십시오). 
+특정 정렬에 대해 신경 쓰지 않으면 2 ^ 0이 1이고 1 바이트 정렬이 정렬 없음과 동일하므로 0을 지정하십시오. 
+아래쪽으로 만 조정하려면 초기 값과 동일한 최대 값을 지정하십시오.
+  */
+
 void v4l_bound_align_image(u32 *w, unsigned int wmin, unsigned int wmax,
 			   unsigned int walign,
 			   u32 *h, unsigned int hmin, unsigned int hmax,
@@ -343,20 +387,26 @@ void v4l_bound_align_image(u32 *w, unsigned int wmin, unsigned int wmax,
 	*h = clamp_align(*h, hmin, hmax, halign);
 
 	/* Usually we don't need to align the size and are done now. */
+	/* 보통 우리는 크기를 조정할 필요가 없으며 지금 완료되었습니다. */
 	if (!salign)
 		return;
 
 	/* How much alignment do we have? */
+	/* 우리는 얼마나 정렬되어 있습니까? */
 	walign = __ffs(*w);
 	halign = __ffs(*h);
 	/* Enough to satisfy the image alignment? */
+	/* 이미지 정렬을 만족시키기에 충분합니까? */
 	if (walign + halign < salign) {
 		/* Max walign where there is still a valid width */
+		/* 여전히 유효한 너비가있는 곳의 최대 길이 */
 		unsigned int wmaxa = __fls(wmax ^ (wmin - 1));
 		/* Max halign where there is still a valid height */
+		/* 여전히 유효한 높이가있는 곳의 최대 halign */
 		unsigned int hmaxa = __fls(hmax ^ (hmin - 1));
 
 		/* up the smaller alignment until we have enough */
+		/* 우리가 충분할 때까지 더 작은 정렬을 올리십시오 */
 		do {
 			if (halign >= hmaxa ||
 			    (walign <= halign && walign < wmaxa)) {

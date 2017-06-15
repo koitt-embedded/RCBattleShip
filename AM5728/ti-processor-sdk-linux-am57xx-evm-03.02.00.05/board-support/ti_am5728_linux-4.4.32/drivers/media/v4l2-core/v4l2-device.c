@@ -43,12 +43,14 @@ int v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev)
 	v4l2_dev->dev = dev;
 	if (dev == NULL) {
 		/* If dev == NULL, then name must be filled in by the caller */
+		/* dev == NULL의 경우는, 호출 측이 이름을 기입해야합니다. */
 		if (WARN_ON(!v4l2_dev->name[0]))
 			return -EINVAL;
 		return 0;
 	}
 
 	/* Set name to driver name + device name if it is empty. */
+	 /* 이름이 비어 있으면 드라이버 이름 + 장치 이름으로 설정합니다. */
 	if (!v4l2_dev->name[0])
 		snprintf(v4l2_dev->name, sizeof(v4l2_dev->name), "%s %s",
 			dev->driver->name, dev_name(dev));
@@ -107,6 +109,7 @@ void v4l2_device_unregister(struct v4l2_device *v4l2_dev)
 
 	/* Just return if v4l2_dev is NULL or if it was already
 	 * unregistered before. */
+	/* v4l2_dev가 NULL이거나 이전에 이미 등록이되어 있는지 여부를 판단합니다. */
 	if (v4l2_dev == NULL || !v4l2_dev->name[0])
 		return;
 	v4l2_device_disconnect(v4l2_dev);
@@ -122,6 +125,10 @@ void v4l2_device_unregister(struct v4l2_device *v4l2_dev)
 			   We cannot rely on i2c_del_adapter to always
 			   unregister clients for us, since if the i2c bus
 			   is a platform bus, then it is never deleted. */
+			/* 우리는 명시 적으로 i2c 클라이언트의 등록을 취소해야합니다.
+			i2c 버스가 플랫폼 버스이면 결코 삭제되지 않으므로 i2c_del_adapter를 
+			사용하여 클라이언트를 항상 등록 취소 할 수는 없습니다. */
+
 			if (client)
 				i2c_unregister_device(client);
 			continue;
@@ -138,6 +145,7 @@ void v4l2_device_unregister(struct v4l2_device *v4l2_dev)
 #endif
 	}
 	/* Mark as unregistered, thus preventing duplicate unregistrations */
+	/* 등록되지 않은 것으로 표시하여 중복 등록을 방지 */
 	v4l2_dev->name[0] = '\0';
 }
 EXPORT_SYMBOL_GPL(v4l2_device_unregister);
@@ -151,10 +159,12 @@ int v4l2_device_register_subdev(struct v4l2_device *v4l2_dev,
 	int err;
 
 	/* Check for valid input */
+	/* 유효한 입력을 확인하십시오 */
 	if (v4l2_dev == NULL || sd == NULL || !sd->name[0])
 		return -EINVAL;
 
 	/* Warn if we apparently re-register a subdev */
+	/* 우리가 명백히 subdev를 재 등록하면 경고 */
 	WARN_ON(sd->v4l2_dev != NULL);
 
 	/*
@@ -164,6 +174,11 @@ int v4l2_device_register_subdev(struct v4l2_device *v4l2_dev,
 	 * devices that also register sub-devices, do not
 	 * try_module_get() such sub-device owners.
 	 */
+	/*
+	* 여기서 모듈을 얻는 이유는 미디어 장치에 등록 된 하위 장치의 모듈을 
+	언로드하지 않기 위해서입니다. 하위 장치를 등록하는 미디어 장치 용 모듈을 
+	언로드 할 수있게하려면 해당 하위 장치 소유자를 try_module_get ()하지 마십시오.
+	*/
 	sd->owner_v4l2_dev = v4l2_dev->dev && v4l2_dev->dev->driver &&
 		sd->owner == v4l2_dev->dev->driver->owner;
 
@@ -178,6 +193,7 @@ int v4l2_device_register_subdev(struct v4l2_device *v4l2_dev,
 	}
 
 	/* This just returns 0 if either of the two args is NULL */
+	/* 이것은 두 arg 중 하나가 NULL이면 0을 반환합니다. */
 	err = v4l2_ctrl_add_handler(v4l2_dev->ctrl_handler, sd->ctrl_handler, NULL);
 	if (err)
 		goto error_unregister;
@@ -224,6 +240,8 @@ int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
 	/* Register a device node for every subdev marked with the
 	 * V4L2_SUBDEV_FL_HAS_DEVNODE flag.
 	 */
+	/* V4L2_SUBDEV_FL_HAS_DEVNODE 플래그로 표시된 모든 하위 노드에 대한 디바이스 노드를 등록하십시오.
+	*/
 	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
 		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_DEVNODE))
 			continue;
@@ -270,6 +288,7 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd)
 	struct v4l2_device *v4l2_dev;
 
 	/* return if it isn't registered */
+	/* 등록되지 않은 경우 반환 */
 	if (sd == NULL || sd->v4l2_dev == NULL)
 		return;
 
