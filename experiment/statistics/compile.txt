@@ -6,4 +6,7 @@ gcc variance.c -lm
 gcc quartile.c
 표본 분산 추정, 표본 표준 편차 추정
 gcc sample_var.c -lm
-조건부 확률
+확률
+gcc prob.c
+상호 배반, 교차
+gcc prob_struct.c
