@@ -199,7 +199,7 @@ void set_money_table(pdt *t)
 	int i = 0;
 
 	t[i++].money = check_res(twenty);
-	t[i++].money = check_res(fifteen);
+	t[i++].money = check_res(fifteen[0]);
 	t[i++].money = check_res(ten);
 	t[i++].money = check_res(five);
 	t[i].money = -1;
@@ -235,11 +235,27 @@ float calc_std_dev(float var)
 	return sqrt(var);
 }
 
+float linear_expect(int mult, pdt *t, float expect, int new_pay)
+{
+	return mult * (expect - t[4].money) - new_pay;
+}
+
+float linear_var(int mult, float var)
+{
+	return pow((float)mult, 2.0) * var;
+}
+
+float linear_std_dev(int mult, float std_dev)
+{
+	return mult * std_dev;
+}
+
 int main(void)
 {
 	char *data[4] = {"dollar", "cherry", "lemon", "etc"};
-	int i, money = 0;
+	int i, money = 0, new_pay = 2;
 	float expect, var, std_dev;
+	float new_expect, new_var, new_std_dev;
 	pdt table[5];
 
 	srand(time(NULL));	
@@ -261,6 +277,15 @@ int main(void)
 
 	std_dev = calc_std_dev(var);
 	printf("Standard Deviation = %.7f\n", std_dev);
+
+	new_expect = linear_expect(5, table, expect, new_pay);
+	printf("new expectation = %.3f\n", new_expect);
+
+	new_var = linear_var(5, var);
+	printf("new variance = %.5f\n", new_var);
+
+	new_std_dev = linear_std_dev(5, std_dev);
+	printf("New Standard Deviation = %.7f\n", new_std_dev);
 
 	return 0;
 }
