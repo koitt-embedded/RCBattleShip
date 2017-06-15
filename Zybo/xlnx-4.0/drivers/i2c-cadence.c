@@ -27,26 +27,36 @@
 #include <linux/platform_device.h>
 #include <linux/of.h>
 
+/*
+ * 최준호
+ * I2C 컨트롤러에서 사용하는 모든 레지스터들에 대한 것으로 그 각 레지스터의 시작 위치 상수 값들.
+ * ug585 B.22 I2C Controller 참조
+ */
 /* Register offsets for the I2C device. */
-#define CDNS_I2C_CR_OFFSET		0x00 /* Control Register, RW */
-#define CDNS_I2C_SR_OFFSET		0x04 /* Status Register, RO */
+#define CDNS_I2C_CR_OFFSET			0x00 /* Control Register, RW */
+#define CDNS_I2C_SR_OFFSET			0x04 /* Status Register, RO */
 #define CDNS_I2C_ADDR_OFFSET		0x08 /* I2C Address Register, RW */
 #define CDNS_I2C_DATA_OFFSET		0x0C /* I2C Data Register, RW */
-#define CDNS_I2C_ISR_OFFSET		0x10 /* IRQ Status Register, RW */
+#define CDNS_I2C_ISR_OFFSET			0x10 /* IRQ Status Register, RW */
 #define CDNS_I2C_XFER_SIZE_OFFSET	0x14 /* Transfer Size Register, RW */
 #define CDNS_I2C_SLV_PAUSE_OFFSET	0x18 /* Transfer Size Register, RW */
 #define CDNS_I2C_TIME_OUT_OFFSET	0x1C /* Time Out Register, RW */
-#define CDNS_I2C_IER_OFFSET		0x24 /* IRQ Enable Register, WO */
-#define CDNS_I2C_IDR_OFFSET		0x28 /* IRQ Disable Register, WO */
+#define CDNS_I2C_IER_OFFSET			0x24 /* IRQ Enable Register, WO */
+#define CDNS_I2C_IDR_OFFSET			0x28 /* IRQ Disable Register, WO */
 
+/*
+ * 최준호
+ * CDNS_I2C_CR_OFFSET로 시작하는 Control Register의 각 비트에 대한 마스크
+ * 자세한 사항은 B.22 I2C Register (IIC) Control_reg0 참조
+ */
 /* Control Register Bit mask definitions */
-#define CDNS_I2C_CR_SLVMON		BIT(5) /* Slave monitor mode bit */
-#define CDNS_I2C_CR_HOLD		BIT(4) /* Hold Bus bit */
-#define CDNS_I2C_CR_ACK_EN		BIT(3)
-#define CDNS_I2C_CR_NEA			BIT(2)
-#define CDNS_I2C_CR_MS			BIT(1)
+#define CDNS_I2C_CR_SLVMON			BIT(5) /* Slave monitor mode bit */
+#define CDNS_I2C_CR_HOLD			BIT(4) /* Hold Bus bit */
+#define CDNS_I2C_CR_ACK_EN			BIT(3)
+#define CDNS_I2C_CR_NEA				BIT(2)
+#define CDNS_I2C_CR_MS				BIT(1)
 /* Read or Write Master transfer 0 = Transmitter, 1 = Receiver */
-#define CDNS_I2C_CR_RW			BIT(0)
+#define CDNS_I2C_CR_RW				BIT(0)
 /* 1 = Auto init FIFO to zeroes */
 #define CDNS_I2C_CR_CLR_FIFO		BIT(6)
 #define CDNS_I2C_CR_DIVA_SHIFT		14
@@ -54,10 +64,20 @@
 #define CDNS_I2C_CR_DIVB_SHIFT		8
 #define CDNS_I2C_CR_DIVB_MASK		(0x3f << CDNS_I2C_CR_DIVB_SHIFT)
 
+/*
+ * 최준호
+ * CDNS_I2C_SR_OFFSET로 시작하는 Status Register의 각 비트에 대한 마스크
+ * 자세한 사항은 B.22 I2C Register (IIC) Register (IIC) Status_reg0 참조
+ */
 /* Status Register Bit mask definitions */
-#define CDNS_I2C_SR_BA		BIT(8)
-#define CDNS_I2C_SR_RXDV	BIT(5)
+#define CDNS_I2C_SR_BA				BIT(8)
+#define CDNS_I2C_SR_RXDV			BIT(5)
 
+/*
+ * 최준호
+ * CDNS_I2C_SR_OFFSET로 시작하는 Address Register의 각 비트에 대한 마스크
+ * 자세한 사항은 B.22 I2C Register (IIC) Register (IIC) address_reg0 참조
+ */
 /*
  * I2C Address Register Bit mask definitions
  * Normal addressing mode uses [6:0] bits. Extended addressing mode uses [9:0]
@@ -66,6 +86,11 @@
  */
 #define CDNS_I2C_ADDR_MASK	0x000003FF /* I2C Address Mask */
 
+/*
+ * 최준호
+ * CDNS_I2C_SR_OFFSET로 시작하는 Interrupt Register의 각 비트에 대한 마스크
+ * 자세한 사항은 B.22 I2C Register (IIC) Register (IIC) Interrupt_status_reg0 참조
+ */
 /*
  * I2C Interrupt Registers Bit mask definitions
  * All the four interrupt registers (Status/Mask/Enable/Disable) have the same
@@ -81,6 +106,11 @@
 #define CDNS_I2C_IXR_DATA		BIT(1)
 #define CDNS_I2C_IXR_COMP		BIT(0)
 
+/*
+ * 최준호
+ * 매크로 함수로서 특정 인터럽트 비트가 활성화 되어 있을 경우 true를 반환한다. 각
+ * 자세한 사항은 B.22 I2C Register (IIC) Register (IIC) Interrupt_status_reg0 참조
+ */
 #define CDNS_I2C_IXR_ALL_INTR_MASK	(CDNS_I2C_IXR_ARB_LOST | \
 					 CDNS_I2C_IXR_RX_UNF | \
 					 CDNS_I2C_IXR_TX_OVF | \
@@ -105,8 +135,17 @@
 					 CDNS_I2C_IXR_DATA | \
 					 CDNS_I2C_IXR_COMP)
 
+/*
+ * 최준호
+ * 타임아웃 시간을 설정 아래와 같이 msecs_to_jiffies(1000)는 1초의 시간을 타임아웃 시간으로 쓰겠다는 것
+ * http://blog.naver.com/PostView.nhn?blogId=sysganda&logNo=30180958754&categoryNo=0&parentCategoryNo=1&viewDate=&currentPage=1&postListTopCurrentPage=1
+ */
 #define CDNS_I2C_TIMEOUT		msecs_to_jiffies(1000)
 
+/*
+ * 최준호
+ *
+ */
 #define CDNS_I2C_FIFO_DEPTH		16
 /* FIFO depth at which the DATA interrupt occurs */
 #define CDNS_I2C_DATA_INTR_DEPTH	(CDNS_I2C_FIFO_DEPTH - 2)
@@ -116,16 +155,22 @@
 
 #define DRIVER_NAME		"cdns-i2c"
 
+// 최대 속도 40만
 #define CDNS_I2C_SPEED_MAX	400000
+// 보통 속도 10만
 #define CDNS_I2C_SPEED_DEFAULT	100000
 
+// Table 20-1 참조
+// divisor_a max는 0~3까지 4
 #define CDNS_I2C_DIVA_MAX	4
+// divisor_b max는 0~60까지 61
 #define CDNS_I2C_DIVB_MAX	64
 
 #define CDNS_I2C_TIMEOUT_MAX	0xFF
 
 #define CDNS_I2C_BROKEN_HOLD_BIT	0x00000001
 
+// i2c 레지스터의 기본 주소에 인자로 받은 각 레지스터 오프셋을 넘겨주고 더해서 해당 레지스터에 접
 #define cdns_i2c_readreg(offset)       readl_relaxed(id->membase + offset)
 #define cdns_i2c_writereg(val, offset) writel_relaxed(val, id->membase + offset)
 
@@ -175,6 +220,7 @@ struct cdns_platform_data {
 	u32 quirks;
 };
 
+// cast a member of a structure out to the containing structure
 #define to_cdns_i2c(_nb)	container_of(_nb, struct cdns_i2c, \
 					     clk_rate_change_nb)
 
@@ -186,13 +232,18 @@ struct cdns_platform_data {
  */
 static void cdns_i2c_clear_bus_hold(struct cdns_i2c *id)
 {
+//	Controll Register의 값을 읽어옴
 	u32 reg = cdns_i2c_readreg(CDNS_I2C_CR_OFFSET);
+//	읽어온 값과 HOLD와의 AND가 true이면
 	if (reg & CDNS_I2C_CR_HOLD)
+//		읽어온 값과 HOLD의 부정과 AND 연산한 값을 Controll Register에 씀(이렇게 되면 아마도 0을 쓰는 듯)
 		cdns_i2c_writereg(reg & ~CDNS_I2C_CR_HOLD, CDNS_I2C_CR_OFFSET);
 }
 
+// 아마도 입력받은 값이 버퍼 최대값을 넘거나 꽉 찼을 때 신호를 주는 것인듯?
 static inline bool cdns_is_holdquirk(struct cdns_i2c *id, bool hold_wrkaround)
 {
+//	wrkaround가 true이고 i2c에 현재 입력 받은 바이트가 버퍼 사이즈를 초과했으면 true를 리턴
 	return (hold_wrkaround &&
 		(id->curr_recv_count == CDNS_I2C_FIFO_DEPTH + 1));
 }
@@ -209,19 +260,31 @@ static inline bool cdns_is_holdquirk(struct cdns_i2c *id, bool hold_wrkaround)
  */
 static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 {
+//	isr_status : 인터럽트 상태 레지스터의 값,
 	unsigned int isr_status, avail_bytes, updatetx;
 	unsigned int bytes_to_send;
+//	HOLD_QUIRK! quirk : flag for broken hold bit usage in r1p10
 	bool hold_quirk;
 	struct cdns_i2c *id = ptr;
 	/* Signal completion only after everything is updated */
+//	위의 주석으로 봐서 done_flag가 1이면 이 함수의 모든 사항이 업데이트 됐다는 뜻인듯
 	int done_flag = 0;
+//	인터럽트 상태를 인터럽트 없음으로 초기화
 	irqreturn_t status = IRQ_NONE;
 
+//	인터럽트 상태 레지스터의 값을 읽어와 isr_status에 담음
 	isr_status = cdns_i2c_readreg(CDNS_I2C_ISR_OFFSET);
+//	인터럽트 상태를 인터럽트 상태 레지스터에 씀
 	cdns_i2c_writereg(isr_status, CDNS_I2C_ISR_OFFSET);
 
 	/* Handling nack and arbitration lost interrupt */
+//	nack은 Transfer not acknowledged의 약자로 전송이 승인되지 않은 상태임을 나타내고
+//	1 = slave responds with a NACK or master terminates the transfer before all data is supplied
+
+//	arbitration lost은 잘 모르겠음
+//	1 = master loses bus ownership during a transfer due to ongoing arbitration
 	if (isr_status & (CDNS_I2C_IXR_NACK | CDNS_I2C_IXR_ARB_LOST)) {
+//		전송이 승인되지 않거나 arbitration을 잃어버렸으면 IRQ_HANDLED로 바꾸고 done_flag 1
 		done_flag = 1;
 		status = IRQ_HANDLED;
 	}
@@ -230,17 +293,28 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 	 * Check if transfer size register needs to be updated again for a
 	 * large data receive operation.
 	 */
+//	큰 규모의 데이터를 받기 위해 transfer size register의 수정이 필요한지 확인하는 코드
+
+//	초기화
 	updatetx = 0;
+//	앞으로 수신할 것으로 예상되는 바이트 수가 현재 전송 받은 바이트 수보다 크면
 	if (id->recv_count > id->curr_recv_count)
+//		전송 업데이트 플래그 1
 		updatetx = 1;
 
+//	i2c의 hold bit이 깨졌고(CDNS_I2C_BROKEN_HOLD_BIT는 1이다) 전송 업데이트 플래그가 1이면 hold_quirk도 1
+//	아직 이게 의미하는 바가 정확히 무엇인지 모르겠다.
+//	TODO hold_quirk과 quriks의 역할 파악
 	hold_quirk = (id->quirks & CDNS_I2C_BROKEN_HOLD_BIT) && updatetx;
 
 	/* When receiving, handle data interrupt and completion interrupt */
+//	수신 버퍼가 있고, 전송이 완료 되었거나 전송 또는 수신 중인 데이터가 있으면 true
 	if (id->p_recv_buf &&
 	    ((isr_status & CDNS_I2C_IXR_COMP) ||
 	     (isr_status & CDNS_I2C_IXR_DATA))) {
 		/* Read data if receive data valid is set */
+//		상태 레지스터가 Receiver Data Valid 상태일 때 true
+//		1일때 valid, new data to be read from the interface.
 		while (cdns_i2c_readreg(CDNS_I2C_SR_OFFSET) &
 		       CDNS_I2C_SR_RXDV) {
 			/*
