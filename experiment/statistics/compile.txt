@@ -10,3 +10,5 @@ gcc sample_var.c -lm
 gcc prob.c
 상호 배반, 교차
 gcc prob_struct.c
+조건부 확률
+gcc cond_prob.c
