@@ -127,7 +127,11 @@ void set_prob_table(pdt *t)
 	float tmp;
 	//char *(*)[3] tmp_arr[4] = 
 	//(char *(*)[3])
+
 	char ** tmp_arr[4] = {twenty, fifteen[0], ten, five};
+#if 0
+	char (** tmp_arr[4])[4] = {twenty, fifteen[0], ten, five};
+#endif
 	//char (** tmp_arr[3])[3] = {twenty, ten, five};
 	//char **tmp_arr[4] = {twenty, fifteen, ten, five};
 
@@ -195,7 +199,7 @@ void set_money_table(pdt *t)
 	int i = 0;
 
 	t[i++].money = check_res(twenty);
-	t[i++].money = check_res(fifteen[0]);
+	t[i++].money = check_res(fifteen);
 	t[i++].money = check_res(ten);
 	t[i++].money = check_res(five);
 	t[i].money = -1;
