@@ -26,7 +26,10 @@ gcc binomial_dist.c -lm
 gcc poisson_dist.c -lm
 푸아송 분포 결합
 gcc poisson_comb.c -lm
+이항 분포 -> 푸아송 분포 근사 기법
+gcc binom2poisson_approx.c -lm
 정규 분포
+gcc gauss_dist.c -lm
 Z-Score
 근사 기법
 표본 분포의 기대치와 분산
