@@ -243,7 +243,7 @@ static void cdns_i2c_clear_bus_hold(struct cdns_i2c *id)
 // 아마도 입력받은 값이 버퍼 최대값을 넘거나 꽉 찼을 때 신호를 주는 것인듯?
 static inline bool cdns_is_holdquirk(struct cdns_i2c *id, bool hold_wrkaround)
 {
-//	wrkaround가 true이고 i2c에 현재 입력 받은 바이트가 버퍼 사이즈를 초과했으면 true를 리턴
+//	wrkaround가 true이고 현재 전송 버퍼에 수신된 바이트 수(전송되는 등 처리되면 -1)와 버퍼 사이트 +1(초과)가 같으면 즉, 초과되면 true
 	return (hold_wrkaround &&
 		(id->curr_recv_count == CDNS_I2C_FIFO_DEPTH + 1));
 }
@@ -263,7 +263,13 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 //	isr_status : 인터럽트 상태 레지스터의 값,
 	unsigned int isr_status, avail_bytes, updatetx;
 	unsigned int bytes_to_send;
-//	HOLD_QUIRK! quirk : flag for broken hold bit usage in r1p10
+//	HOLD_QUIRK! quirk : flag for broken hold bit usage in r1p10(i2c cadence)
+//	Register (IIC) Control_reg0의 4번 bit인데
+//	전송 또는 수신될 것이 없으면 1로 된다. 1로 되면 hold bus가 low되면서 통신을 정지한다.
+//	0이 되면 전송 및 수신을 시작한다.
+
+//	전송 또는 수신을 더 이상 할 수 없는 상태(아마도 꽉 찬 상태?)이면 hold를 활성화 한다.
+//	그 외의 경우 0
 	bool hold_quirk;
 	struct cdns_i2c *id = ptr;
 	/* Signal completion only after everything is updated */
@@ -322,15 +328,26 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 			 * RX data left is less than FIFO depth, unless
 			 * repeated start is selected.
 			 */
+//			repeated start가 선택되어 있지 않고 RX 데이터의 여유 공간이 있으면
+//			FIFO를 컨트롤 하는 hold bit을 비운다.
+
+//			수신 받을 것으로 예상되는 바이트 수가 스택 크기보다 작고
+//			Flag used in repeated start for clearing HOLD bit인 bus_hold_flag가 false이면
+//			이 i2c에 대한 bus hold를 비운다.
+//			repeated start가 true이면 알아서 bus hold가 반복적으로 비워지는듯
 			if ((id->recv_count < CDNS_I2C_FIFO_DEPTH) &&
 			    !id->bus_hold_flag)
 				cdns_i2c_clear_bus_hold(id);
 
+//			현재 수신 버퍼의 위치에 데이터 레지스터의 시작 주소를 넣고 수신 버퍼 위치 1 증가
 			*(id->p_recv_buf)++ =
 				cdns_i2c_readreg(CDNS_I2C_DATA_OFFSET);
+//			수신될 것으로 예상되는 전체 바이트 수 1 감소
 			id->recv_count--;
+//			현재 전송 버퍼에 수신된 바이트 수 1 감소
 			id->curr_recv_count--;
 
+//			위와 같이 한 번 읽고 나서 버퍼가 꽉 찼다면 break
 			if (cdns_is_holdquirk(id, hold_quirk))
 				break;
 		}
@@ -344,64 +361,101 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 		 */
 		if (cdns_is_holdquirk(id, hold_quirk)) {
 			/* wait while fifo is full */
-			while (cdns_i2c_readreg(CDNS_I2C_XFER_SIZE_OFFSET) !=
-			       (id->curr_recv_count - CDNS_I2C_FIFO_DEPTH))
-				;
+//			전송 크기를 나타내는 레지스터 != (현재 전송 버퍼에 받아진 데이터 바이트 수 - i2c 버퍼 크기)
+//			readreg가 어떤 전송 버퍼가 꽉 찼을 때의 값을 보내주고 != (현재 수신된 바이트 수 - 버퍼 사이트 == ?)는 true
+			while (cdns_i2c_readreg(CDNS_I2C_XFER_SIZE_OFFSET) != (id->curr_recv_count - CDNS_I2C_FIFO_DEPTH)) ;
 
 			/*
 			 * Check number of bytes to be received against maximum
 			 * transfer size and update register accordingly.
 			 */
+//			여전히 받을 것으로 기대되는 바이트 수에서 버퍼 사이즈를 뺏더니 전송 버퍼 사이즈보다 크다면
 			if (((int)(id->recv_count) - CDNS_I2C_FIFO_DEPTH) >
 			    CDNS_I2C_TRANSFER_SIZE) {
+//				CDNS_I2C_XFER_SIZE_OFFSET에 (CDNS_I2C_MAX_TRANSFER_SIZE - 3)를 쓴다. 즉 CDNS_I2C_XFER_SIZE_OFFSET에 252를 쓴다.
 				cdns_i2c_writereg(CDNS_I2C_TRANSFER_SIZE,
 						  CDNS_I2C_XFER_SIZE_OFFSET);
+//				현재 전송 버퍼에 받아진 바이트 수를 252 + 버퍼 크기로 새로고침한다.
 				id->curr_recv_count = CDNS_I2C_TRANSFER_SIZE +
 						      CDNS_I2C_FIFO_DEPTH;
 			} else {
+//				CDNS_I2C_XFER_SIZE_OFFSET(전송 사이즈 버퍼 레지스터)에 계속 수신될 것으로 예상되는 수신 바이트 수에서 버퍼 크기를 뺀 값을 쓴다.
 				cdns_i2c_writereg(id->recv_count -
 						  CDNS_I2C_FIFO_DEPTH,
 						  CDNS_I2C_XFER_SIZE_OFFSET);
+//				현재 전송 버퍼에 수신된 크기 값을 수신될 것으로 예상되는 값과 같게 한다.
 				id->curr_recv_count = id->recv_count;
 			}
+//			수신될 값이 있고 hold_quirk이 활성화가 아니면서 현재 수신된 값이 없으면
+//			즉, 값을 받을 수 있는 상황이면?
 		} else if (id->recv_count && !hold_quirk &&
 						!id->curr_recv_count) {
 
 			/* Set the slave address in address register*/
+//			주소를 가지는 레지스터에 slave address 설정
+//			즉, 슬레이브에게서 값을 받는 준비인 듯.
+//			CDNS_I2C_ADDR_OFFSET에 현재 i2c 구조체의 slave msg의 주소를 masking하여 얻은 후 쓴다.
 			cdns_i2c_writereg(id->p_msg->addr & CDNS_I2C_ADDR_MASK,
 						CDNS_I2C_ADDR_OFFSET);
 
+//			수신되야 할 값이 전송 사이즈보다 크면
 			if (id->recv_count > CDNS_I2C_TRANSFER_SIZE) {
+//				CDNS_I2C_XFER_SIZE_OFFSET 인터럽트를 일으킬 수 있으면서 최대 데이터 전송 가능한 크기를 주는듯?
 				cdns_i2c_writereg(CDNS_I2C_TRANSFER_SIZE,
 						CDNS_I2C_XFER_SIZE_OFFSET);
+//				현재 수신된 바이트 수를 최대로 변경.
 				id->curr_recv_count = CDNS_I2C_TRANSFER_SIZE;
 			} else {
+//				CDNS_I2C_XFER_SIZE_OFFSET에 수신될 바이트 수 씀.
 				cdns_i2c_writereg(id->recv_count,
 						CDNS_I2C_XFER_SIZE_OFFSET);
+//				수신된 숫자 수신 할 숫자로 대입.
 				id->curr_recv_count = id->recv_count;
 			}
 		}
 
 		/* Clear hold (if not repeated start) and signal completion */
+//		repeated start가 선택돼 있지 않으면 hold bit clear해서 작동하게 하고 신호 끝냄(status = IRQ_HANDLED)
+
+//		인터럽트 상태 레지스터에서 읽어온 값을 저장하는 isr_status가 있고 & 인터럽트 상태 레지스터의 비트가 전송 완료이면서 수신될 값이 없으면
+//		전송 완료이고 수신될 값이 없다. 즉, 전송 및 수신을 재개할 수 있으므로 hold를 클리어 한다.
 		if ((isr_status & CDNS_I2C_IXR_COMP) && !id->recv_count) {
+
+//			버스 홀드 플래그가 false이면
+//			즉, 수신 및 송신을 받을 수 있는 상태이면
 			if (!id->bus_hold_flag)
+//			실제 i2c의 홀드를 해제한다.
 				cdns_i2c_clear_bus_hold(id);
+//			작업완료 했다는 상태로 업데이트
 			done_flag = 1;
 		}
 
+//		인터럽트 처리됨을 알린다.
 		status = IRQ_HANDLED;
 	}
 
 	/* When sending, handle transfer complete interrupt */
+//	값을 보낼 때, 전송 완료 인터럽트를 처리(handle)하는 부분
+
+//	인터럽트 상태가 있고 인터럽트 레지스터가 전송 완료이면서 수신 버퍼의 포인터가 없으면
+//	즉 전송 완료 후 수신된 값이 없으면
 	if ((isr_status & CDNS_I2C_IXR_COMP) && !id->p_recv_buf) {
 		/*
 		 * If there is more data to be sent, calculate the
 		 * space available in FIFO and fill with that many bytes.
 		 */
+//		만약 저쪽에 보내질 데이터가 더 있으면, FIFO의 가용한 영역을 계산하고 그 데이터들로 채운다.
+
+//		보내야 할 값이 있으면
 		if (id->send_count) {
+//			가용한 바이트 = 버퍼 사이즈 - 전송 사이즈
+//			최대 버퍼 사이즈 16에서 값이 쓰여져 있는 것을 뺀다.
 			avail_bytes = CDNS_I2C_FIFO_DEPTH -
 			    cdns_i2c_readreg(CDNS_I2C_XFER_SIZE_OFFSET);
+//			보내야 할 값이 가용한 값보다 크면
 			if (id->send_count > avail_bytes)
+//				보내야 할 값에 가용한 값을 쓴다.
+//				TODO
 				bytes_to_send = avail_bytes;
 			else
 				bytes_to_send = id->send_count;

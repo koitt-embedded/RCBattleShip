@@ -65,6 +65,7 @@
  * adapters which are known to support the specific mangling options they
  * need (one or more of IGNORE_NAK, NO_RD_ACK, NOSTART, and REV_DIR_ADDR).
  */
+//	i2c 메시지라고 되어 있는, 슬레이브에게 연결하여 메시지를 가져오거나 받을 수 있게 해주는 구조체 인듯?
 struct i2c_msg {
 	__u16 addr;	/* slave address			*/
 	__u16 flags;
