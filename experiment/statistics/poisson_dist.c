@@ -23,7 +23,7 @@ long int factorial(int n)
         return tmp;
 }
 
-void init_poisson_dist(pd *poisson, int lambda, int r)
+void init_poisson_dist(pd *poisson, float lambda, int r)
 {
 	poisson->lambda = lambda;
 	poisson->event_num = r;
