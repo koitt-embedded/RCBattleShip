@@ -19,8 +19,11 @@ gcc linear_expect.c - lm
 순열, 조합
 gcc permu_comb.c
 기하 분포
+gcc geometric_dist.c -lm
 이항 분포
+gcc binomial_dist.c -lm
 푸아송 분포
+gcc poisson_dist.c -lm
 정규 분포
 Z-Score
 근사 기법

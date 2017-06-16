@@ -75,8 +75,18 @@ void calc_prob(bd *binom)
 	//init_comb(&c, binom->n, binom->r);
 	res = opt_combination(binom->n, binom->r);
 
-	binom->prob = res * pow(binom->p, binom->r) * pow(binom->q, binom->n - binom->r) / 100.0;
-	printf("prob = %f\n", binom->prob);
+	binom->prob = res * pow(binom->p, binom->r) * pow(binom->q, binom->n - binom->r);
+}
+
+void print_binom_dist(bd binom)
+{
+	printf("p = %.2f\n", binom.p);
+	printf("q = %.2f\n", binom.q);
+	printf("n = %d\n", binom.n);
+	printf("r = %d\n", binom.r);
+	printf("expect = %.2f\n", binom.expect);
+	printf("var = %.4f\n", binom.var);
+	printf("prob = %.3f%c\n", binom.prob * 100.0, 0x25);
 }
 
 int main(void)
@@ -88,6 +98,7 @@ int main(void)
 	calc_expect(&binom);
 	calc_var(&binom);
 	calc_prob(&binom);
+	print_binom_dist(binom);
 
 	return 0;
 }
