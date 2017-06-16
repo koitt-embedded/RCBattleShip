@@ -14,7 +14,10 @@ gcc prob_struct.c
 gcc cond_prob.c
 기대값, 확률 분포 테이블(pdt), 분산, 표준편차
 gcc expectation.c -lm
+선형 변환
+gcc linear_expect.c - lm
 순열, 조합
+gcc permu_comb.c
 기하 분포
 이항 분포
 푸아송 분포
