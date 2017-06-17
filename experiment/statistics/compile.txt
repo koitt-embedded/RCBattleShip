@@ -36,9 +36,10 @@ gcc gauss_dist_add.c -lm
 gcc binom2gauss_approx.c -lm
 푸아송 분포 -> 가우시안 분포 근사 기법
 gcc poisson2gauss_approx.c -lm
-표본내에서 확률 계산
+표본내에서 확률 계산(중심 극한 정리 개선 필요)
 gcc sample_prob.c -lm
-신뢰구간
+신뢰구간 표준화
+gcc confidence_interval_normalize.c -lm
 t 분포
 가설 검정
 1 종 오류, 2 종 오류, 검정력
