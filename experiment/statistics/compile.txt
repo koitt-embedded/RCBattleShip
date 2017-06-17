@@ -34,6 +34,8 @@ gcc gauss_dist.c -lm
 gcc gauss_dist_add.c -lm
 이항 분포 -> 가우시안 분포 근사 기법
 gcc binom2gauss_approx.c -lm
+푸아송 분포 -> 가우시안 분포 근사 기법
+gcc poisson2gauss_approx.c -lm
 표본 분포의 기대치와 분산
 신뢰구간
 t 분포
