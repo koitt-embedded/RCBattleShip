@@ -458,7 +458,9 @@ static irqreturn_t cdns_i2c_isr(int irq, void *ptr)
 //				TODO
 				bytes_to_send = avail_bytes;
 			else
+//				보내야 할 값에 보내질 값을 쓴다.
 				bytes_to_send = id->send_count;
+
 
 			while (bytes_to_send--) {
 				cdns_i2c_writereg(
