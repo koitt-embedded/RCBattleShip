@@ -70,14 +70,26 @@ float gauss_tbl[70][10] = {
 	{0.9965, 0.9966, 0.9967, 0.9968, 0.9969, 0.997,  0.9971, 0.9972, 0.9973, 0.9974}, // 2.7
 	{0.9974, 0.9975, 0.9976, 0.9977, 0.9977, 0.9978, 0.9979, 0.9979, 0.998,  0.9981}, // 2.8
 	{0.9981, 0.9982, 0.9982, 0.9983, 0.9984, 0.9984, 0.9985, 0.9985, 0.9986, 0.9986}, // 2.9
-	{0.9987, 0.9987, 0.9987, 0.9988, 0.9988, 0.9989, 0.9989, 0.9989, 0.999,  0.999 },  // 3.0
+	{0.9987, 0.9987, 0.9987, 0.9988, 0.9988, 0.9989, 0.9989, 0.9989, 0.999,  0.999 }, // 3.0
 	{0.999,  0.9991, 0.9991, 0.9991, 0.9992, 0.9992, 0.9992, 0.9992, 0.9993, 0.9993}, // 3.1
 	{0.9993, 0.9993, 0.9994, 0.9994, 0.9994, 0.9994, 0.9994, 0.9995, 0.9995, 0.9995}, // 3.2
 	{0.9995, 0.9995, 0.9995, 0.9996, 0.9996, 0.9996, 0.9996, 0.9996, 0.9996, 0.9997}, // 3.3
 	{0.9997, 0.9997, 0.9997, 0.9997, 0.9997, 0.9997, 0.9997, 0.9997, 0.9997, 0.9998}, // 3.4
 };
 
+double e = 2.71828182845904523536028747135266249775724709369995957496696762772407663035354759;
+
 typedef enum {false, true} bool;
+
+typedef struct poisson_dist
+{
+        float prob;
+        float lambda;
+        int event_num;
+
+        float expect;
+        float var;
+} pd;
 
 typedef struct gauss_dist
 {
@@ -101,7 +113,8 @@ typedef struct binom_dist
         float expect;
         float var;
 
-        bool approx;
+        bool poisson_approx;
+	bool gauss_approx;
 } bd;
 
 long int factorial(int n)
@@ -114,17 +127,38 @@ long int factorial(int n)
         return tmp;
 }
 
+void init_poisson_dist(pd *poisson, float lambda, int r)
+{
+        poisson->lambda = lambda;
+        poisson->event_num = r;
+}
+
+void calc_poisson_prob(pd *poisson)
+{
+        poisson->prob = pow(e, -(poisson->lambda)) *
+                        pow(poisson->lambda, poisson->event_num) /
+                        factorial(poisson->event_num);
+
+        printf("poisson->lambda = %f\n", poisson->lambda);
+	printf("pow(e, -(poisson->lambda)) = %f\n", pow(e, -(poisson->lambda)));
+}
+
 void init_binom_dist(bd *binom, float p, int n, int r)
 {
-        binom->p = p;
-        binom->q = 1 - p;
-        binom->n = n;
-        binom->r = r;
+	binom->p = p;
+	binom->q = 1 - p;
+	binom->n = n;
+	binom->r = r;
 
-        if(n >= 50 && p <= 0.1)
-                binom->approx = true;
-        else
-                binom->approx = false;
+	if(n >= 50 && p <= 0.1)
+		binom->poisson_approx = true;
+	else
+		binom->poisson_approx = false;
+
+	if(n * p > 5 && n * (1 - p) > 5)
+		binom->gauss_approx = true;
+	else
+		binom->gauss_approx = false;
 }
 
 void calc_expect(bd *binom)
@@ -199,7 +233,7 @@ void find_idx(gd *gauss, int *first, int *second)
 	}
 }
 
-void calc_prob(gd *gauss)
+void calc_gauss_prob(gd *gauss)
 {
 	int first, second;
 
@@ -240,7 +274,7 @@ void calc_binom_prob(bd *binom)
 {
         float res;
 
-        if(binom->approx)
+        if(binom->poisson_approx)
         {
                 pd poisson = {0};
                 // 70 개 중 5 개를 찾아낼 확률
@@ -248,13 +282,24 @@ void calc_binom_prob(bd *binom)
                 calc_poisson_prob(&poisson);
                 //printf("poisson.prob = %f\n", poisson.prob);
                 binom->prob = poisson.prob;
-                printf("true\n");
+                printf("Poisson Approx\n");
         }
-        else
+        else if(binom->gauss_approx)
+	{
+		gd gauss = {0};
+		float m = binom->n * binom->p;
+
+		init_gauss_dist(&gauss, m, m * binom->q, binom->r - 0.5);
+		calc_gauss_prob(&gauss);
+
+		binom->prob = gauss.prob;
+		printf("Gauss Approx\n");
+	}
+	else
         {
                 res = opt_combination(binom->n, binom->r);
                 binom->prob = res * pow(binom->p, binom->r) * pow(binom->q, binom->n - binom->r);
-                printf("false\n");
+                printf("No Approx\n");
         }
 }
 
@@ -276,8 +321,10 @@ int main(void)
 	gd B = {0};
 	gd C = {0};
 
+	bd binom = {0};
+
 	init_gauss_dist(&gauss, 71, 20.25, 64);
-	calc_prob(&gauss);
+	calc_gauss_prob(&gauss);
 	print_gauss_dist(gauss);
 
 	init_gauss_dist(&A, 150, 400, 0);
@@ -286,8 +333,14 @@ int main(void)
 	printf("*************** Addition ***************\n");
 	add_gauss_dist(&A, &B, &C);
 	set_criteria(&C, 380);
-	calc_prob(&C);
+	calc_gauss_prob(&C);
 	print_gauss_dist(C);
+
+	
+	printf("*************** Binom2Gauss Approximation ***************\n");
+	init_binom_dist(&binom, 0.5, 12, 6);
+	calc_binom_prob(&binom);
+	print_binom_dist(binom);
 
 	return 0;
 }
