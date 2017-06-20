@@ -21,15 +21,20 @@ void getObjectHistogram(Mat &frame, Rect object_region)
     const float *ranges[] = { range, range };
  
     // Histogram in object region
+//오브젝트 영역의 히스토그램
     Mat objectROI = frame(object_region);
     calcHist(&objectROI, 1, channels, noArray(), objectHistogram, 2, histSize, ranges, true, false);
     
     
     // A priori color distribution with cumulative histogram
+//누적 히스토그램을 사용한 선명한 색상 분포
     calcHist(&frame, 1, channels, noArray(), globalHistogram, 2, histSize, ranges, true, true);
     
     
     // Boosting: Divide conditional probabilities in object area by a priori probabilities of colors
+
+//Boosting : 오브젝트 영역의 조건부 확률을 이전의 색상 확률로 나눕니다.
+
     for (int y = 0; y < objectHistogram.rows; y++) {
         for (int x = 0; x < objectHistogram.cols; x++) {
             objectHistogram.at<float>(y, x) /= globalHistogram.at<float>(y, x);
