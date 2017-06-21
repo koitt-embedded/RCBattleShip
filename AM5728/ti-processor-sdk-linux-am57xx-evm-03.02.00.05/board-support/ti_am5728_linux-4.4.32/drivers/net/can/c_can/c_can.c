@@ -295,6 +295,8 @@ static inline void c_can_object_put(struct net_device *dev, int iface,
  * Note: According to documentation clearing TXIE while MSGVAL is set
  * is not allowed, but works nicely on C/DCAN. And that lowers the I/O
  * load significantly.
+ * 주의: documentation에 따르면 MSGVAL동안 TXIE를 비우는 것은 안된다.
+ * 그러나 C/DCAN은 잘 작동된다. 그리고 I/O를 상당히 낮춘다.
  */
 static void c_can_inval_tx_object(struct net_device *dev, int iface, int obj)
 {
@@ -335,6 +337,7 @@ static void c_can_setup_tx_object(struct net_device *dev, int iface,
 	/*
 	 * If we change the DIR bit, we need to invalidate the buffer
 	 * first, i.e. clear the MSGVAL flag in the arbiter.
+	 * DIR 비트를 변경하면 먼저 버퍼를 무효화 (즉, 중재자의 MSGVAL 플래그를 클리어)해야합니다.
 	 */
 	if (rtr != (bool)test_bit(idx, &priv->tx_dir)) {
 		u32 obj = idx + C_CAN_MSG_OBJ_TX_FIRST;
@@ -482,11 +485,15 @@ static netdev_tx_t c_can_start_xmit(struct sk_buff *skb,
 	/*
 	 * This is not a FIFO. C/D_CAN sends out the buffers
 	 * prioritized. The lowest buffer number wins.
+	 * 이것은 FIFO가 아닙니다. C/D_CAN은 우선 순위가 지정된 버퍼를 보냅니다. 
+	 * 최저 버퍼 번호가 더 우선이다.
 	 */
 	idx = fls(atomic_read(&priv->tx_active));
 	obj = idx + C_CAN_MSG_OBJ_TX_FIRST;
 
-	/* If this is the last buffer, stop the xmit queue */
+	/* If this is the last buffer, stop the xmit queue 
+	 * 만약 이것이 마지막 버퍼라면, xmit 큐를 멈춰라.		
+	 */
 	if (idx == C_CAN_MSG_OBJ_TX_NUM - 1)
 		netif_stop_queue(dev);
 	/*
