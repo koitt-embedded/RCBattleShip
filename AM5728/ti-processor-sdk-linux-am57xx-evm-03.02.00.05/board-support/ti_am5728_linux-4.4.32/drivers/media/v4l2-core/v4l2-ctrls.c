@@ -2455,6 +2455,7 @@ void v4l2_ctrl_grab(struct v4l2_ctrl *ctrl, bool grabbed)
 EXPORT_SYMBOL(v4l2_ctrl_grab);
 
 /* Log the control name and value */
+/*컨트롤 이름과 값 기록 */
 static void log_ctrl(const struct v4l2_ctrl *ctrl,
 		     const char *prefix, const char *colon)
 {
@@ -2481,6 +2482,7 @@ static void log_ctrl(const struct v4l2_ctrl *ctrl,
 }
 
 /* Log all controls owned by the handler */
+/*핸들러가 보유한 모든 컨트롤 기록*/
 void v4l2_ctrl_handler_log_status(struct v4l2_ctrl_handler *hdl,
 				  const char *prefix)
 {
@@ -2552,6 +2554,7 @@ int v4l2_ctrl_handler_setup(struct v4l2_ctrl_handler *hdl)
 EXPORT_SYMBOL(v4l2_ctrl_handler_setup);
 
 /* Implement VIDIOC_QUERY_EXT_CTRL */
+
 /* VIDIOC_QUERY_EXT_CTRL 구현 */
 int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctrl *qc)
 {
@@ -2576,16 +2579,17 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
 		bool match = false;
 
 		if ((qc->id & next_flags) == V4L2_CTRL_FLAG_NEXT_COMPOUND) {
-			/* Match any hidden control */
+			/* Match any hidden control  숨겨진 컨트롤을 일치시킨다. */
 			match = true;
 		} else if ((qc->id & next_flags) == next_flags) {
-			/* Match any control, compound or not */
+			/* Match any control, compound or not 결과값과 일치하는지의 여부 */
 			mask = 0;
 		}
 
-		/* Find the next control with ID > qc->id */
+		/* Find the next control with ID > qc->id */ 	
+			/*(ID> qc-> id 인 다음 컨트롤 찾기)*/
 
-		/* Did we reach the end of the control list? */
+		/* Did we reach the end of the control list?  컨트롤 가능한 리스트의 끝에 도달했는가*/
 		if (id >= node2id(hdl->ctrl_refs.prev)) {
 			ref = NULL; /* Yes, so there is no next control */
 		} else if (ref) {
@@ -2725,9 +2729,11 @@ int v4l2_querymenu(struct v4l2_ctrl_handler *hdl, struct v4l2_querymenu *qm)
 		return -EINVAL;
 
 	/* Use mask to see if this menu item should be skipped */
+/*이 메뉴항목을 건너뛸건지 확인하려면 마스크를 사용하십시오*/
 	if (ctrl->menu_skip_mask & (1 << i))
 		return -EINVAL;
 	/* Empty menu items should also be skipped */
+/*비어있는 항목도 건너뛰어야 합니다 */
 	if (ctrl->type == V4L2_CTRL_TYPE_MENU) {
 		if (ctrl->qmenu[i] == NULL || ctrl->qmenu[i][0] == '\0')
 			return -EINVAL;
@@ -3410,7 +3416,7 @@ int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
 {
 	lockdep_assert_held(ctrl->handler->lock);
 
-	/* It's a driver bug if this happens. */
+	/* It's a driver bug if this happens. 이것이 일어나는 경우는 드라이버 버그입니다 */
 	WARN_ON(!ctrl->is_int);
 	ctrl->val = val;
 	return set_ctrl(NULL, ctrl, 0);
@@ -3421,7 +3427,7 @@ int __v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val)
 {
 	lockdep_assert_held(ctrl->handler->lock);
 
-	/* It's a driver bug if this happens. */
+	/* It's a driver bug if this happens. 이것이 일어나는 경우는 드라이버 버그입니다*/
 	WARN_ON(ctrl->is_ptr || ctrl->type != V4L2_CTRL_TYPE_INTEGER64);
 	*ctrl->p_new.p_s64 = val;
 	return set_ctrl(NULL, ctrl, 0);
@@ -3431,7 +3437,7 @@ EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_int64);
 int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
 {
 	lockdep_assert_held(ctrl->handler->lock);
-
+다
 	/* It's a driver bug if this happens. */
 	WARN_ON(ctrl->type != V4L2_CTRL_TYPE_STRING);
 	strlcpy(ctrl->p_new.p_char, s, ctrl->maximum + 1);

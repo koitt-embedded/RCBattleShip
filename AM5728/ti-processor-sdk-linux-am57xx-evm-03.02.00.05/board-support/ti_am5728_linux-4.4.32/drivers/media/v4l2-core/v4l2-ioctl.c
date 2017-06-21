@@ -910,11 +910,16 @@ static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
 	   Only when passed in through VIDIOC_G_CTRL and VIDIOC_S_CTRL
 	   is it allowed for backwards compatibility.
 	 */
+
+/*V4L2_CID_PRIVATE_BASE는 확장 컨트롤을 사용할 때 컨트롤 클래스로 사용할 수 없습니다.
+VIDIOC_G_CTRL 및 VIDIOC_S_CTRL을 통해 전달 된 경우에만 이전 버전과의 호환성이 허용됩니다.
+*/
 	if (!allow_priv && c->ctrl_class == V4L2_CID_PRIVATE_BASE)
 		return 0;
 	if (c->ctrl_class == 0)
 		return 1;
 	/* Check that all controls are from the same control class. */
+/*모든 컨트롤이 동일한 컨트롤 클래스에 속하는지 확인하십시오.*/
 	for (i = 0; i < c->count; i++) {
 		if (V4L2_CTRL_ID2CLASS(c->controls[i].id) != c->ctrl_class) {
 			c->error_idx = i;
@@ -1007,6 +1012,9 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
 	 * field to the magic value when the extended pixel format structure
 	 * isn't used by applications.
 	 */
+/*
+v4l2_pix_format 구조는 응용 프로그램에서 이전에 0으로 설정할 필요가없는 필드로 확장되었습니다. priv 필드는 마법 값으로 설정되면 확장 필드가 유효 함을 나타냅니다. 그렇지 않으면 정의되지 않은 값이 포함됩니다. 확장 픽셀 필드 구조를 응용 프로그램에서 사용하지 않는 경우 드라이버에 대한 API를 단순화하여 확장 필드를 0으로 만들고 priv 필드를 magic 값으로 설정합니다.
+*/
 
 	if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
 	    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
@@ -1037,6 +1045,7 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
 	/*
 	 * Drivers MUST fill in device_caps, so check for this and
 	 * warn if it was forgotten.
+Driver는 device_caps를 반드시 기입해야하므로 잊어 버린 경우 이를 확인하고 경고하십시오.
 	 */
 	WARN(!(cap->capabilities & V4L2_CAP_DEVICE_CAPS) ||
 		!cap->device_caps, "Bad caps for driver %s, %x %x",
@@ -1094,6 +1103,9 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
 	 * CAP_STD here based on ioctl handler provided by the
 	 * driver. If the driver doesn't support these
 	 * for a specific input, it must override these flags.
+
+드라이버가 제공하는 ioctl 핸들러를 기반으로 CAP_DV_TIMINGS 및 CAP_STD에 대한 플래그를 설정합니다. 
+드라이버가 특정 입력에 대해 이를 지원하지 않으면 이 플래그를 무시해야합니다
 	 */
 	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
 		p->capabilities |= V4L2_IN_CAP_STD;
@@ -1112,6 +1124,9 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
 	 * CAP_STD here based on ioctl handler provided by the
 	 * driver. If the driver doesn't support these
 	 * for a specific output, it must override these flags.
+
+드라이버가 제공하는 ioctl 핸들러를 기반으로 CAP_DV_TIMINGS 및 CAP_STD에 대한 플래그를 설정합니다. 
+드라이버가 특정 입력에 대해 이를 지원하지 않으면 이 플래그를 무시해야합니다
 	 */
 	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
 		p->capabilities |= V4L2_OUT_CAP_STD;
@@ -1132,6 +1147,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 	 * And frankly, this is easier to read anyway.
 	 *
 	 * Note that gcc will use O(log N) comparisons to find the right case.
+
+설명이 정렬되어야하기 때문에 여기서는 일반적인 코딩 스타일을 사용하지 않으므로 어떤 설명이 31자를 초과하는지 (설명의 최대 길이) 쉽게 볼 수 있습니다. 
+솔직히, 이것은 읽기가 더 쉽습니다. 
+gcc는 O (log N) 비교를 사용하여 올바른 사례를 찾습니다.
 	 */
 	switch (fmt->pixelformat) {
 	/* Max description length mask:	descr = "0123456789012345678901234567890" */
@@ -1363,8 +1382,14 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
 	/*
 	 * fmt can't be cleared for these overlay types due to the 'clips'
 	 * 'clipcount' and 'bitmap' pointers in struct v4l2_window.
+
+fmt는 구조체 v4l2_window에서 'clips' 'clipcount'및 'bitmap'포인터로 인해 이러한 오버레이 유형에 대해 지울 수 없습니다.
+
+
 	 * Those are provided by the user. So handle these two overlay types
 	 * first, and then just do a simple memset for the other types.
+
+그것들은 사용자가 제공합니다. 따라서 먼저 두 개의 오버레이 유형을 처리 한 다음 다른 유형의 간단한 memset을 수행하십시오.
 	 */
 	switch (p->type) {
 	case V4L2_BUF_TYPE_VIDEO_OVERLAY:
@@ -1414,7 +1439,9 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
 			break;
 		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
 		ret = ops->vidioc_g_fmt_vid_out(file, fh, arg);
-		/* just in case the driver zeroed it again */
+		/* just in case the driver zeroed it again 
+	단지 driver가 다시 그것을 제로로했을 경우를 대비해서
+*/
 		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
 		return ret;
 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
@@ -1722,14 +1749,24 @@ static int v4l_enumstd(const struct v4l2_ioctl_ops *ops,
 	const char *descr = "";
 
 	/* Return -ENODATA if the tvnorms for the current input
-	   or output is 0, meaning that it doesn't support this API. */
+	   or output is 0, meaning that it doesn't support this API. 
+
+현재 입력 또는 출력에 대한 tvnorm이 0 인 경우이 API를 지원하지 않음을 의미하는 -ENODATA를 반환합니다.
+
+*/
 	if (id == 0)
 		return -ENODATA;
 
 	/* Return norm array in a canonical way */
+
+	/*정규형으로 norm 배열을 반환합니다. */
+
 	for (i = 0; i <= index && id; i++) {
 		/* last std value in the standards array is 0, so this
-		   while always ends there since (id & 0) == 0. */
+		   while always ends there since (id & 0) == 0. 
+
+	표준 배열의 마지막 std 값은 0이므로 (id & 0) == 0부터 항상 끝납니다.
+*/
 		while ((id & standards[j].std) != standards[j].std)
 			j++;
 		curr_id = standards[j].std;
@@ -1773,9 +1810,14 @@ static int v4l_querystd(const struct v4l2_ioctl_ops *ops,
 	 * If no signal is detected, then the driver should return
 	 * V4L2_STD_UNKNOWN. Otherwise it should return tvnorms with
 	 * any standards that do not apply removed.
+
+신호가 감지되지 않으면 드라이버는 V4L2_STD_UNKNOWN을 반환해야합니다. 
+그렇지 않으면 제거되지 않은 표준이있는 tvnorms를 반환해야합니다.
 	 *
 	 * This means that tuners, audio and video decoders can join
 	 * their efforts to improve the standards detection.
+
+즉, 튜너, 오디오 및 비디오 디코더가 표준 감지 기능을 향상시키기 위해 노력할 수 있습니다.
 	 */
 	*p = vfd->tvnorms;
 	return ops->vidioc_querystd(file, fh, arg);
@@ -1789,6 +1831,8 @@ static int v4l_s_hw_freq_seek(const struct v4l2_ioctl_ops *ops,
 	enum v4l2_tuner_type type;
 
 	/* s_hw_freq_seek is not supported for SDR for now */
+
+	/*현재 s_hw_freq_seek는 SDR에서 지원되지 않습니다.*/
 	if (vfd->vfl_type == VFL_TYPE_SDR)
 		return -EINVAL;
 
@@ -2090,8 +2134,9 @@ static int v4l_g_crop(const struct v4l2_ioctl_ops *ops,
 	if (ops->vidioc_g_crop)
 		return ops->vidioc_g_crop(file, fh, p);
 	/* simulate capture crop using selection api */
-
+	/* 선택 API를 사용하여 crop 포착 시뮬레이션 */
 	/* crop means compose for output devices */
+	/*자르기는 출력 장치를 위해 작성합니다.*/
 	if (V4L2_TYPE_IS_OUTPUT(p->type))
 		s.target = V4L2_SEL_TGT_COMPOSE_ACTIVE;
 	else
@@ -2100,6 +2145,7 @@ static int v4l_g_crop(const struct v4l2_ioctl_ops *ops,
 	ret = ops->vidioc_g_selection(file, fh, &s);
 
 	/* copying results to old structure on success */
+	/*성공시 이전 구조로 결과 복사*/
 	if (!ret)
 		p->c = s.r;
 	return ret;
@@ -2312,6 +2358,9 @@ static int v4l_g_sliced_vbi_cap(const struct v4l2_ioctl_ops *ops,
 		return ret;
 
 	/* Clear up to type, everything after type is zeroed already */
+
+	/*타입을 지우고, 타입 이후의 모든 것은 이미 제로화되어있다.*/
+
 	memset(p, 0, offsetof(struct v4l2_sliced_vbi_cap, type));
 
 	return ops->vidioc_g_sliced_vbi_cap(file, fh, p);
@@ -2393,16 +2442,22 @@ struct v4l2_ioctl_info {
 };
 
 /* This control needs a priority check */
+/*이 컨트롤에는 우선 순위 확인이 필요합니다.*/
 #define INFO_FL_PRIO	(1 << 0)
-/* This control can be valid if the filehandle passes a control handler. */
+/* This control can be valid if the filehandle passes a control handler. 
+이 컨트롤은 파일 핸들이 컨트롤 핸들러를 통과하면 유효 할 수 있습니다.*/
 #define INFO_FL_CTRL	(1 << 1)
 /* This is a standard ioctl, no need for special code */
+/*이것은 표준 ioctl이며 특별한 코드가 필요 없습니다.*/
 #define INFO_FL_STD	(1 << 2)
 /* This is ioctl has its own function */
+/*이것은 ioctl 자체 기능을 가지고 있습니다.*/
 #define INFO_FL_FUNC	(1 << 3)
 /* Queuing ioctl */
+
 #define INFO_FL_QUEUE	(1 << 4)
 /* Zero struct from after the field to the end */
+/*필드 이후부터 끝까지 구조체를 0으로 만듭니다*/
 #define INFO_FL_CLEAR(v4l2_struct, field)			\
 	((offsetof(struct v4l2_struct, field) +			\
 	  sizeof(((struct v4l2_struct *)0)->field)) << 16)
