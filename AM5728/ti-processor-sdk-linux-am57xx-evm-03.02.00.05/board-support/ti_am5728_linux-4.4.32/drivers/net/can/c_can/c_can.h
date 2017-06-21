@@ -191,7 +191,9 @@ struct c_can_raminit {
 	bool needs_pulse;
 };
 
-/* c_can private data structure */
+/* c_can private data structure 
+ * c_can의 건드릴 수 없는 데이터 구조
+ */
 struct c_can_priv {
 	struct can_priv can;	/* must be the first member */
 	struct napi_struct napi;

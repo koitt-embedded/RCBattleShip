@@ -66,7 +66,7 @@ struct usb_host_endpoint {
 	struct usb_endpoint_descriptor		desc;
 	struct usb_ss_ep_comp_descriptor	ss_ep_comp;
 	struct list_head		urb_list;
-	void				*hcpriv;
+	void				*hcpriv;	/* 호스트 컨트롤러의 보호되는 데이터 */
 	struct ep_device		*ep_dev;	/* For sysfs info */
 
 	unsigned char *extra;   /* Extra descriptors */
@@ -1453,13 +1453,20 @@ typedef void (*usb_complete_t)(struct urb *);
  */
 struct urb {
 	/* private: usb core and host controller only fields in the urb */
+	/* private: usb 코어 그리고 호스트 컨트롤러는 오직 urb필드에서만 사용 */
 	struct kref kref;		/* reference count of the URB */
+					/* URB콜을 불러야 하는데 그 횟수? */
 	void *hcpriv;			/* private data for host controller */
+					/* 호스트 컨트롤러의 보호되는 데이터 */
 	atomic_t use_count;		/* concurrent submissions counter */
+					/* 동시 제출 카운터(동시 제출한 횟수?) */
 	atomic_t reject;		/* submissions will fail */
+					/* 제출 실패 */
 	int unlinked;			/* unlink error code */
+					/* 연결되지 않은 에러 코드 */
 
 	/* public: documented fields in the urb that can be used by drivers */
+	/* public: 드라이버를 통해 사용할 수 있는 urb안에 문서화된 필드 */
 	struct list_head urb_list;	/* list head for use by the urb's
 					 * current owner */
 	struct list_head anchor_list;	/* the URB may be anchored */

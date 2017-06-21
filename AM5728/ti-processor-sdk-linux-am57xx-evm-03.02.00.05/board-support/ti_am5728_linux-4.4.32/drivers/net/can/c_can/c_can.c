@@ -172,7 +172,10 @@
 /* napi related */
 #define C_CAN_NAPI_WEIGHT	C_CAN_MSG_OBJ_RX_NUM
 
-/* c_can lec values */
+/* c_can lec values 
+ * LEC이 뭐지? LEC는 상태 변화 인터럽트에서 어떤 에러 상태 중 하나?
+ * LEC에 관한 상태들을 모아놓은 것 같다.
+*/
 enum c_can_lec_type {
 	LEC_NO_ERROR = 0,
 	LEC_STUFF_ERROR,
@@ -188,6 +191,7 @@ enum c_can_lec_type {
 /*
  * c_can error types:
  * Bus errors (BUS_OFF, ERROR_WARNING, ERROR_PASSIVE) are supported
+ * 버스에서 날 수 있는 에러들
  */
 enum c_can_bus_error_types {
 	C_CAN_NO_ERROR = 0,
@@ -196,8 +200,12 @@ enum c_can_bus_error_types {
 	C_CAN_ERROR_PASSIVE,
 };
 
+/*
+ * 비트타이밍에 관한 함수 (비트타이밍이 뭘까? 클락같은 거?)
+ * 비트타이밍은 클락에 관한 것 (24.10.4.9 CAN Bit Timing)
+ */
 static const struct can_bittiming_const c_can_bittiming_const = {
-	.name = KBUILD_MODNAME,
+	.name = KBUILD_MODNAME, /* 모드 이름? 이건 밑의 코드에대한 설명인가? */
 	.tseg1_min = 2,		/* Time segment 1 = prop_seg + phase_seg1 */
 	.tseg1_max = 16,
 	.tseg2_min = 1,		/* Time segment 2 = phase_seg2 */
@@ -208,6 +216,13 @@ static const struct can_bittiming_const c_can_bittiming_const = {
 	.brp_inc = 1,
 };
 
+/*
+ * c_can_priv: c_can private data structure
+ * c_can의 건드릴 수 없는 데이터 구조
+ * pm_runtime_enable: drivers/base/power/runtime.c
+ * 파워와 연관되어 있는 함수, runtime과 연관되어 있는 함수
+ * spin lock 관련 함수
+ */
 static inline void c_can_pm_runtime_enable(const struct c_can_priv *priv)
 {
 	if (priv->device)

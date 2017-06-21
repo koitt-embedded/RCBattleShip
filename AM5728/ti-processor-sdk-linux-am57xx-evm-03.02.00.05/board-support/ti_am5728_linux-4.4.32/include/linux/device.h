@@ -745,6 +745,8 @@ struct device_dma_parameters {
  * @driver_data: Private pointer for driver specific info.
  * @power:	For device power management.
  * 		See Documentation/power/devices.txt for details.
+ *		장치의 파워 매니지먼트를 위한 변수
+ *		자세한 사항은 Documentation/power/devices.txt를 보라.
  * @pm_domain:	Provide callbacks that are executed during system suspend,
  * 		hibernation, system resume and during runtime PM transitions
  * 		along with subsystem-level and driver-level callbacks.
@@ -788,6 +790,11 @@ struct device_dma_parameters {
  * result, it is rare for devices to be represented by bare device structures;
  * instead, that structure, like kobject structures, is usually embedded within
  * a higher-level representation of the device.
+ * 가장 낮은 레벨에서 리눅스 시스템의 모든 장치는 struct device로 나타내어진다.
+ * 디바이스 구조는 디바이스 모델 코어가 시스템을 모델링이 필요한지에 대한 정보를 포함한다.
+ * 그러나 대부분의 하위 시스템은 호스트하는 디바이스에 대한 추가 정보를 추적합니다.
+ * 그 결과, 디바이스가 노출된 디바이스 구조로 표시되는 경우는 거의 없습니다.
+ * 그 대신 kobject 구조체와 같은 구조체는 일반적으로 디바이스의 상위 레벨 표현에 포함됩니다.
  */
 struct device {
 	struct device		*parent;
@@ -809,7 +816,7 @@ struct device {
 					   core doesn't touch it */
 	void		*driver_data;	/* Driver data, set and get with
 					   dev_set/get_drvdata */
-	struct dev_pm_info	power;
+	struct dev_pm_info	power;	/* 장치의 파워 매니지먼트를 위한 변수 */
 	struct dev_pm_domain	*pm_domain;
 
 #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN

@@ -545,6 +545,7 @@ struct usb_tt {
 	int			multi;	/* true means one TT per port */
 	unsigned		think_time;	/* think time in ns */
 	void			*hcpriv;	/* HCD private data */
+						/* HCD(Host Controller Device?)의 보호되는 데이터 */
 
 	/* for control/bulk error recovery (CLEAR_TT_BUFFER) */
 	spinlock_t		lock;
