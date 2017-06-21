@@ -1936,14 +1936,21 @@ struct v4l2_mpeg_vbi_fmt_ivtv {
 
 /*
  *	A G G R E G A T E   S T R U C T U R E S
+ *                구조체 집합들..?
  */
 
 /**
  * struct v4l2_plane_pix_format - additional, per-plane format definition
+ *                                추가적인, 평면별 형식 정의
  * @sizeimage:		maximum size in bytes required for data, for which
  *			this plane will be used
+ *                      이 평면이 사용될 데이터에 필요한 최대 크기(bytes)
+ *                      드라이버가 설정한 전체이미지를 저장할 버퍼의 크기
+ *                      이미지가 가변길이로 압축된 데이터로 구성되는 경우,
+ *                      이는 이미지를 보유하는 데 필요한 최대바이트수 입니다.
  * @bytesperline:	distance in bytes between the leftmost pixels in two
  *			adjacent lines
+ *                      인접한 두 라인의 가장 왼쪽 픽셀간 거리
  */
 struct v4l2_plane_pix_format {
 	__u32		sizeimage;
