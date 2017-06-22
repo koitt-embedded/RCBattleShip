@@ -41,6 +41,7 @@ gcc sample_prob.c -lm
 신뢰구간 표준화
 gcc confidence_interval_normalize.c -lm
 t 분포
+gcc t_dist.c -lm
 가설 검정
 1 종 오류, 2 종 오류, 검정력
 기대도수, 관측도수, 자유도, 카이제곱 분포
