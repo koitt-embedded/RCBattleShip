@@ -77,9 +77,10 @@ int main(void)
 	cvtColor(frame, gray_image, CV_BGR2GRAY);  //컬러화면을 흑백으로 바꿔줌
 //	changeQuantisationGrey(gray_image, 3);
 
-	threshold( gray_image, bitable, 128, 255, CV_THRESH_BINARY );       
+	GaussianBlur(gray_image , bitable ,Size(7,7),0,0);
+	threshold( bitable , bitable, 128, 255, ADAPTIVE_THRESH_GAUSSIAN_C | CV_THRESH_BINARY | CV_THRESH_OTSU );       
 
-	imshow("CAM_Window", frame); //얻어온 이미지를 윈도우에 표시
+	imshow("CAM_Window", bitable); //얻어온 이미지를 윈도우에 표시
 //	imshow("Second_CAM", gray_image);
         char ch = waitKey(1);
 		if(ch == 27)
