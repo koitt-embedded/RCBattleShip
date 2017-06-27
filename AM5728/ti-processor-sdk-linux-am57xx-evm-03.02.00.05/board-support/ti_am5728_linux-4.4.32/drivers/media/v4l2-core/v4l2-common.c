@@ -127,8 +127,11 @@ void v4l2_i2c_subdev_init(struct v4l2_subdev *sd, struct i2c_client *client,
 	sd->dev = &client->dev;
 	/* i2c_client and v4l2_subdev point to one another */
 	/* i2c_client와 v4l2_subdev가 서로를 가리킴 */
+	/* 이 두가지 함수호출은 인라인함수호출로, client를 => subdev의 *dev_priv 멤버변수에(sd->dev_priv) 넣는 작업을 수행한다. dev_priv == Pointer to private data*/
 	v4l2_set_subdevdata(sd, client);
+	/* 인라인함수호출 dev_set_drvdata(&dev->dev, sd) 로 대체되며, sd를 => dev의 멤버변수 driver_data에 넣는 작업을 수행한다. */
 	i2c_set_clientdata(client, sd);
+
 	/* initialize name */
         /* 이름 초기화 */
 	snprintf(sd->name, sizeof(sd->name), "%s %d-%04x",
