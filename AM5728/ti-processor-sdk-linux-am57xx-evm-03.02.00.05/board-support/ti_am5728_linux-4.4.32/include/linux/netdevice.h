@@ -1330,6 +1330,11 @@ enum netdev_priv_flags {
  *		data with strictly "high-level" data, and it has to know about
  *		almost every data structure used in the INET module.
  *
+ * 	struct net_device - 디바이스 구조.
+ *		실제로, 이 전체 구조는 큰 실수이다. 
+ *		I/O 데이터를 "하이 레벨" 데이터와 혼합하고 
+ *		INET 모듈에 사용되는 거의 모든 데이터 구조에 대해 알아야 합니다.
+ *
  *	@name:	This is the first field of the "visible" part of this structure
  *		(i.e. as seen by users in the "Space.c" file).  It is the name
  *	 	of the interface.
@@ -1909,9 +1914,11 @@ static inline bool netdev_uses_dsa(struct net_device *dev)
 
 /**
  *	netdev_priv - access network device private data
+ *		      네트워크 디바이스 private 데이터 접근
  *	@dev: network device
  *
  * Get network device private data
+ * 네트워크 디바이스 private 데이터를 얻는다.
  */
 static inline void *netdev_priv(const struct net_device *dev)
 {

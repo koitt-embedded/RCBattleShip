@@ -21,7 +21,7 @@
 #include <linux/mutex.h>
 
 struct kref {
-	atomic_t refcount;
+	atomic_t refcount;	/* urb의 reference 횟수, urb를 몇 번이나 불렀는지 */
 };
 
 /**

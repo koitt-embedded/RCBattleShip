@@ -566,7 +566,7 @@ struct dev_pm_info {
 	bool			ignore_children:1;
 	bool			early_init:1;	/* Owned by the PM core */
 	bool			direct_complete:1;	/* Owned by the PM core */
-	spinlock_t		lock;
+	spinlock_t		lock;	/* 스핀락에 관한 변수, 스핀락이 활성화 된 것을 나타냄? */
 #ifdef CONFIG_PM_SLEEP
 	struct list_head	entry;
 	struct completion	completion;

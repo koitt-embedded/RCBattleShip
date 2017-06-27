@@ -1,9 +1,9 @@
 /*
  * Video capture interface for Linux version 2
- *
+ * Linux 버전 2 용 비디오 캡처 인터페이스
  *	A generic video device interface for the LINUX operating system
  *	using a set of device structures/vectors for low level operations.
- *
+ *      저수준 작업을위한 일련의 장치 구조 / 벡터를 사용하는 LINUX 운영 체제 용 일반 비디오 장치 인터페이스.
  *	This program is free software; you can redistribute it and/or
  *	modify it under the terms of the GNU General Public License
  *	as published by the Free Software Foundation; either version
@@ -35,15 +35,21 @@
 #define VIDEO_NAME              "video4linux"
 
 /*
- *	sysfs stuff
+ *	sysfs stuff   리눅스커널이 제공하는 가상파일시스템의 하나 
+ *                    (커널매커니즘 이 아닌, 가상파일시스템 이다 !!)
+ *                    가상 파일을 통해 다양한 커널하위시스템의 정보 제공, 내보낸 가상 파일들은 
+ *                    이들의 구성에도 사용된다
  */
 
 static ssize_t index_show(struct device *cd,
 			  struct device_attribute *attr, char *buf)
 {
 	struct video_device *vdev = to_video_device(cd);
-
+/*      인자값으로 가져온 캐릭터디바이스의 정보가 들어있는 주소를 기억한다*/
 	return sprintf(buf, "%i\n", vdev->index);
+/*    버퍼에 %i형식(10진수/8진수/16진수)으로 저장한다. 내용은 비디오장치의 인덱스 (번호??)
+ *    이 인덱스에 접근하면 캐릭터디바이스의 정보가 들어있는 주소로 접근할수 있게 연결해 주는 것 같다
+*/
 }
 static DEVICE_ATTR_RO(index);
 

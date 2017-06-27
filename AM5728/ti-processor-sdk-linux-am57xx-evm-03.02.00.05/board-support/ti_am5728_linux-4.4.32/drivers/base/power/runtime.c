@@ -1179,6 +1179,8 @@ EXPORT_SYMBOL_GPL(__pm_runtime_disable);
 /**
  * pm_runtime_enable - Enable runtime PM of a device.
  * @dev: Device to handle.
+ * pm_runtime_enable - 장치의 가능한 runtime PM에 관한 함수
+ * 물리메모리 runtime에 관한 함수
  */
 void pm_runtime_enable(struct device *dev)
 {
@@ -1194,6 +1196,11 @@ void pm_runtime_enable(struct device *dev)
 	spin_unlock_irqrestore(&dev->power.lock, flags);
 }
 EXPORT_SYMBOL_GPL(pm_runtime_enable);
+/* 
+ * dev_pm_info로 드라이빙: 장치의 물리메모리에 관한 정보
+ * flag는 일단 아무 값도 들어있지 않은건가?
+ */
+
 
 /**
  * pm_runtime_forbid - Block runtime PM of a device.

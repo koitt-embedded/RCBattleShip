@@ -120,66 +120,105 @@ struct v4l2_subdev_io_pin_config {
 
 /**
  * struct v4l2_subdev_core_ops - Define core ops callbacks for subdevs
- *
+ *        v4l2_subdev_core_ops -  subdev 의 core ops 콜백 의  정의
+ *        (콜백 : 다른코드의 인수로써 넘겨주는, 실행가능한 코드
+ *         콜백을 넘겨받는 코드는 이 콜백을 필요에 따라 즉시 실행할 수도 있고, 
+ *          아니면 나중에 실행할 수도 있다.
  * @log_status: callback for VIDIOC_LOG_STATUS ioctl handler code.
+ *              VIDIOC_LOG_STATUS ioctl 핸들러 코드에 대한 콜백
  *
  * @s_io_pin_config: configure one or more chip I/O pins for chips that
  *	multiplex different internal signal pads out to IO pins.  This function
  *	takes a pointer to an array of 'n' pin configuration entries, one for
  *	each pin being configured.  This function could be called at times
  *	other than just subdevice initialization.
+ *      다른 internal signal pad를 I/O 핀에 멀티플렉싱하는 칩에 대해, 
+ *      하나이상의 칩 I/O 핀을 구성한다. 이 함수는 'n'핀 구성 엔트리의 
+ *      배열에 대한 포인터를 취한다. 이 함수는 단지 하위장치 초기화 이외의
+ *      다른 시간에 호출될 수 있다.
  *
  * @init: initialize the sensor registers to some sort of reasonable default
  *	values. Do not use for new drivers and should be removed in existing
  *	drivers.
+ *      센서 레지스터를 적절한 기본값으로 초기화한다.
+ *      새 드라이버에는 사용하지 말고 기존 드라이버에서 제거해야 한다.
  *
  * @load_fw: load firmware.
+ *           로드 펌웨어
  *
  * @reset: generic reset command. The argument selects which subsystems to
  *	reset. Passing 0 will always reset the whole chip. Do not use for new
  *	drivers without discussing this first on the linux-media mailinglist.
  *	There should be no reason normally to reset a device.
+ *      제네릭 리셋 커맨드. argument(인수)는 재설정할 서브시스템을 선택한다.
+ *      0을 전달하면, 항상 칩 전체가 재설정 된다. 새 드라이버는 linux-media
+ *      메일링리스트에서 먼저 논의하지 않고 사용하지 마십시오.
+ *      일반적으로 기기를 reset할 이유가 없어야 한다.
  *
  * @s_gpio: set GPIO pins. Very simple right now, might need to be extended with
  *	a direction argument if needed.
+ *      GPIO 핀을 설정하십시오. 지금은 아주 간단합니다. 
+ *      필요하다면 direction argument(방향인수)로 확장해야 할 수도 있다.
  *
  * @queryctrl: callback for VIDIOC_QUERYCTL ioctl handler code.
+ *             VIDIOC_QUERYCTL ioctl 핸들러 코드의 콜백
  *
  * @g_ctrl: callback for VIDIOC_G_CTRL ioctl handler code.
+ *          VIDIOC_G_CTRL ioctl 핸들러 코드의 콜백
  *
  * @s_ctrl: callback for VIDIOC_S_CTRL ioctl handler code.
+ *          VIDIOC_S_CTRL ioctl 핸들러 코드의 콜백
  *
  * @g_ext_ctrls: callback for VIDIOC_G_EXT_CTRLS ioctl handler code.
+ *               VIDIOC_G_EXT_CTRLS ioctl 핸들러 코드의 콜백
  *
  * @s_ext_ctrls: callback for VIDIOC_S_EXT_CTRLS ioctl handler code.
- *
+ *               VIDIOC_S_EXT_CTRLS ioctl 핸들러 코드의 콜백
+ *               
  * @try_ext_ctrls: callback for VIDIOC_TRY_EXT_CTRLS ioctl handler code.
+ *                 VIDIOC_TRY_EXT_CTRLS ioctl 핸들러 코드의 콜백
  *
  * @querymenu: callback for VIDIOC_QUERYMENU ioctl handler code.
- *
+ *              VIDIOC_QUERYMENU ioctl 핸들러 코드의 콜백
+ * 
  * @ioctl: called at the end of ioctl() syscall handler at the V4L2 core.
- *	   used to provide support for private ioctls used on the driver.
+ *         used to provide support for private ioctls used on the driver.
+ *         V4L2 코어에서 ioctl() syscall 핸들러의 끝에서 호출된다.
+ *         드라이버에 사용되는 개인용 ioctl 에 대한 지원을 제공하는데 사용된다
  *
  * @compat_ioctl32: called when a 32 bits application uses a 64 bits Kernel,
- *		    in order to fix data passed from/to userspace.
+ *                  in order to fix data passed from/to userspace.
+ *                  32비트 응용프로그램이 64비트 커널을 사용하여 사용자 공간에서
+ *                  또는 공간으로 , 전달된 데이터를 수정하는 경우 호출된다.
  *
  * @g_register: callback for VIDIOC_G_REGISTER ioctl handler code.
+ *              VIDIOC_G_REGISTER ioctl 핸들러 코드의 콜백
  *
- * @s_register: callback for VIDIOC_G_REGISTER ioctl handler code.
+ * @s_register: callback for VIDIOC_S_REGISTER ioctl handler code.
+ *              VIDIOC_S_REGISTER ioctl 핸들러 코드의 콜백
  *
  * @s_power: puts subdevice in power saving mode (on == 0) or normal operation
- *	mode (on == 1).
+ *      mode (on == 1).
+ *    subdevice(하위장치)를 절전모드(on == 0) 또는 정상작동모드(on == 1)로 설정.
  *
  * @interrupt_service_routine: Called by the bridge chip's interrupt service
- *	handler, when an interrupt status has be raised due to this subdev,
- *	so that this subdev can handle the details.  It may schedule work to be
- *	performed later.  It must not sleep.  *Called from an IRQ context*.
+ *      handler, when an interrupt status has be raised due to this subdev,
+ *      so that this subdev can handle the details.  It may schedule work to be
+ *      performed later.  It must not sleep.  *Called from an IRQ context*.
+ *      이 subdev로 인해 인터럽트 상태가 발생하면 이 하위디버그가 세부사항을 
+ *      처리할 수 있도록 bridge chip's interrupt service handler가 호출됩니다.
+ *      나중에 수행할 작업을 예약할 수 있다. sleep상태이면 안됨.
+ *      (*IRQ context 에서 호출된다*)
  *
  * @subscribe_event: used by the drivers to request the control framework that
- *		     for it to be warned when the value of a control changes.
- *
+ *                   for it to be warned when the value of a control changes.
+ *              드라이버가 컨트롤의 값이 변할 때 경고하도록 컨트롤 프레임워크를
+ *              요청하는 데 사용된다.
+ * 
  * @unsubscribe_event: remove event subscription from the control framework.
+ *                     제어 프레임워크 에서 이벤트 등록을 제거하십시오.
  */
+
 struct v4l2_subdev_core_ops {
 	int (*log_status)(struct v4l2_subdev *sd);
 	int (*s_io_pin_config)(struct v4l2_subdev *sd, size_t n,
