@@ -23,11 +23,11 @@ static int set_i2c_register(int file, unsigned char addr, unsigned char reg, uns
 	msgs[0].buf = outbuf;
 
 	outbuf[0] = reg; // outbuf의 첫 번째 byte는 우리가 쓸 주소를 알리는 용도로 사용한다. (first 7bits)
-	outbuf[1] = value // 두 번째는 쓸 값을 넣는다. 테스트 용이 아니면 일반적으로 더 큰 outbuf를 잡아준다
+	outbuf[1] = value; // 두 번째는 쓸 값을 넣는다. 테스트 용이 아니면 일반적으로 더 큰 outbuf를 잡아준다
 
 	/* Transfer the i2c packets to the kernel and verify it worked */
 	msgset.msgs = msgs;
-	msgset.nmsg = 1;
+	msgset.nmsgs = 1;
 	if(ioctl(file, I2C_RDWR, &msgset) < 0) {
 		perror("Unable to send data\n");
 		return 1;
@@ -55,13 +55,13 @@ static int get_i2c_register(int file, unsigned char addr, unsigned char reg, uns
 
 	/* The data will get returned in this structure */
 	msgs[1].addr = addr;
-	msgs[1].flags = I2C_M_RD/* | I2C_M_NOSTART*/ // 이 flag로 read 할지 write 할지를 결정한다. 0은 write
+	msgs[1].flags = I2C_M_RD/* | I2C_M_NOSTART*/; // 이 flag로 read 할지 write 할지를 결정한다. 0은 write
 	msgs[1].len = sizeof(inbuf);
 	msgs[1].buf = &inbuf;
 
 	/* Send the request to the kernel and get the result back */
 	msgset.msgs = msgs;
-	msgset.nmsg = 2;
+	msgset.nmsgs = 2;
 	if(ioctl(file, I2C_RDWR, &msgset) < 0) {
 		perror("Unable to send data\n");
 		return 1;
