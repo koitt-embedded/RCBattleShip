@@ -1,0 +1,51 @@
+FreeRTOS V9.0.0 혹은 저전력 Tick-Less 동작을 아직 지원하지 않는 161204 사본이다.
+추가 문서는 http://www.FreeRTOS.org 에서 정기적으로 확인하라.
+FreeRTOS V9.x.x 에 대한 자세한 내용은 http://www.FreeRTOS.org 에서
+정기적으로 추가 설명서 및 이 설명서에 업데이트를 확인하고 
+http://www.FreeRTOS.org/FreeRTOS-V9.html 에서 정보를 참조하라.
+FreeRTOS V9.x.x 를 사용하여 생성된 App 은 모든 Kernel Object 를 할당할 수 있다.
+그리고 컴파일시 정적으로 Heap Memory 관리자를 포함할 필요가 없다.
+
+이 Text 는 무료로 제공된다.
+그 대가로 http://www.FreeRTOS.org/contact 에서
+비즈니스 연락처 전자 메일 링크를 사용하여 의견 및 수정 사항을 제공할 것을 요청한다.
+
+
+
+Multitasking in Small Embedded Systems
+
+* About FreeRTOS
+
+FreeRTOS 는 Real Time Engineers Ltd. 가 전적으로 소유, 개발 및 유지 관리한다.
+Real Time Engineers Ltd. 는 10 년 넘게 상을 수상한 상업용 등급의
+완전 무료 고품질 SW 를 제공하기 위해 세계 유수의 칩 회사와 긴밀한 협력 관계를 유지하고 있다.
+
+FreeRTOS 는 작은 Microprocessor 혹은 Microcontrollers 를 사용하는 Real-Time Application 에 이상적이다.
+이러한 유형의 Application 은 일반적으로 HW 및 SW Real-Time 사항을 모두 포함한다.
+
+SW Real-Time 요구 사항은 마감 시간을 명시하지만
+마감 시간을 위반한다고하여 System 이 쓸모 없어지지는 않는다.
+예로 Keystrokes 에 너무 느리게 응답하면 System 이 응답하지 않을 수 있다.
+
+HW Real-Time 요구 사항은 마감 기한을 명시하며
+요구 사항을 위반하면 System 이 절대적으로 실패하게 된다.
+예로 운전자의 Airbag 은 충돌 감지 센서 입력에 너무 느리게 응답할 경우
+유익함 보다는 많은 안좋은 부분들이 발생할 수 있는 잠재력을 가지고 있다.
+
+FreeRTOS 는 Real-Time Kernel(혹은 Real-Time Scheduler)이며
+위의 Embedded Application 을 구축하여 HW Real-Time 요구사항을 충족시킬 수 있다.
+App 은 Program 이 독립적인 실행 Thread 의 모음으로 구성되도록 한다.
+Core 가 하나 뿐인 Processor 에선 한 번에 하나의 Thread 만 실행할 수 있다.
+Kernel 은 App 설계자가 각 Thread 에 할당한 우선 순위를 검토하여 실행해야 하는 Thread 를 결정한다.
+가장 간단한 경우 App 설계자는 HW Real-Time 요구 사항을 구현하는 Thread 에 우선순위를 높게 할당하고
+SW Real-Time 요구 사항을 구현하는 Thread 에 우선순위를 낮출 수 있다.
+이렇게하면 HW Real-Time Thread 가 항상 SW Real-Time Thread 보다
+먼저 실행되지만 우선순위 할당 결정이 단순하지 않다.
+
+이전 단락의 개념을 아직 완전히 이해하지 못하더라도 걱정하지 말라.
+다음 Chapter 에서 Real-Time Kernel 을 사용하는 방법과
+FreeRTOS 를 사용하는 방법을 이해하는데 도움이 되는 많은 예제와 함께 자세한 설명을 제공한다.
+
+
+
+* Value Proposition
