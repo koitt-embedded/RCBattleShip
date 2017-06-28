@@ -26,16 +26,6 @@ int send_data(int fd, unsigned char wordRegister, unsigned char data);
 int receive_data(int fd, unsigned char *acc_xyz);
 void print_sensing_data(unsigned char *acc_xyz);
 
-int temp_receive_data(fd, acc_xyz) {
-	struct i2c_rdwr_ioctl_data msgset;
-	struct i2c_msg msgs[2];
-	unsigned char buf[2];
-
-
-
-	return 0;
-}
-
 // tset
 int global_cnt;
 
@@ -59,7 +49,7 @@ int main(int argc, char **argv) {
 	while(1) {
 		receive_data(fd, acc_xyz);
 		print_sensing_data(acc_xyz);
-		sleep(10);
+		// sleep(1);
 	}
 
 	return 0;
@@ -112,7 +102,7 @@ int receive_data(int fd, unsigned char *acc_xyz) {
 			msgs[i].addr = MPU6050_ADDR;
 			msgs[i].flags = 0;
 			msgs[i].len = 1;
-			msgs[i].buf = &buf[(i + 1) * 2];
+			msgs[i].buf = &buf[i / 2];
 
 			// test
 			printf("buf[%d] 0x%x\n", i / 2, buf[i / 2]);
@@ -130,8 +120,21 @@ int receive_data(int fd, unsigned char *acc_xyz) {
 		}
 	}
 
+	// for(i=0; i<6; i++) {
+	// 	buf[i] = ACCEL_XOUT_H + i;
+	// 	msgs[i].addr = MPU6050_ADDR;
+	// 	msgs[i].flags = 0;
+	// 	msgs[i].len = 1;
+	// 	msgs[i].buf = &buf[i];
+	// }
+	// msgs[6].addr = MPU6050_ADDR;
+	// msgs[6].flags = I2C_M_RD;
+	// msgs[6].len = 6;
+	// msgs[6].buf = &acc_xyz[0];
+
 	msgset.msgs = msgs;
-	msgset.nmsgs = 12;
+	// msgset.nmsgs = 12;
+	msgset.nmsgs = 7;
 
 	printf("Try to receive data from ");
 	for(i=0; i<6; i++) printf("0x%x, ", ACCEL_XOUT_H + i);
@@ -140,6 +143,7 @@ int receive_data(int fd, unsigned char *acc_xyz) {
 		perror("\n---receive_data error ");
 		return -1;
 	}
+	printf("Successfully sent data\n");
 
 	return 0;
 }
