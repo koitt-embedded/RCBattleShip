@@ -596,23 +596,25 @@ static int xcan_start_xmit(struct sk_buff *skb, struct net_device *ndev)
     }
  
     /* Watch carefully on the bit sequence */
+   // IF문은 확장형 포멧이면 True, 아니면 else 로 can_id를 세팅해준다.
   if (cf->can_id & CAN_EFF_FLAG) {	
 /*
-can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) 와 CAN_EFF_FLAG : valid bits in CAN ID for frame formats extended frame format, 
+can_id(can_id:  32 bit CAN_ID + EFF/RTR/ERR flags) 와
+ CAN_EFF_FLAG : valid bits in CAN ID for frame formats extended frame format, 
 extended frame format (EFF) / standard frame format ( SFF )
 확장형 EFF 포멧과 can_id 를 &연산 한다. 
 */ 
  
  /* Extended CAN ID format */
 /*
-can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) & CAN_EFF_MASK(extended frame format(EFF))  <<  Extended Message Identifier(XCAN_IDR_ID2_SHIFT) & Extended message ident(XCAN_IDR_ID2_MASK)
+can_id(can_id:  32 bit CAN_ID + EFF/RTR/ERR flags) & 
+CAN_EFF_MASK(extended frame format(EFF))  <<  Extended Message Identifier(XCAN_IDR_ID2_SHIFT) & Extended message ident(XCAN_IDR_ID2_MASK)
 */ 
  
 id = ((cf->can_id & CAN_EFF_MASK) << XCAN_IDR_ID2_SHIFT) &    XCAN_IDR_ID2_MASK;
  
 /*
-대체 뭐하는 부분인지 모르겠네 ㅡㅡ;;;;;; 
- can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) &
+ can_id(can_id:  32 bit CAN_ID + EFF/RTR/ERR flags) & 
 CAN_EFF_MASK(extended frame format(EFF)) >>
 */
 id |= (((cf->can_id & CAN_EFF_MASK) >>   		 
@@ -623,43 +625,68 @@ XCAN_IDR_ID1_SHIFT) & XCAN_IDR_ID1_MASK;
  
  /* The substibute remote TX request bit should be "1"
  * for extended frames as in the Xilinx CAN datasheet
+    Xilinx CAN 데이터 시트에서와 같이 확장 프레임에 대해서는 
+    substibute remote TX 요청 비트가 "1"이어야한다.
  */
-id |= XCAN_IDR_IDE_MASK | XCAN_IDR_SRR_MASK;	// Identifier extension(0x00080000) | Substitute remote TXreq/(0x00100000)
+id |= XCAN_IDR_IDE_MASK | XCAN_IDR_SRR_MASK;	
+// Identifier extension(0x00080000) | Substitute remote TXreq/(0x00100000)
  
-   	 if (cf->can_id & CAN_RTR_FLAG)  //can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) & remote transmission request(0x40000000U)
-   		 /* Extended frames remote TX request */
+   	 if (cf->can_id & CAN_RTR_FLAG)  
+//can_id(can_id: 32 bit CAN_ID + EFF/RTR/ERR flags) 
+& remote transmission request(0x40000000U)
+/* Extended frames remote TX request */
    		 id |= XCAN_IDR_RTR_MASK;	// Remote TX request(0x00000001)
     } else {
    	 /* Standard CAN ID format */
-   	 id = ((cf->can_id & CAN_SFF_MASK) << XCAN_IDR_ID1_SHIFT) &  //can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) & standard frame format (SFF) << Standard Messg Identifier(21)
-   		 XCAN_IDR_ID1_MASK;  	// Standard msg identifier(0xFFE00000)
+   	 id = ((cf->can_id & CAN_SFF_MASK) << XCAN_IDR_ID1_SHIFT) &      
+   		 XCAN_IDR_ID1_MASK;  
+             //can_id & standard frame format (SFF) << Standard Messg Identifier(21) 
+             & Standard msg identifier(0xFFE00000)
  
-   	 if (cf->can_id & CAN_RTR_FLAG) //can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) & remote transmission request(0x40000000U)
+//  remote 전송 요청이있다면  Substitute remote TXreq 비트를 활성화하라
+   	 if (cf->can_id & CAN_RTR_FLAG) 
+             //can_id & remote transmission request(0x40000000U)
    		 /* Standard frames remote TX request */
    		 id |= XCAN_IDR_SRR_MASK;	// Substitute remote TXreq(0x00100000)
     }
- 
-    dlc = cf->can_dlc << XCAN_DLCR_DLC_SHIFT;	//// can_dlc(can_dlc에는 data [] 바이트 배열에 사용 된 바이트 수가 들어 있습니다) << Data length code(28)
+/* 
+can_dlc (can_dlc에는 data [] 바이트 배열에 사용 된 바이트 수가 들어 있습니다) 
+> CAN 프레임에서 사용 된 데이터 바이트 수를 정의 하고 있음.
+ << Data length code(28)
+*/
+    dlc = cf->can_dlc << XCAN_DLCR_DLC_SHIFT;	
  
     if (cf->can_dlc > 0)
-   	 data[0] = be32_to_cpup((__be32 *)(cf->data + 0));   // be32_to_cpup는 "(__be32 *)(cf->data + 0)"에 지정된 주소에서 데이터를 읽은 다음 Big Endian에서 프로세서의 기본 Little Endian으로 변환하므로 "data[0]"에 포함될 것으로 예상되는 정수가 포함됩니다.
+   	 data[0] = be32_to_cpup((__be32 *)(cf->data + 0));   
+/*
+be32_to_cpup는 "(__be32 *)(cf->data + 0)"에 지정된 주소에서 데이터를 읽은 다음 Big Endian(상위 바이트먼저 읽기)에서 프로세서의 기본 Little Endian(하위 바이트부터 읽기)으로 변환하므로 "data[0]"에 포함될 것으로 예상되는 정수가 포함됩니다.
+*/
     if (cf->can_dlc > 4)
-   	 data[1] = be32_to_cpup((__be32 *)(cf->data + 4));   // be32_to_cpup는 "(__be32 *)(cf->data + 4)"에 지정된 주소에서 데이터를 읽은 다음 Big Endian에서 프로세서의 기본 Little Endian으로 변환하므로 "data[1]"에 포함될 것으로 예상되는 정수가 포함됩니다.
+   	 data[1] = be32_to_cpup((__be32 *)(cf->data + 4));   
+/*
+be32_to_cpup는 "(__be32 *)(cf->data + 4)"에 지정된 주소에서 데이터를 읽은 다음 Big Endian에서 프로세서의 기본 Little Endian으로 변환하므로 "data[1]"에 포함될 것으로 예상되는 정수가 포함됩니다.
+*/
  
-    can_put_echo_skb(skb, ndev, priv->tx_head % priv->tx_max);		// skb를 루프에 스택에 놓고 나중에 로컬로 백업합니다.
+    can_put_echo_skb(skb, ndev, priv->tx_head % priv->tx_max);		
+// skb를 루프에 스택에 놓고 나중에 로컬로 백업합니다.
+
 	priv->tx_head++;    //Tx CAN packets ready to send on the queue증가
  
-    priv->write_reg(priv, XCAN_TXFIFO_ID_OFFSET, id);   // CAN레지스터(XCAN_TXFIFO_ID_OFFSET: TX FIFO ID)에 데이터(id)를 쓴다.
+    priv->write_reg(priv, XCAN_TXFIFO_ID_OFFSET, id);  
+ // CAN레지스터(XCAN_TXFIFO_ID_OFFSET: TX FIFO ID)에 데이터(id)를 쓴다.
     
     /* If the CAN frame is RTR frame this write triggers tranmission */
-    priv->write_reg(priv, XCAN_TXFIFO_DLC_OFFSET, dlc); // CAN레지스터(XCAN_TXFIFO_DLC_OFFSET: TX FIFO DLC)에 데이터(dlc)를 쓴다.
+    priv->write_reg(priv, XCAN_TXFIFO_DLC_OFFSET, dlc);
+ // CAN레지스터(XCAN_TXFIFO_DLC_OFFSET: TX FIFO DLC)에 데이터(dlc)를 쓴다.
  
     if (!(cf->can_id & CAN_RTR_FLAG)) { //can_id(can_id:  CAN ID of the frame and CAN_*_FLAG flags, see canid_t definition) & remote transmission request(0x40000000U)
-   	 priv->write_reg(priv, XCAN_TXFIFO_DW1_OFFSET, data[0]); // CAN레지스터(XCAN_TXFIFO_DW1_OFFSET: TX FIFO Data Word 1)에 데이터(data[0])를 쓴다.
+   	 priv->write_reg(priv, XCAN_TXFIFO_DW1_OFFSET, data[0]); 
+// CAN레지스터(XCAN_TXFIFO_DW1_OFFSET: TX FIFO Data Word 1)에 데이터(data[0])를 쓴다.
    	 /* If the CAN frame is Standard/Extended frame this
    	  * write triggers tranmission
    	  */
-   	 priv->write_reg(priv, XCAN_TXFIFO_DW2_OFFSET, data[1]); // CAN레지스터(XCAN_TXFIFO_DW1_OFFSET: TX FIFO Data Word 1)에 데이터(data[0])를 쓴다.
+   	 priv->write_reg(priv, XCAN_TXFIFO_DW2_OFFSET, data[1]); 
+// CAN레지스터(XCAN_TXFIFO_DW1_OFFSET: TX FIFO Data Word 1)에 데이터(data[0])를 쓴다.
    	 stats->tx_bytes += cf->can_dlc; // tx_bytes(송신단자바이트) + can_dlc(can_dlc에는 data [] 바이트 배열에 사용 된 바이트 수가 들어 있습니다
     }
  
@@ -673,12 +700,16 @@ id |= XCAN_IDR_IDE_MASK | XCAN_IDR_SRR_MASK;	// Identifier extension(0x00080000)
 /**
  * xcan_rx -  Is called from CAN isr to complete the received
  *   	 frame  processing
+ * 민지 :수신된 프레임 처리를 완료하기 위해 CAN isr에서 호출
  * @ndev:    Pointer to net_device structure
- *
+ *	  :  net_device 구조체에 대한 포인터
  * This function is invoked from the CAN isr(poll) to process the Rx frames. It
  * does minimal processing and invokes "netif_receive_skb" to complete further
  * processing.
+ *  이 함수는 CAN isr(poll)에서 호출하여 Rx프레임을 처리한다. 최소한의 처리만 수행하고     
+ *“netif_receive_skb”을 호출하여 추가 처리를 완료
  * Return: 1 on success and 0 on failure.
+ *    	   : 성공시 1회 실패시 0회
  */
 static int xcan_rx(struct net_device *ndev)
 {
@@ -689,51 +720,89 @@ static int xcan_rx(struct net_device *ndev)
     u32 id_xcan, dlc, data[2] = {0, 0};
  
     skb = alloc_can_skb(ndev, &cf);
-    if (unlikely(!skb)) {
+    // struct sk_buff *alloc_can_skb(struct net_device *dev, struct can_frame **cf);
+   /* 
+unlikely()  / likely()
+이것의 용도는 컴파일러에게 branch 예측을 도와 주는 용도로 사용이 된다. 
+즉, 대부분 0으로 예측이 된다면 unlikely(x) 의 형태로 쓰고, 1로 예상되는 값을 likely(x) 로 쓴다.
+예측을 도와 줌으로써 성능의 향상을 볼 수 있도록 하는 것이다.
+  */
+    if (unlikely(!skb)) { // skb의 값이 0으로 오류가 발생했을 경우 아래와 같이 처리하라. 
    	 stats->rx_dropped++;
    	 return 0;
     }
  
-    /* Read a frame from Xilinx zynq CANPS */
+ 
+    /* Read a frame from Xilinx zynq CANPS   Xilinx zynq CAMPS에서 프레임 읽기 */
+    // XCAN_RXFIFO_ID_OFFSET : RX FIFO ID 
     id_xcan = priv->read_reg(priv, XCAN_RXFIFO_ID_OFFSET);
+ 
+    // XCAN_RXFIFO_DLC_OFFSET : RX FIFO DLC(길이) 
+    //  XCAN_DLCR_DLC_SHIFT : Data length code (28)
     dlc = priv->read_reg(priv, XCAN_RXFIFO_DLC_OFFSET) >>
    			 XCAN_DLCR_DLC_SHIFT;
  
-    /* Change Xilinx CAN data length format to socketCAN data format */
+    /* Change Xilinx CAN data length format to socketCAN data format 
+    Xilinx CAN 데이터 길이 형식을 socketCAN 데이터 형식으로 변경하십시오. */
+ 
+    /* get_can_dlc(value) : helper 매크로를 사용하여 주어진 데이터 길이 코드 (dlc)를 
+        __u8로 캐스팅하고 dlc 값이 최대가 되도록하십시오. 8 바이트. */
     cf->can_dlc = get_can_dlc(dlc);
  
-    /* Change Xilinx CAN ID format to socketCAN ID format */
+    /* Change Xilinx CAN ID format to socketCAN ID format 
+        Xilinx CAN ID 형식을 socketCAN ID 형식으로 변경하십시오 */
     if (id_xcan & XCAN_IDR_IDE_MASK) {
-   	 /* The received frame is an Extended format frame */
+   	 /* The received frame is an Extended format frame 
+                 수신된 프레임은 확장 형식 프레임입니다. */
    	 cf->can_id = (id_xcan & XCAN_IDR_ID1_MASK) >> 3;
    	 cf->can_id |= (id_xcan & XCAN_IDR_ID2_MASK) >>
-   			 XCAN_IDR_ID2_SHIFT;
+   			 XCAN_IDR_ID2_SHIFT; // 확장형에만 있는 ID2 값
    	 cf->can_id |= CAN_EFF_FLAG;
-   	 if (id_xcan & XCAN_IDR_RTR_MASK)
-   		 cf->can_id |= CAN_RTR_FLAG;
+   	 if (id_xcan & XCAN_IDR_RTR_MASK) // 원격 요청 프레임인 경우
+    		 cf->can_id |= CAN_RTR_FLAG;
+                      // CAN_RTR_FLAG : remote transmission request 세팅
     } else {
-   	 /* The received frame is a standard format frame */
+   	 /* The received frame is a standard format frame
+                수신 된 프레임은 표준 형식 프레임입니다. */
    	 cf->can_id = (id_xcan & XCAN_IDR_ID1_MASK) >>
    			 XCAN_IDR_ID1_SHIFT;
    	 if (id_xcan & XCAN_IDR_SRR_MASK)
    		 cf->can_id |= CAN_RTR_FLAG;
     }
  
-    /* DW1/DW2 must always be read to remove message from RXFIFO */
+    /* DW1/DW2 must always be read to remove message from RXFIFO 
+        RXFIFO에서 메시지를 제거하려면 DW1 / DW2를 항상 읽어야합니다. */
+    // XCAN_RXFIFO_DW1_OFFSET : RX FIFO Data word 1 0x58
+    // XCAN_RXFIFO_DW2_OFFSET : RX FIFO Data word 2 0x5c
     data[0] = priv->read_reg(priv, XCAN_RXFIFO_DW1_OFFSET);
     data[1] = priv->read_reg(priv, XCAN_RXFIFO_DW2_OFFSET);
  
-    if (!(cf->can_id & CAN_RTR_FLAG)) {
-   	 /* Change Xilinx CAN data format to socketCAN data format */
-   	 if (cf->can_dlc > 0)
+    if (!(cf->can_id & CAN_RTR_FLAG)) { // 원격 프레임이 아닌 경우
+   	 /* Change Xilinx CAN data format to socketCAN data format 
+                 Xilinx CAN 데이터 형식을 socketCAN 데이터 형식으로 변경하십시오 */
+   	 if (cf->can_dlc > 0) // 수신 프레임의 길이가 0보다 큰 경우
    		 *(__be32 *)(cf->data) = cpu_to_be32(data[0]);
-   	 if (cf->can_dlc > 4)
+   	 if (cf->can_dlc > 4) // 수신 프레임의 길이가 4보다 큰 경우 추가 처리
    		 *(__be32 *)(cf->data + 4) = cpu_to_be32(data[1]);
     }
  
-    stats->rx_bytes += cf->can_dlc;
-    stats->rx_packets++;
+    stats->rx_bytes += cf->can_dlc; // 수신된 길이를 계속해서 더하는 듯?
+    stats->rx_packets++; 
     netif_receive_skb(skb);
+ /* 
+int netif_receive_skb(struct sk_buff *skb)
+{
+	trace_netif_receive_skb_entry(skb);
+	return netif_receive_skb_internal(skb);
+}
+        네트워크에서 버퍼 수신 처리 
+netif_receive_skb ()는 주요 수신 데이터 처리 함수입니다. 
+그것은 항상 성공합니다. 버퍼는 혼잡 제어를 위한 처리 중에 또는 프로토콜 계층에 의해 드롭 될 수있습니다. 이 함수는 softirq 문맥에서만 호출 될 수 있고 인터럽트는 활성화 되어야합니다. 
+ 
+반환 값 (일반적으로 무시 됨)
+NET_RX_SUCCESS : 혼잡 없음
+NET_RX_DROP : 패킷이 삭제되었습니다.
+*/
  
     return 1;
 }
@@ -747,7 +816,12 @@ static void xcan_chip_stop(struct net_device *ndev);
  * This is the CAN error interrupt and it will
  * check the the type of error and forward the error
  * frame to upper layers.
+   이것은 CAN 오류 인터럽트이며 오류 유형을 확인하고 
+    오류 프레임을 상위 계층으로 전달합니다
  */
+/*
+ADS : 이 부분은 에러들에 대한 기술이 있는 부분이므로 can의 오류들에 대해 알고 오면 좋을 듯 하다. 
+*/ 
 static void xcan_err_interrupt(struct net_device *ndev, u32 isr)
 {
     struct xcan_priv *priv = netdev_priv(ndev);
@@ -755,26 +829,47 @@ static void xcan_err_interrupt(struct net_device *ndev, u32 isr)
     struct can_frame *cf;
     struct sk_buff *skb;
     u32 err_status, status, txerr = 0, rxerr = 0;
- 
+    
+   /* struct sk_buff *alloc_can_err_skb
+      (struct net_device *dev, struct can_frame **cf); 
+      -> 검색을 해도 마땅한 정보가 나오지 않음 ㅡㅡ;;
+   */ 
     skb = alloc_can_err_skb(ndev, &cf);
  
-    err_status = priv->read_reg(priv, XCAN_ESR_OFFSET);
-    priv->write_reg(priv, XCAN_ESR_OFFSET, err_status);
+    err_status = priv->read_reg(priv, XCAN_ESR_OFFSET); // 에러상태인지 읽는다.
+    priv->write_reg(priv, XCAN_ESR_OFFSET, err_status); 
+ 
+   // XCAN_ECR_OFFSET : Error counter, XCAN_ECR_TEC_MASK : Transmit error counter 
     txerr = priv->read_reg(priv, XCAN_ECR_OFFSET) & XCAN_ECR_TEC_MASK;
+  //  XCAN_ECR_REC_MASK : Receive error counter, 
+  //  XCAN_ESR_REC_SHIFT : Rx Error count (8)
     rxerr = ((priv->read_reg(priv, XCAN_ECR_OFFSET) &
    		 XCAN_ECR_REC_MASK) >> XCAN_ESR_REC_SHIFT);
-    status = priv->read_reg(priv, XCAN_SR_OFFSET);
+    status = priv->read_reg(priv, XCAN_SR_OFFSET); // 상태 값을 읽는다
  
-    if (isr & XCAN_IXR_BSOFF_MASK) {
-   	 priv->can.state = CAN_STATE_BUS_OFF;
+    if (isr & XCAN_IXR_BSOFF_MASK) { // Bus off interrupt
+   	 priv->can.state = CAN_STATE_BUS_OFF; /* RX/TX error count >= 256 */
    	 priv->can.can_stats.bus_off++;
-   	 /* Leave device in Config Mode in bus-off state */
+ 
+ 
+ 
+   	 /* Leave device in Config Mode in bus-off state
+                 장치를 구성 모드에서 버스 오프 상태로 둡니다. 
+버스 오프 상태란? 
+버스의 상태를 모니터링하기 위해 CAN 컨트롤러는 전송 및 수신 오류 카운터라고 하는 두 개의 카운터를 유지해야한다.
+그들은 0에서 시작하여 증가하고(오류시) 감소(컨트롤러가 성공적으로 tx/rx를 수행할 때마다)한다.
+ 
+전송 오류 카운터가 값 255를 초과하면 버스 오프 상태로 전환된다. 이 상태가 되면 컨트롤러는 버스에서 스위치 오프한다. 그것은 프레임 전송 및 수신을 중지한다. 
+ */
+            // software reset
    	 priv->write_reg(priv, XCAN_SRR_OFFSET, XCAN_SRR_RESET_MASK);
    	 can_bus_off(ndev);
-   	 if (skb)
+   	 if (skb) 
    		 cf->can_id |= CAN_ERR_BUSOFF;
+   // XCAN_SR_ESTAT_MASK : error status
     } else if ((status & XCAN_SR_ESTAT_MASK) == XCAN_SR_ESTAT_MASK) {
-   	 priv->can.state = CAN_STATE_ERROR_PASSIVE;
+   	 priv->can.state = CAN_STATE_ERROR_PASSIVE; 
+                                         // error_passive에 대한 논문이 또 ㅡㅡ;;
    	 priv->can.can_stats.error_passive++;
    	 if (skb) {
    		 cf->can_id |= CAN_ERR_CRTL;
@@ -885,11 +980,13 @@ static void xcan_err_interrupt(struct net_device *ndev, u32 isr)
  
 /**
  * xcan_state_interrupt - It will check the state of the CAN device
+			    CAN 장치의 상태를 검사합니다.
  * @ndev:    net_device pointer
  * @isr:    interrupt status register value
  *
  * This will checks the state of the CAN device
  * and puts the device into appropriate state.
+    CAN 장치의 상태를 확인하고 장치를 적절한 상태로 만듭니다.
  */
 static void xcan_state_interrupt(struct net_device *ndev, u32 isr)
 {
@@ -1437,6 +1534,4 @@ module_platform_driver(xcan_driver);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Xilinx Inc");
 MODULE_DESCRIPTION("Xilinx CAN interface");
- 
- 
  
