@@ -1,15 +1,15 @@
-
 /**
  * @file Threshold.cpp
  * @brief Sample code that shows how to use the diverse threshold options offered by OpenCV
  * @author OpenCV team
  */
-
+#include <iostream>
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 
 using namespace cv;
+using namespace std;
 
 /// Global variables
 
@@ -31,14 +31,16 @@ void Threshold_Demo( int, void* );
 /**
  * @function main
  */
-
 int main( int, char** argv )
 {
   //! [load]
   src = imread( argv[1], IMREAD_COLOR ); // Load an image
 
   if( src.empty() )
-    { return -1; }
+    {	
+	cout << "Please Input Image~!" << endl;
+	return -1;
+    }
 
   cvtColor( src, src_gray, COLOR_BGR2GRAY ); // Convert the image to Gray
   //! [load]
@@ -87,5 +89,3 @@ void Threshold_Demo( int, void* )
   imshow( window_name, dst );
 }
 //![Threshold_Demo]
-                                                                                    87,1          Bot
-
