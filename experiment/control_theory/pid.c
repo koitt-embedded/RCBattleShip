@@ -1,8 +1,6 @@
 #include "_Variable.h"
 #include "KAL.h"
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include<time.h>
 
 
 
@@ -10,29 +8,29 @@
 void pid(float rolla, float pitcha)
 {
 	Input _input;
-	Force _force;			//ÄõµåÄßÅÍ Èû
-	Moment _moment;			//ÄõµåÄßÅÍ ¸ğ¸àÆ®
-	Body _body;				//±âÃ¼ÁÂÇ¥°è º¯¼ö
-	Inertial _inertial;		//°ü¼ºÁÂÇ¥°è º¯¼ö
-	Omega _omega;			//°¢¼Óµµ ¸ğÅÍ¿¡ ¼Óµµ
-	Sensor _sensor;			//¼¾¼­¿¡¼­ ¹Ş´Â °ª
+	Force _force;			//ì¿¼ë“œì½¥í„° í˜
+	Moment _moment;			//ì¿¼ë“œì½¥í„° ëª¨ë©˜íŠ¸
+	Body _body;				//ê¸°ì²´ì¢Œí‘œê³„ ë³€ìˆ˜
+	Inertial _inertial;		//ê´€ì„±ì¢Œí‘œê³„ ë³€ìˆ˜
+	Omega _omega;			//ê°ì†ë„ ëª¨í„°ì— ì†ë„
+	Sensor _sensor;			//ì„¼ì„œì—ì„œ ë°›ëŠ” ê°’
 
-	double enterT = 0, enterTauPhi = 0, enterTauTheta = 0, enterTauPsi = 0;		//ÀÔ·ÂµÉ T
+	double enterT = 0, enterTauPhi = 0, enterTauTheta = 0, enterTauPsi = 0;		//ì…ë ¥ë  T
 	double height;
-	double degree_rad;			//¿øÇÏ´Â º¯°æ °¢µµ
-	double dt = 0.0025;		//¼º´É¿¡ µû¶ó ÀûºĞÀ» ´Ù¸£°Ô ÇØÁÖ¾î¾ßÇÔ
+	double degree_rad;			//ì›í•˜ëŠ” ë³€ê²½ ê°ë„
+	double dt = 0.0025;		//ì„±ëŠ¥ì— ë”°ë¼ ì ë¶„ì„ ë‹¤ë¥´ê²Œ í•´ì£¼ì–´ì•¼í•¨
 
-	int cnt = 0;			//¸î ¹ø¸¸¿¡ ¿øÇÏ´Â °¢À¸·Î °¡´ÂÁö Ã¼Å©
-	int select;				//È£¹ö¸µ,ÀüÈÄÁÂ¿ì ¸ğµå ¼³Á¤
-	int flag_sensor = 1;		//¼¾¼­ On
+	int cnt = 0;			//ëª‡ ë²ˆë§Œì— ì›í•˜ëŠ” ê°ìœ¼ë¡œ ê°€ëŠ”ì§€ ì²´í¬
+	int select;				//í˜¸ë²„ë§,ì „í›„ì¢Œìš° ëª¨ë“œ ì„¤ì •
+	int flag_sensor = 1;		//ì„¼ì„œ On
 	int flag_Theta, flag_Psi, flag_Phi;
-	int flag_init = 1;		//Roll Pitch ´Ù ÀâÀºÈÄ Psi ÀâÀ» ¶§ ÃÊ±âÈ­ »ç¿ë
+	int flag_init = 1;		//Roll Pitch ë‹¤ ì¡ì€í›„ Psi ì¡ì„ ë•Œ ì´ˆê¸°í™” ì‚¬ìš©
 
 	double Pwm1, Pwm2, Pwm3, Pwm4;
 	double Volt1, Volt2, Volt3, Volt4;
 
-	double pst;				//¼Ò¿ä½Ã°£ È®ÀÎ ¿ë
-	clock_t start, end;		//¼Ò¿ä½Ã°£ È®ÀÎ ¿ë
+	double pst;				//ì†Œìš”ì‹œê°„ í™•ì¸ ìš©
+	clock_t start, end;		//ì†Œìš”ì‹œê°„ í™•ì¸ ìš©
 
 	double KpP = 2.5, KdP = 0.22;
 	double KpR = 2.5, KdR = 0.22;
@@ -55,7 +53,7 @@ void pid(float rolla, float pitcha)
 	double prev_errY = 0;
 	double KdY_term = 0;
 
-
+	
 
 
 	_sensor.Phi = 0.1;
@@ -100,66 +98,66 @@ void pid(float rolla, float pitcha)
 	_body.Old_wDot = 0;
 	//model_init(_body, _inertial);
 	//getchar();
-	/*printf("¿òÁ÷ÀÏ ¹æÇâÀ» ÀÔ·ÂÇÏ¼¼¿ä\n");
-	  printf("0.È£¹ö¸µ\n1.ÀüÈÄ\n2.ÁÂ¿ì\n3.»ó½ÂÇÏ°­\nÀÔ·Â : ");
-	  printf("0 Hovering / 1 Àü / 2 ÈÄ / 3 ÁÂ / 4 ¿ì / 5 »ó / 6 ÇÏ\n");
-	  scanf("%d", &select);*/
+	/*printf("ì›€ì§ì¼ ë°©í–¥ì„ ì…ë ¥í•˜ì„¸ìš”\n");
+	printf("0.í˜¸ë²„ë§\n1.ì „í›„\n2.ì¢Œìš°\n3.ìƒìŠ¹í•˜ê°•\nì…ë ¥ : ");
+	printf("0 Hovering / 1 ì „ / 2 í›„ / 3 ì¢Œ / 4 ìš° / 5 ìƒ / 6 í•˜\n");
+	scanf("%d", &select);*/
 	select = 0;
 	switch (select)
 	{
-		case 0:
-			enterT = 0;
-			break;
-		case 1:
-			degree_rad = 20 * PI / 180;
-			enterTauTheta = 20 * PI / 180;
-			flag_sensor = 0;
-			break;
-		case 2:
-			degree_rad = -20 * PI / 180;
-			enterTauTheta = -20 * PI / 180;
-			flag_sensor = 0;
-			break;
-		case 3:
-			degree_rad = 20 * PI / 180;
-			enterTauPhi = 20 * PI / 180;
-			flag_sensor = 0;
-			break;
-		case 4:
-			degree_rad = -20 * PI / 180;
-			enterTauPhi = -20 * PI / 180;
-			flag_sensor = 0;
-			break;
-		case 5:
-			enterT = 0.1;
-			flag_sensor = 0;
-		case 6:
-			enterT = -0.1;
-			flag_sensor = 0;
-		default:
-			break;
+	case 0:
+		enterT = 0;
+		break;
+	case 1:
+		degree_rad = 20 * PI / 180;
+		enterTauTheta = 20 * PI / 180;
+		flag_sensor = 0;
+		break;
+	case 2:
+		degree_rad = -20 * PI / 180;
+		enterTauTheta = -20 * PI / 180;
+		flag_sensor = 0;
+		break;
+	case 3:
+		degree_rad = 20 * PI / 180;
+		enterTauPhi = 20 * PI / 180;
+		flag_sensor = 0;
+		break;
+	case 4:
+		degree_rad = -20 * PI / 180;
+		enterTauPhi = -20 * PI / 180;
+		flag_sensor = 0;
+		break;
+	case 5:
+		enterT = 0.1;
+		flag_sensor = 0;
+	case 6:
+		enterT = -0.1;
+		flag_sensor = 0;
+	default:
+		break;
 	}
-
+	
 
 	start = clock();
 	while (1)
 	{
 		//////////////////////////////////////////////// Input ////////////////////////////////////////////////////////////////////////
 		cnt++;
-		// input Èû ´ÜÀ§ //
+		// input í˜ ë‹¨ìœ„ //
 		_input.T = M*g + enterT;
 		_input.tau_phi = enterTauPhi;
 		_input.tau_theta = enterTauTheta;
 		_input.tau_psi = enterTauPsi;
 
-		// omega^2 °ª //
+		// omega^2 ê°’ //
 
 		_omega.w1_sq = (_input.T / (4 * Cthrust)) - (_input.tau_phi / (2 * L * sin(45 * DegToRad))) + (_input.tau_theta / (2 * L * sin(45 * DegToRad))) + (_input.tau_psi / (4 * Cthrust));
 		_omega.w2_sq = (_input.T / (4 * Cthrust)) - (_input.tau_phi / (2 * L * sin(45 * DegToRad))) - (_input.tau_theta / (2 * L * sin(45 * DegToRad))) - (_input.tau_psi / (4 * Cthrust));
 		_omega.w3_sq = (_input.T / (4 * Cthrust)) + (_input.tau_phi / (2 * L * sin(45 * DegToRad))) - (_input.tau_theta / (2 * L * sin(45 * DegToRad))) + (_input.tau_psi / (4 * Cthrust));
 		_omega.w4_sq = (_input.T / (4 * Cthrust)) + (_input.tau_phi / (2 * L * sin(45 * DegToRad))) + (_input.tau_theta / (2 * L * sin(45 * DegToRad))) - (_input.tau_psi / (4 * Cthrust));
 
-		// omega °ª //	
+		// omega ê°’ //	
 		_omega.w1 = sqrt(_omega.w1_sq);		//w1
 		_omega.w2 = sqrt(_omega.w2_sq);		//w2
 		_omega.w3 = sqrt(_omega.w3_sq);		//w3
@@ -180,13 +178,13 @@ void pid(float rolla, float pitcha)
 		Volt2 = _omega.w2 * 60 / (2 * PI * 690) + R / (60 / (2 * PI * 690))*Cdrag*_omega.w2*_omega.w2; //RPM/Kv = omega*60/(2*PI*Kv)
 		Volt3 = _omega.w3 * 60 / (2 * PI * 690) + R / (60 / (2 * PI * 690))*Cdrag*_omega.w3*_omega.w3; //RPM/Kv = omega*60/(2*PI*Kv)
 		Volt4 = _omega.w4 * 60 / (2 * PI * 690) + R / (60 / (2 * PI * 690))*Cdrag*_omega.w4*_omega.w4; //RPM/Kv = omega*60/(2*PI*Kv)
-
+		
 
 		Pwm1 = Volt1 / 14.8;
 		Pwm2 = Volt2 / 14.8;
 		Pwm3 = Volt3 / 14.8;
 		Pwm4 = Volt4 / 14.8;
-
+	
 
 		//////////////////////////////////////////////// Force and Moment ////////////////////////////////////////////////////////////////////////
 		// Force //
@@ -208,8 +206,8 @@ void pid(float rolla, float pitcha)
 		_body.rDot = _moment.Mz / I_zz;
 
 		/*
-		   printf("============================== pDot, qDot, rDot ==============================\n");
-		 */
+		printf("============================== pDot, qDot, rDot ==============================\n");
+		*/
 		// Body angular Velocity Intergral _ make p,q,r //
 		if (_body.pDot >_body.Old_pDot)
 			_body.p = _body.p + _body.Old_pDot*dt + (_body.pDot - _body.Old_pDot)*dt / 2;
@@ -232,17 +230,17 @@ void pid(float rolla, float pitcha)
 
 		//Inertial Coordinate //
 		_inertial.phiDot = (
-				cos(_inertial.psi) / cos(_inertial.theta) * _body.p +
-				sin(_inertial.psi) / cos(_inertial.theta) * _body.q);
+			cos(_inertial.psi) / cos(_inertial.theta) * _body.p +
+			sin(_inertial.psi) / cos(_inertial.theta) * _body.q);
 
 		_inertial.thetaDot = (
-				-sin(_inertial.psi) * _body.p +
-				cos(_inertial.psi) * _body.q);
+			-sin(_inertial.psi) * _body.p +
+			cos(_inertial.psi) * _body.q);
 
 		_inertial.psiDot = (
-				cos(_inertial.psi)*tan(_inertial.theta) * _body.p +
-				sin(_inertial.psi)*tan(_inertial.theta) * _body.q +
-				_body.r);
+			cos(_inertial.psi)*tan(_inertial.theta) * _body.p +
+			sin(_inertial.psi)*tan(_inertial.theta) * _body.q +
+			_body.r);
 
 		// Inertial Angular Velocity Intergral _ make angle phi, theta, psi //	
 
@@ -295,22 +293,22 @@ void pid(float rolla, float pitcha)
 
 		// Inertial Coordinate //
 		_inertial.xDot = (
-				cos(_inertial.psi)*cos(_inertial.theta)*_body.u +
-				(cos(_inertial.psi)*sin(_inertial.theta)*sin(_inertial.phi) - sin(_inertial.psi)*cos(_inertial.phi))*_body.v +
-				(cos(_inertial.psi)*sin(_inertial.theta)*cos(_inertial.phi) + sin(_inertial.psi)*sin(_inertial.phi))*_body.w
-				);
+			cos(_inertial.psi)*cos(_inertial.theta)*_body.u +
+			(cos(_inertial.psi)*sin(_inertial.theta)*sin(_inertial.phi) - sin(_inertial.psi)*cos(_inertial.phi))*_body.v +
+			(cos(_inertial.psi)*sin(_inertial.theta)*cos(_inertial.phi) + sin(_inertial.psi)*sin(_inertial.phi))*_body.w
+			);
 
 		_inertial.yDot = (
-				sin(_inertial.psi)*cos(_inertial.theta)*_body.u +
-				(sin(_inertial.psi)*sin(_inertial.theta)*sin(_inertial.phi) + cos(_inertial.psi)*cos(_inertial.phi))*_body.v +
-				(sin(_inertial.psi)*sin(_inertial.theta)*cos(_inertial.phi) - cos(_inertial.psi)*sin(_inertial.phi))*_body.w
-				);
+			sin(_inertial.psi)*cos(_inertial.theta)*_body.u +
+			(sin(_inertial.psi)*sin(_inertial.theta)*sin(_inertial.phi) + cos(_inertial.psi)*cos(_inertial.phi))*_body.v +
+			(sin(_inertial.psi)*sin(_inertial.theta)*cos(_inertial.phi) - cos(_inertial.psi)*sin(_inertial.phi))*_body.w
+			);
 
 		_inertial.zDot = (
-				-sin(_inertial.theta)*_body.u +
-				cos(_inertial.theta)*sin(_inertial.psi)*_body.v +
-				cos(_inertial.theta)*cos(_inertial.psi)*_body.w
-				);
+			-sin(_inertial.theta)*_body.u +
+			cos(_inertial.theta)*sin(_inertial.psi)*_body.v +
+			cos(_inertial.theta)*cos(_inertial.psi)*_body.w
+			);
 
 		// Inertial Velocity INtergral _ make position x,y,z //	
 		if (_inertial.xDot > _inertial.Old_xDot)
@@ -335,7 +333,7 @@ void pid(float rolla, float pitcha)
 
 		if (flag_sensor)
 		{
-			while (_sensor.Phi == 0 && _sensor.Theta == 0 && _sensor.Psi == 0);		//¼¾¼­´Â degree °ªÀ¸·Î ¹Ş´Â´Ù.
+			while (_sensor.Phi == 0 && _sensor.Theta == 0 && _sensor.Psi == 0);		//ì„¼ì„œëŠ” degree ê°’ìœ¼ë¡œ ë°›ëŠ”ë‹¤.
 
 
 			_sensor.Phi = rolla;//-10;
@@ -358,7 +356,7 @@ void pid(float rolla, float pitcha)
 			_sensor.Phi_rad = _sensor.Phi*PI / 180;
 			_sensor.Theta_rad = _sensor.Theta*PI / 180;
 			_sensor.Psi_rad = _sensor.Psi*PI / 180;
-			flag_sensor = 0;		//¼¾¼­ OFF
+			flag_sensor = 0;		//ì„¼ì„œ OFF
 		}
 
 		// stop condition //
@@ -368,7 +366,7 @@ void pid(float rolla, float pitcha)
 			{
 				if ((_inertial.theta + _sensor.Theta_rad) * 180 / PI < 0.01 && (_inertial.theta + _sensor.Theta_rad) * 180 / PI > -0.01)
 				{
-					flag_Theta = 0;	//¼¼ÆÃ ¿Ï·á
+					flag_Theta = 0;	//ì„¸íŒ… ì™„ë£Œ
 					enterTauTheta = 0;
 				}
 				else if (flag_Psi == 0)
@@ -376,7 +374,7 @@ void pid(float rolla, float pitcha)
 
 				if ((_inertial.phi + _sensor.Phi_rad) * 180 / PI < 0.01 && (_inertial.phi + _sensor.Phi_rad) * 180 / PI > -0.01)
 				{
-					flag_Phi = 0;		//¼¼ÆÃ ¿Ï·á
+					flag_Phi = 0;		//ì„¸íŒ… ì™„ë£Œ
 					enterTauPhi = 0;
 				}
 				else if (flag_Psi == 0)
@@ -392,7 +390,7 @@ void pid(float rolla, float pitcha)
 
 					prev_errP = errP;
 					enterTauTheta = -(KpP_term + KdP_term);
-
+				
 				}
 				if (flag_Phi)
 				{
@@ -404,15 +402,15 @@ void pid(float rolla, float pitcha)
 
 					prev_errR = errR;
 					enterTauPhi = -(KpR_term + KdR_term);
-
+				
 				}
-
+				
 			}
 			else if (flag_Theta == 0 && flag_Phi == 0)
 			{	
 				if (flag_init == 1)
 				{
-					//Roll°ú Pitch¸¦ ÀâÀºÈÄ Yaw¸¦ ¼³Á¤ÇÔ µû¶ó¼­ ±âÁ¸Roll,Pitch¸¦ ´Ù Àâ¾Ò´Ù´Â °¡Á¤ ÈÄ ¼³Á¤ ÃÊ±âÈ­ 
+					//Rollê³¼ Pitchë¥¼ ì¡ì€í›„ Yawë¥¼ ì„¤ì •í•¨ ë”°ë¼ì„œ ê¸°ì¡´Roll,Pitchë¥¼ ë‹¤ ì¡ì•˜ë‹¤ëŠ” ê°€ì • í›„ ì„¤ì • ì´ˆê¸°í™” 
 					enterTauTheta = 0;
 					enterTauPhi = 0;
 					_inertial.Old_phi = _inertial.phi;
@@ -429,12 +427,12 @@ void pid(float rolla, float pitcha)
 					_inertial.thetaDot = 0;
 					flag_init = 0;
 				}
-				else if ((_inertial.psi + _sensor.Psi_rad) * 180 / PI < 0.1 && (_inertial.psi + _sensor.Psi_rad) * 180 / PI > -0.1)//hovering Á¶°Ç
+				else if ((_inertial.psi + _sensor.Psi_rad) * 180 / PI < 0.1 && (_inertial.psi + _sensor.Psi_rad) * 180 / PI > -0.1)//hovering ì¡°ê±´
 				{
 					_inertial.phi += _inertial.Old_phi;
 					_inertial.theta += _inertial.Old_theta;
 					flag_Psi = 0;
-					flag_sensor = 1;		//¼¾¼­ On
+					flag_sensor = 1;		//ì„¼ì„œ On
 					flag_init = 1;
 					enterTauPsi = 0;
 					break;
@@ -442,7 +440,7 @@ void pid(float rolla, float pitcha)
 				else
 				{
 					flag_Psi = 1;
-
+		
 					errY = _inertial.psi + _sensor.Psi_rad;
 					KpY_term = KpY* errY;
 
@@ -453,14 +451,14 @@ void pid(float rolla, float pitcha)
 					enterTauPsi = -KpY_term;
 				}
 			}
-
+			
 		}
 		else if (select == 1 || select == 2)
 		{
 			if ((_inertial.theta + degree_rad) * 180 / PI  < 0.02 && (_inertial.theta + degree_rad) * 180 / PI  > -0.02)
 			{
 				printf("theta ok\n");
-				flag_sensor = 1;		//¼¾¼­ On
+				flag_sensor = 1;		//ì„¼ì„œ On
 				break;
 			}
 			else {
@@ -472,7 +470,7 @@ void pid(float rolla, float pitcha)
 
 				prev_errP = errP;
 				enterTauTheta = -(KpP_term + KdP_term);
-
+		
 			}
 		}
 		else if (select == 3 || select == 4)
@@ -480,7 +478,7 @@ void pid(float rolla, float pitcha)
 			if ((_inertial.phi + degree_rad) * 180 / PI < 0.02 && (_inertial.phi + degree_rad) * 180 / PI > -0.02)
 			{
 				printf("phi ok\n");
-				flag_sensor = 1;		//¼¾¼­ On
+				flag_sensor = 1;		//ì„¼ì„œ On
 				break;
 			}
 			else {
@@ -492,7 +490,7 @@ void pid(float rolla, float pitcha)
 
 				prev_errR = errR;
 				enterTauPhi = -(KpR_term + KdR_term);
-
+			
 			}
 		}
 		else if (select == 5)
@@ -500,7 +498,7 @@ void pid(float rolla, float pitcha)
 			if (_omega.w3 >= 800)
 			{
 				printf("phi ok\n");
-				flag_sensor = 1;		//¼¾¼­ On
+				flag_sensor = 1;		//ì„¼ì„œ On
 				break;
 			}
 			else
@@ -511,28 +509,28 @@ void pid(float rolla, float pitcha)
 			if (_omega.w3 <= 200)
 			{
 				printf("phi ok\n");
-				flag_sensor = 1;		//¼¾¼­ On
+				flag_sensor = 1;		//ì„¼ì„œ On
 				break;
 			}
 			else
 				enterT += -0.1;
 		}
-
+		
 
 		printf("phi : %lf ", (_inertial.phi) * 180 / PI);
 		printf("theta : %lf ", (_inertial.theta) * 180 / PI);
 		printf("psi : %lf	/ ", (_inertial.psi) * 180 / PI);
 		printf("w1 : %lf w2 : %lf w3 : %lf w4 : %lf \n",_omega.w1, _omega.w2, _omega.w3, _omega.w4);
-
+		
 	}
 	end = clock();
 	pst = (double)(end - start) / CLOCKS_PER_SEC;
-	printf("°É¸° ½Ã°£Àº %lf ÀÔ´Ï´Ù.\n", pst);
+	printf("ê±¸ë¦° ì‹œê°„ì€ %lf ì…ë‹ˆë‹¤.\n", pst);
 	printf("final cnt : %d\n", cnt);
 	printf("phi- : %lf\n", (_inertial.phi) * 180 / PI);
 	printf("theta- : %lf\n", (_inertial.theta) * 180 / PI);
 	printf("psi- : %lf\n", (_inertial.psi) * 180 / PI);
-	//	printf("body_phi : %lf body_theta : %lf body_psi : %lf \n", _input.tau_phi, _input.tau_theta, _input.tau_psi);
+//	printf("body_phi : %lf body_theta : %lf body_psi : %lf \n", _input.tau_phi, _input.tau_theta, _input.tau_psi);
 
 	//getchar(); getchar();
 	return 0;
