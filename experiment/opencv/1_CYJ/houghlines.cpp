@@ -29,9 +29,9 @@ int main(int argc, char** argv)
  Canny(src, dst, 50, 200, 3);
  cvtColor(dst, cdst, CV_GRAY2BGR);
 
- #if 0
+ #if 1
   vector<Vec2f> lines;
-  HoughLines(dst, lines, 1, CV_PI/180, 100, 0, 0 );
+  HoughLines(dst, lines, 1, CV_PI/180, 400, 0, 0 );
 
   for( size_t i = 0; i < lines.size(); i++ )
   {
