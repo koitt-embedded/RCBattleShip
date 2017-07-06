@@ -337,28 +337,30 @@ Example
 	    pxCurrentTCB 는 현재 실행중인 Task 의 Handle 이다.
 	    vWriteTrace() 는 API 함수가 아니며 단순히 예제로 사용되었을 뿐이다. */
 	vWriteTrace (pxCurrentTCB);
-/ *이 예제는 훅 리턴 값을 사용하지 않으므로 리턴한다.
-모든 경우에 0입니다. * /
-0을 반환;
+	/* 이 예제는 Hook return 값을 사용하지 않으므로 모든 경우에 0 을 반환한다. */
 }
-/ * 태그 값을 사용하는 예제 태스크를 정의하십시오. * /
+
+/* tag 값을 사용하는 예제 Task 를 정의한다. */
 void vAnotherTask (void * pvParameters)
 {
-/ * vTaskSetApplicationTaskTag ()는 태스크와 연관된 '태그'값을 설정합니다.
-유효한 작업 핸들 대신 NULL을 사용해야 함을 나타냅니다.
-설정된 호출 태스크의 태그 값. 이 예제에서 'value'
-설정된 후크 기능입니다. * /
-vTaskSetApplicationTaskTag (NULL, prvExampleTaskHook);
-for (;;)
-{
-/ * 나머지 작업 코드는 여기에 있습니다. * /
+	/* vTaskSetApplicationTaskTag() 는 Task 와 연관된 'tag' 값을 설정한다.
+	   유효한 Task Handle 대신 NULL 이 설정되어
+	   호출하는 Task 의 tag 값이어야함을 나타낸다.
+	   이 예에서 'value' 는 Hook 함수다. */
+	vTaskSetApplicationTaskTag (NULL, prvExampleTaskHook);
+
+	for (;;)
+	{
+		/ * 나머지 작업 코드는 여기에 있다. * /
+	}
 }
-}
-/ * traceTASK_SWITCHED_OUT () 매크로를 정의하여 각각의 훅 함수를 호출하십시오.
-작업이 전환됩니다. pxCurrentTCB는 현재의 핸들을 가리 킵니다.
-실행중인 작업. * /
+
+/ * 전환된 각 Task 의 Hook 기능을 호출하려면
+    traceTASK_SWITCHED_OUT() 매크로를 정의하라.
+    pxCurrentTCB 는 현재의 실행중인 Task 의 Handle 을 가리 킨다. */
 #define traceTASK_SWITCHED_OUT () xTaskCallApplicationTaskHook (pxCurrentTCB, 0)
-Listing 9 xTaskCallApplicationTaskHook ()의 ??사용 예
+
+Listing 9. xTaskCallApplicationTaskHook() 의 사용 예
 
 
 
