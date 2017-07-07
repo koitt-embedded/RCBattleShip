@@ -435,236 +435,222 @@ size_t xUART_Receive (uint8_t * pucBuffer, size_t uxWantedBytes)
 		/ * 버퍼에 충분한 데이터가 없으므로 이 작업은 Blocked 상태가 된다.
 		    Blocked 상태에서 소비한 총 시간이 MAX_TIME_TO_WAIT 를 초과하지 않도록
 		    xticksToWait 를 조정하여 지금까지 이 함수 내에서 Blocked 상태로 소비된 시간을 계산한다. * /
-if (xTaskCheckForTimeOut (& xTimeOut, & xTicksToWait)! = pdFALSE)
-{
-/ * 원하는 바이트 수가 사용 가능하기 전에 시간 초과되었습니다. 루프를 종료하십시오. * /
-단절;
+		if (xTaskCheckForTimeOut (& xTimeOut, & xTicksToWait)! = pdFALSE)
+		{
+			/ * 원하는 바이트 수가 사용 가능하기 전에 주어진 시간이 만료되었다.
+			    루프를 종료하라. * /
+			break;
+		}
+		/ * 최대 xTicksToWaits 틱까지 기다림으로서 수신 Interrupt 가
+		    버퍼에 더 많은 데이터를 배치했음을 알림이 수신될 때까지 기다린다. */
+		ulTaskNotifyTake (pdTRUE, xTicksToWait);
+	}
+	/* uxWantedBytes 를 수신 버퍼에서 pucBuffer 로 읽으려고한다.
+	   실제 읽은 바이트 수 (uxWantedBytes보다 작을 수 있음)가 반환된다. */
+	uxReceived = UART_read_from_receive_buffer (pxUARTInstance, pucBuffer, uxWantedBytes);
+	return uxReceived;
 }
-/ * 최대 xTicksToWait 틱 수신 대기 알림
-인터럽트가 버퍼에 더 많은 데이터를 배치했습니다. * /
-ulTaskNotifyTake (pdTRUE, xTicksToWait);
-}
-/ * uxWantedBytes를 수신 버퍼에서 pucBuffer로 읽으려고합니다. 실제
-읽은 바이트 수 (uxWantedBytes보다 작을 수 있음)가 반환됩니다. * /
-uxReceived = UART_read_from_receive_buffer (pxUARTInstance, pucBuffer, uxWantedBytes);
-return uxReceived;
-}
-Listing 11 vTaskSetTimeOutState () 및 xTaskCheckForTimeOut ()의 사용 예제
 
+Listing 11. vTaskSetTimeOutState() 및 xTaskCheckForTimeOut()의 사용 예제
 
-
-32p
 
 
 2.6 xTaskCreate()
 
-
 #include “FreeRTOS.h”
 #include “task.h”
-BaseType_t xTaskCreate( TaskFunction_t pvTaskCode,
-const char * const pcName,
-unsigned short usStackDepth,
-void *pvParameters,
-UBaseType_t uxPriority,
-TaskHandle_t *pxCreatedTask );
-Listing 12 xTaskCreate() function prototype
 
-개요
+BaseType_t xTaskCreate( TaskFunction_t pvTaskCode, const char * const pcName, unsigned short usStackDepth,
+			void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pxCreatedTask );
 
-작업의 새 인스턴스를 만듭니다.
-
-각 작업에는 작업 상태를 유지하는 데 사용되는 RAM (작업 제어 블록 또는 TCB)이 필요하며 해당 작업이 
-스택으로 사용합니다. xTaskCreate ()를 사용하여 작업을 만들면 필요한 RAM이 FreeRTOS 힙에서 자동으로
- 할당됩니다. xTaskCreateStatic ()을 사용하여 작업을 만들면 응용 프로그램 작성자가 RAM을 제공하므로 
-두 개의 추가 함수 매개 변수가 발생하지만 컴파일 타임에 RAM을 정적으로 할당 할 수 있습니다.
-
-새로 생성 된 작업은 처음에 준비 상태로 전환되지만 실행할 수있는 우선 순위가 더 높은 작업이 
-즉시 실행 상태 작업이됩니다.
-
-스케줄러가 시작되기 전후에 작업을 생성 할 수 있습니다.
-
-매개 변수
-
-pvTaskCode
-작업은 단순히 종료하지 않고 일반적으로 무한 루프로 구현되는 C 함수입니다. pvTaskCode 매개 변수는 
-단순히 태스크를 구현하는 함수 (사실상 함수 이름)에 대한 포인터입니다.
-
-pcName
-작업을 설명하는 이름입니다. 이것은 주로 디버깅을 돕는 데 사용되지만 xTaskGetHandle ()을 호출하여 
-작업 핸들을 얻을 수도 있습니다.
-
-응용 프로그램 정의 상수 configMAX_TASK_NAME_LEN은 문자의 최대 길이 (NULL 종결 자 포함)를 
-정의합니다. 이 최대 값보다 긴 문자열을 제공하면 문자열이 자동으로 잘립니다.
+Listing 12. xTaskCreate() function 프로토타입
 
 
 
+Summary
 
-33p
+작업의 새 인스턴스를 만든다.
 
+각 Task 에는 Task 상태를 유지하는데 사용되는
+RAM (Task 제어 블록 또는 TCB)이 필요하며 Task 에 의해 스택으로 사용된다.
+xTaskCreate() 를 사용하여 Task 을 만들면 필요한 RAM 이 FreeRTOS Heap 에 자동으로 할당된다.
+xTaskCreateStatic() 을 사용하여 Task 를 만들면 응용 프로그램 작성자가 RAM을 제공하므로 
+두 개의 추가 함수 매개 변수가 발생하지만 컴파일 타임에 RAM을 정적으로 할당 할 수 있다.
 
+새로 생성된 Task 는 처음에 준비 상태로 전환되지만
+실행할 수 있는 우선 순위가 더 높은 작업이 즉시 실행 상태 작업이된다.
 
-usStackDepth
+Scheduler 가 시작되기 전후에 Task 를 생성할 수 있다.
 
-각 작업에는 작업이 생성 될 때 커널이 작업에 할당하는 고유 한 스택이 있습니다. usStackDepth 값은 
-스택을 만드는 데 필요한 커널의 크기를 알려줍니다.
+Parameters
 
-이 값은 스택이 보유 할 수있는 단어 수를 지정하며 바이트 수는 지정하지 않습니다. 예를 들어 스택 폭이 
-4 바이트 인 아키텍처에서 usStackDepth가 100으로 전달되면 400 바이트의 스택 공간이 할당됩니다 
-(100 * 4 바이트). 스택 깊이에 스택 폭을 곱한 값은 size_t 유형의 변수에 포함될 수있는 최대 값을 
-초과하지 않아야합니다.
+- pvTaskCode
+Task 는 단순히 종료하지 않고 일반적으로 무한 루프로 구현되는 C 함수다.
+pvTaskCode 매개 변수는 단순히 Task 를 구현하는 함수(사실상 함수 이름)에 대한 포인터다.
 
-유휴 작업에 사용되는 스택의 크기는 응용 프로그램 정의 상수 인 configMINIMAL_STACK_SIZE에 의해 
-정의됩니다. 선택한 마이크로 컨트롤러 아키텍처에 제공된 데모 애플리케이션에서이 상수에 할당 된 값은 해당 아키텍처의 모든 작업에 대해 최소한 권장됩니다. 태스크가 많은 스택 공간을 사용하는 경우 더 큰 값을 지정해야합니다.
+- pcName
+Task 를 기술하는 이름이다.
+이것은 주로 Debugging 을 돕는데 사용되지만 xTaskGetHandle() 을 호출하여 Task Handle 을 얻을 수도 있다.
 
-pvParameters
-태스크 함수는 'void to pointer'(void *) 유형의 매개 변수를 허용합니다. pvParameters에 할당 된 
-값은 태스크에 전달되는 값입니다.
+App 정의 상수 configMAX_TASK_NAME_LEN 은 문자의 최대 길이(NULL 종결자 포함)를 정의한다.
+이 최대값 보다 긴 문자열을 제공하면 문자열이 자동으로 잘린다.
 
-이 매개 변수에는 작업 매개 변수를 효과적으로 허용하고 캐스팅을 통해 간접적으로 모든 유형의 매개 
-변수를받을 수 있도록 'void to pointer'유형이 있습니다. 예를 들어 정수 유형은 태스크가 작성된 
-지점에서 정수를 비어있는 포인터로 캐스팅 한 다음 void 함수 매개 변수를 태스크 함수 정의 자체의 
-정수로 다시 캐스팅하여 태스크 함수로 전달 될 수 있습니다.
+- usStackDepth
 
-uxPriority
-작업을 실행할 우선 순위를 정의합니다. 우선 순위는 가장 낮은 우선 순위 인 0에서 가장 높은 우선 순위 
-인 (configMAX_PRIORITIES - 1)까지 할당 할 수 있습니다.
+각 Task 에는 Task 가 생성될 때 커널이 Task 에 할당하는 고유한 스택이 있다.
+usStackDepth 값은 스택을 만드는데 필요한 커널의 크기를 알려준다.
 
-configMAX_PRIORITIES는 사용자가 정의한 상수입니다. configUSE_PORT_OPTIMISED_TASK_SELECTION을 
-0으로 설정하면 사용할 수있는 우선 순위 수에 상한값이 없습니다 (사용되는 데이터 유형의 한계와 
-마이크로 컨트롤러에서 사용 가능한 RAM 제외). 가장 낮은 수를 사용하는 것이 좋습니다. RAM을 낭비하지 
-않으려면 우선 순위가 필요합니다.
+이 값은 스택이 보유할 수 있는 단어 수를 지정하며 바이트 수는 지정하지 않는다.
+예를 들어 스택 폭이 4 바이트인 아키텍처에서
+usStackDepth가 100으로 전달되면 400 바이트의 스택 공간이 할당된다.(100 * 4 바이트)
+스택 깊이에 스택 폭을 곱한 값은 size_t 유형의 변수에 포함될 수 있는 최대 값을 초과하지 않아야한다.
 
+유휴 Task 에 사용되는 스택의 크기는 응용 프로그램 정의 상수인 configMINIMAL_STACK_SIZE에 의해 정의된다. 
+선택한 마이크로 컨트롤러 아키텍처에 제공된 데모 애플리케이션에서 이 상수에 할당된 값은
+해당 아키텍처의 모든 Task 에 대해 최소한 권장된다.
+Task 가 많은 스택 공간을 사용하는 경우 더 큰 값을 지정해야한다.
 
+- pvParameters
+Task 함수는 'void to pointer'(void *) 유형의 매개 변수를 허용한다.
+pvParameters에 할당된 값은 Task 에 전달되는 값이다.
 
+이 매개 변수에는 Task 매개 변수를 효과적으로 허용하고 캐스팅을 통해
+간접적으로 모든 유형의 매개 변수를 받을 수 있도록 'void 형 포인터' 유형이 있다.
+예를 들어 정수 유형은 Task 가 작성된 지점에서 정수를 비어있는 포인터로 캐스팅 한 다음
+void 함수 매개 변수를 Task 함수 정의 자체의 정수로 다시 캐스팅하여 Task 함수로 전달 될 수 있다.
 
-34p
+- uxPriority
+Task 를 실행할 우선 순위를 정의한다.
+우선 순위는 가장 낮은 우선 순위 인 0 에서 가장 높은 우선 순위인 (configMAX_PRIORITIES - 1)까지 할당할 수 있다.
 
+configMAX_PRIORITIES 는 사용자가 정의한 상수다. 
+configUSE_PORT_OPTIMISED_TASK_SELECTION 을 0 으로 설정하면
+사용할 수 있는 우선 순위 수에 상한값이 없다
+(사용되는 데이터 유형의 한계와 마이크로 컨트롤러에서 사용 가능한 RAM 제외).
+가장 낮은 수를 사용하는 것이 좋다.
+RAM을 낭비하지 않으려면 우선 순위가 필요하다.
 
-위의 uxPriority 값 (configMAX_PRIORITIES - 1)을 전달하면 작업에 할당 된 우선 순위가 자동으로 최대 
-합법적 인 값으로 제한됩니다.
+위의 우선순위값 (configMAX_PRIORITIES - 1)을 전달하면
+Task 에 할당된 우선 순위가 자동으로 최대값으로 제한된다.
 
-pxCreatedTask
-pxCreatedTask는 생성되는 작업에 대한 핸들을 전달하는 데 사용할 수 있습니다. 그런 다음이 핸들을 
-사용하여 예를 들어 태스크 우선 순위를 변경하거나 태스크를 삭제하는 API 호출에서 태스크를 
-참조 할 수 있습니다.
+- pxCreatedTask
+pxCreatedTask 는 생성되는 Task 에 대한 핸들을 전달하는데 사용할 수 있다.
+그런 다음이 Handle 을 사용하여 예로 Task 우선 순위를 변경하거나
+Task 를 삭제하는 API 호출에서 Task 를 참조 할 수 있다.
 
-응용 프로그램에서 작업 핸들을 사용하지 않으면 pxCreatedTask를 NULL로 설정할 수 있습니다.
+응용 프로그램에서 Task Handle 을 사용하지 않으면 pxCreatedTask를 NULL 로 설정할 수 있다.
 
-반환 값
+Return Values
 
-pdPASS
-작업이 성공적으로 만들어 졌음을 나타냅니다.
-errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY
-FreeRTOS가 태스크 데이터 구조와 스택을 할당하기에 사용할 수있는 힙 메모리가 충분하지 않아서 
-태스크를 작성할 수 없음을 나타냅니다.
+- pdPASS
+작업이 성공적으로 만들어 졌음을 나타낸다.
 
-heap_1.c, heap_2.c 또는 heap_4.c가 프로젝트에 포함되면 사용 가능한 힙의 총량은 FreeRTOSConfig.h의 
-configTOTAL_HEAP_SIZE에 의해 정의되고 메모리 할당 실패는 다음을 사용하여 트랩 될 수 있습니다.
+- errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY
+FreeRTOS 가 Task 데이터 구조와 스택을 할당하기에
+사용할 수있는 힙 메모리가 충분하지 않아서 Task 를 작성할 수 없음을 나타낸다.
 
-vApplicationMallocFailedHook () 콜백 (또는 '후크') 함수이며 xapGetFreeHeapSize () API 함수를 
-사용하여 남은 힙 메모리의 양을 쿼리 할 수 ??있습니다.
+heap_1.c, heap_2.c 또는 heap_4.c 가 프로젝트에 포함되면 사용 가능한 Heap 의 총량은
+FreeRTOSConfig.h 의 configTOTAL_HEAP_SIZE 에 의해 정의되고
+vApplicationMallocFailedHook() 콜백(또는 'hook') 함수를 사용하고
+남아있는 Heap 메모리양은 xPortGetFreeHeapSize() API 함수를 사용하여 쿼리할 수 있다.
 
-heap_3.c가 프로젝트에 포함되면 총 힙 크기는 링커 구성에 의해 정의됩니다
+heap_3.c 가 프로젝트에 포함되면 총 Heap 크기는 링커 구성에 의해 정의된다
 
+Notes
 
+이 함수를 사용하려면 configSUPPORT_DYNAMIC_ALLOCATION 을
+FreeRTOSConfig.h 에서 1 로 설정하거나 정의되지 않은 상태로 두어야한다.
 
-35p
-
-
-노트
-
-이 함수를 사용하려면 configSUPPORT_DYNAMIC_ALLOCATION을 FreeRTOSConfig.h에서 1로 설정하거나 
-정의되지 않은 상태로 두어야합니다
-
-
-
-36p
 
 
 Example
 
-
-예
-/ * xStruct라는 구조체와 xStruct 타입의 변수를 정의하십시오. 이것은 단지 태스크 함수로 전달되는 매개 변수를 보여주기 위해 사용됩니다. * /
+/* xStruct 라는 구조체와 xStruct 타입의 변수를 정의하라.
+   이것은 단지 Task 함수로 전달되는 매개 변수를 보여주기 위해 사용된다. */
 typedef 구조체 A_STRUCT
 {
-char cStructMember1;
-char cStructMember2;
+	char cStructMember1;
+	char cStructMember2;
 } xStruct;
-/ * 태스크 매개 변수로 전달할 xStruct 유형의 변수를 정의하십시오. * /
+
+/* Task 매개 변수로 전달할 xStruct 유형의 변수를 정의하라. */
 xStruct xParameter = {1, 2};
-/ * 생성 될 작업을 정의하십시오. 태스크를 구현하는 함수의 이름은 아래의 xTaskCreate () 호출에서 첫 번째 매개 변수로 사용됩니다. * /
+
+/* 생성될 Task 를 정의하라.
+   Task 를 구현하는 함수의 이름은 아래의 xTaskCreate() 호출에서 첫 번째 매개 변수로 사용된다. */
 void vTaskCode (void * pvParameters)
 {
-xStruct * pxParameters;
-/ * void * 매개 변수를 필요한 유형으로 다시 캐스트합니다. * /
-pxParameters = (xStruct *) pvParameters;
-/ * 이제 매개 변수를 예상대로 액세스 할 수 있습니다. * /
-if (pxParameters-> cStructMember1! = 1)
-{
-/ * 기타 * /
+	xStruct * pxParameters;
+	/* void * 매개 변수를 필요한 유형으로 다시 캐스트한다. */
+	pxParameters = (xStruct *) pvParameters;
+	/* 이제 매개 변수를 예상대로 접근할 수 있다. */
+	if (pxParameters-> cStructMember1! = 1)
+	{
+		/* 기타 */
+	}
+	/* 무한 루프에 진입하여 작업 처리를 수행하라. */
+	for (;;)
+	{
+		/* 여기에 Task 코드가 있다. */
+	}
 }
-/ * 무한 루프를 입력하여 작업 처리를 수행하십시오. * /
-for (;;)
-{
-/ * 여기에 작업 코드가 있습니다. * /
-}
-}
-/ * 태스크를 생성하는 함수를 정의하십시오. 이것은 스케줄러가 시작되기 전이나 후에 호출 될 수 있습니다. * /
+
+/ * Task 를 생성하는 함수를 정의하라.
+    이것은 스케줄러가 시작되기 전이나 후에 호출 될 수 있다. * /
 void vAnotherFunction (void)
 {
-TaskHandle_t xHandle;
-/ * 작업을 만듭니다. * /
-if (xTaskCreate (
-vTaskCode, / * 태스크를 구현하는 함수의 포인터. * /
-"데모 작업", / * 작업에 주어진 텍스트 이름. * /
-STACK_SIZE, / * 태스크를 위해 생성되어야하는 스택의 크기.
-이것은 바이트가 아니라 단어로 정의됩니다. * /
-(void *) & xParameter, / * xParameters에 대한 참조가 작업 매개 변수로 사용됩니다.
-컴파일러 경고를 방지하기 위해 void *로 변환됩니다. * /
-TASK_PRIORITY, / * 새로 생성 된 작업에 할당 할 우선 순위. * /
-& xHandle / * 생성되는 작업의 핸들은
-핸들. * /
-)! = pdPASS)
-{
-/ * 힙 메모리가 부족하여 작업을 만들 수 없습니다. 만약
-heap_1.c, heap_2.c 또는 heap_4.c가 프로젝트에 포함되면이 상황이 발생할 수 있습니다.
-vApplicationMallocFailedHook () 콜백 (또는 '후크') 함수를 사용하여 트랩되고
-할당되지 않은 상태로 남아있는 FreeRTOS 힙 메모리의 양은 다음을 사용하여 질의 할 수 있습니다.
-xPortGetFreeHeapSize () API 함수. * /
+	TaskHandle_t xHandle;
+	/ * Task 를 만든다. * /
+	if (xTaskCreate (
+		vTaskCode, / * Task 를 구현하는 함수의 포인터. * /
+		"데모 작업", / * Task 에 주어진 텍스트 이름. * /
+		STACK_SIZE, / * Task 를 위해 생성되어야하는 스택의 크기.
+				이것은 바이트가 아니라 words 로 정의된다. * /
+		(void *) & xParameter, / * xParameters 에 대한 참조가 작업 매개 변수로 사용된다.
+					   컴파일러 경고를 방지하기 위해 void *로 변환됩니다. * /
+		TASK_PRIORITY, / * 새로 생성된 Task 에 할당할 우선 순위. * /
+		& xHandle / * 생성되는 작업의 핸들은 xHandle() 에 배치된다.
+		)! = pdPASS)
+	{
+		/* 힙 메모리가 부족하여 Task 를 만들수 없다.
+		   heap_1.c, heap_2.c 또는 heap_4.c 가 프로젝트에 포함되면
+		   vApplicationMallocFailedHook() 콜백(또는 'Hook') 함수를 사용하여 트랩할 수 있으며
+		   할당되지 않은 상태로 남아있는 FreeRTOS 힙 메모리의 양을 쿼리할 수 있다.
+		   xPortGetFreeHeapSize() API 함수를 사용한다. */
+	}
+	else
+	{
+		/* 작업이 성공적으로 생성되었다.
+		   핸들은 다른 API 함수에서 사용할 수 있다.(예: Task 우선 순위 변경)
+		예를 들어 작업의 우선 순위를 변경합니다. */
+		vTaskPrioritySet (xHandle, 2);
+	}
 }
-그밖에
-{
-/ * 작업이 성공적으로 생성되었습니다. 핸들은 이제 다른 API 함수에서 사용할 수 있습니다.
-예를 들어 작업의 우선 순위를 변경합니다. * /
-vTaskPrioritySet (xHandle, 2);
-}
-}
-Listing 13 xTaskCreate () 사용 예제
 
+Listing 13. xTaskCreate() 사용 예제
 
-
-37p
 
 
 2.7 xTaskCreateStatic()
 
-
 #include “FreeRTOS.h”
 #include “task.h”
+
 TaskHandle_t xTaskCreateStatic( TaskFunction_t pvTaskCode,
-const char * const pcName,
-uint32_t ulStackDepth,
-void *pvParameters,
-UBaseType_t uxPriority,
-StackType_t * const puxStackBuffer,
-StaticTask_t * const pxTaskBuffer );
-Listing 14 xTaskCreateStatic() function prototype
+				const char * const pcName,
+				uint32_t ulStackDepth,
+				void *pvParameters,
+				UBaseType_t uxPriority,
+				StackType_t * const puxStackBuffer,
+				StaticTask_t * const pxTaskBuffer );
+
+Listing 14. xTaskCreateStatic() function prototype
 
 
-개요
 
-작업의 새 인스턴스를 만듭니다.
+Summary
+
+Task 의 새 인스턴스를 만든다.
 
 각 작업에는 작업 상태를 유지하는 데 사용되는 RAM (작업 제어 블록 또는 TCB)이 필요하며 해당 작업이 
 스택으로 사용합니다. xTaskCreate ()를 사용하여 작업을 만들면 필요한 RAM이 FreeRTOS 힙에서 자동으로
