@@ -666,3 +666,143 @@ Figure 4.6: Two-Stage Rocket: Monte Carlo Optimisation
 
 
 4.3.2. Pressure Dependency
+
+앞에서와 같이 이 연료 최적은 하나의 특정 매개 변수 집합에만 유효할 가능성이 매우 높다.
+따라서 압력 의존성을 결정하기 위해 도입된 프로그램이 Two-Stage 모델에도 적용되었다.
+그 결과는 그림 4.7 에 나와 있으며 두 가지 결론을 드러낸다.
+첫째로, 최적 비율은 예상대로 실제로 압력에 의존한다.
+두 번째로 두 단계의 비율은 다를뿐만 아니라 압력 의존성도 다양하다.
+이 결론은 두 곡선의 다른 상승에서 발생한다.
+첫 번째 단계의 곡선이 여전히 상승하는 동안
+여섯 번째 막대 위에 있는 두 번째 단계의 최적 비율은 크게 변하지 않는다.
+
+Single Stage 최적화 부분에서 이미 설명한 바와 같이
+도표의 확대는 부정확한 Monte Carlo Scan 으로 인한 것이다.
+Two-Stage 시뮬레이션의 경우 다른 매개 변수가 변경되어야 하므로 더 많은 매개 변수 집합이 필요할 것이다.
+그러나 사용된 Monte Carlo 실행 횟수는 결과가 훨씬 정확하지 않기 때문에 동일하다.
+더 얇은 커브를 얻으려면 훨씬 더 많은 계산 시간이 필요하며 이는 불행히도 불가능하다.
+이전 섹션과 마찬가지로 제시된 결과도 명확한 추세를 볼만큼 충분히 좋다.
+
+Figure 4.7: Two-Stage Rocket: Pressure Dependent Optimum Fuel Ratio
+
+
+
+4.4. Further Simulations
+
+마지막 부분에서는 기존의 프로그램을 사용하여
+더 많은 통찰력을 얻기 위해 2 개의 특이한 물로켓 개념을 시뮬레이션 한다.
+
+
+
+4.4.1. Aluminium Rocket
+
+높은 압력이 높은 최고점에 해당함이 이미 밝혀졌다.
+표준 물병은 내압성이 매우 제한적이기 때문에 다른 재료를 사용하는 아이디어가 나온다.
+의료용으로 2 L 의 작은 알루미늄 병이 일반적으로 작동한다.
+이것들은 200 bar 의 충전 압력으로 산소를 함유하는데 사용되며
+이것은 최대 8 ~ 15 bar 의 플라스틱 병에 비해 명백한 이점이다.
+반면에, 1.9 kg 의 무게를 가진 병은 훨씬 더 많은 무게를 지닌다.
+이러한 매개 변수로 로켓을 최적화한 후, 
+최적의 연료 비율인 V_(W, 0) / V_(A, 0) = 0.5476 을 사용하여
+222.8902 m 의 인상적인 높이에 도달했다.
+흥미롭게도 이 최적값은 분명히 1/2 이상이지만 이전의 최적값은 대부분이 이 값 이하로 유지되었다.
+
+Figure 4.8: Aluminium Rocket: Height (blue) and Velocity (red), with (solid) and without (dashed) Air Thrust
+
+비행의 궤도가 그림 4.8 에 나와 있다.
+비교를 위해 공기 추력을 고려하지 않고 실행된 프로그램은 파선으로 그려져 있다.
+물은 매우 빨리 눌러내어지기 때문에 병 안에 여전히 높은 압축 공기가 남아 있다.
+이것은 훨씬 더 많은 공기 추력과 약 50 미터의 높이 차이를 가져온다.
+따라서 이러한 알루미늄 병에 대한 실험은 적용된 공기 추력 모델의 유효성을 입증해야 한다.
+시뮬레이션을 통해 재료의 최적화가 매우 유망한 결과를 가져오는 과제이며 추가 조사가 필요함을 보여주었다.
+반면에 파열되는 알루미늄 병이 플라스틱 병보다 훨씬 위험하다는 사실을 잊어서는 안된다.
+이런 이유로 그런 실험은 아주 조심해야 한다.
+
+
+
+4.4.2. Multi-Stage Performance
+
+시뮬레이션 결과 첫 번째 장에서 Multi-Staging 이
+이미 물로켓을 개선하는 매우 효과적인 방법으로 추측되는 것으로 나타났다.
+그러나 지금까지는 추가 Stage 와 추가 연료만 로켓에 추가되었다.
+Multi-Staging 개념을 체계적으로 분석하기 위해 1 단, 3 단 및 10 단 로켓으로 시뮬레이션을 수행했다.
+그러나 이번에는 물의 양이 일정하게 유지되었다.
+따라서 위의 병이 더 많은 디자인을 사용하는 대신 하나의 물병을 더 많은 부분으로 나누는 것과 유사하다.
+
+이 아이디어는 2.4 에서 이미 소개되었다.
+거기에 높은 배기 속도의 이러한 부가적인 단계가 성능을 증가시키는 것으로 추정되었다.
+따라서 이 3 가지 Simulation 의 매개 변수는 다단 로켓의 경우
+물의 양과 무게가 각각 10 개의 부분으로 분할된다는 점을 제외하고는 전반적으로 동일하다.
+
+Figure 4.9: Staging Comparison: Height
+
+그림 4.9 와 4.10 의 결과는 예상치 못한 결과다.
+분명히 10 단계를 가진 로켓은 3 단계를 가진 로켓보다 낮은 최고점에 도달한다.
+그림 4.10 은 10 Stager 가 다른 2 개의 로켓만큼이나 속도를 유지할 수 없음을 보여준다.
+이것은 실제로 더 논리적으로 보인다.
+왜냐하면 더 많은 무게를 떨어뜨리므로 더 낮은 충격을 갖기 때문이다.
+이 충격은 더 빠르게 0 에 접근하고 항력과 중력에 이해 감소되며 더 빠르고 낮은 최고점으로 인도한다.
+이것은 같은 양의 연료를 유지하면서 더 많은 Stage 가 더 높은 최고점에 반드시 도달하지 않음을 보여준다.
+반면 10 단계 로켓은 다른것들보다 훨씬 빨리 정점에 도달한다.
+따라서 매우 빠른 상승이 필요하다면 이 로켓이 더 적절하다.
+(결국 추진 속도를 빠르게 만들 수 있다는 의미다)
+단계의 수는 다른 매개 변수와 마찬가지로 특정 로켓의 목적과 특성에 맞게 조정되어야함을 요약할 수 있다.
+
+Figure 4.10: Staging Comparison: Rocket Velocity
+
+
+
+5. Conclusions and Outlook
+
+이 논문은 수치로 접근하여 물로켓을 시뮬레이션하고 최적화할 수 있음을 보여주었다.
+시뮬레이션에서 그러한 로켓의 비행 행동과 자주 무시된 공기 추력의 영향이 분명해졌다.
+Multi-Staging 의 가능성 또한 매우 잘 드러났다.
+적용된 모델이 crosswind 효과 혹은 내부 물 흐름과 같은 일부 효과를 무시하더라도 결과는 실험과 일치한다.
+장난감과 유사한 물로켓의 모양으로 인해 불행히도 정확하고 이해하기 쉬운 데이터는 매우 적다.
+따라서 향후 특정 실험을 통해 모델링 결과를 검증해야 한다.
+계산의 관점에서보다 정확한 적분기로 결과를 개선하는 것이 가능해 보인다.
+좀 더 복잡한 유체 모델을 적용하면 crosswind 및 정확한 유출로 모델을 향상시킬 수 있다.
+
+최적화는 물과 공기 사이에 견고한 최적 비율이 없다는 것을 보여주고 있다.
+왜냐하면 다른 모든 매개 변수들이 그것에 영향을 주기 때문이다.
+Single 및 Two-Stage 로켓 모두 내부 압력의 경우 이 의존성을 분석할 수 있었다.
+추가 단계로, 압력 의존 최적 연료 비율의 계산은 보다 정확하고 로켓 부피에 따라 달라져야 한다.
+이를 통해 특정 로켓 설정에 대해 어떤 비율을 사용해야 하는지에 대한
+신뢰할 수 있는 예측을 얻는 것이 가능할 수 있다.
+여기서 실험적 검증이 필요하다.
+
+마지막에 물로켓의 비정상적인 설계에 대한 수치 연구는 모델의 적응성을 잘 보여줬다.
+알루미늄 로켓이 물과 압축 공기에 의해서 얼마나 날아갈 수 있는지는 놀라우며
+진보된 재료에 의한 최적화 가능성을 보여준다.
+
+요약하면 이 논문은 물 로켓의 행동을 시뮬레이션하고 조사하는 목표를 달성했다.
+하늘에 도달하는 자체 제작 물로켓을 보는 즐거움이 결코 단어, 숫자 또는 차트로 설명될 수 없기 때문에
+다른 사람들이 물로켓을 만들고 향상시키도록 장려하기를 바란다.
+
+
+
+Bibliography
+
+[1] "Axion v picture," July 2011.
+[2] E. Messerschmid and S. Fasoulas, Raumfahrtsysteme. Springer, 2008.
+[3] N. J. Shaviv, "Water propelled rocket," May 2011.
+[4] G. Finney, "Analysis of a water-propelled rocket: A problem in honors physics," American Journal of Physics, vol. 68, p. 223, 2000.
+[5] D. Meschede, Gerthsen Physik, 23. Auflage. Springer-Verlag, 2006.
+[6] W. Demtroder, Experimentalphysik 1. Springer-Verlag Berlin Heidelberg, 2006.
+[7] G. M. Gregorek, "Aerodynamic drag of model rockets," Model Rocket Technical Report, vol. 11, 1970.
+[8] "Magnus effect figure," July 2011.
+[9] L. Alaways, Aerodynamics of the curve-ball: an investigation of the effects of angular velocity on baseball trajectories. PhD thesis, UNIVERSITY OF CALIFORNIA, 1998.
+[10] "Wikipedia: Luftdruck," June 2011.
+[11] "Wikipedia: Erdbeschleunigung," June 2011.
+[12] "Water rockets @ leeds," June 2011.
+[13] M. Turner, Rocket and Spacecraft Propulsion: Principles, Practice and New Developments. Springer-Praxis books in astronautical engineering, Springer, 2008.
+[14] P. DeVries, A First Course in Computational Physics. New York, NY: John Wiley & Sons, 1994.
+[15] H.-J. Gunther and S. Pielsticker, "Experimentelle untersuchungen von wasserraketen," tech. rep., Leibnizschule Hannover, 2007.
+[16] B. Dickman and M. Gilman, "Monte carlo optimization," Journal of optimization theory and applications, vol. 60, no. 1, pp. 149–157, 1989.
+[17] E. Gekeler, Mathematische Methoden zur Mechanik. Springer Verlag, 2006.
+[18] "Gardena nozzle," July 2011.
+[19] H. Adirim, "Leistungsgrenzen von heißwasserraketen," tech. rep., Institut fur Luft- und Raumfahrt, 2001.
+[20] S. Brunker, "Theoretische grundlagen und praktische uberprufung des funktionsprinzips einer wasserrakete," tech. rep., 2005.
+[21] H. Amin, "Comparing the thrust for different nozzle shapes in model water rockets," 2007.
+[22] V. Skakauskas, P. Katauskis, and G. Simeonov, "On a fluid outflow from a bottle turned upside-down," Nonlinear Analysis: Modelling and Control, vol. 11, no. 3, pp. 277–291, 2006.
+[23] J. S. Barrowman and J. A. Barrowman, "The theoretical prediction of the center of pressure," tech. rep., NARAM-8 R&D Project, 1966.
