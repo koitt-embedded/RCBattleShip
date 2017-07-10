@@ -15,7 +15,7 @@ void help()
 
 int main()
 {
-  VideoCapture cap("driving3.mp4");
+  VideoCapture cap("driving4.mp4");
   Mat frame, dst, cdst;
 
   if(!cap.isOpened())
