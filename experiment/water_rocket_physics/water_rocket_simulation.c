@@ -1,4 +1,5 @@
 #include <time.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,6 +11,8 @@
 #define DRY_AIR_GAS_CONST		287.05
 // 캘빈 상수
 #define KELVIN_CONST			273.15
+// 물의 밀도
+#define WATER_DENSITY			1000.0
 
 float calc_pneumatic_density(float temper, float press)
 {
@@ -17,6 +20,13 @@ float calc_pneumatic_density(float temper, float press)
 	return (press * STANDARD_ATMOSPHERE) / (DRY_AIR_GAS_CONST * (temper + KELVIN_CONST));
 }
 
+float calc_exhaust_velocity(float press)
+{
+	return sqrt((2 * (press - 1.0)) / WATER_DENSITY);
+}
+
+/* Water Thrust 부분에서 쇼부 봐야함
+   Air Thrust 까지 진행되면 자세 제어가 불가능함 */
 int main(void)
 {
 	// F_R = m_R * d(v_R) / dt = F_Th + F_G + F_D
@@ -65,6 +75,9 @@ int main(void)
 	   온도값은 공기압 센서를 통해서 가져와야 하는데 우선 11 ~ 30 도 사이라고 가정하고 만든다. */
 	float air_dens, temper, press;
 
+	/* Water Thrust */
+	float water_exhaust_vel;
+
 	srand(time(NULL));
 	// 섭씨 온도
 	temper = rand() % 20 + 11;
@@ -78,9 +91,18 @@ int main(void)
 	   압력 = Pa
 	   기체 상수 = 287.05 J / kgK
 	   온도 = 켈빈 온도
+	   물의 밀도 = 1000 kg / m^3
 	*/
 	air_dens = calc_pneumatic_density(temper, press);
 	printf("temper = %f, press = %f, air_dens = %f\n", temper, press, air_dens);
+
+	/* 0.5 L 페트병에 0.24 ~ 0.26 L 의 물과 0.24 ~ 0.26 L 의 공기를 구성한다.
+	   이때 공기를 6 기압으로 압축했다고 가정하고 문제를 해석해보도록 한다.
+	   v_E(t) = sqrt([2 * (p(t) - p_0)]/ρ_Water) 를 보면
+	   우리의 경우 위의 press 를 기압으로 활용하면 된다.
+	   그리고 대기압은 1 로 물의 밀도와 함께 수식을 계산하면 된다. */
+	water_exhaust_vel = calc_exhaust_velocity(press);
+	printf("temper = %f, press = %f, water_exhaust_vel = %f\n", temper, press, water_exhaust_vel);
 
 	return 0;
 }
