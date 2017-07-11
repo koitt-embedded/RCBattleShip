@@ -194,8 +194,17 @@ int main(void)
 	/* Saturation Specific Heat Ratio(포화 비열비) */
 	//float sat_sh_ratio;
 
-	/* Specific Heat Ratio(포화 비열비) */
+	/* Specific Heat Ratio(비열비) */
 	float sh_ratio;
+
+	/* Air Specific Heat Ratio(공기의 단열 계수 - 비열비) */
+	float air_shr;
+
+	/* Nozzle Area */
+	float nozzle_AN;
+
+	/* Derivative of Rocket Mass(시간에 따라 변화하는 로켓의 질량) */
+	float dm_rocket;
 
 	srand(time(NULL));
 	// 섭씨 온도(10 ~ 30)
@@ -232,6 +241,22 @@ int main(void)
 	/* 물에 대한 온도와 압력에 따른 적절한 비열비를 얻어온다 */
 	sh_ratio = get_shr_with_convert_unit(temper, press);
 	printf("sh_ratio = %f\n", sh_ratio);
+
+	/* 물의 경우 온도가 많이 올라갔을 경우에만 단열 계수에 대한 차이가 벌어진다.
+	   물로켓을 해석할 때 공기의 단열 계수는 1.4 로 취급하는 편이다. */
+	air_shr = 1.4;
+
+	/* Nozzle Area 값은 우리가 실제로 발사하는 로켓에 의해 고정된 상수값이다.
+	   우리가 가진 시스템은 반지름이 2.5 cm 로 0.025 m 의 원 둘레를 생각하면 된다.
+	   원의 둘레를 구하는 방법은 2 * pi * r 에 해당하므로 2 * 3.14xx * 0.025 가 된다. */
+	nozzle_AN = 2 * M_PI * 0.025;
+	printf("nozzle_AN = %f m\n", nozzle_AN);
+
+	/* Nozzle Area 를 구했으므로 시간에 따라 변화하는 로켓의 질량을 산출해낼 수 있다.
+	   물의 밀도 * 시간에 따라 변화하는 물의 부피는 아래의 형식과 같다.
+	   물의 밀도 * Nozzle Area * 시간에 따라 변화하는 물 배출 속도 */
+	dm_rocket = WATER_DENSITY * nozzle_AN * water_exhaust_vel;
+	printf("dm_rocket = %f\n", dm_rocket);
 
 	return 0;
 }
