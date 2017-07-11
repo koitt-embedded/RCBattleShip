@@ -67,6 +67,77 @@ float get_sat_shr_with_convert_unit(float press)
 	}
 }
 
+float get_shr_with_convert_unit(float temper, float press)
+{
+	int i;
+	int p_idx, t_idx;
+
+	float shr, shr_interval;
+	float temper1, temper2;
+
+	float p_error, t_error;
+	float p_interval, t_interval;
+	float tmp, press_kgcm2 = press * ATM_TO_KG_PER_CM_SQUARE;
+
+	printf("press_kgcm2 = %f\n", press_kgcm2);
+
+	for(i = 0; i < 13; i++)
+	{
+		if(press_kgcm2 > pressure[i] && press_kgcm2 < pressure[i + 1])
+		{
+			p_idx = i;
+			p_error = press_kgcm2 - pressure[i];
+			p_interval = pressure[i + 1] - pressure[i];
+			break;
+		}
+		else
+			p_idx = i;
+	}
+
+	printf("p_idx = %d, p_error = %f, p_interval = %f\n", p_idx, p_error, p_interval);
+
+	for(i = 0; i < 51; i++)
+	{
+		if(temper > temperature[i] && temper < temperature[i + 1])
+		{
+			t_idx = i;
+			t_error = temper - temperature[i];
+			t_interval = temperature[i + 1] - temperature[i];
+			break;
+		}
+		else
+			t_idx = i;
+	}
+
+	printf("t_idx = %d, t_error = %f, t_interval = %f\n", t_idx, t_error, t_interval);
+	printf("t_error / t_interval = %f, p_error / p_interval = %f\n", t_error / t_interval, p_error / p_interval);
+
+	if(t_idx != 51)
+	{
+		printf("t_idx != 51\n");
+		temper1 = lashr_tbl[t_idx][p_idx] + (1 + t_error / t_interval) * (lashr_tbl[t_idx + 1][p_idx] - lashr_tbl[t_idx][p_idx]);
+
+		if(p_idx != 13)
+			temper2 = lashr_tbl[t_idx][p_idx + 1] + (1 + t_error / t_interval) * (lashr_tbl[t_idx + 1][p_idx + 1] - lashr_tbl[t_idx][p_idx + 1]);
+		else
+			temper2 = temper1;
+	}
+	else
+	{
+		printf("t_idx == 51\n");
+		temper1 = lashr_tbl[t_idx][p_idx];
+
+		if(p_idx != 13)
+			temper2 = lashr_tbl[t_idx][p_idx + 1];
+		else
+			temper2 = temper1;
+	}
+
+	printf("temper1 = %f, temper2 = %f\n", temper1, temper2);
+
+	return temper1 + (temper2 - temper1) * p_error / p_interval;
+}
+
 /* Water Thrust 부분에서 쇼부 봐야함
    Air Thrust 까지 진행되면 자세 제어가 불가능함 */
 int main(void)
@@ -127,8 +198,8 @@ int main(void)
 	float sh_ratio;
 
 	srand(time(NULL));
-	// 섭씨 온도
-	temper = rand() % 20 + 11;
+	// 섭씨 온도(10 ~ 30)
+	temper = (rand() % 201 + 100) / 10.0;
 	// 1 ~ 6 기압 사이에서 사용하는 0.01 기준의 스케일 팩터
 	press = (rand() % 501 + 100) / 100.0;
 
@@ -157,6 +228,10 @@ int main(void)
 	sat_sh_ratio = get_sat_shr_with_convert_unit(press);
 	printf("Gamma(specific heat ratio) = %f\n", sat_sh_ratio);
 #endif
+
+	/* 물에 대한 온도와 압력에 따른 적절한 비열비를 얻어온다 */
+	sh_ratio = get_shr_with_convert_unit(temper, press);
+	printf("sh_ratio = %f\n", sh_ratio);
 
 	return 0;
 }
