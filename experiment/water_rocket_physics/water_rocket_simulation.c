@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "water_rocket_simulation.h"
+
 // 표준 공기 밀도
 #define	STANDARD_AIR_DENSITY		1.293
 // 표준 대기압
@@ -13,6 +15,10 @@
 #define KELVIN_CONST			273.15
 // 물의 밀도
 #define WATER_DENSITY			1000.0
+// kg/cm^2 -> Pa
+#define KG_PER_CM_SQUARE_TO_PA		98066.5
+// 1 atm -> 1 kg/cm^2
+#define ATM_TO_KG_PER_CM_SQUARE		1.03323
 
 float calc_pneumatic_density(float temper, float press)
 {
@@ -23,6 +29,42 @@ float calc_pneumatic_density(float temper, float press)
 float calc_exhaust_velocity(float press)
 {
 	return sqrt((2 * (press - 1.0)) / WATER_DENSITY);
+}
+
+#if 0
+float get_shr_with_convert_unit(float press)
+{
+	int i;
+	float tmp, press_pa = press * STANDARD_ATMOSPHERE;
+
+	for(i = 0; i < 11; i++)
+	{
+		if(press_pa > lashr_tbl[i][0] * KG_PER_CM_SQUARE_TO_PA &&
+		   press_pa < lashr_tbl[i + 1][0] * KG_PER_CM_SQUARE_TO_PA)
+		{
+			float interval = lashr_tbl[i + 1][0] * KG_PER_CM_SQUARE_TO_PA - press_pa;
+			tmp = (lashr_tbl[i][1] + (lashr_tbl[i + 1][1] - lashr_tbl[i][1])) *
+			       KG_PER_CM_SQUARE_TO_PA * interval;
+			return tmp;
+		}
+	}
+}
+#endif
+
+float get_sat_shr_with_convert_unit(float press)
+{
+	int i;
+	float tmp, press_kgcm2 = press * ATM_TO_KG_PER_CM_SQUARE;
+
+	for(i = 0; i < 11; i++)
+	{
+		if(press_kgcm2 > sat_lashr_tbl[i][0] && press_kgcm2 < sat_lashr_tbl[i + 1][0])
+		{
+			float interval = sat_lashr_tbl[i + 1][0] - press_kgcm2;
+			tmp = sat_lashr_tbl[i][1] + (sat_lashr_tbl[i + 1][1] - sat_lashr_tbl[i][1]) * interval;
+			return tmp;
+		}
+	}
 }
 
 /* Water Thrust 부분에서 쇼부 봐야함
@@ -75,8 +117,14 @@ int main(void)
 	   온도값은 공기압 센서를 통해서 가져와야 하는데 우선 11 ~ 30 도 사이라고 가정하고 만든다. */
 	float air_dens, temper, press;
 
-	/* Water Thrust */
+	/* Exhaust Velocity(배출 속도) */
 	float water_exhaust_vel;
+
+	/* Saturation Specific Heat Ratio(포화 비열비) */
+	//float sat_sh_ratio;
+
+	/* Specific Heat Ratio(포화 비열비) */
+	float sh_ratio;
 
 	srand(time(NULL));
 	// 섭씨 온도
@@ -103,6 +151,12 @@ int main(void)
 	   그리고 대기압은 1 로 물의 밀도와 함께 수식을 계산하면 된다. */
 	water_exhaust_vel = calc_exhaust_velocity(press);
 	printf("temper = %f, press = %f, water_exhaust_vel = %f\n", temper, press, water_exhaust_vel);
+
+	/* 비열비를 구하지만 Saturation 정보이므로 잘못됨 */
+#if 0
+	sat_sh_ratio = get_sat_shr_with_convert_unit(press);
+	printf("Gamma(specific heat ratio) = %f\n", sat_sh_ratio);
+#endif
 
 	return 0;
 }
