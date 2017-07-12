@@ -133,4 +133,9 @@ Fig. 2. Initial Velocity of the rocket and crosswind velocity affects the degree
 
 D. Static Directional Stability
 
-
+로켓이 안정적으로 설계되었다면 각도는 결국 일련의 진동을 통해 최소화되어 궁극적으로 진동을 감소시킨다.
+진동의 정도는 무게 중심과 압력 중심에서 각각 작용하는 2 개의 순 하중 F_netCg 와 F_netCp(그림 3a 참조)의 크기와 위치의 함수다.
+net force F_netCg 는 F_Gravity, F_Drag 및 F_Thrust 의 합이며 변환에 영향을 준다.
+F_netCp 는 로켓의 몸체에 대한 기압에 의한 순 압력이며 회전에 영향을 준다.
+crosswind 가 없으면 (그림 3b 참조), 순 압력으로 인한 힘은 0 이며,
+로켓은 이상적인 수직 궤도를 가정한다.
