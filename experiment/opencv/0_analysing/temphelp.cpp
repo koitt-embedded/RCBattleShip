@@ -8,7 +8,7 @@ using namespace cv;
 int ham(int** &tImg, char* fname, int &tWidth, int &tHeight, float& tAverage){
 	Mat tInput = imread("china.jpg");
 	Mat input;
-//	cvtColor(tInput,input,CV_RGB2GRAY);
+	cvtColor(tInput,input,CV_RGB2GRAY);
 	tHeight = input.rows;
 	tWidth = input.cols;
 	tImg = new int* [tHeight];
@@ -28,8 +28,8 @@ int ham(int** &tImg, char* fname, int &tWidth, int &tHeight, float& tAverage){
 	//		nMask += mask[i][j];
 	//nMask = (nMask==0)?1:nMask;
 	//
-//	namedWindow("TEMP");
-//	imshow("TEMP",input);
+	namedWindow("TEMP");
+	imshow("TEMP",input);
 	return 0;
 }
 int main(void){
