@@ -15,6 +15,22 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_com_example_kwrg_wificontroller_WiFiController_stringFromJNI
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_example_kwrg_wificontroller_WiFiController
+ * Method:    WiFiConnect
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_example_kwrg_wificontroller_WiFiController_WiFiConnect
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     com_example_kwrg_wificontroller_WiFiController
+ * Method:    WiFiSendData
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_com_example_kwrg_wificontroller_WiFiController_WiFiSendData
+  (JNIEnv *, jobject, jint);
+
 #ifdef __cplusplus
 }
 #endif

@@ -2,7 +2,9 @@ package com.example.kwrg.wificontroller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,9 +20,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
+        final WiFiController wifi = new WiFiController();
+        wifi.WiFiConnect();
+
+        Button button1 = (Button)findViewById(R.id.button);
+
+        button1.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                wifi.WiFiSendData(1);
+            }
+        });
+
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        WiFiController wifi = new WiFiController();
+        //WiFiController wifi = new WiFiController();
         tv.setText(wifi.stringFromJNI());
     }
 

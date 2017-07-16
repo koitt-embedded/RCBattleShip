@@ -9,4 +9,8 @@ public class WiFiController {
         System.loadLibrary("native-lib");
     }
     public native String stringFromJNI();
+
+    public native void WiFiConnect();
+
+    public native int WiFiSendData(int no);
 }
