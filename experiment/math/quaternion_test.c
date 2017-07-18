@@ -15,5 +15,8 @@ int main(void)
 	quaternion_minus(A, B, &R);
 	print_quaternion(R);
 
+	quaternion_mult(A, B, &R);
+	print_quaternion(R);
+
 	return 0;
 }
