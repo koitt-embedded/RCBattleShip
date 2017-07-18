@@ -10,6 +10,12 @@ int main(void)
 
 	z_rot3d(A, 90.0, &R);
 	print_vec3d(R);
+
+	y_rot3d(R, 90.0, &R);
+	print_vec3d(R);
+
+	z_rot3d(R, 90.0, &R);
+	print_vec3d(R);
 	
 	return 0;
 }
