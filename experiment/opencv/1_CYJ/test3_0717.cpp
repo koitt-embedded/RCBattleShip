@@ -15,9 +15,10 @@ void help()
 
 int main()
 {
-  VideoCapture cap("driving4.mp4");
-//  VideoCapture cap(0);
-  Mat frame, dst, smoothed, cdst, res;
+//  VideoCapture cap("driving4.mp4");
+  VideoCapture cap(0);
+  Mat frame, dst, res;
+
   if(!cap.isOpened())
   {
     cout << "Could not open the input video.." << endl ;
@@ -37,16 +38,16 @@ int main()
     cvtColor(frame, dst, COLOR_BGR2GRAY);
 
 // 가우시안 블러링 적용 - 커널사이즈 5,5
-    GaussianBlur(dst, smoothed, Size(5, 5), 0);
+    GaussianBlur(dst, dst, Size(5, 5), 0);
 
 // Canny 엣지 적용
-    Canny(smoothed, cdst, 75, 175);
+    Canny(dst, dst, 75, 175);
 
 // 빈 Mat 만듬 (8비트 1채널)
-  Mat dstImage(cdst.rows, cdst.cols, CV_8UC1, Scalar(0,0,0));
+  Mat dstImage(dst.rows, dst.cols, CV_8UC1, Scalar(0,0,0));
 
 //pts1[4] 꼭지점4개짜리 다각형 만들기 {왼쪽바닥점, 왼쪽윗점, 오른쪽윗점, 오른쪽바닥점}
-  Point pts1[4] = {Point(20, cdst.rows/2+40), Point(cdst.cols/2-10 , cdst.rows-cdst.rows+50), Point(cdst.cols/2+10, cdst.rows-cdst.rows+50), Point(cdst.cols-20, cdst.rows/2+40)};
+  Point pts1[4] = {Point(20, dstImage.rows/2+40), Point(dstImage.cols/2-10 , dstImage.rows-dstImage.rows+50), Point(dstImage.cols/2+10, dstImage.rows-dstImage.rows+50), Point(dstImage.cols-20, dstImage.rows/2+40)};
 //pts2[3] 꼭지점3개짜리 더미 다각형(가짜)
   Point pts2[3] = {Point(100,100), Point(101, 101), Point(99, 99)};
 
@@ -56,11 +57,11 @@ int main()
 //fillPoly 를 사용하기 위한 꼭지점갯수 배열 선언
   int npts[2] = {4,3};
 
-//fillPoly(입력영상, 마스크영상, 꼭지점갯수, n개의 다각형 만들어라, 스칼라값 )
+//fillPoly(입력영상, 마스크영상(배열명), 꼭지점갯수(배열명), n개의 다각형 만들어라, 스칼라값 )
   fillPoly(dstImage, polygon, npts, 2, Scalar(255, 255, 255));
 
 //bitwise_and : 두 영상 비교하여 1일경우만 거르기 - (미리만들어놓은 Mat) res 에 저장하기
-  bitwise_and(cdst, dstImage, res);
+  bitwise_and(dst, dstImage, res);
 
 // 넌제로 화소로 외곽선을 표현하므로, 흑백값을 반전한다
 //   threshold(cdst, tdst, 0, 125, THRESH_BINARY_INV);
@@ -68,8 +69,11 @@ int main()
 
 
 #if 0
+
   vector<Vec2f> lines;
-  HoughLines(dst, lines, 1, CV_PI/180, 200, 0, 0 );
+
+//detect lines
+  HoughLines(res, lines, 1, CV_PI/180, 30, 0, 0 );
 
   for( size_t i = 0; i < lines.size(); i++ )
   {
@@ -81,25 +85,27 @@ int main()
      pt1.y = cvRound(y0 + 1000*(a));
      pt2.x = cvRound(x0 - 1000*(-b));
      pt2.y = cvRound(y0 - 1000*(a));
-     line( cdst, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+
+     line( frame, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
   }
 
 #else
   vector<Vec4i> lines;
-  HoughLinesP(res, lines, 1, CV_PI/180, 85, 50, 20 );
+
+//          입력영상, rho, theta, 180, 선의최소길이(최소길이 이상의 선만 검출), 선위의 점들사이 최대거리(점 사이의 거리가 이 값보다 크면, 나와는 다른선으로 간주한다)
+  HoughLinesP(res, lines, 1, CV_PI/180, 30, 30, 30 );
   for( size_t i = 0; i < lines.size(); i++ )
   {
     Vec4i l = lines[i];
-    line( res, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,255,255), 3, CV_AA);
+    line( frame, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
   }
 
 #endif
 
 
 //   imshow("source", dst);
-//   imshow("smoothing", smoothed);
-//   imshow("canny edge", cdst);
    imshow("res", res);
+   imshow("frame", frame);
 
    if(waitKey(10)>= 0) break;
    }
