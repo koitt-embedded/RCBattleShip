@@ -28,6 +28,13 @@ void vec3d_cross(vec3d A, vec3d B, vec3d *res)
 	res->z = A.x * B.y - A.y * B.x;
 }
 
+void vec3d_scalar(float scalar, vec3d A, vec3d *R)
+{
+	R->x = scalar * A.x;
+	R->y = scalar * A.y;
+	R->z = scalar * A.z;
+}
+
 void print_vec3d(vec3d R)
 {
 	printf("x = %.5f, y = %.5f, z = %.5f\n", R.x, R.y, R.z);
