@@ -22,6 +22,7 @@ bool quaternion_isunit(quat A);
 void quaternion_rotation(quat A, vec3d v, vec3d *r);
 void quaternion_normalization(quat A, quat *R);
 void quaternion_from_angle(float angle_x, float angle_y, float angle_z, quat *R);
+void angle_from_quaternion(quat A, float *angle_x, float *angle_y, float *angle_z);
 void print_quaternion(quat R);
 
 #endif

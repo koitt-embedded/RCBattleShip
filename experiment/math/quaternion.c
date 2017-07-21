@@ -131,11 +131,21 @@ void quaternion_normalization(quat A, quat *R)
 
 void quaternion_from_angle(float angle_x, float angle_y, float angle_z, quat *R)
 {
-	float rad_x = angle_x * (M_PI / 180.0);
-	float rad_y = angle_y * (M_PI / 180.0);
-	float rad_z = angle_z * (M_PI / 180.0);
+	float rad_x = (angle_x * (M_PI / 180.0)) / 2.0;
+	float rad_y = (angle_y * (M_PI / 180.0)) / 2.0;
+	float rad_z = (angle_z * (M_PI / 180.0)) / 2.0;
 
-	
+	R->real_w = cos(rad_x) * cos(rad_y) * cos(rad_z) + sin(rad_x) * sin(rad_y) * sin(rad_z);
+	R->image_v.x = sin(rad_x) * cos(rad_y) * cos(rad_z) - cos(rad_x) * sin(rad_y) * sin(rad_z);
+	R->image_v.y = cos(rad_x) * sin(rad_y) * cos(rad_z) + sin(rad_x) * cos(rad_y) * sin(rad_z);
+	R->image_v.z = cos(rad_x) * cos(rad_y) * sin(rad_z) - sin(rad_x) * sin(rad_y) * cos(rad_z);
+}
+
+void angle_from_quaternion(quat A, float *angle_x, float *angle_y, float *angle_z)
+{
+	*angle_x = (float)(360.0 / (4 * acos(0.0))) * atan(2 * (A.real_w * A.image_v.x + A.image_v.y * A.image_v.z) / (1 - 2 * (A.image_v.x * A.image_v.x + A.image_v.y * A.image_v.y)));
+	*angle_y = (float)(360.0 / (4 * acos(0.0))) * asin(2 * (A.real_w * A.image_v.y - A.image_v.x * A.image_v.z));
+	*angle_z = (float)(360.0 / (4 * acos(0.0))) * atan(2 * (A.image_v.x * A.image_v.y + A.real_w * A.image_v.z) / (1 - 2 * (A.image_v.y * A.image_v.y + A.image_v.z * A.image_v.z)));
 }
 
 void print_quaternion(quat R)
