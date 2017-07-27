@@ -19,6 +19,15 @@ int main()
     cout << "Could not open the input video.." << endl ;
     return -1;
   }
+// frame 의 가로, 세로 정보를 가져온다
+    double Width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
+    double Height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+// framesize 설정 - videowriter 인자값으로 넘겨주기 위해 이러한 형태로 만듬
+    Size framesize(static_cast<int>(Width), static_cast<int>(Height));
+
+// initializing videowrite class
+    VideoWriter oVideoWriter("video.avi" , CV_FOURCC('P','I','M','1'), 20, framesize, true);
 
   while(1)
   {
@@ -86,6 +95,9 @@ int main()
 
    imshow("res", res);
    imshow("frame", frame);
+
+   // 녹화
+   oVideoWriter.write(frame);
 
    if(waitKey(10)>= 0) break;
    }
