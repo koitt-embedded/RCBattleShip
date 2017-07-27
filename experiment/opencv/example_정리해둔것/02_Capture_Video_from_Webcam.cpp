@@ -3,20 +3,30 @@ using namespace cv;
  
 int main(int, char**)
 {
-    VideoCapture cap(0); // open the default camera
+    VideoCapture cap(0); // open the default camera 카메라로 입력받는다
+			 // 동영상을 받으려면, ""
+    Mat frame;
+
     if(!cap.isOpened())  // check if we succeeded
-        return -1;
- 
+    {
+      cout << "Could not open the input video.." << endl ;
+      return -1;
+    } 
     namedWindow("Video",1);
+
     while(1)
     {
-        Mat frame;
-        cap >> frame;         // get a new frame from camera
+        cap >> frame;           // get a new frame from camera
+				// 또는 cap.read(frame); 으로 사용 가능
+
         imshow("Video", frame);
  
-        // Press 'c' to escape
-        if(waitKey(30) == 'c') break;
+        if(waitKey(10) >= 0) break;
     }
+
+    cap.release();
+    destroyAllWindows(); // It's not necessary !
+
     return 0;
 }
 
@@ -37,9 +47,11 @@ The primary use of the function is in multi-camera environments, especially when
 VideoCapture& VideoCapture::(operator)>>(Mat& image) // Grabs, decodes and returns the next video frame
 
 double VideoCapture::get(int propId) // Returns the specified VideoCapture property
-
+       위의 코드에서, cap.get() 으로 frame의 어떤 정보를 사용하고자 가져올때, 
+       아래의 파라메터 이용할 수 있다.
+       예) cap.get(CV_CAP_PROP_FRAME_WIDTH) -- frame 의 Width 를 가져온다.
 Parameters: 
-       propId – Property identifier. It can be one of the following:
+propId – Property identifier. It can be one of the following:
 CV_CAP_PROP_POS_MSEC Current position of the video file in milliseconds or video capture timestamp.
 CV_CAP_PROP_POS_FRAMES 0-based index of the frame to be decoded/captured next.
 CV_CAP_PROP_POS_AVI_RATIO Relative position of the video file: 0 - start of the film, 1 - end of the film.
@@ -61,7 +73,9 @@ CV_CAP_PROP_WHITE_BALANCE Currently not supported
 CV_CAP_PROP_RECTIFICATION Rectification flag for stereo cameras (note: only supported by DC1394 v 2.x backend currently)
 
 bool VideoCapture::set(int propId, double value) // Sets a property in the VideoCapture
-
+     위의 코드에서, cap.set() 으로 frame에 어떤 정보를 세팅하고자 할때
+     아래의 파라메터 이용할수 있다.
+     예) cap.set(CV_CAP_PROP_FPS) -- frame 의 fps 를 세팅할 수 있다.
 Parameters:
 propId –
 CV_CAP_PROP_POS_MSEC Current position of the video file in milliseconds.
