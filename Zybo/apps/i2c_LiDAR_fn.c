@@ -12,15 +12,14 @@
 
 #define I2C_FILE_NAME_0		"/dev/i2c-0"
 #define I2C_FILE_NAME_1		"/dev/i2c-1"
-#define LiDAR_SLAVE_ADDR	0x62
+#define LIDAR_SLAVE_ADDR	0x62
 
 #define ACQ_COMMAND			0x00
 #define STATUS 				0x01
 #define SIG_COUNT_VAL 		0x02
 #define ACQ_CONFIG_REG		0x04
-#define VELOCITY			0x09
 #define THRESHOLD_BYPASS	0x1C
-#define	RAED_FROM			0x8F
+#define	RAED_FROM			0x89
 
 #define NO_CORRECTION		0
 #define CORRECTION			1
@@ -44,10 +43,16 @@
 							"2 : distance with velocity\n"\
 							"3 : velocity only\n"
 
+unsigned get_status();
+void i_read(unsigned char, unsigned, unsigned char*);
+void i_write(unsigned char reg, unsigned char value);
+void measurement(unsigned char, unsigned char, unsigned char*);
+void display(unsigned char, unsigned char*);
+
 int fd = 0;
 
 int main(int argc, char *argv[]) {
-	unsigned char receives[6] = {AR_VELOCITY, AR_PEAK_CORR, AR_NOISE_PEAK
+	unsigned char receives[8] = {AR_VELOCITY, 0, 0, AR_PEAK_CORR, AR_NOISE_PEAK
 		, AR_SIGNAL_STRENGTH, AR_FULL_DELAY_HIGH, AR_FULL_DELAY_LOW};
 	unsigned char i, options;
 	char *file_name = NULL;
@@ -63,7 +68,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	if(ioctl(fd, I2C_SLAVE, LiDAR_SLAVE_ADDR) < 0) {
+	if(ioctl(fd, I2C_SLAVE, LIDAR_SLAVE_ADDR) < 0) {
 		perror("---SLAVE ADDR CONNECT ERROR ");
 		return -1;
 	}
@@ -79,6 +84,8 @@ int main(int argc, char *argv[]) {
 		// close
 		// if() close(fd);
 	}
+
+	close(fd);
 
 	return 0;
 }
@@ -102,6 +109,7 @@ unsigned get_status() {
 void i_read(unsigned char reg, unsigned read_size, unsigned char *receives) {
 	unsigned char buf[1] = {reg};
 	unsigned busy_flag = 1, busy_counter = 0;
+
 	while(busy_flag) {
 		busy_flag = get_status();
 		busy_counter ++;
@@ -134,10 +142,13 @@ void i_write(unsigned char reg, unsigned char value) {
 }
 
 void measurement(unsigned char is_correction, unsigned char options, unsigned char *buf) {
+	unsigned char i;
 	if(is_correction) i_write(ACQ_COMMAND, 0x04);
 	else i_write(ACQ_COMMAND, 0x03);
 
-	i_read(RAED_FROM, 6, buf);
+	i_read(RAED_FROM, 8, buf);
+
+	for(i=1; i<6; i++) buf[i] = buf[i + 2];
 
 	display(options, buf);
 }
