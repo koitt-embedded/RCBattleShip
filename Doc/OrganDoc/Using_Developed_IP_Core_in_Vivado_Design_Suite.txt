@@ -1,0 +1,291 @@
+* Create a New Project
+
+새로운 HLS Design 을 만드는 첫 번째 단계는 새 프로젝트를 만드는 것이다.
+Vivado HLS New Project Wizard 를 사용하여 새 프로젝트를 작성한다.
+새 프로젝트 마법사가 우리를 위해 APP 프로젝트 파일을 만든다.
+Vivado HLS 가 Design 파일을 구성할 장소이며 설계 상태를 자주 저장하는 것이 좋다.
+
+새 프로젝트를 만들기 위해 아래 절차를 밟는다:
+
+Step 1. Vivado HLS SW 를 구동한다.
+
+Start -> All Programs -> Xilinx Design Tools -> 
+Vivado 2016.4 -> Vivado HLS -> Vivado HLS Version 을 선택하면
+Vivado HLS Welcom Page 가 나타날 것이다.
+(Linux 에서 작업하는 경우 /opt 밑에 있는 Vivado HLS 를 실행하면 된다)
+
+HLS 시작 페이지에는 사용할 수 있는 여러 가지 Quick Start 옵션이 있다:
+
+* Create New Project - 프로젝트 설정 창을 띄운다.
+* Open Project - 기존 프로젝트로 이동하거나 최근 프로젝트 목록을 선택한다.
+* Open Example Project - Vivado HLS 예제를 연다.
+* Tutorials - "Vivado Design Suite Tutorial: High-Level Synthesis" (UG871) 을 연다.
+* User Guide - "Vivado Design Suite User Guide: High-Level Synthesis" (UG902) 문서를 연다.
+* Release Notes Guide - 최신 SW 버전에 대해 "Vivado Design Suite User Guide:
+                        Release Notes, Installation, and Licensing" (UG973) 을 연다.
+
+이전에 열어본 프로젝트가 있으면 최근 프로젝트 창에 표시된다.
+그렇지 않으면 시작 화면에 이 창이 표시되지 않는다.
+
+Step 2. Vivado HLS 시작 페이지에서 새 프로젝트 만들기 옵션을 선택하여 프로젝트를 연다.
+
+Step 3. Project Configuration Dialog 에서 새 프로젝트의 이름과 위치를 지정한다.
+
+* 프로젝트 이름 필드에 새 프로젝트의 이름으로 modulator 를 입력한다.
+* Browse 를 클릭하여 프로젝트 데이터가 저장될 위치를 지정하도록 한다.
+
+참고: Vivado HLS 가 자동으로 최상위 기능을 식별하기 떄문에
+      프로젝트가 SystemC 로 지정된 경우 이러한 절차가 필요하지 않다.
+
+Step 4. Next 를 클릭한다.
+
+Step 5. Add/Remove Files Dialog 박스에서 C 기반 Design 파일을 지정한다.
+
+* Top Function 필드에서 modulator 를 최상위 함수로 지정한다.
+* New File ... 버튼을 클릭하고 다른 이름으로 저장에서
+  파일 이름 필드에 modulator.cpp 를 새 파일 이름으로 지정한 후 저장을 클릭한다.
+* 새로운 modulator.cpp C++ 파일을 추가한 후 Design Files 섹션의 일부로 나타나야 한다.
+* Next 를 누른다.
+
+참고: Add Files 버튼을 사용하여 기존 소스 코드 파일을 프로젝트에 추가할 수 있다.
+
+중요: Header 파일(확장자가 *.h 인 파일)을
+      Add Files 버튼(또는 연관된 add_files Tcl 명령)을 사용하여 프로젝트에 추가하지 말라.
+
+이 예에서 하나의 C Design 파일(modulator.c) 만 사용한다.
+합성할 C 파일이 여러개인 경우 이 단계에서 모든 파일을 프로젝트에 추가해야 한다.
+Local 디렉토리에 있는 헤더 파일은 프로젝트에 자동으로 포함된다.
+Header 가 다른 위치에 있으면 Edit CFLAGS ... 버튼을 사용하여
+표준 gcc/g++ 검색 경로 정보(예: -l<path_to_header_file_dir>) 을 추가하도록 한다.
+
+Step 6. 두번째 Add/Remove Files Dialog 박스에서 C 기반 testbench 파일을 지정한다:
+
+* New File ... 버튼을 클릭하고 다른 이름으로 저장 대화 상자에서
+  파일 이름 필드에 modulator_tb.cpp 를 새로운 testbench 파일 이름으로 지정하고 저장을 클릭한다.
+* 새로운 modulator_tb.cpp testbench 파일을 추가한 후에는 TestBench 파일 섹션의 일부로 나타나야 한다.
+* Next 를 누른다.
+
+참고: test bench 에 의해 사용되는 모든 파일들과 testbench 는 반드시 포함되어야 한다.
+      한 번에 하나씩 파일을 추가하거나 Ctrl + Shift 를 사용하여 여러개를 한 번에 선택할 수 있다.
+
+참고: test bench 와 관련된 헤더 파일이 있지만 Design 파일이 아닌 SystemC Design 의 경우,
+      Add Files 버튼을 사용하여 헤더 파일을 프로젝트에 추가해야 한다.
+
+Vivado HLS 와 함께 제공되는 대부분의 Example Design 에서
+test bench 는 Design 과는 별도의 파일에 있다.
+test bench 와 기능을 별도의 파일로 합성하면 시뮬레이션과 합성 과정을 완전히 분리할 수 있다.
+test bench 가 합성되 함수와 동일한 파일에 있다면 파일을 소스 파일과 test bench 파일로 추가해야 한다.
+
+C 소스 파일과 마찬가지로 Add Files 버튼을 클릭하여 C test bench 를 추가하고
+Edit CFLAGS 버튼을 클릭하여 C Compiler Options 를 포함한다.
+
+디렉토리에 test bench 파일이 있는 경우 Add Folders 버튼을 사용하여
+개별 파일 대신 전체 디렉토리를 프로젝트에 추가할 수 있다.
+
+C Simulation (및 RTL Co-Simulation) 은 솔루션의 하위 디렉토리에서 실행된다.
+
+test bench 에서 사용하는 모든 파일 (예: test bench 에서 읽은 데이터 파일) 을 포함하지 않으면
+데이터 파일을 찾을 수 없기 때문에 C 및 RTL Simulation 이 실패할 수 있다.
+
+솔루션 구성 창 (그림 2.9) 은 첫 번째 솔루션의 기술 사양을 지정한다.
+
+프로젝트는 각각 다른 목표 기술, 패키지, 제약 조건
+및 synthesis 지시문을 사용하는 여러 솔루션을 가질 수 있다.
+
+Step 7. 솔루션 구성 대화 상자에서 기본 솔루션 이름(solution1), clock 주기(10 ns),
+        그리고 blank clock 불확실성(공백으로 남겨두었을 때의 기본값은 클럭 기간의 12.5%)을 사용한다.
+
+솔루션 구성 대화 상자에서 첫 번째 솔루션의 세부 사항을 지정할 수 있다.
+
+* Solution Name: Vivado HLS 는 초기 기본 이름 solution1 을 제공하지만 솔루션의 이름을 지정할 수 있다.
+* Clock Period: ns 단위로 지정된 클록 주기 혹은 MHz 접미사(예: 100 MHz) 로 지정된 주파수 값
+* Uncertainty: 합성에 사용되는 클록주기는 클록주기에서 클록 불확실성을 뺀 것이다.
+               Vivado HLS 는 내부 모델을 사용하여 각 FPGA 의 작업 지연을 예측한다.
+               클럭 불확실성 값은 RTL 논리 합성, 배치 및 경로로 인한
+               순 지연의 증가를 설명하기 위해 제어 가능한 여분을 제공한다.
+               ns 혹은 백분율로 지정하지 않으면 클록 불확실성은 기본적으로 클록 주기의 12.5% 가 된다.
+* Part: 사용하는 적절한 보드를 선택해주도록 한다.
+
+Step 8. 솔루션 구성 대화 상자에서 부품 선택 버튼을 클릭하여 부품 선택 창을 연다.
+
+필터를 사용하여 장치 목록의 장치 수를 줄일 수 있다.
+대상이 보드인 경우 왼쪽 상단 모서리에 보드를 지정하면 장치 목록이 지원되는 보드 목록으로 바뀐다.
+(Vivado HLS 가 자동으로 올바른 대상 장치를 선택함)
+
+Step 9. Device Selection Dialog 에서 프로젝트의 기본 Xilinx 부품 또는 보드를 선택한다.
+        보드를 선택하여 프로젝트의 기본 보드를 선택하면 평가 보드 목록이 표시된다.
+
+Step 10. ZedBoard Zynq Evaluation 및 개발 키트(적절하게 알아서)를 선택하고 확인을 클릭한다.
+         솔루션 구성 대화 상자에서 선택한 부품 이름이 부품 선택 머리글 아래에 나타난다.
+
+Step 11. 솔루션 구성 대화 상자에서 Finish 를 클릭하여 생성된 Vivado HLS 프로젝트를 연다.
+
+새로운 프로젝트 생성이 끝나면 몇 초 안에 Vivado HLS 프로젝트가 나타날 것이다.
+
+Vivado HLS 는 새 프로젝트를 만들 때 GUI 에서 지정한 이름과 위치의 디렉토리를 만든다.
+즉 모든 프로젝트 데이터가 project_name(modulator) 디렉토리에 저장된다.
+
+Vivado HLS 프로젝트에서 아래 사항을 확인할 수 있다:
+
+* 프로젝트 이름은 탐색기 창의 맨 위에 표시된다.
+* Vivado HLS 프로젝트는 정보를 계층적 형식으로 정렬한다.
+* 이 프로젝트는 Design Source, Test Bench, 그리고 Solutions 를 보유한다.
+* 이 솔루션에서 Target Technology, Design 지침 및 결과에 대한 정보가 들어있다.
+* 프로젝트 내에 여러 솔루션이 있을 수 있으며 각 솔루션은 동일한 소스 코드를 구현한다.
+
+참고: 언제든지 툴바의 해당 프로젝트 설정 및 솔루션 설정 버튼을 사용하여
+      프로젝트 혹은 솔루션 설정을 변경할 수 있다.
+
+Vivado HLS GUI 는 4 개의 창으로 구성된다:
+
+* Explorer Pane
+
+프로젝트 계층 구조를 표시한다.
+유효성 검사, 합성, 확인 및 IP 패키징 단계를 진행하면서
+각 단계의 결과가 포함된 하위 폴더가
+솔루션 디렉토리(각각 csim, syn, sim 및 impl)에 자동으로 만들어진다.
+
+새로운 솔루션을 생성하려면 solution1 과 함께 프로젝트 계층구조 내에 나타난다.
+
+* Information Pane
+
+탐색기 창에서 열린 모든 파일의 내용을 표시한다.
+작업이 완료되면 이 창에 보고서 파일이 자동으로 열린다.
+
+* Auxiliary Pane
+
+정보 창과 상호 연결된다.
+이 창에 표시된 정보는 정보 창에 열려있는 파일에 따라 동적으로 조정된다.
+
+* Console Pane
+
+Vivado HLS 가 실행될 때 생성된 메시지를 표시한다.
+콘솔 창 탭에 오류 및 경고가 나타난다.
+
+Vivado HLS GUI 에서 아래도 찾을 수 있다:
+
+* Toolbar Buttons
+
+Toolbar 버튼을 사용하여 가장 일반적인 작업을 수행할 수 있다.
+버튼 위에 커서를 놓으면 팝업 도구 설명이 열리고 기능을 설명한다.
+각 버튼에는 풀다운 메뉴에서 사용할 수 있는 관련 메뉴 항목도 있다.
+
+* Perspectives
+
+Perspectives 는 Vivado HLS GUI 에서 창을 조정하는 편리한 방법을 제공한다.
+
+  - Synthesis Perspective
+    기본 Perspective 를 사용하여 Design 을 합성하고 시뮬레이션을 실행하고 IP 를 패키징할 수 있다.
+
+  - Debug Perspective
+    C Code 디버깅과 관련된 창이 포함된다.
+    C 코드를 컴파일 한 이후에 Debug Perspective 를 열 수 있다.
+    (컴파일 정보 최적화 옵션을 사용하지 않으면 Debug 정보가 비활성화된다)
+
+  - Analysis Perspective
+    이 관점의 창은 하성 결과 분석을 지원하도록 구성된다.
+    합성이 완료된 후에만 Analysis Perspective 를 사용할 수 있다.
+
+
+
+Develop C Algorithm
+
+HLS 프로젝트의 첫 번째 단계는 Design 을 위한 C Algorithm 을 개발하는 것이다.
+이 Tutorial 에서는 실제 알고리즘이 C++ 프로그래밍 언어로 작성된다.
+
+modulator 프로젝트 생성과 함께 이미 2 개의 아무것도 없는
+C++ 파일인 modulator.cpp 와 modulator_tb.cpp 를 생성했다.
+이제 이 2 개의 파일이 저장된 동일한 디렉토리에 저장될
+modulator.h 헤더 파일의 내용과 *.cpp 파일의 내용을 작성해야 한다.
+
+이 3 개의 파일의 내용은 아래에서 살펴보도록 한다.
+
+modulator.cpp
+
+#include "ap_int.h"
+#include "math.h"
+#include "modulator.h"
+// function that calculates sine wave samples value
+void init_sine_table(ap_uint<width> *sine)
+{
+    float temp;
+    init_sine: for (int i = 0; i < sine_samples; i ++)
+        // sin (2*pi*i / N) * (2^(width-1) - 1) + 2^(width-1) - 1, N = 2^depth
+        sine[i] = (ap_uint<width>)(sin(2*3.14*i/sine_samples)*(sine_ampl/2.0-1.0)+sine_ampl/2.0-1.0);
+}
+// pwm generator
+void modulator(
+   ap_uint<1> sw0,       // switch used for selecting frequency
+   ap_uint<1> *pwm_out)  // pointer to pwm output
+{
+    static ap_uint<depth> counter = 0;           // counter for sine wave sample counting
+    static ap_uint<width> sine[sine_samples];    // samples of the sine wave signal
+    // sine table initialization
+    init_sine_table(sine);
+    // hold pwm_out high for specified number of clock cycles
+    onloop: for (ap_uint<20> j = 0; j < (ap_uint<20>)(period[sw0]*sine[counter]); j++)
+    {
+         pwm_out = 1;
+    }
+    // hold pwm_out low for specified number of clock cycles
+    offloop: for (ap_uint<20> j = 0; j < (ap_uint<20>)(period[sw0]*(sine_ampl - sine[counter])); j++)
+    {
+         pwm_out = 0;
+    }
+    counter++;
+}
+
+modulator_tb.cpp
+
+#include <iostream>
+#include "ap_int.h"
+#include "modulator.h"
+using namespace std;
+ap_uint<1> pwm_out;    // pulse width modulated signal
+int main(int argc, char **argv)
+{
+    for (int i = 0; i < 256; i ++)
+        modulator(0, &pwm_out);
+    for (int i = 0; i < 256; i ++)
+        modulator(1, &pwm_out);
+    return 0;
+}
+
+modulator.h
+
+#ifndef __PWM_H__
+#define __PWM_H__
+#include "ap_int.h"
+#include <cmath>
+using namespace std;
+#define depth               8          // the number of bits used to represent sample count of sine wave
+#define width               12         // the number of bits used to represent amplitude value
+                            
+#define sine_samples        256        // maximum number of samples in one period of the signal
+#define sine_ampl           4096       // maximum amplitude value of the sine wave
+                            
+#define refclk_frequency    100000000  // reference clock frequency (100 MHz)
+                            
+#define freq_low            1          // first frequency for the PWM signal, specified in Hz
+#define freq_high           3.5        // second frequency for the PWM signal, specified in Hz
+// minimum duration of high value of pwm signal for two different frequencies 
+const float period[2] = {(float)(refclk_frequency/(sine_ampl*sine_samples*freq_low)),
+                         (float)(refclk_frequency/(sine_ampl*sine_samples*freq_high))};
+// Prototype of top level function for C-synthesis
+void modulator(
+   ap_uint<1> sw0,          // switch used for selecting frequency
+   ap_uint<1> *pwm_out);    // pointer to pwm output
+#endif
+
+modulator.cpp 및 modulator_tb.cpp 파일의 내용을 추가하렴 아래 단계를 수행하라.
+
+Step 1. Vivado HLS Explorer 창에서 Source 폴더를 확장하고
+        modulator.cpp C++ 파일을 두 번 클릭하여 연다.
+
+Step 2. 열려있는 modulator.cpp 파일에서 위 소스 파일의 내용을 복사하고 저장 버튼을 누른다.
+
+Step 3. modulator_tb.cpp test bench 파일에 대해 동일한 절차를 반복한다.
+        따라서 Vivado HLS Explorer 창의 Test Bench 폴더를 확장하고
+        modulator_tb.cpp 파일을 두 번 클릭하여 연다.
+
+
