@@ -438,3 +438,466 @@ Performance Estimates Pane 에서 Latency(Clock Cycles)/Detail 을 확장하면 
 앞서 적었듯이 Vivado HLS 는 Latency 값을 계산할 수 없다.
 
 Step 3. Outline Tab 에서 Utilization Estimates 옵션을 클릭한다.
+
+Utilization Estimates Pane 의 Summary 섹션에서 아래를 볼 수 있다:
+
+* Design 은 1 개의 BRAM_18K 메모리, 3 개의 DSP48E, 727 플립 플롭 및 1836 개의 LUT 를 사용한다.
+  이 단계에서 Device Resource 번호는 추정치에 해당한다.
+* Resource Utilization 수치는 RTL 합성이 추가 최적화를 수행할 수 있고
+  RTL 합성 후에 이러한 수치가 변경될 수 있으므로 예상치에 해당한다.
+
+Utilization Estimates Pane 에서 Detail/Instance 섹션을 펼치면 아래와 같은 것이 보인다:
+
+* 여기에 지정된 Resource 는 계층 구조 수준에서 Instance 화된 하위 블록에서 사용된다.
+  Design 에 계층 구조가 없지만 Vivado HLS 는 부동 소수점과 부호없는 정수값의 곱셈을 수행할 때
+  이를 도입했다(modulator.cpp 소스 코드의 28 및 34 행)
+  Vivado HLS 는 2 가지 Instance 를 만든다:
+* modulator_fmul_32ns_32ns_32_4_max_dsp_U0 - Single Precision Floating Point 곱셈에 사용된다.
+* modulator_sitofp_64ns_32_6_U1 - 정수값을 부동 소수점값으로 변환하는데 사용된다.
+
+각 Instance 에 대해 Vivado HLS 는 구현에 필요한 Resource(BRAM, DSP, FF, LUT 의 수)를 보고한다.
+
+Step 4. Outline 탭에서 Interface 옵션을 클릭한다.
+
+Interface Report 에서 Interface Synthesis 로 생성된 Port 및 I/O Protocol 을 보여준다:
+
+* Design 에는 Clock 및 Reset Port(ap_clk 및 ap_rst) 가 있다.
+  이것들은 Source Object Modulator 와 관련이 있다: Design 자체
+* Source Object Modulator 에 표시된대로 Design 과 관련된 추가 port 가 있다.
+  Synthesis 는 Block Level 제어 포트 ap_start, ap_done, ap_idle, ap_ready 를 자동으로 추가한다.
+* Interface Synthesis Tutorial 은 이러한 Port 에 대한 자세한 정보를 제공한다.
+* Scalar Input Argument sw0_V 는 I/O 프로토콜이 없는 데이터 포트(ap_none) 으로 구현된다.
+* 마지막으로 Function Outputs pwm_out_V 및 pwm_out_V_ap_vld 는
+  관련된 출력 유효 신호 표시자인 pwm_out_V 를 갖는 1 bit 데이터 포트에 해당한다.
+
+
+
+C Synthesis Output Files
+
+Synthesis 가 완료되면 이제 solution1 폴더에서 syn 폴더를 사용할 수 있다.
+
+syn 폴더에는 4 개의 하위 폴더가 있다.
+각 RTL 출력 형식에 대한 폴더와 report 폴더가 있다.
+
+report 폴더에는 최상위 기능에 대한 report 파일과 design 의 모든 하위 기능에 대한 report 파일이 있다:
+함수가 INLINE 지시문을 사용하여 inline 되지 않았거나
+Vivado HLS 에서 자동으로 inline 되지 않은 경우에 해당한다.
+최상위 기능에 대한 보고서는 전체 design 에 대한 세부 사항을 제공한다.
+
+verilog, vhdl 및 systemc 폴더에는 출력 RTL 파일이 포함되어 있다.
+FIgure 2.28 은 확장된 4 개의 폴더를 모두 보여준다.
+최상위 파일은 합성을 위한 최상위 함수와 이름이 같다.
+C Design 에는 각 함수(inline 되지 않음)에 대해 하나의 RTL 파일이 있다.
+Sub Block(Block RAM, Pipeline 된 곱셈기 등)을 구현하기 위한 추가 RTL 파일이 있을 수 있다.
+
+중요: Xilinx 는 이러한 파일을 RTL 합성에 사용하지 않는게 좋다.
+대신 Xilinx 는 이 Design Flow 에서 나주엥 설명할 Packaged IP 출력 파일을 사용할 것을 권장한다.
+
+Vivado HLS 가 부동 소수점 Design 과 같이 Design 에서 Xilinx IP 를 사용하는 경우
+RTL 디렉토리에 RTL 합성 중에 IP 를 생성하는 Script 가 포함되어 있다.
+syn 폴더에 있는 파일이 RTL 합성에 사용되는 경우
+해당 폴더에 있는 Script 파일을 올바르게 사용하는 것은 사용자의 문제다.
+Package IP 를 사용하는 경우 이 절차는 Design Xilinx Tools 에 의해 자동으로 수행된다.
+
+
+
+C Synthesis Results
+
+RTL Design 을 분석하기 위해 제공되는 2 가지 기본 기능은 아래와 같다:
+
+1. Synthesis Reports
+2. Analysis Perspective
+
+또한 RTL 환경에서 작업하는 것이 더 편한 경우 
+Vivado HLS 는 IP Packaging 절차 중에 2 가지 프로젝트를 만든다:
+
+1. Vivado Design Suite Project
+2. Vivado IP Integrator Project
+
+Synthesis Reports
+
+합성이 완료되면 최상위 함수의 synthesis report 가 information pane 에 자동으로 열린다.
+report 는 RTL Design 의 성능 및 영역에 대한 세부 정보를 제공한다.
+오른쪽의 Outline 탭을 사용하여 보고서를 탐색할 수 있다.
+
+아래 표에서 synthesis report 의 범주를 설명한다.
+
+Table 2.1: Synthesis Report Category
+
+* General Information:
+  결과가 생성된 시기, 사용된 SW 버전, 프로젝트 이름, 솔루션 이름 및 기술 세부 사항에 대한 세부 정보
+
+* Performance Estimates -> Timing:
+  Target Clock 주파수, Clock 불확실성 및 달성 가능한 가장 빠른 Clock 주파수의 추정치
+
+* Performance Estimates -> Latency -> Summary:
+  이 Block 및 해당 Block 에서 Instance 화된 모든 하위 Block 의 대기 시간 및 시작 간격을 보고한다.
+  C 소스의 수준에서 호출되는 각 하위 함수는 inline 되지 않는 한 이 RTL Block 의 Instance 에 해당한다.
+  Latency 는 출력을 생성하는데 걸리는 Cycle 수에 해당한다.
+  initiation interval 은 새로운 입력이 적용될 수 있는 Clock 주기의 수에 해당한다.
+  PIPELINE 지시어가 없으면 대기 시간은 시작 간격보다 1 Cycle 이 짧다.
+  (최종 출력이 기록될 때 다음 입력이 읽혀진다)
+
+* Performance Estimates -> Latency -> Detail:
+  이 Block 의 Instance(하위 기능) 및 Loop 에 대한 대기 시간 및 시작 간격이다.
+  Loop 에 하위 Loop 가 포함되어 있으면 Loop 계층 구조가 표시된다.
+  min 및 max Latency 값은 Loop 의 모든 반복을 실행하는 대기 시간을 나타낸다.
+  Code 에서 조건 분기가 있으면 최소 및 최대가 서로 다를 수 있다.
+  반복 Latency 는 Loop 의 단일 반복에 대한 Latency 에 해당한다.
+  Loop 의 Latency 가 가변적인 경우 Latency 을 결정할 수 없으며 ? 로 표시된다.
+  지정된 Target Initiation Interval 은 달성된 실제 시작 간격 옆에 표시된다.
+  tripcount 는 총 반복 횟수를 표시한다.
+
+* Utilization Estimates -> Summary:
+  report 의 이 부분은 Design 을 구현하는데 사용된 Resource(LUTS, Flip-Flops, DSP48s) 를 보여준다.
+
+* Utilization Estimates -> Detail -> Instance:
+  여기에 지정된 Resource 는 이 계층 구조 수준에서 Instance 화된 하위 Block 에서 사용된다.
+  Design 에 RTL 계층 구조만 있으면 Instance 가 보고되지 않는다.
+  Instance 가 있는 경우 Instance 이름을 클릭하면 해당 Instance 에 대한 Synthesis Report 가 열린다.
+
+* Utilization Estimates -> Details -> Memory:
+  여기에 나열된 자원은 이 계층 구조에서 메모리를 구현하는데 사용되는 자원이다.
+  Vivado HLS 는 단일 포트 BRAM 을 하나의 메모리 뱅크로 보고하고
+  듀얼 포트 BRAM 을 2 개의 메모리 뱅크로 사용한다고 보고한다.
+
+* Utilization Estimates -> Details -> FIFO:
+  여기에 나열된 Resource 는 이 계층 구조 수준에서 구현된 FIFO 의 구현에 사용되는 Resource 이다.
+
+* Utilization Estimates -> Details -> Shift Register:
+  Xilinx SRL 구성 요소에 매핍된 모든 Shift Register 요약이다.
+  RTL 합성 중에 SRL 구성 요소에 추가 맵핑이 발생할 수 있다.
+
+* Utilization Estimates -> Details -> Expressions:
+  이 범주는 현재 계층 구조의 곱셈기, 덧셈기 및 비교기와 같은 식에서 사용되는 리소스를 보여준다.
+  표현식에 대한 입력 포트의 비트 너비가 표시된다.
+
+* Utilization Estimates -> Details -> Multiplexors:
+  이 섹션에서는 계층구조에서 Multiplexor 를 구현하는데 사용된 Resource 를 보여준다.
+  Multiplexor 의 입력 폭이 표시된다.
+
+* Utilization Estimates -> Details -> Register:
+  이 계층구조의 모든 레지스터 목록이 여기 표시된다.
+  보고서에는 레지트서 비트 폭이 포함된다.
+
+* Interface Summary -> Interface:
+  여기선 함수 인자가 RTL 포트로 합성된 방법을 보여준다.
+  RTL 포트 이름은 프로토콜 및 원본 개체와 함께 그룹화된다:
+  이들은 소스 객체가 명시된 I/O Protocol 로 합성될 때 생성되는 RTL 포트에 해당한다.
+
+특정 Xilinx Device 는 SSI(Stacked Silicon Interconnect) 기술을 사용한다.
+이러한 장치에서 사용 가능한 총 Resource 는 여러 Super Logic Regions(SLRs) 로 나뉜다.
+Target Technology 로 SSI Technology Device 를 선택하면
+Utilization Report 에 SLR 사용량과 전체 Device 사용량에 대한 세부 정보가 포함된다.
+
+중요: SSI Technology Device 를 사용할 때는
+      Vivado HLS 가 만든 논리가 단일 SLR 에 맞는지 확인하는 것이 중요하다.
+      SSI Technology Devices 를 사용하기 위한 정보를 파악해야 한다.
+
+Vivado HLS 의 새로운 사용자에 대한 공통 문제는 report 를 살펴보는 것이다.
+Latency 값은 모두 ? 로 표시된다.
+
+Vivado HLS 는 각 Loop 의 반복 횟수를 결정하기 위해 분석을 수행한다.
+Loop 반복 제한이 변수인 경우 Vivado HLS 는 최대 상한을 결정할 수 없다.
+
+Design 의 Latency 혹은 처리량이 가변 인덱스가 있는 Loop 에 종속적인 경우
+Vivado HLS 는 Loop 의 Latency 가 알려지지 않은 것으로 보고한다.
+(report 에는 ? 로 표시됨)
+
+TRIPCOUNT 지시문을 Loop 에 적용하여 Loop 반복 횟수를 수동으롲 ㅣ정하고
+report 에 유용한 숫자가 포함되도록 할 수 있다.
+-max 옵션은 Loop 가 반복하는 최대 반복 횟수를 Vivado HLS 에 알려주고
+-min 옵션은 수행되는 최소 반복 횟수를 지정하고 -avg 옵션은 평균 tripcount 횟수를 지정한다.
+
+참고: TRIPCOUNT 지시문은 합성 결과에 영향을 주지 않는다.
+
+tripcount 값은 report 에만 사용되며 Vivado HLS 에서 생성된 report 가
+Latency 및 Interval 에 대해 의미있는 범위를 표시하는지 확인한다.
+이것은 또한 다른 솔루션 간의 의미있는 비교를 허용한다.
+
+C assert 매크로가 Code 에서 사용되는 경우 Vivado HLS 는 이를 사용하여
+Loop 제한을 자동으로 결정하고 이러한 제한에 정확히 맞는 HW 를 생성한다.
+
+Analysis Perspective
+
+Synthesis Report 외에도 Analysis Perspective 를 사용하여 결과를 분석할 수 있다.
+Analysis Perspective 를 열려면 안경 아이콘의 Analysis 버튼을 클릭하면 된다.
+
+Analysis Perspective 는 Design 성능 및 Resource 에 대한
+표 형식 및 그래픽 보기를 제공하며 두 보기 간의 상호 참조를 지원한다.
+
+Module 계층 구조 창은 전체 RTL Design 의 개요를 제공한다.
+
+* 이 View 는 Design 계층 전체를 탐색할 수 있다.
+* Module 계층 구조 창은 RTL 계층의 각 Block 에 대한 Resource 및 Latency 기여도를 보여준다.
+
+Performance Profile Pane 은 Module 계층 구조 창에서
+현재 선택된 Block 의 성능에 대한 세부 정보를 제공한다.
+이 경우 Module 계층 구조 창에서 강조 표시된 Modulator Block 이 강조 표시된다.
+
+* Block 의 Performance 는 포함된 하위 Block 과 이 계층 구조내의 모든 Logic  의 기능이다.
+  Performance Profile Pane 에는 전체 성능에 기여하는 이 계층 구조의 항목이 표시된다.
+* 성능은 Latency 및 Initiation Interval 로 측정된다.
+  또한 이 창에는 Block 이 Pipeline 되었는지 여부에 대한 세부 정보가 포함된다.
+* 이 예에서는 두 계층의 Loop(Onloop 및 Offloop) 가
+  이 계층 구조에서 로직으로 구현된다는 것을 알 수 있다.
+
+Schedule View Pane 에는 이 특정 Block 의 작업이 Clock 주기로 예약되는 방법이 표시된다.
+Default View 는 Performance View 에 해당한다.
+
+* 왼쪽 열에는 자원이 나열되어 있다.
+  - 하위 블록은 녹색이다.
+  - 소스의 Loop 에서 생성된 연산은 노란색으로 표시된다.
+  - 표준 작업은 자주색이다.
+
+* Modulator 는 3 가지 주요 부분으로 구성된다:
+  - sin 함수 배열을 초기화하는 init_sine_table 함수
+  - onloop 라는 Loop
+  - offloop 라는 Loop
+
+* 맨 위 행에는 Design 의 Control State 가 나열된다.
+  Control State 는 Vivado HLS 에서 Clock 주기로 작업을 예약하는데 사용되는 내부 상태다.
+  Control State 와 RTL FSM 의 최종 상태 사이에는 밀접한 상관 관계가 있지만 일대일 맵핑은 없다.
+
+Source Code View 에서 연관된 변수를 열 수 있다.
+쓰기 연산이 입력 배열 변수로부터 buf 배열에 데이터를 쓰는 것을 구현하고 있음을 알 수 있다.
+
+Analysis Perspective 를 사용하여 Resource Usage 를 분석할 수도 있다.
+Resource Profile 과 Resource Pane 을 보고 파악하도록 한다.
+
+Resource Profile Pane 은 이 계층 구조 수준에서 사용되는 Resource 를 표시한다.
+이 예에서 모든 DSP Resource 가 2 개의 Instance 에서 사용되는 것을 볼 수 있다.
+(modulator_fmul_32ns_32ns_32_4_max_dsp_U0 및 modulator_sitofp_64ns_32_6_U1)
+이 Block 내부에 Instance 화된 Block 을 볼 수 있다.
+
+Expressions 섹션을 확장하면 이 계층구조의 Resource 를 사용하여
+3 개의 감산기, 5 개의 덧셈기, 2 개의 비교기,
+2 개의 오른쪽 시프트 연산자, 5 개의 선택 연산자 및 2 개의 왼쪽 시프트 연산자를 구현할 수 있다.
+
+Resource Pane 은 사용된 작업의 Control State 를 보여준다.
+여기서 모든 덧셈기 동작은 상이한 덧셈기 Resource 와 관련된다.
+덧셈기를 공유하지 않는다.
+각 수평선에 두 번 이상 추가 작업이 수행되면 같은 상태
+혹은 클록 주기에서 동일한 Resource 가 여러번 사용됨을 나타낸다.
+
+Analysis Perspective 는 높은 Interactive 기능에 해당한다.
+Analysis Perspective 에 대한 자세한 내용은 
+Vivado Design Suite Tutorial, "High-Level Synthesis(UG871)" 의
+Design Analysis 섹션에서 확인할 수 있다.
+
+참고: Tcl Flow 를 사용하여 Design 을 작성하는 경우에도
+      프로젝트를 GUI 에서 열 수 있으며 Analysis Perspective 를 사용하여 Design 을 분석한다.
+
+Synthesis Perspective 버튼을 사용하여 Synthesis View 로 돌아간다.
+
+일반적으로 Design Analysis 를 마친 후
+optimization 지시문을 적용할 수 있는 새로운 솔루션을 만들 수 있다.
+이를 위해 새로운 솔루션을 사용하면 다른 솔루션을 비교할 수 있다.
+
+
+
+Clock, Reset, and RTL Output
+
+Vivado HLS 의 가장 일반적인 사용법은 초기 설계를 작성한 다음
+원하는 영역 및 성능 목표를 충족시키는 최적화를 수행하는 것이다.
+솔루션은 이전 합성 실행 결과를 보존하고 비교할 수 있는 편리한 방법을 제공한다.
+
+Step 1. Vivado HLS Main Toolbar 에서 New Solution 버튼을 눌러
+        New Solution Configuration Dialog Box 를 연다.
+
+Solution Configuration Dialog Box 를 여는 또 다른 방법은
+Vivado HLS 메뉴에서 Project -> New Solution 옵션을 사용하는 것이다.
+
+Solution Wizard 에는 New Project Wizard 의 마지막 창과 동일한 옵션과
+기존 솔루션에 적용된 지시문 및 제약 조건을
+수정하거나 제거할 수 있는 새로운 솔루션에 편리하게 복사할 수 있는 추가 옵션이 있다.
+
+Step 2. Solution Configuration Dialog Box 에서 모든 매개 변수를 변경하지 않고 Finish 를 클릭한다.
+
+새로운 솔루션을 만든 후에 optimization 지시문을 추가할 수 있다.
+(또는 이전 솔루션에서 복사한 경우 수정이 가능함)
+다음 섹션에서 지시어를 솔루션에 추가하는 방법에 대해 살펴본다.
+사용자 지정 제약 조건은 구성 옵션을 사용하여 적용된다.
+
+
+
+Applying Optimization Directives
+
+optimization 지시문을 추가하는 첫 번째 단계는 Information Pane 에서 소스 코드를 여는 것이다.
+탐색기 창의 맨 위에있는 Source Container 를 확장하고 Source File(modulator.cpp) 을
+두 번 클릭하여 Information Pane 에서 편집할 수 있도록 연다.
+
+Information Pane 의 활성 소스 코드에서 오른쪽의 Directive Tab 을 선택하여
+파일에 대한 지시문을 표시하고 수정한다.
+Directive Tab 에는 지시문을 적용할 수 있는
+현재 열려 있는 소스코드의 모든 객체와 범위가 포함되어 있다.
+
+참고: 다른 C 파일의 객체에 지시문을 적용하려면
+      파일을 열고 Information Pane 에서 파일을 활성화해야 한다.
+
+Vivado HLS GUI 에서 객체를 선택하고 지시문을 적용할 수 있다.
+Vivado HLS 는 모든 지시문을 객체가 포함된 범위에 적용한다.
+예를 들어 Vivado HLS GUI 의 Interface Object 에 INTERFACE 지시문을 적용할 수 있다.
+Vivado HLS 는 지시문을 최상위 함수(범위)에 적용하고 Interface Port(Object)는 지시문에서 식별한다.
+다음 예에서 foo 함수의 port data_in 은 AXI4-Lite Interface 로 지정된다:
+
+set_directive_interface -mode s_axilite "foo" adata_in
+
+아래 objects 와 scopes 에 optimization 지시문을 적용할 수 있다:
+
+* Interfaces
+  interface 에 지시문을 적용하면
+  Vivado HLS 는 최상위 함수가 interface 를
+  포함하는 범위이기 때문에 지시문을 최상위 함수에 적용한다.
+
+* Functions
+  함수에 지시문을 적용하면 Vivado HLS 는 함수 범위 내에있는 모든 object 에 지시문을 적용한다.
+  모든 지시문의 효과는 다음 수준의 함수 계층에서 중지된다.
+  유일한 예외는 계층 구조의 모든 Loop 를 반복적으로 Unroll 하는
+  PIPELINE 지시문과 같은 재귀 옵션을 지원하거나 사용하는 지시문이다.
+
+* Loops
+  Loop 에 지시문을 적용하면 Vivado HLS 가 지시문을 Loop 범위에 있는 모든 object 에 적용한다.
+  예를 들어 Loop 에 LOOP_MERGE 지시문을 적용하면
+  Vivado HLS 는 지시문을 Loop 내의 모든 하위 Loop 에만 적용하지만 Loop 자체에는 적용하지 않는다.
+
+  참고: 지시문이 적용된 Loop 는 동일한 계층 구조의 다른 녀석들과 병합되지 않는다.
+
+* Arrays
+  배열에 지시문을 적용하면 Vivado HLS 는 해당 지시문을 배열이 포함된 범위에 적용한다.
+
+* Regions
+  region 에 지시문을 적용하면 Vivado HLS 가 지시문을 region 의 전체 범위에 적용한다.
+  region 은 2 개의 중괄호로 묶인 영역이다.
+  예는 아래와 같다:
+
+  {
+    이 괄호 사이의 범위가 region 이다.
+  }
+
+참고: 함수와 Loop 에 지시문을 적용하는 것과 같은 방법으로 region 에 지시문을 적용할 수 있다.
+
+Step 1. 지시문을 적용하려면 Directive Tab(이 경우에는 sw0)에서 Object 를 선택하고
+        마우스 오른쪽 버튼을 클릭한 다음 Insert Directive... 옵션을 선택하여
+        Vivado HLS Directives Editor Dialog 박스를 연다.
+
+Step 2. Vivado HLS Directives Editor Dialog 박스에서
+        Directive Drop-Down 메뉴를 클릭하고 해당 지시문을 선택한다.
+
+Drop-Down 메뉴에는 선택한 Object 혹은 범위에 추가할 수 있는 지시문만 표시된다.
+예로 배열 object 를 선택하면 배열을 pipelining 할 수 없으므로
+Drop-Down 메뉴에 PIPELINE 지시문이 표시되지 않는다.
+
+Vivado HLS Directive Editor Dialog 박스에서 다음 Destination Settings 중 하나를 지정할 수 있다:
+
+* Source File - Vivado HLS 는 지시문을 직접 C 소스 파일에 pragma 로 삽입한다.
+* Directive File - Vivado HLS 는 지시문을 Tcl 명령으로
+                   솔루션 디렉토리의 directives.tcl 파일에 삽입한다.
+
+아래는 2 가지 방법의 장단점에 대해 설명한다.
+
+Tcl Commands vs Pragmas
+
+- Directives file(Tcl Command): Advantages
+  각 솔루션에는 independent 지시문을 있다.
+  이 방법은 Design 탐색에 이상적이다.
+  솔루션이 다시 합성되면 해당 솔루션에 지정된 지시문만 적용된다.
+
+- Directives file(Tcl Command): Disadvantages
+  C 소스 파일이 제 3 자에게 전송되거나 아카이브된 경우 directives.tcl 파일이 포함되어야 한다.
+  결과를 다시 작성하려면 directives.tcl 파일이 필요한다.
+
+- Source Code(Pragma): Advantages
+  optimization 지시문은 C 소스 코드에 내장되어 있다.
+  C 소스 파일이 C IP 로 제 3 자에게 제공될 때 이상적이다.
+  동일한 결과를 다시 만들려면 다른 파일이 필요하지 않는다.
+  TRIPCOUNT 및 INTERFACE 와 같이 변경 가능성이 낮은 지시문 때문에 유용한 방법이다.
+
+- Source Code(Pragma): Disadvantages
+  optimization 지시문이 Code 에 포함되어 있으면 다시 합성될 때 모든 솔루션에 자동으로 적용된다.
+
+Step 3. Vivado HLS Directive Editor Dialog 상자에서 아래를 수행한다:
+
+* Directive drop-down 리스트에서 sw0 입력 포트에 대한 지시문으로 INTERFACE 를 선택한다.
+* 선택한 Directive File 을 Destination 으로 둔다.
+* Option 섹션에서 ap_none I/O Protocol 을 mode(optional) 옵션으로 선택한다.
+* 다른 매개 변수는 변경하지 않는다.
+* 확인을 누른다.
+
+Step 4. pwm_out 출력 포트에 같은 설정으로 동일한 지시문을 적용하면
+        Directive Tab 에 선택한 포트에 적용된 지시문이 표시된다.
+
+Step 5. 필요한 지시어를 모두 적용한 후
+        C Synthesis 버튼(녹색 화살표)을 눌러 C Synthesis 절차를 실행한다.
+
+아래에 Vivado HLS 에서 제공하는 모든 optimization 지시어의 전체 목록이 나와있다.
+
+Vivado HLS Optimization Directives
+
+ALLOCATION:
+사용된 연산의 수, cores 및 functions 에 대한 한계를 지정한다.
+이로 인해 sharing 및 HW Resource 를 강제할 수 있고 Latency 를 증가시킬 수 있다.
+
+ARRAY_MAP:
+여러 개의 작은 배열을 하나의 큰 배열로 결합하여 Block RAM Resource 를 줄인다.
+
+ARRAY_PARTITION:
+대형 배열을 여러 개의 작은 배열 혹은 개별 레지스터로 분할하여
+데이터 접근을 향상시키고 Blcok RAM 병목 현상을 제거한다.
+
+ARRAY_RESHAPE:
+배열이 많은 요소를 가진 배열에서 더 큰 word 폭을 갖는 배열로 바꾼다.
+더 많은 Block RAM 을 사용하지 않고 Block RAM 접근을 향상시키는데 유용하다.
+
+DATA_PACK:
+구조체 데이터 필드를 보다 폭 넓은 word 의 single scalar 로 묶는다.
+
+DATAFLOW:
+함수와 Loop 가 동시에 실행될 수 있도록 Task Level Pipelining 을 활성화한다.
+Interval 을 최소화 하는데 사용된다.
+
+DEPENDENCE:
+Loop Carry 종속성을 극복하고
+Loop 를 Pipeline(혹은 낮은 interval 로 pipeline 되는) 할 수 있는 추가 정보를 제공하는데 사용된다.
+
+EXPRESSION_BALANCE:
+자동식 균형 조정 기능을 해제할 수 있다.
+
+FUNCTION_INSTANTIATE:
+동일한 함수의 여러 Instance 를 Local 로 최적화할 수 있다.
+
+INLINE:
+모든 함수 계층 구조를 제거하여 함수를 inline 화 한다.
+함수 경계를 넘어서 Logic 최적화를 가능하게 하고
+함수 호출 overhead 를 줄임으로써 Latency/Interval 을 개선하는데 사용된다.
+
+INTERFACE:
+function 기술에서 RTL 포트를 만드는 방법을 지정한다.
+
+LATENCY:
+최소 및 최대 Latency 제약 조건을 지정할 수 있다.
+
+LOOP_FLATTEN:
+중첩 Loop 를 Latency 가 향상된 단일 루프로 축소할 수 있다.
+
+LOOP_MERGE:
+연속 루프를 병합하여 전체 Latency 를 줄이고 Sharing 을 늘리고 Logic 최적화를 개선한다.
+
+LOOP_TRIPCOUNT:
+Loop 용으로 사용되며 변수 범위가 있다.
+루프 반복 횟수에 대한 예측치를 제공한다.
+reporting 시에만 사용되며 synthesis 에는 영향을 미치지 않는다.
+
+OCCURRENCE:
+
+PIPELINE:
+
+PROTOCOL:
+
+RESET:
+
+RESOURCE:
+
+STREAM:
+
+UNROLL:
