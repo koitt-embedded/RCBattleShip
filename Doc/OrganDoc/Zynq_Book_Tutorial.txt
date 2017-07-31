@@ -1,0 +1,100 @@
+Acknowledgements
+
+이것은 Zynq Book 과 함께 제공되는 자습서의 새로운 버전이다.
+Vivado 2015.1 을 기반으로 하며 ZedBoard 및 Zybo Development Board 를 모두 지원한다.
+
+많은 사람들이 원래의 자습서에 대한 피드백을 제공해줬다.
+Xilinx 의 Austin Lesea 와 Y. C. Wang 은
+제작 초기 단계에서 Tutorial 을 테스트하고 몇 가지 유용한 제안을 했다.
+Strathclyde 대학에서 Iain Chalmers, Sarunas Kalade, Damien Muir 및 Craig Ramsay 는
+자습서의 다양한 버전을 통해 작업하고 사용자 경험에 대해 알려주는데 많은 도움을 주었다.
+
+다시 한 번 Xilinx 대학 프로그램의 Cathal McCabe 는 Tutorial 자료 제작에 대한
+중요한 피드백과 지원을 제공할 뿐만 아니라 다른 사람들에게도 이러한 자료의 배포를 조율했다.
+
+Louise Crockett, Ross Elliot, Martin Enderwitz, and David Northcote.
+
+August 2015.
+
+
+
+How to Use This Book
+
+Example Files and Ebook Version
+
+The Zynq Book Tutorials 를 따르기 위해서 책의 웹 사이트에서 준비된 파일 모음을 다운로드해야 한다:
+www.zynqbook.com
+
+이 Tutorial 의 모음은 전자 서적(인쇄할 수 없는 PDF) 버전도 위 링크에서 다운로드할 수 있다.
+
+Instructions for Zybo and ZedBoard Development Boards
+
+Tutorial 을 읽으면서 특정 절차에 사용되는 개발 보드에 따라 다른 변형이 있음을 알 수 있다.
+일련의 명령어가 보드 전용(즉, ZedBoard 혹은 Zybo 와 관련된)인 경우
+시퀀스의 시작 부분은 왼쪽 여백에 컬러 블록 아이콘으로 표시된다.
+
+2 개의 Board 에 공통적인 명령 재개에는 또 다른 아이콘이 표시된다:
+
+Zed 혹은 Zybo 아이콘을 식별하여 Board 와 관련된 지침을 선택하고 기본 흐름을 재개할 위치를 찾도록 한다.
+
+Operating System
+
+Zynq Book Tutorial 은 MS OS 를 사용하여 테스트되었다.
+이것은 테스트되지 않았지만 Linux Kernel OS 에서도 작동할 것으로 예상한다.
+
+
+
+1. First Design on Zynq
+
+이 Tutorial 은 Vivado IDE(Integrated Development Environment) 를 사용하여 첫 번째 Zynq Design 을 작성하는 과정을 안내하고
+Zynq Development Board 에 구현되는 간단한 Zynq 프로세서 설계를 생성하기 위한 IP Integrator 환경을 소개한다.
+SDK(SW Development Kit) 는 Zynq 의 ARM 프로세싱 시스템(PS)에서 실행되어 PL(Programmable Logic) 로
+구현되는 HW 를 제어하는 간단한 SW Application 을 생성하는데 사용된다.
+
+이 Tutorial 은 3 가지 연습으로 나누어져 있어 아래와 같이 구성되어 있다:
+
+Exercise 1A - 이 연습에서는 Vivado IDE 를 시작하고 처음으로 Project 를 만드는 과정을 안내한다.
+              새 프로젝트 마법사의 다양한 단계가 소개된다.
+
+Exercise 1B - 이 실습에서는 실습 1A 에서 만든 Project 를 사용하여 그래픽 도구, IP Integrator 를 사용하여
+              간단한 Zynq Embedded System 을 만들고 Vivado IP Catalog 의 기존 IP 를 통합한다.
+              특정 장비 또는 Board 에 대한 IP Module 의 사용자 정의를 자동화하는
+              Board 자동화 기능과 같이 이 연습 전반에 걸쳐 많은 설계 지원이 사용된다.
+              Zynq PS 와 PL 의 IP Module 간의 연결을 지원하는 Designer Assistance 기능도 시연된다.
+
+일단 설계가 완료되면, HW System 을 완성하고
+PL 에서의 구현을 위한 bitstream 을 생성하기 위한 많은 단계가 수행될 것이다.
+완성된 HW Design 은 실습 1C 의 간단한 SW App 개발을 위해 SDK(SW Development Kit) 으로 보내진다.
+
+Exercise 1C - 세 번째 연습에서 SDK 가 소개되고 Zynq 프로세서가 PL 에 구현된 IP 와
+              상호작용할 수 있도록 간단한 SW App 이 만들어진다.
+              SDK 가 Zynq 프로세서와 통신할 수 있도록 HW Server 에 연결된다.
+              IP Module 용 Vivado IDE 에 의해 자동으로 생성된 SW Driver 는
+              Zynq 에서 SW App 을 Build 하고 실행하기 전에 탐색되고 SW App 에 통합된다.
+
+참고: 실제적인 Tutorial 연습을 통해 C:\Zynq_Book 을 작업 디렉토리로 사용하게 될 것이다.
+이것이 적합하지 않은 경우 원하는 디렉토리로 대체할 수 있지만
+연습을 성공적으로 완료하려면 일부 소스 파일을 변경해야 한다.
+
+
+
+Exercise 1A - Creating a First IP Integrator Design
+
+이 연습에서는 Vivado IDE New Project Wizard 의 단계를 진행하여 Vivado IDE New Project 를 만든다.
+
+Zybo 는 기본 부품을 올바르게 설정하기 위해 한 번 추가 설정 절차가 필요하다.
+Vivado 2015.1 에는 Zybo Development Board 용 Board 부품이 없기 때문에 작업이 필요하다.
+이미 Zybo Board 부품으로 Vivado 2015.1 을 구성한 경우 이 절차를 건너 뛰고 단계 (a) 부터 시작할 수 있다.
+
+Windows 탐색기를 열고 Zynq Book 소스 파일 내의 아래 위치로 이동한다:
+C:\Zynq_Book\sources\zybo\setup\board_part
+
+이 디렉토리에는 zybo 라는 파일이 있다.
+여기에는 Rev. B.3 Zybo Development Board 용 부품이 들어있다.
+Board 바닥을 검사하여 Zybo 의 개정판을 획득할 수 있다.
+업데이트된 Board 부품은 아래 링크를 사용하여 Digilent 웹 사이트에서 검색할 수 있다:
+https://reference.digilentinc.com/vivado:boardfiles
+
+파일을 마우스 오른쪽 버튼으로 클릭하고 아래 그림과 같이 복사를 선택하여 Zybo 파일을 복사한다.
+
+두 번째 Windows 탐색기를 열고 Vivado 2015.1 설치 디렉토리에서 아래로 이동한다:

@@ -889,15 +889,71 @@ Loop 용으로 사용되며 변수 범위가 있다.
 reporting 시에만 사용되며 synthesis 에는 영향을 미치지 않는다.
 
 OCCURRENCE:
+함수 또는 Loop 를 Pipelining 할 때
+location 에 Code 가 둘러싸는 함수 혹은 Loop 의 Code 보다 낮은 속도로 동작하도록 지정한다.
 
 PIPELINE:
+Loop 혹은 함수 내에서 작업의 동시 실행을 허용하여 초기화 간격을 줄인다.
 
 PROTOCOL:
+이 command 는 Code 의 region 을 protocol region 으로 지정한다.
+protocol region 은 interface protocol 을 수동으로 지정하는데 사용할 수 있다.
 
 RESET:
+이 지시어는 특정 상태 변수(전역 혹은 정적)에서 재설정을 추가하거나 제거하는데 사용된다.
 
 RESOURCE:
+특정 Library Resource(core) 가 RTL 에서 변수(배열, 산술 연산 혹은 함수 인수0를 구현하는데 사용되도록 지정한다.
 
 STREAM:
+dataflow optimization 중에 특정 배열을 FIFO 혹은 RAM 메모리 채널로 구현하도록 지정한다.
 
 UNROLL:
+for Loop 를 실행하여 단일 작업 모음이 아닌 여러 독립 작업을 만든다.
+
+Applying Optimization Directives to Class Objects
+
+optimization 지시어는 class 에 정의된 objects 혹은 scopes 에도 적용할 수 있다.
+차이점은 일반적으로 class 가 header 파일에 정의된다는 것이다.
+아래 작업중 하나를 사용하여 header 파일을 연다.
+
+* 탐색기 창에서 Includes 폴더를 열고 header 파일로 이동한 다음 파일을 두 번 클릭하여 연다.
+* C 소스 내에서 헤더 파일(#include 문)에 커서를 놓고 Ctrl 키를 누른 상태에서 header 파일을 클릭한다.
+
+그런 다음 Directive Tab 에 header 파일의 object 가 채워지고 지시문을 적용할 수 있다.
+
+중요:
+header 파일에 지시문을 pragma 로 적용할 때는 주의해야 한다.
+이 파일은 다른 사람이 사용하거나 다른 project 에서 사용될 수 있다.
+pragma 로 추가된 지시문은 header 파일이 Design 에 포함될 때마다 적용된다.
+
+Applying Optimization Directives to Templates
+
+Tcl 명령을 사용할 때 Template 에서 optimization 지시문을 수동으로 적용하려면
+method 를 참조할 때 template 인수와 class 를 지정해야 한다.
+예로 아래 주어진 C++ Code 를 살펴보자:
+
+template <uint32 SIZE, uint32 RATE>
+void DES10<SIZE,RATE>::calcRUN() { ... }
+
+다음 Tcl 명령은 함수에 INLINE 지시어를 지정하는데 사용된다:
+
+set_directive_inline DES10<SIZE,RATE>::calcRUN
+
+다음에 Vivado HLS 가 원하는 성능 및 area goal 을 충족하는 Micro Architecture 를
+생성하도록 지시하는데 사용할 수 있는 다양한 optimization 및 techniques 에 대해 설명한다.
+
+Clock, Reset, and RTL Output
+
+Clock Frequency
+
+C 및 C++ Design 의 경우 Single Clock 만 지원된다.
+동일한 Clock 이 Design 의 모든 기능에 적용된다.
+
+SystemC Design 의 경우 SC_MODULE 은 다른 Clock 으로 지정될 수 있다.
+SystemC Design 에서 여러 clock 을 지정하려면 create_clock 명령의 -name 옵션을 사용하여
+여러개의 명명된 clock 을 만들고 CLOCK 지시문 혹은 pragma 를 사용하여
+SC_MODULE 을 포함하는 함수가 지정된 clock 으로 합성되도록 지정한다.
+각 SC_MODULE 은 단일 clock 을 사용하여 합성할 수 있다.
+clock 은 여러 clock 이 최상위 포트에서 개별 block 으로 연결될 때와 같이
+기능을 통해 분배될 수 있지만 각 SC_MODULE 은 단일 clock 에 민감하다.
