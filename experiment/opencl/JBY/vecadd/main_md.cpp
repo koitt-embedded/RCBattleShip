@@ -39,13 +39,13 @@
 
 using namespace cl;
 using namespace std;
-
+// OpenCL 커널. 각 작업 항목은 c의 한 요소를 처리합니다.
 const char * kernelStr =
     "kernel void VectorAdd(global const short4* a, \n"
     "                      global const short4* b, \n"
     "                      global short4* c) \n"
-    "{\n"
-    "    int id = get_global_id(0);\n"
+    "{\n" 
+    "    int id = get_global_id(0);\n" // 글로벌 스레드 ID 가져 오기
     "    c[id] = a[id] + b[id];\n"
     "}\n";
 
@@ -98,8 +98,9 @@ int main(int argc, char *argv[]) /* argc 는 정수형 값으로 명령 행 인�
      int d_bufsize = bufsize / num_devices;
      int d_Elements = NumElements / num_devices;
      int d_VecElements = NumVecElements / num_devices;
-
-     Program::Sources    source(1, std::make_pair(kernelStr,strlen(kernelStr)));
+	//Program: OpenCL 프로그램은 일련의 커널로 구성됩니다. 프로그램에는 __kernel 함수 및
+	//상수 데이터에 의해 호출되는 보조 함수가 포함될 수도 있습니다
+     Program::Sources    source(1, std::make_pair(kernelStr,strlen(kernelStr))); //
      Program             program = Program(context, source);
      program.build(devices); 
      Kernel kernel(program, "VectorAdd");
@@ -127,10 +128,11 @@ int main(int argc, char *argv[]) /* argc 는 정수형 값으로 명령 행 인�
      start_time = gettime_ms();
      for (int i=0; i < NumElements; ++i) 
      { 
-        srcA[i]   = srcB[i] = i<<2;  // 이게 아마 공식 이지 않을까 싶음
+        srcA[i]   = srcB[i] = i<<2;  //값을 초기화한다. 
         Golden[i] = srcB[i] + srcA[i]; 
         dst[i]    = 0;
      }
+
 
      std::vector<Buffer*> bufAs, bufBs, bufDs; // 이건 배열이였다. http://shaeod.tistory.com/464 사이트 참고
      std::vector<CommandQueue*> Qs;
