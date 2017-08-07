@@ -186,6 +186,7 @@ int main()
 		                normalize(hist, hist, 0, 255, NORM_MINMAX); //for backprojection
 				//히스토그램 프린트
 				normalize(hist, print_histogram, 0, histImage.rows, NORM_MINMAX, CV_32F);
+				/*위에 Mat histImage(512,512,CV_8U); 로 선언되어 있다*/
 				histImage = Scalar(255);
 				int binW = cvRound((double)histImage.cols/histSize);
 				int x1, y1, x2, y2;

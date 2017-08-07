@@ -13,6 +13,11 @@ You can find a nice example in OpenCV Documentation.
 A bilateral filter is non-linear, edge-preserving and noise-reducing smoothing filter. The intensity value at each pixel in an image is replaced by a weighted average of intensity values from nearby pixels. This weight can be based on a Gaussian distribution. Crucially, the weights depend not only on Euclidean distance of pixels, but also on the radiometric differences. For example, the range difference such as color intensity, depth distance, etc. This preserves sharp edges by systematically looping through each pixel and adjusting weights to the adjacent pixels accordingly. 
 */
 
+/*
+가우시안 필터로 필터링 하게 되면, edge 가 뭉개진다. 
+이 점을 보완하기 위해, bilateral 필터를 사용할 수도 있다.
+bilateral 는 가우시안필터를 사용하나, 픽셀의 intensity차이를 고려하기 때문에, edge를 보존하고자 할때 많이 사용한다.
+*/
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
  
