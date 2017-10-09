@@ -1,0 +1,22 @@
+GPS 모듈 -Quectel L70
+
+The user wanting to use GPS to determine its position must have an antenna that receives the signals coming from the satellites, and a receiver that translates these signals. The antenna position will be deduced from the measurements of the time delay between the emission time (satellite) and the reception time (receiver) for at least 4 signals coming from different satellites.
+Specifications
+
+Type
+GPS
+Applications
+Navigation devices based on GPS
+On-board modules
+Quectel's L70
+Key Features
+Ultra low power consumption in tracking mode, 12mA, High sensitivity, -165dBm@Tracking, -148dBm@Acquisition
+Key Benefits
+AlwaysLocate™, an intelligent controller of periodic mode
+Interface
+UART
+Input Voltage
+3.3V or 5V
+Click board size
+L (57.15 x 25.4 mm)
+
